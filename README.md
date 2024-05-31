@@ -7,7 +7,7 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-
+# main is stable branch & DEVELOPMENT is for developing phase changes will only be made there
 # Getting Started with Create React App [VITE]
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
