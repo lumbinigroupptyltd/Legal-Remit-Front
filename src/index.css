@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+.mainLoginSection2 {
+  background-image: url("./assets/images/nav/bg-banner.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-black: hsl(0, 0%, 10%);
+  --color-grays: hsl(0, 0%, 65%);
+  --color-light: hsl(0, 0%, 96%);
+  --color-white: hsl(0, 0%, 100%);
+  --color-blues: hsl(225, 100%, 60%);
+  --shadow-normal: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+body {
+  margin: 0 !important;
+  margin: 0 !important;
+}

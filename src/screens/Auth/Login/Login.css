@@ -1,0 +1,24 @@
+.input-container {
+    position: relative;
+  }
+  
+  .validation-msg1 {
+    color: #ff8080  !important;
+    position: absolute !important;
+    transform: translateY(5px) !important; /* Adjust vertical position if needed */
+  }
+  
+  .eye-icon {
+    position: absolute !important;
+    top: 50% !important;
+    right: 25px !important;
+    margin-top: -7px;
+    transform: translateY(-50%) !important;
+  }
+  
+
+  .validation-msg2 {
+    color: #ff8080  !important;
+    position: absolute !important;
+    transform: translateY(5px) !important; /* Adjust vertical position if needed */
+  }

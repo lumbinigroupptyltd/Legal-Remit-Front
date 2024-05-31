@@ -1,0 +1,168 @@
+/* .bgGreen{
+    background: #01A16F;
+    border-radius: 0px 100px 100px 0px;
+    width: 100% !important;
+    max-width: 40% !important;
+} */
+.mainStep3Drps11{
+    border: 1px solid #f49142 !important;
+    border-radius: 20px !important;
+    padding: 6px 18px;
+}
+.bgOrange{
+    background: #f49142 !important;
+    border-radius: 0px 100px 100px 0px;
+    width: 100% ;
+    max-width: 40% ;
+}
+/* #c3d431 */
+.orangeForm{
+    border: 1px solid #F3852D !important;
+    border-radius: 20px !important;
+}
+.input-container {
+	padding-bottom: 1em;
+}
+.left-inner-addon {
+    position: relative;
+}
+.left-inner-addon input {
+    padding-left: 43px !important; 
+}
+
+.left-inner-addon  .orangeBorder{
+    border: 1px solid #F3852D !important;
+    border-radius: 20px !important;
+    padding-left: 43px !important; 
+}
+.orange-border-step3{
+    border: 1px solid #F3852D !important;
+    border-radius: 20px !important;
+    padding-left: 43px !important; 
+}
+.left-inner-addon .main {
+    position: absolute;
+    padding: 16px 18px;
+    pointer-events: none;
+    z-index: 1 !important;
+}
+
+.terms { 
+    font-size: 14px ;
+    line-height: 2;
+    /* or 23px */
+    font-weight: 400 !important;
+    
+    text-align: center;
+    
+    color: #000000;
+}
+
+
+.right-inner-addon {
+    position: relative;
+}
+.right-inner-addon input {
+    padding-right: 35px !important;
+}
+.right-inner-addon .main {
+    position: absolute;
+    right: 0px;
+    padding: 12px 12px;
+    pointer-events: none;
+}
+
+.left-and-right-inner-addon {
+    position: relative;
+}
+.left-and-right-inner-addon input {
+    padding-right: 35px !important;
+    padding-left: 35px !important;
+}
+.left-and-right-inner-addon .main.left {
+    position: absolute;
+    padding: 12px 12px;
+    pointer-events: none;
+}
+.left-and-right-inner-addon .main.right {
+    position: absolute;
+    right: 0px;
+    padding: 12px 12px;
+    pointer-events: none;
+}
+
+
+.right-inner-addon-b {
+    position: relative;
+}
+.right-inner-addon-b input {
+    padding-right: 35px !important;
+}
+.right-inner-addon-b .main {
+    position: absolute;
+    right: 0px;
+    padding: 9px 12px;
+    pointer-events: none;
+}
+
+input {
+    width: 100%;
+		
+		margin: 0em !important;
+		box-sizing: border-box;
+}
+
+/* .ReactFlagsSelect-module_flagsSelect__2pfa2{
+    border: 1px solid #AA2AE1 !important;
+    border-radius: 20px !important;
+    padding: 6px 18px;
+  } */
+
+  .mainDrp4{
+    border: 1px solid #F3852D !important;
+    border-radius: 20px !important;
+    padding: 6px 18px;
+  }
+
+  .svgNationality{
+    z-index: 12;
+    padding: 18px 18px !important;
+  }
+
+  .css-1nmdiq5-menu{
+    z-index: 111111 !important;
+  }
+
+  .flagsetIcon{
+    position: absolute;
+    padding: 15px 16px;
+    pointer-events: none;
+    z-index: 99999;
+  }
+
+  .FormDynamic {
+    height: 50vh;
+    max-height: 100%;
+    overflow-y: scroll;
+}
+.nextBtnDirector{
+    background: #F3852D !important;
+    border-radius: 20px !important;
+    border: 0 !important;
+    font-weight: bold !important;
+  }
+
+  .notevalue{
+    font-size: 9px !important;
+  }
+
+  .BorderOrange{
+    border: 1px solid #F3852D !important;
+  }
+
+  @media (min-width:1200px) and (max-width:1300px) {
+    .nextBtnDirector {
+      width: 100vh !important;
+      max-width: 50vh !important;
+    }
+  }

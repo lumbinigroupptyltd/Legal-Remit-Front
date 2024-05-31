@@ -1,0 +1,9 @@
+.dateChip{
+    font-size: 13px !important;
+    color: #000;
+    font-weight: normal;
+}
+
+.mainChip{
+    padding: 24px 12px 24px 12px !important;
+}

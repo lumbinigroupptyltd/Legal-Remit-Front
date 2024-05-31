@@ -1,0 +1,1 @@
+import{r}from"./index-CZLZpOaH.js";import{c as e}from"./listen-DOhMskc_.js";function s(){return r.useState(null)}function u(n,o){if(n.contains)return n.contains(o);if(n.compareDocumentPosition)return n===o||!!(n.compareDocumentPosition(o)&16)}const t=r.createContext(e?window:void 0);t.Provider;function c(){return r.useContext(t)}export{s as a,u as c,c as u};
