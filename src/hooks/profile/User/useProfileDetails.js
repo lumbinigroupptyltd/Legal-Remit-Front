@@ -2,10 +2,12 @@ import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { toast } from "react-toastify";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
+  addDocument,
   addIdDetailsProfile,
   addKycDetailsProfile,
   addMyDocumentsProfile,
   addPersonalDetailsProfile,
+  editPersonalDetailsProfile,
   getUserIdDetails,
   getUserKycDetails,
 } from "../../../api/profile/profile-api";
@@ -24,8 +26,8 @@ export const useGetUserIdDetails = () => {
 {
   /*________________________GET_____________________________________*/
 }
-export const useGetUserKycDetails = () => {
-  return useQuery(["getKycDetails"], () => getUserKycDetails(), {
+export const useGetUserKycDetails = (userId) => {
+  return useQuery(["getKycDetails"], () => getUserKycDetails(userId), {
     cacheTime: 10000,
     refetchInterval: false,
     refetchOnWindowFocus: false,
@@ -58,9 +60,9 @@ export const useKycDetailsProfile = ({ onSuccess }) => {
 }
 export const useMyDocumentsProfile = ({ onSuccess }) => {
   const queryClient = useQueryClient();
-  return useMutation(["verification"], () => addMyDocumentsProfile(), {
+  return useMutation(["verification"], (formData) => addDocument(formData), {
     onSuccess: (data, variables, context) => {
-      toast.success("code re-send Successfully");
+      toast.success("Photo uploaded successfully");
       onSuccess && onSuccess(data, variables, context);
       queryClient.invalidateQueries("");
     },
@@ -90,6 +92,29 @@ export const usePersonalDetailsProfile = ({ onSuccess }) => {
     }
   );
 };
+{
+  /*________________________PATCH_____________________________________*/
+}
+export const useEditPersonalDetailsProfile = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ['editBank'],
+    (formData) => {
+      editPersonalDetailsProfile(formData);
+    },
+    {
+      onSuccess: (data, variable, context) => {
+        toast.success('User edited successfully');
+        onSuccess && onSuccess(data, variable, context);
+        queryClient.invalidateQueries('getUser');
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(getErrorMessage(err));
+      },
+    }
+  );
+};
+
 {
   /*________________________POST_____________________________________*/
 }

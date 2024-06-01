@@ -1,10 +1,13 @@
+import { useSelector } from "react-redux";
 import { axiosInstance } from "../../utils/axiosIntercepters";
 
 {
   /*________________________GET_____________________________________*/
 }
-export const getUserInfo = async () => {
-  const { data } = await axiosInstance.post(`/getuserinfobyid`);
+export const getUserInfo = async (userId) => {
+  // const { userId } = useSelector((state) => state.auth);
+  console.log(userId, "hello")
+  const { data } = await axiosInstance.get(`/user/getbyid/${userId}`);
   return data;
 };
 

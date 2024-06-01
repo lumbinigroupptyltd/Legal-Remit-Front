@@ -17,13 +17,15 @@ import logo from "../../assets/images/Logo-LR.png";
 import { logout } from "../../utils/logout";
 import { useNavigate } from "react-router-dom";
 import { useGetUserInfo } from "../../hooks/apiStartGetAll/useGetAllUserInfo";
+import { useSelector } from "react-redux";
 
 const NewProfilePage = () => {
+  const { role, userId } = useSelector((state) => state.auth);
   const theme = useTheme();
   const navigate = useNavigate();
-  const { role } = getUser();
-  const {data: userData} = useGetUserInfo();
+  const {data: userData} = useGetUserInfo(userId);
   const newData = userData && userData?.data;
+ console.log(newData)
   const newKycDetails = newData?.userkycdetails;
   const [verificationMethod, setVerificationMethod] = useState(null);
  
@@ -40,6 +42,7 @@ const NewProfilePage = () => {
     navigate("/")
     logout();
   };
+
   return (
     <>
       <Grid container mt={2} sx={{display: "flex", justifyContent: "space-around", alignItems: "center" }}>
@@ -77,7 +80,7 @@ const NewProfilePage = () => {
           </AccordionSummary>
           <AccordionDetails>
             {role === "USER" ? (
-              <PersonalDetailsProfile data={newData} />
+              <PersonalDetailsProfile data={newData} userId={userId} />
             ) : (
               <BusinessDetailsProfile />
             )}
@@ -120,7 +123,7 @@ const NewProfilePage = () => {
             KYC Details
           </AccordionSummary>
           <AccordionDetails>
-            <KycDetailsProfile data={newKycDetails} />
+            <KycDetailsProfile data={newKycDetails} userId={userId} />
           </AccordionDetails>
         </Accordion>
 

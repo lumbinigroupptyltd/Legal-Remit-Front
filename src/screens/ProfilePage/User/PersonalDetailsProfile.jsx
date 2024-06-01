@@ -8,7 +8,7 @@ import { Button, Grid, useTheme } from "@mui/material";
 import { CButton } from "../../../components/UIElements/CButton";
 import { usePersonalDetailsProfileForm } from "../../../hooks/profile/User/useProfileDetailsForm";
 import FlagIcon from "@mui/icons-material/Flag";
-import { useGetUserInfo } from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
+import { useGetAllCountries, useGetUserInfo } from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
 
 const COUNTRY_SELECTED = [
   {
@@ -34,37 +34,44 @@ const COUNTRY_SELECTED = [
   },
 ];
 
-const PersonalDetailsProfile = ({ data }) => {
+const PersonalDetailsProfile = ({ data, userId }) => {
   const theme = useTheme();
-  const { formik } = usePersonalDetailsProfileForm({ data });
+  const { formik } = usePersonalDetailsProfileForm({ data, userId });
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
+  const { data: countryData } = useGetAllCountries();
+  const coData = countryData && countryData?.data;
+  console.log(data, "dta")
+  const iconCode = coData && coData?.find((d) => d?.id === data?.country?.countryId)
 
   const basicInputData = [
     {
-      name: "countryId",
-      name1: "countryName",
-      name2: "phoneCode",
-      label: "Select Country",
-      type: "asyncDropDownCustom",
-      options: COUNTRY_SELECTED,
-      iconStart: <FlagIcon />,
-      id: nanoid(),
-      isFLag: true,
-      hasDoubleValue: true,
-      required: true,
-      responseLabel: "name",
-      responseId: "id",
-      responseCode: "phoneCode",
-      md: 6,
-      sm: 12,
+      // name: "countryId",
+        name: "countryName",
+        name2: "phoneCode",
+        label: "Select Country",
+        type: "text",
+        path: "/country/getall",
+        options: coData,
+        id: nanoid(),
+        isFLag: true,
+        isDisabled: true,
+        hasDoubleValue: true,
+        required: true,
+        responseLabel: "name",
+        responseId: "id",
+        responseCode: "phoneCode",
+        md: 6,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "firstName",
       label: "First Name",
       required: true,
       type: "text",
+      isDisabled: true,
       iconStart: <PersonIcon />,
       id: nanoid(),
       md: 6,
@@ -74,8 +81,9 @@ const PersonalDetailsProfile = ({ data }) => {
     {
       name: "middleName",
       label: "Middle Name",
-      required: true,
+      // required: true,
       type: "text",
+      isDisabled: true,
       iconStart: <PersonIcon />,
       id: nanoid(),
       md: 6,
@@ -87,6 +95,7 @@ const PersonalDetailsProfile = ({ data }) => {
       label: "Last Name",
       required: true,
       type: "text",
+      isDisabled: true,
       iconStart: <PersonIcon />,
       id: nanoid(),
       md: 6,
@@ -105,16 +114,17 @@ const PersonalDetailsProfile = ({ data }) => {
       xs: 12,
     },
     {
-      name: "phone",
+      name: "phoneNumber",
       label: "Mobile Number",
       required: true,
       iconStart: <SmartphoneIcon />,
-      iconCode: formik.values.countryId === "14" ? "+61" : "+1",
+      iconCode: iconCode?.phoneCode,
       type: "numWithCode",
       max: 10,
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
   ];
 

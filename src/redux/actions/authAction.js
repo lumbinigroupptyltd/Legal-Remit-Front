@@ -12,7 +12,10 @@ export const login = (token, refreshToken) => (dispatch) => {
       token,
       refreshToken,
       role: decodedInfo.role,
-      verified: decodedInfo.isSignupCompleted,
+      signupCompleted: decodedInfo.isSignupCompleted,
+      blacklisted: decodedInfo.isBlacklisted,
+      duplicate: decodedInfo.isDuplicate,
+      userId: decodedInfo.userId,
     },
   });
 };

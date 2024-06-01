@@ -5,37 +5,49 @@ import {
   kycDetailsProfileSchema,
   personalDetailsSchema,
 } from "../validation/userProfileValidationSchema";
-import { useIdDetailsProfile, useKycDetailsProfile, useMyDocumentsProfile, usePersonalDetailsProfile } from "../User/useProfileDetails";
+import { useEditPersonalDetailsProfile, useIdDetailsProfile, useKycDetailsProfile, useMyDocumentsProfile, usePersonalDetailsProfile } from "../User/useProfileDetails";
 
-export const usePersonalDetailsProfileForm = ({ data }) => {
+export const usePersonalDetailsProfileForm = ({ data, userId }) => {
   // console.log(data, "data")
-  // const {mutate: personalDetailsProfile } = usePersonalDetailsProfile();
+  const {mutate: addmutate } = usePersonalDetailsProfile({});
+  const {mutate: editMutate } = useEditPersonalDetailsProfile({});
 
   const formik = useFormik({
     initialValues: {
-      firstName: data?.fName || "",
-      middleName: data?.mName || "",
-      lastName: data?.lName || "",
+      userId: userId || "",
+      firstName: data?.firstName || "",
+      middleName: data?.mmiddleName || "",
+      lastName: data?.lastName || "",
       email: data?.email || "",
-      phone: data?.phone || "",
+      phoneNumber: data?.phoneNumber || "",
       phoneCode: data?.phoneCode || "+61",
-      countryId: "14",
-      countryName: data?.country || "Australia",
+      countryId: data?.countryID || "14",
+      countryName: data?.countryName || "Australia",
     },
     validationSchema: personalDetailsSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      handledAddRequest(values);
+      console.log(values, "values")
+      if (values?.email) {
+        handledEditRequest(values);
+      } else {
+        handledAddRequest(values);
+      }
     },
   });
 
   const handledAddRequest = async (values) => {
+    values = { ...values };   
+    addmutate(values, {
+      onSuccess: async() => {
+      }
+    });
+  };
+  const handledEditRequest = (values) => {
     values = { ...values };
-   
-    // personalDetailsProfile(values, {
-    //   onSuccess: async() => {
-    //   }
-    // });
+    editMutate(values, {
+      onSuccess: () => {},
+    });
   };
 
   return {
@@ -85,28 +97,27 @@ export const useKycDetailsProfileForm = ({data}) => {
 };
 
 export const useMyDocumentsProfileForm = () => {
-  // const {mutate: documentsProfileForm } = useMyDocumentsProfile();
+  const {mutate: addDocument } = useMyDocumentsProfile({});
 
   const formik = useFormik({
     initialValues: {
+      documentType: "KYC",
       kycfront: "",
       kycback: "",
     },
     validationSchema: documentsProfileSchema,
     enableReinitialize: true,
-    onSubmit: async (values) => {
-      handledAddRequest(values);
-    },
+    onSubmit: handleSubmit,
   });
 
-  const handledAddRequest = async (values) => {
-    values = { ...values };
    
-    // documentsProfileForm(values, {
-    //   onSuccess: async() => {
-    //   }
-    // });
-  };
+  async function handleSubmit(values) {
+    try {
+      await addDocument(values);
+    } catch (error) {
+      console.error("Error during form submission:", error);
+    }
+  }
 
   return {
     formik,

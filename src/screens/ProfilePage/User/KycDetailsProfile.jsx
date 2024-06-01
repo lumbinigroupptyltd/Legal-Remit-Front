@@ -21,13 +21,13 @@ const RESIDANCE_OPTIONS = [
   { id: nanoid(), value: "false", label: "No" },
 ];
 
-const KycDetailsProfile = ({data}) => {
-  console.log(data, "hello")
+const KycDetailsProfile = ({data, userId}) => {
   const theme = useTheme();
   const { data: nationalityData } = useGetUserNationality();
   const { data: allStatesData } = useGetUserAllStates();
   const { data: allOccupationsData } = useGetAllOccupations();
-  const { data: userKycData } = useGetUserKycDetails();
+  const { data: userKycData } = useGetUserKycDetails(userId);
+  console.log(userKycData, "usekyc")
   const { formik } = useKycDetailsProfileForm({ data });
 
   const handleFormSubmit = () => {

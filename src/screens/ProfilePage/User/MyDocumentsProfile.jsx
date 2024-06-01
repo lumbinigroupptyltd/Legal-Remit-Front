@@ -5,33 +5,7 @@ import { useMyDocumentsProfileForm } from "../../../hooks/profile/User/useProfil
 import { Grid, useTheme } from "@mui/material";
 import { CButton } from "../../../components/UIElements/CButton";
 import AttachmentIcon from '@mui/icons-material/Attachment';
-
-const basicInputData = [
-  {
-    name: "kycfront",
-    label: "KYC Document",
-    required: true,
-    type: "newDocumentUpload",
-    title: "Document ID Front",
-    iconStart: <AttachmentIcon />,
-    id: nanoid(),
-    md: 6,
-    sm: 6,
-    xs: 12,
-  },
-  {
-    name: "kycback",
-    label: "KYC Document",
-    required: true,
-    type: "newDocumentUpload",
-    title: "Document ID Back",
-    iconStart: <AttachmentIcon />,
-    id: nanoid(),
-    md: 6,
-    sm: 6,
-    xs: 12,
-  },
-];
+import { userKycDocField } from "./docField";
 
 const MyDocumentsProfile = () => {
   const theme = useTheme();
@@ -42,7 +16,7 @@ const MyDocumentsProfile = () => {
 
   return (
     <Grid container mt={2}>
-      <RenderInput inputField={basicInputData} formik={formik} />
+      <RenderInput inputField={userKycDocField} formik={formik} />
       <Grid
         item
         mt={2}
