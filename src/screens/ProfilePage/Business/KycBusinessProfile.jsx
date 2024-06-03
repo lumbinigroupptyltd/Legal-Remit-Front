@@ -22,7 +22,7 @@ const KycBusinessProfile = () => {
   const { data: allOccupationsData } = useGetAllOccupations();
   const { formik } = useKycBusinessProfileForm();
   const handleFormSubmit = () => {
-    console.log("success");
+    // console.log("success");
   };
   const nationData = nationalityData && nationalityData?.data;
   const stateData = allStatesData && allStatesData?.data;

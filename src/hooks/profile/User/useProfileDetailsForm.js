@@ -5,11 +5,11 @@ import {
   kycDetailsProfileSchema,
   personalDetailsSchema,
 } from "../validation/userProfileValidationSchema";
-import { useEditPersonalDetailsProfile, useIdDetailsProfile, useKycDetailsProfile, useMyDocumentsProfile, usePersonalDetailsProfile } from "../User/useProfileDetails";
+import { useEditIdDetailsProfile, useEditKycDetailsProfile, useEditPersonalDetailsProfile, useIdDetailsProfile, useKycDetailsProfile, useMyDocumentsProfile, usePersonalDetailsProfile } from "../User/useProfileDetails";
 
 export const usePersonalDetailsProfileForm = ({ data, userId }) => {
   // console.log(data, "data")
-  const {mutate: addmutate } = usePersonalDetailsProfile({});
+  const {mutate: addMutate } = usePersonalDetailsProfile({});
   const {mutate: editMutate } = useEditPersonalDetailsProfile({});
 
   const formik = useFormik({
@@ -27,7 +27,6 @@ export const usePersonalDetailsProfileForm = ({ data, userId }) => {
     validationSchema: personalDetailsSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log(values, "values")
       if (values?.email) {
         handledEditRequest(values);
       } else {
@@ -38,7 +37,7 @@ export const usePersonalDetailsProfileForm = ({ data, userId }) => {
 
   const handledAddRequest = async (values) => {
     values = { ...values };   
-    addmutate(values, {
+    addMutate(values, {
       onSuccess: async() => {
       }
     });
@@ -55,14 +54,15 @@ export const usePersonalDetailsProfileForm = ({ data, userId }) => {
   };
 };
 
-export const useKycDetailsProfileForm = ({data}) => {
-  const {mutate: kycDetailsProfile } = useKycDetailsProfile({});
-
+export const useKycDetailsProfileForm = ({data, userId, countryId}) => {
+  const {mutate: addMutate } = useKycDetailsProfile({});
+  const {mutate: editMutate } = useEditKycDetailsProfile({});
+console.log(data?.id, "hell")
   const formik = useFormik({
     initialValues: {
       id: data?.id || "",
-      userId: "32966",
-      countryId: data?.countryId || "14",
+      userId: userId || "",
+      countryId: countryId || "",
       stateId: data?.stateId || "",
       nationalityId: data?.nationalityId || "",
       occupationId: data?.occupationId || "",
@@ -78,19 +78,28 @@ export const useKycDetailsProfileForm = ({data}) => {
     validationSchema: kycDetailsProfileSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      handledAddRequest(values);
+      if (values?.id) {
+        handledEditRequest(values);
+      } else {
+        handledAddRequest(values);
+      }
     },
   });
 
+
   const handledAddRequest = async (values) => {
-    values = { ...values };
-   
-    kycDetailsProfile(values, {
+    values = { ...values };   
+    addMutate(values, {
       onSuccess: async() => {
       }
     });
   };
-
+  const handledEditRequest = (values) => {
+    values = { ...values };
+    editMutate(values, {
+      onSuccess: () => {},
+    });
+  };
   return {
     formik,
   };
@@ -101,7 +110,7 @@ export const useMyDocumentsProfileForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      documentType: "KYC",
+      documentType: "",
       kycfront: "",
       kycback: "",
     },
@@ -124,32 +133,43 @@ export const useMyDocumentsProfileForm = () => {
   };
 };
 
-export const useIdDetailsProfileForm = ({userData}) => {
-  const {mutate: idDetailsProfile } = useIdDetailsProfile({});
+export const useIdDetailsProfileForm = ({userData, userId}) => {
+  const {mutate: addMutate } = useIdDetailsProfile({});
+  const {mutate: editMutate } = useEditIdDetailsProfile({});
 
   const formik = useFormik({
     initialValues: {
+      userId: userId || "",
       id: userData?.id || "",
-      issuingAuthority: userData?.issuingAuthority || "",
-      typeId: userData?.typeId || "",
+      issueAuthorityId: userData?.issueAuthorityId || "",
       documentNumber: userData?.documentNumber || "",
       cardNumber: userData?.cardNumber || "",
       dob: userData?.dob || "",
       documentValidity: userData?.documentValidity || "",
+      documentTypeId: userData?.documentTypeId || "",
     },
     validationSchema: IdDetailsProfileSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      handledAddRequest(values);
+      if (values?.id) {
+        handledEditRequest(values);
+      } else {
+        handledAddRequest(values);
+      }
     },
   });
 
   const handledAddRequest = async (values) => {
-    values = { ...values };
-  
-    idDetailsProfile(values, {
+    values = { ...values };   
+    addMutate(values, {
       onSuccess: async() => {
       }
+    });
+  };
+  const handledEditRequest = (values) => {
+    values = { ...values };
+    editMutate(values, {
+      onSuccess: () => {},
     });
   };
 

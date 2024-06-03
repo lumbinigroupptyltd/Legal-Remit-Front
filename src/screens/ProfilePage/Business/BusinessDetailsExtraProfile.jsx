@@ -113,7 +113,7 @@ const BusinessDetailsExtraProfile = () => {
   const theme = useTheme();
   const { formik } = usePersonalBusinessProfileExtraForm();
   const handleFormSubmit = () => {
-    console.log("success");
+    // console.log("success");
   };
 
   return (

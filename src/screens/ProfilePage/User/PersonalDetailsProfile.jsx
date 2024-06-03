@@ -42,7 +42,7 @@ const PersonalDetailsProfile = ({ data, userId }) => {
   };
   const { data: countryData } = useGetAllCountries();
   const coData = countryData && countryData?.data;
-  console.log(data, "dta")
+ 
   const iconCode = coData && coData?.find((d) => d?.id === data?.country?.countryId)
 
   const basicInputData = [
@@ -153,7 +153,7 @@ const PersonalDetailsProfile = ({ data, userId }) => {
           BGHover={`${theme.palette.hover.error}`}
         />
         <CButton
-          buttonName={"ADD"}
+          buttonName={data ? "UPDATE" : "ADD"}
           OnClick={handleFormSubmit}
           variant={"contained"}
           Width={"fit-content"}

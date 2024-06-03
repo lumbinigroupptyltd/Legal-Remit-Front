@@ -121,9 +121,9 @@ const sendNewOtp = () => {
         <Button onClick={sendNewOtp} disabled={seconds > 0}>
           Resend OTP
         </Button>
-        <Grid>
+        {/* <Grid>
           <Typography onClick={handleNumberChange} variant="p">Change Number</Typography>
-        </Grid>
+        </Grid> */}
         <LoadingButton
           fullWidth
           onClick={handleSubmit}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import RenderInput from "../../../components/RenderInput/RenderInput";
 import { nanoid } from "nanoid";
 import { useKycDetailsProfileForm } from "../../../hooks/profile/User/useProfileDetailsForm";
@@ -21,39 +21,40 @@ const RESIDANCE_OPTIONS = [
   { id: nanoid(), value: "false", label: "No" },
 ];
 
-const KycDetailsProfile = ({data, userId}) => {
+const KycDetailsProfile = ({ userId}) => {
   const theme = useTheme();
   const { data: nationalityData } = useGetUserNationality();
   const { data: allStatesData } = useGetUserAllStates();
   const { data: allOccupationsData } = useGetAllOccupations();
   const { data: userKycData } = useGetUserKycDetails(userId);
-  console.log(userKycData, "usekyc")
-  const { formik } = useKycDetailsProfileForm({ data });
-
+  const data = userKycData && userKycData?.data?.[0];
+  console.log(userKycData, "get")
+  const stateData = allStatesData && allStatesData?.data;
+  const countryId = stateData && stateData?.[0]?.country?.id
+  const { formik } = useKycDetailsProfileForm({ data, userId, countryId});
+  
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
-
+  
   const nationData = nationalityData && nationalityData?.data;
-  const stateData = allStatesData && allStatesData?.data;
   const occuData = allOccupationsData && allOccupationsData?.data;
   const GET_NATIONALITY =
     nationData &&
     nationData?.map((item) => ({
-      value: item.nationality,
-      label: item.passToMg,
+      value: item.id,
+      label: item.nationality,
     }));
   const GET_ALL_STATES =
     stateData &&
     stateData?.map((item) => ({
-      value: item.stateCode,
+      value: item.id,
       label: item.name,
     }));
-
   const GET_ALL_OCCUPATIONS =
     occuData &&
     occuData?.map((item) => ({
-      value: item.moneyGramName,
+      value: item.id,
       label: item.name,
     }));
 
@@ -127,20 +128,41 @@ const KycDetailsProfile = ({data, userId}) => {
       sm: 6,
       xs: 12,
     },
-    {
-      name: "isResidence",
-      label: "Is Residance of Australia",
-      required: true,
-      type: "dropDown",
-      options: RESIDANCE_OPTIONS,
-      iconStart: <BusinessCenterIcon />,
-      id: nanoid(),
-      md: 6,
-      sm: 6,
-      xs: 12,
-    },
+    // {
+    //   name: "isResidence",
+    //   label: "Is Residance of Australia",
+    //   required: true,
+    //   type: "dropDown",
+    //   options: RESIDANCE_OPTIONS,
+    //   iconStart: <BusinessCenterIcon />,
+    //   id: nanoid(),
+    //   md: 6,
+    //   sm: 6,
+    //   xs: 12,
+    // },
   ];
 
+  async function fetchCity() {
+    const latitude = -35.2809;
+    const longitude = 149.1300;
+    const apiKey = 'AIzaSyCNJRR1zkMpq2RLpT6bM2BLAO2kEDZ8qtA';
+  
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+  
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+  
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  
+  fetchCity();
+  
   return (
     <Grid container mt={2}>
       <RenderInput inputField={basicInputData} formik={formik} />
@@ -166,7 +188,7 @@ const KycDetailsProfile = ({data, userId}) => {
           BGHover={`${theme.palette.hover.error}`}
         />
         <CButton
-          buttonName={"ADD"}
+          buttonName={data ? "UPDATE" : "ADD"}
           OnClick={handleFormSubmit}
           variant={"contained"}
           Width={"fit-content"}

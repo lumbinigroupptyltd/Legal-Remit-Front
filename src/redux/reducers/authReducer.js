@@ -1,12 +1,13 @@
 import { getUserToken } from '../../utils/useHelper';
 import { jwtDecode } from "jwt-decode";
-import { LOGIN_SUCCESS, LOGOUT } from '../types/types';
+import { LOGIN_SUCCESS, LOGOUT, OTP_SUCCESS } from '../types/types';
 
 
 const initialState = {
   token: getUserToken() || null,
   validToken: getUserToken() ? true : false,
   role: null,
+  otpData: null,
   verified: false,
 };
 
@@ -37,6 +38,11 @@ const authReducer = (state = initialState, action) => {
         role: null,
         verified: false,
       };
+      case OTP_SUCCESS:
+        return {
+          ...state,
+          otpData: action.payload.otpData,
+        };
     default:
       return state;
   }

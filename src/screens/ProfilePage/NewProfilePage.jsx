@@ -25,7 +25,6 @@ const NewProfilePage = () => {
   const navigate = useNavigate();
   const {data: userData} = useGetUserInfo(userId);
   const newData = userData && userData?.data;
- console.log(newData)
   const newKycDetails = newData?.userkycdetails;
   const [verificationMethod, setVerificationMethod] = useState(null);
  
@@ -54,7 +53,7 @@ const NewProfilePage = () => {
           <Button variant="outlined" onClick={handleLogout}>Logout</Button>
         </Grid>
       </Grid>
-      {/* <NavBarTest /> */}
+    
       <Grid
         sx={{
           margin: "3rem auto",
@@ -197,7 +196,7 @@ const NewProfilePage = () => {
                 ID Details
               </AccordionSummary>
               <AccordionDetails>
-                <IdDetailsProfile />
+                <IdDetailsProfile userId={userId} />
               </AccordionDetails>
             </Accordion>
 

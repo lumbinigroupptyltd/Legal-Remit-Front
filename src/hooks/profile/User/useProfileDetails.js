@@ -7,7 +7,10 @@ import {
   addKycDetailsProfile,
   addMyDocumentsProfile,
   addPersonalDetailsProfile,
+  editIdDetailsProfile,
+  editKycDetailsProfile,
   editPersonalDetailsProfile,
+  getDocTypeDetails,
   getUserIdDetails,
   getUserKycDetails,
 } from "../../../api/profile/profile-api";
@@ -15,14 +18,23 @@ import {
 {
   /*________________________GET_____________________________________*/
 }
-export const useGetUserIdDetails = () => {
-  return useQuery(["getIdDetails"], () => getUserIdDetails(), {
+export const useGetUserIdDetails = (userId) => {
+  return useQuery(["getIdDetails"], () => getUserIdDetails(userId), {
     cacheTime: 10000,
     refetchInterval: false,
     refetchOnWindowFocus: false,
   });
 };
-
+{
+  /*________________________GET_____________________________________*/
+}
+export const useGetDocTypeDetails = () => {
+  return useQuery(["getIdDetails"], () => getDocTypeDetails(), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
+};
 {
   /*________________________GET_____________________________________*/
 }
@@ -54,7 +66,28 @@ export const useKycDetailsProfile = ({ onSuccess }) => {
     }
   );
 };
-
+{
+  /*________________________PATCH_____________________________________*/
+}
+export const useEditKycDetailsProfile = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ['editBank'],
+    (formData) => {
+      editKycDetailsProfile(formData);
+    },
+    {
+      onSuccess: (data, variable, context) => {
+        toast.success('User edited successfully');
+        onSuccess && onSuccess(data, variable, context);
+        queryClient.invalidateQueries('getUser');
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(getErrorMessage(err));
+      },
+    }
+  );
+};
 {
   /*________________________POST_____________________________________*/
 }
@@ -101,7 +134,7 @@ export const useEditPersonalDetailsProfile = ({ onSuccess }) => {
     ['editBank'],
     (formData) => {
       editPersonalDetailsProfile(formData);
-    },
+  },
     {
       onSuccess: (data, variable, context) => {
         toast.success('User edited successfully');
@@ -135,7 +168,28 @@ export const useIdDetailsProfile = ({ onSuccess }) => {
     }
   );
 };
-
+{
+  /*________________________PATCH_____________________________________*/
+}
+export const useEditIdDetailsProfile = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ['editBank'],
+    (formData) => {
+      editIdDetailsProfile(formData);
+    },
+    {
+      onSuccess: (data, variable, context) => {
+        toast.success('User edited successfully');
+        onSuccess && onSuccess(data, variable, context);
+        queryClient.invalidateQueries('getUser');
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(getErrorMessage(err));
+      },
+    }
+  );
+};
 {
   /*________________________POST_____________________________________*/
 }

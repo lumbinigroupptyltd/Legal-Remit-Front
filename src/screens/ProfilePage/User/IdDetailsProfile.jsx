@@ -23,19 +23,19 @@ const ID_TYPE = [
   },
 ];
 
-const IdDetailsProfile = () => {
+const IdDetailsProfile = ({userId}) => {
   const theme = useTheme();
   const { data: authorityData } = useGetIdIssuingAuthority();
-  const { data: userIdDetails } = useGetUserIdDetails();
+  const { data: userIdDetails } = useGetUserIdDetails(userId);
   const userData = userIdDetails && userIdDetails?.data;
-  const { formik } = useIdDetailsProfileForm({ userData });
+  const { formik } = useIdDetailsProfileForm({ userId });
   const auData = authorityData && authorityData?.data;
 
   const GET_AUTHORITY =
     auData &&
     auData?.map((item) => ({
-      value: item?.moneyGramName,
-      label: item?.name,
+      value: item?.id,
+      label: item?.authorityName,
     }));
 
   const handleFormSubmit = () => {
@@ -44,7 +44,7 @@ const IdDetailsProfile = () => {
 
   const basicInputData = [
     {
-      name: "issuingAuthority",
+      name: "issueAuthorityId",
       label: "ID Issuing Authority",
       required: true,
       type: "dropDown",
@@ -56,7 +56,7 @@ const IdDetailsProfile = () => {
       xs: 12,
     },
     {
-      name: "typeId",
+      name: "documentTypeId",
       label: "ID Type",
       required: true,
       type: "dropDown",

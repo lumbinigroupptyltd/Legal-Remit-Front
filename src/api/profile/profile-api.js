@@ -4,11 +4,17 @@ import { axiosInstance } from "../../utils/axiosIntercepters";
 {
   /*________________________GET_____________________________________*/
 }
-export const getUserIdDetails = async () => {
-  const { data } = await axiosInstance.post("/useriddetails/getbyuserid");
+export const getUserIdDetails = async (userId) => {
+  const { data } = await axiosInstance.get(`/iddetails/getbyuserid/${userId}`);
   return data;
 };
-
+{
+  /*________________________GET_____________________________________*/
+}
+export const getDocTypeDetails = async () => {
+  const { data } = await axiosInstance.get(`/documenttype/getall`);
+  return data;
+};
 
 {
   /*________________________GET_____________________________________*/
@@ -25,7 +31,13 @@ export const addKycDetailsProfile = async (formData) => {
   const { data } = await axiosInstance.post(`/kycdetails/create`, formData);
   return data;
 };
-
+{
+  /*________________________PATCH_____________________________________*/
+}
+export const editKycDetailsProfile = async (formData) => {
+  const { data } = await axiosInstance.patch(`/kycdetails/update`, formData);
+  return data;
+};
 {
   /*________________________POST_____________________________________*/
 }
@@ -73,5 +85,12 @@ export const editPersonalDetailsProfile = async (formData) => {
 }
 export const addIdDetailsProfile = async (formData) => {
   const data = await axiosInstance.post(`/useriddetails/create`, formData);
+  return data;
+};
+{
+  /*________________________PATCH_____________________________________*/
+}
+export const editIdDetailsProfile = async (formData) => {
+  const data = await axiosInstance.patch(`/useriddetails/update`, formData);
   return data;
 };

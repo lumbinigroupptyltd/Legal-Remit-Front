@@ -9,9 +9,12 @@ import { toast } from "react-toastify";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate} from "react-router-dom";
 import { axiosInstance } from "../../../../utils/axiosIntercepters";
+import { useDispatch } from "react-redux";
+import { resendOtp } from "../../../../redux/actions/authAction";
 
 export const useOtpVerNum = ({ onSuccess }) => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const queryClient = useQueryClient();
   return useMutation(["verification"], (formData) => addOtpVerNum(formData), {
     onSuccess: (data, variables, context) => {
@@ -23,6 +26,7 @@ export const useOtpVerNum = ({ onSuccess }) => {
       //   toast.success("OTP send successfully");
       // }
       onSuccess && onSuccess(data, variables, context);
+      dispatch(resendOtp(data?.data));
       queryClient.invalidateQueries("");
     },
     onError: (err, _variables, _context) => {
@@ -56,7 +60,7 @@ export const useGetOtpVerify = ({ onSuccess }) => {
 
 export const useResendOtpVerNum = ({ onSuccess }) => {
   const queryClient = useQueryClient();
-  return useMutation(["verification"], () => addResendVerification(), {
+  return useMutation(["verification"], (otpData) => addResendVerification(otpData), {
     onSuccess: (data, variables, context) => {
       toast.success("code re-send Successfully");
       onSuccess && onSuccess(data, variables, context);

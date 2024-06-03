@@ -80,7 +80,7 @@ const BusinessDetailsProfile = () => {
   const theme = useTheme();
   const { formik } = usePersonalBusinessProfileForm();
   const handleFormSubmit = () => {
-    console.log("success");
+    // console.log("success");
   };
 
   return (

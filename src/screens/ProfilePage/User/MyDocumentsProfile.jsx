@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import RenderInput from "../../../components/RenderInput/RenderInput";
 import { nanoid } from "nanoid";
 import { useMyDocumentsProfileForm } from "../../../hooks/profile/User/useProfileDetailsForm";
 import { Grid, useTheme } from "@mui/material";
 import { CButton } from "../../../components/UIElements/CButton";
-import AttachmentIcon from '@mui/icons-material/Attachment';
-import { userKycDocField } from "./docField";
+import { useGetDocTypeDetails } from "../../../hooks/profile/User/useProfileDetails";
+import { additionalDocument, kycDocument, userKycDocField } from "./docField";
 
 const MyDocumentsProfile = () => {
   const theme = useTheme();
+  const { data: docTypeData } = useGetDocTypeDetails();
+  const getDocData = docTypeData && docTypeData?.data;
+  console.log(getDocData, "docTypeData");
   const { formik } = useMyDocumentsProfileForm();
   const handleFormSubmit = () => {
     formik.handleSubmit();
@@ -16,7 +19,15 @@ const MyDocumentsProfile = () => {
 
   return (
     <Grid container mt={2}>
-      <RenderInput inputField={userKycDocField} formik={formik} />
+      {formik.values.documentType === "" && (
+        <RenderInput inputField={userKycDocField} formik={formik} />
+      )}
+      {formik.values.documentType === "KYC" && (
+        <RenderInput inputField={kycDocument} formik={formik} />
+      )}
+      {formik.values.documentType === "additional" && (
+        <RenderInput inputField={additionalDocument} formik={formik} />
+      )}
       <Grid
         item
         mt={2}
