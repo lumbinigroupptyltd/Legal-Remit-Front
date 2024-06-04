@@ -374,7 +374,7 @@ const NewSignUpPage = () => {
       )}
       <style>
         {`
-          .css-jhdc2n-MuiGrid-root {
+          .css-jhdc2n-MuiGrid-root, .css-1xbz73f {
              margin-top: 0px;
            }
      `}

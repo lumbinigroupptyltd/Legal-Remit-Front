@@ -1,1 +1,0 @@
-const a=t=>t.scrollTop;function l(t,e){var r,s;const{timeout:n,easing:i,style:o={}}=t;return{duration:(r=o.transitionDuration)!=null?r:typeof n=="number"?n:n[e.mode]||0,easing:(s=o.transitionTimingFunction)!=null?s:typeof i=="object"?i[e.mode]:i,delay:o.transitionDelay}}function u(t){return typeof t=="string"}export{l as g,u as i,a as r};
