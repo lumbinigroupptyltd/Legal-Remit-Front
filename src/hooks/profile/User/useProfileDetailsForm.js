@@ -8,7 +8,7 @@ import {
 import { useEditIdDetailsProfile, useEditKycDetailsProfile, useEditPersonalDetailsProfile, useIdDetailsProfile, useKycDetailsProfile, useMyDocumentsProfile, usePersonalDetailsProfile } from "../User/useProfileDetails";
 
 export const usePersonalDetailsProfileForm = ({ data, userId }) => {
-  // console.log(data, "data")
+ 
   const {mutate: addMutate } = usePersonalDetailsProfile({});
   const {mutate: editMutate } = useEditPersonalDetailsProfile({});
 
@@ -57,7 +57,7 @@ export const usePersonalDetailsProfileForm = ({ data, userId }) => {
 export const useKycDetailsProfileForm = ({data, userId, countryId}) => {
   const {mutate: addMutate } = useKycDetailsProfile({});
   const {mutate: editMutate } = useEditKycDetailsProfile({});
-console.log(data?.id, "hell")
+
   const formik = useFormik({
     initialValues: {
       id: data?.id || "",
@@ -105,14 +105,22 @@ console.log(data?.id, "hell")
   };
 };
 
-export const useMyDocumentsProfileForm = () => {
+
+const filterDocTypeData = (docTypeData, values) => {
+  const relevantDocNames = ['front', 'back', 'Driving License', "Passport"];
+  return docTypeData.filter(doc => 
+    relevantDocNames.includes(doc.name) && values[doc.name]
+  );
+};
+
+export const useMyDocumentsProfileForm = ({getDocData}) => {
   const {mutate: addDocument } = useMyDocumentsProfile({});
 
   const formik = useFormik({
     initialValues: {
       documentType: "",
-      kycfront: "",
-      kycback: "",
+      front: "",
+      back: "",
     },
     validationSchema: documentsProfileSchema,
     enableReinitialize: true,
@@ -121,8 +129,15 @@ export const useMyDocumentsProfileForm = () => {
 
    
   async function handleSubmit(values) {
+    const filteredDocData = filterDocTypeData(getDocData, values);
+    // const newData = filteredDocData && filteredDocData.map((item) => (
+  
+    // ))
+    // console.log(filteredDocData, "filteredDocData")
+    // console.log(values?.front?.name, "values")
     try {
-      await addDocument(values);
+      await addDocument({ ...values, getDocData: filteredDocData });
+      // await addDocument({...values, getDocData: getDocData});
     } catch (error) {
       console.error("Error during form submission:", error);
     }

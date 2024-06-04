@@ -2,7 +2,8 @@ import * as React from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { FormLabel, useTheme } from "@mui/material";
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
+
 
 export const ThemeSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />

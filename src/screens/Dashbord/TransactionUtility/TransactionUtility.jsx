@@ -32,8 +32,8 @@ import { Tooltip } from '@mui/material';
 import JoditEditor from "jodit-react";
 import FormGroup from "@mui/material/FormGroup";
 import TableResponsive from "./TableResponsive/TableResponsive";
-// import styled from "styled-components";
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
+
 
 
 const StyledMenu = styled((props) => (

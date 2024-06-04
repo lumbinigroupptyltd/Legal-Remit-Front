@@ -65,8 +65,8 @@ import ModalComponent from "../../ModalComponent";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import TransactionFooter from "./TransactionFooter";
 import ModalComponentPopup from "../../ModalComponentPopup";
-// import styled from "styled-components";
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
+
 
 
 const StyledMenu = styled((props) => (

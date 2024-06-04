@@ -88,7 +88,6 @@ export default function MoneyStep3 ({
   //   SeDiscount,
   //   Promocode
   // ) => {
-  //   // debugger;
 
   //   const TotalserviceCharge = FirstStepData !="" ? FirstStepData.serviceCharge !="" ? FirstStepData.serviceCharge : location.state?.TransactionData != undefined ? location.state?.TransactionData?.serviceCharge : "" :location.state?.TransactionData != undefined ? location.state?.TransactionData?.serviceCharge : 0.0
 

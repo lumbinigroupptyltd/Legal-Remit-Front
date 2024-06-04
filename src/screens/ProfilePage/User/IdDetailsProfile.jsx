@@ -8,7 +8,10 @@ import { CButton } from "../../../components/UIElements/CButton";
 import { Grid, useTheme } from "@mui/material";
 import { useGetIdIssuingAuthority } from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
 import { useIdDetailsProfileForm } from "../../../hooks/profile/User/useProfileDetailsForm";
-import { useGetUserIdDetails } from "../../../hooks/profile/User/useProfileDetails";
+import {
+  useGetDocTypeDetails,
+  useGetUserIdDetails,
+} from "../../../hooks/profile/User/useProfileDetails";
 
 const ID_TYPE = [
   {
@@ -23,13 +26,21 @@ const ID_TYPE = [
   },
 ];
 
-const IdDetailsProfile = ({userId}) => {
+const IdDetailsProfile = ({ userId }) => {
   const theme = useTheme();
   const { data: authorityData } = useGetIdIssuingAuthority();
   const { data: userIdDetails } = useGetUserIdDetails(userId);
-  const userData = userIdDetails && userIdDetails?.data;
-  const { formik } = useIdDetailsProfileForm({ userId });
+  const userData = userIdDetails && userIdDetails?.data?.[0];;
+  const { data: docTypeData } = useGetDocTypeDetails();
+  const { formik } = useIdDetailsProfileForm({ userId, userData });
   const auData = authorityData && authorityData?.data;
+console.log(userData, "userdata")
+  const ID_TYPE = docTypeData?.data
+    ?.filter((doc) => doc.name === "Passport" || doc.name === "Driving License")
+    ?.map((item) => ({
+      value: item.id,
+      label: item.name,
+    }));
 
   const GET_AUTHORITY =
     auData &&
@@ -94,6 +105,7 @@ const IdDetailsProfile = ({userId}) => {
       label: "Date Of Birth",
       required: true,
       type: "datePicker",
+      maxDate: true,
       iconStart: <DateRangeIcon />,
       id: nanoid(),
       md: 6,
@@ -105,6 +117,7 @@ const IdDetailsProfile = ({userId}) => {
       label: "Date Of ID Expiry",
       required: true,
       type: "datePicker",
+      disablePast: true,
       iconStart: <DateRangeIcon />,
       id: nanoid(),
       md: 6,
@@ -169,7 +182,7 @@ const IdDetailsProfile = ({userId}) => {
           BGHover={`${theme.palette.hover.error}`}
         />
         <CButton
-          buttonName={"ADD"}
+          buttonName={userData?.id ? "UPDATE" : "ADD"}
           OnClick={handleFormSubmit}
           variant={"contained"}
           Width={"fit-content"}

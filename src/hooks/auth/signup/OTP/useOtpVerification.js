@@ -40,23 +40,20 @@ export const useOtpVerNum = ({ onSuccess }) => {
 }
 export const useGetOtpVerify = ({ onSuccess }) => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  return useMutation(["verification"], (formData) => getOTPVerify(formData), {
+  return useMutation(["otpVerification"], (formData) => getOTPVerify(formData), {
     onSuccess: (data, variables, context) => {
       if (variables?.otp) {
         toast.success("OTP verified successfully");
         navigate("/login");
-      } else {
-        toast.success("OTP send successfully");
       }
       onSuccess && onSuccess(data, variables, context);
-      queryClient.invalidateQueries("");
     },
     onError: (err, _variables, _context) => {
       toast.error(getErrorMessage(err));
     },
   });
 };
+
 
 export const useResendOtpVerNum = ({ onSuccess }) => {
   const queryClient = useQueryClient();

@@ -17,8 +17,9 @@ export const addOtpVerNum = async ({formData}) => {
   /*________________________GET_____________________________________*/
 }
 export const getOTPVerify = async (formData) => {
-  const dispatch = useDispatch(formData);
-  dispatch(resendOtp(formData));
+  // console.log(formData)
+  // const dispatch = useDispatch(formData);
+  // dispatch(resendOtp(formData));
   const { data } = await axiosInstance.get(`/otp/getbyotp/${formData?.otp}`);
   return data;
 };

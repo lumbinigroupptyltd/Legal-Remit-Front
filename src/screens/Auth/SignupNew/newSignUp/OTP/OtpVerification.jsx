@@ -11,8 +11,6 @@ import { LoadingButton } from "@mui/lab";
 import ChangeOtpNumber from "./ChangeOtpNumber";
 import FormModal from "../../../../../components/formModal/FormModal";
 import { useFinalOtpVerNumForm, useOtpVerNumForm, useResendOtpVerNumForm } from "../../../../../hooks/auth/signup/OTP/useVerifyOtpNumber";
-import { useNavigate } from "react-router-dom";
-import { useGetOtpVerify } from "../../../../../hooks/auth/signup/OTP/useOtpVerification";
 
 const OtpVerification = ({ open, onClose }) => {
   const [required, setRequired] = useState(false);

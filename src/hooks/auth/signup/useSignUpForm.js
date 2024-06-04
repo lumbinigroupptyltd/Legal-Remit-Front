@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useSignUp } from "./useSignUp";
 import { signupSchema } from "./validation/signupSchema";
 import { useState } from "react";
-import { useGetOtpVerify, useOtpVerNum } from "./OTP/useOtpVerification";
+import { useOtpVerNum } from "./OTP/useOtpVerification";
 
 const useSignUpForm = ({ setOpenModal }) => {
   const [loading, setLoading] = useState(false);

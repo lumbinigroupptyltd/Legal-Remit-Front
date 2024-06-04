@@ -10,8 +10,8 @@ import { Container } from "react-bootstrap";
 import axios from "axios";
 import parse from 'html-react-parser';
 import { CommonConstants } from "../../Constants/common.constants";
-// import styled from "styled-components";
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
+
 
 
 const Accordion = styled((props) => (

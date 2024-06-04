@@ -28,7 +28,7 @@ const KycDetailsProfile = ({ userId}) => {
   const { data: allOccupationsData } = useGetAllOccupations();
   const { data: userKycData } = useGetUserKycDetails(userId);
   const data = userKycData && userKycData?.data?.[0];
-  console.log(userKycData, "get")
+
   const stateData = allStatesData && allStatesData?.data;
   const countryId = stateData && stateData?.[0]?.country?.id
   const { formik } = useKycDetailsProfileForm({ data, userId, countryId});
@@ -36,8 +36,8 @@ const KycDetailsProfile = ({ userId}) => {
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
-  
   const nationData = nationalityData && nationalityData?.data;
+ 
   const occuData = allOccupationsData && allOccupationsData?.data;
   const GET_NATIONALITY =
     nationData &&

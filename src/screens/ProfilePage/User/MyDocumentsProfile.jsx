@@ -11,8 +11,8 @@ const MyDocumentsProfile = () => {
   const theme = useTheme();
   const { data: docTypeData } = useGetDocTypeDetails();
   const getDocData = docTypeData && docTypeData?.data;
-  console.log(getDocData, "docTypeData");
-  const { formik } = useMyDocumentsProfileForm();
+
+  const { formik } = useMyDocumentsProfileForm({getDocData});
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };

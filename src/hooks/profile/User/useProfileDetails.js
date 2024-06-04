@@ -29,7 +29,7 @@ export const useGetUserIdDetails = (userId) => {
   /*________________________GET_____________________________________*/
 }
 export const useGetDocTypeDetails = () => {
-  return useQuery(["getIdDetails"], () => getDocTypeDetails(), {
+  return useQuery(["getDocTypes"], () => getDocTypeDetails(), {
     cacheTime: 10000,
     refetchInterval: false,
     refetchOnWindowFocus: false,
@@ -52,13 +52,13 @@ export const useGetUserKycDetails = (userId) => {
 export const useKycDetailsProfile = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["verification"],
+    ["addKycDetails"],
     (formData) => addKycDetailsProfile(formData),
     {
       onSuccess: (data, variables, context) => {
-        toast.success("OTP send successfully");
+        toast.success("kyc details successfully");
         onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("");
+        queryClient.invalidateQueries("getKycDetails");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -154,13 +154,13 @@ export const useEditPersonalDetailsProfile = ({ onSuccess }) => {
 export const useIdDetailsProfile = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["addsignup"],
+    ["addIdDetails"],
     (formData) => addIdDetailsProfile(formData),
     {
       onSuccess: (data, variables, context) => {
-        toast.success("");
+        toast.success("Succesfully added");
         onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("");
+        queryClient.invalidateQueries("getIdDetails");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -174,7 +174,7 @@ export const useIdDetailsProfile = ({ onSuccess }) => {
 export const useEditIdDetailsProfile = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ['editBank'],
+    ['editIdDetails'],
     (formData) => {
       editIdDetailsProfile(formData);
     },
@@ -182,7 +182,7 @@ export const useEditIdDetailsProfile = ({ onSuccess }) => {
       onSuccess: (data, variable, context) => {
         toast.success('User edited successfully');
         onSuccess && onSuccess(data, variable, context);
-        queryClient.invalidateQueries('getUser');
+        queryClient.invalidateQueries('getIdDetails');
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));

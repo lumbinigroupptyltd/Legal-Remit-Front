@@ -27,8 +27,8 @@ import axios from "axios";
 import Loader from "../Loader/Loader";
 import { Form } from "react-bootstrap";
 import ModalComponent from "./ModalComponent";
-// import styled from "styled-components";
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
+
 
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
