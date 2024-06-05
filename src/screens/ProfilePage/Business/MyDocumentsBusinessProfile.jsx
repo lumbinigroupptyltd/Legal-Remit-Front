@@ -23,7 +23,6 @@ const MyDocumentsBusinessProfile = ({ userId }) => {
   const { data: userIdDetails } = useGetUserIdDetails(userId);
   const doTypeId = userIdDetails && userIdDetails?.data?.[0]?.id;
 
-
   const newDocData = getDocData
   ?.filter((item) => item?.documentTypes?.length > 0) // Filter items with non-empty documentTypes
   ?.flatMap(

@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@100mslive/react-sdk": "^0.10.10",
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@fullcalendar/daygrid": "^6.1.13",
     "@fullcalendar/interaction": "^6.1.13",
     "@fullcalendar/list": "^6.1.13",

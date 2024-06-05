@@ -55,8 +55,6 @@ export const addMyDocumentsProfile = async () => {
 };
 
 export const addDocument = async (formData) => {
-  console.log(formData, "formData");
-
   try {
     const imgData = new FormData();
     imgData.append("file", formData?.Front);
@@ -74,49 +72,6 @@ export const addDocument = async (formData) => {
     return false;
   }
 };
-
-// export const addDocument = async (formData) => {
-//   console.log(formData, "formData");
-
-//   try {
-//     const imgData = new FormData();
-
-//     // Construct the array of file objects with metadata
-//     const filesArray = [
-//       { file: formData?.front },
-//       // { file: formData?.back }
-//     ];
-
-//     // Append the file objects metadata as JSON
-//     // imgData.append("filesData", JSON.stringify(filesArray.map(fileObj => ({ name: fileObj.name }))));
-
-//     // Append each file separately
-//     filesArray.forEach((fileObj, index) => {
-//       imgData.append(`file`, fileObj.file);
-//     });
-
-//     console.log(filesArray, "filesArray");
-
-//     // Append the array of other objects
-//     imgData.append("requests", JSON.stringify(formData?.getDocData));
-//     // imgData.append("file", filesArray);
-
-//     const url = `/documents/save`;
-
-//     // Send request using Axios
-//     const response = await axiosInstance.post(url, imgData, {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//       },
-//     });
-
-//     return true;
-//   } catch (error) {
-//     toast.error(getErrorMessage(error));
-//     return false;
-//   }
-
-// };
 
 {
   /*________________________POST_____________________________________*/
@@ -164,5 +119,39 @@ export const editIdDetailsProfile = async (formData) => {
 }
 export const getVerifyEmail = async () => {
   const data = await axiosInstance.post("/user/sendVerificationEmail");
+  return data;
+};
+
+
+{
+  /*________________________GET_____________________________________*/
+}
+export const getBusinessDirectorDetails = async () => {
+  const { data } = await axiosInstance.get(`/director/getall`);
+  return data;
+};
+
+{
+  /*________________________GET_____________________________________*/
+}
+export const getBusinessDetails = async () => {
+  const { data } = await axiosInstance.get(`/businessdetails/getall`);
+  return data;
+};
+
+{
+  /*________________________GET_____________________________________*/
+}
+export const getBusinessTypeDetails = async () => {
+  const { data } = await axiosInstance.get(`/businesstype/getall`);
+  return data;
+};
+
+
+{
+  /*________________________GET_____________________________________*/
+}
+export const getBusinessIndustryType = async () => {
+  const { data } = await axiosInstance.get(`/industrytype/getall`);
   return data;
 };

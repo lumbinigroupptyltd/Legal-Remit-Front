@@ -215,7 +215,7 @@ const RenderInput = ({
           <TextField
             name={element?.name}
             label={element?.label}
-            value={formValues}
+            value={element?.defaultValue ? element?.defaultValue : formValues}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             onKeyPress={(e) => {
@@ -225,7 +225,7 @@ const RenderInput = ({
             }}
             fullWidth
             required={element.required}
-            variant="outlined"
+            // variant="outlined"
             className="textfield-icon-input"
             disabled={element.isDisabled}
             error={formTouched && Boolean(formError)}

@@ -35,7 +35,7 @@ const FormModal = ({
     width:
       isSmallScreen || isMediumScreen ? "90%" : width ? width : "max-content",
     height: height ? height : "-webkit-fill-available",
-    maxHeight: maxHeight && maxHeight,
+    // maxHeight: maxHeight && maxHeight,
     border: "1px solid #808080",
     borderRadius: 2,
     boxShadow: 24,

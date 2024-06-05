@@ -22,7 +22,7 @@ import { axiosInstance } from "../../utils/axiosIntercepters";
     /*________________________POST_____________________________________*/
   }
   export const addPersonalBusinessExtraProfile = async (formData) => {
-    const data = await axiosInstance.post(`/user/update`, formData);
+    const data = await axiosInstance.post(`/businessdetails/create`, formData);
     return data;
   };
 
@@ -30,7 +30,7 @@ import { axiosInstance } from "../../utils/axiosIntercepters";
     /*________________________PATCH_____________________________________*/
   }
   export const editPersonalBusinessExtraProfile = async (formData) => {
-    const data = await axiosInstance.patch(`/user/update`, formData);
+    const data = await axiosInstance.patch(`/businessdetails/update`, formData);
     return data;
   };
 
@@ -40,7 +40,7 @@ import { axiosInstance } from "../../utils/axiosIntercepters";
     /*________________________POST_____________________________________*/
   }
   export const addBusinessDirective = async (formData) => {
-    const data = await axiosInstance.post(`/business/create`, formData);
+    const data = await axiosInstance.post(`/director/create`, formData);
     return data;
   };
 
@@ -56,7 +56,7 @@ import { axiosInstance } from "../../utils/axiosIntercepters";
     /*________________________POST_____________________________________*/
   }
   export const addBusinessShare = async (formData) => {
-    const data = await axiosInstance.post(`/business/create`, formData);
+    const data = await axiosInstance.post(`/director/create`, formData);
     return data;
   };
 

@@ -10,22 +10,23 @@ import { Container } from "react-bootstrap";
 import axios from "axios";
 import parse from 'html-react-parser';
 import { CommonConstants } from "../../Constants/common.constants";
-import { styled } from '@mui/material/styles';
+import Accordion from "@mui/material/Accordion";
+// import { styled } from '@mui/material/styles';
 
 
 
-const Accordion = styled((props) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
-  border: 0,
-  "&:not(:last-child)": {
-    borderBottom: 0,
-  },
-  "&:before": {
-    display: "none",
-  },
+// const Accordion = styled((props) => (
+//   <MuiAccordion disableGutters elevation={0} square {...props} />
+// ))(({ theme }) => ({
+//   border: 0,
+//   "&:not(:last-child)": {
+//     borderBottom: 0,
+//   },
+//   "&:before": {
+//     display: "none",
+//   },
 
-}));
+// }));
 
 const AccordionSummary = styled((props) => (
   <MuiAccordionSummary

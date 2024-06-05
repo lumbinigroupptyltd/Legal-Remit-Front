@@ -20,46 +20,46 @@ import Loader from "../Loader/Loader";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { styled } from '@mui/material/styles';
+// import { styled } from '@mui/material/styles';
 
 
-const InputWrapper = styled("div")(
-  ({ theme }) => `
-  padding: 12px 7px 12px 7px;
-  margin-top:12px;
-  border: 1px solid ${theme.palette.mode === "dark" ? "#434343" : "#d9d9d9"};
-  background-color: ${theme.palette.mode === "dark" ? "#141414" : "#fff"};
-  border-radius: 10px;
-  display: flex;
-  flex-wrap: wrap;
+// const InputWrapper = styled("div")(
+//   ({ theme }) => `
+//   padding: 12px 7px 12px 7px;
+//   margin-top:12px;
+//   border: 1px solid ${theme.palette.mode === "dark" ? "#434343" : "#d9d9d9"};
+//   background-color: ${theme.palette.mode === "dark" ? "#141414" : "#fff"};
+//   border-radius: 10px;
+//   display: flex;
+//   flex-wrap: wrap;
 
-  &:hover {
-    border-color: ${theme.palette.mode === "dark" ? "#177ddc" : "#40a9ff"};
-  }
+//   &:hover {
+//     border-color: ${theme.palette.mode === "dark" ? "#177ddc" : "#40a9ff"};
+//   }
 
-  &.focused {
-    border-color: ${theme.palette.mode === "dark" ? "#177ddc" : "#40a9ff"};
-    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-  }
+//   &.focused {
+//     border-color: ${theme.palette.mode === "dark" ? "#177ddc" : "#40a9ff"};
+//     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+//   }
 
-  & input {
-    background-color: ${theme.palette.mode === "dark" ? "#141414" : "#fff"};
-    color: ${theme.palette.mode === "dark"
-      ? "rgba(255,255,255,0.65)"
-      : "rgba(0,0,0,.85)"
-    };
-    height: 30px;
-    box-sizing: border-box;
-    padding: 4px 6px;
-    width: 0;
-    min-width: 30px;
-    flex-grow: 1;
-    border: 0;
-    margin: 0;
-    outline: 0;
-  }
-`
-);
+//   & input {
+//     background-color: ${theme.palette.mode === "dark" ? "#141414" : "#fff"};
+//     color: ${theme.palette.mode === "dark"
+//       ? "rgba(255,255,255,0.65)"
+//       : "rgba(0,0,0,.85)"
+//     };
+//     height: 30px;
+//     box-sizing: border-box;
+//     padding: 4px 6px;
+//     width: 0;
+//     min-width: 30px;
+//     flex-grow: 1;
+//     border: 0;
+//     margin: 0;
+//     outline: 0;
+//   }
+// `
+// );
 
 function Tag(props) {
   const { label, onDelete, ...other } = props;
@@ -715,7 +715,7 @@ export default function Referal() {
               ))
             }
             renderInput={(params) => (
-              <InputWrapper className={focused ? "focused" : ""}>
+              <div className={focused ? "focused" : ""}>
                 {selectedOptions.map((option, index) => (
                   <StyledTag
                     key={index}
@@ -774,7 +774,7 @@ export default function Referal() {
                     }
                   }}
                 />
-              </InputWrapper>
+              </div>
             )}
           />
           {!isValidEmail && (

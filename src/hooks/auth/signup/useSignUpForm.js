@@ -61,7 +61,6 @@ const useSignUpForm = ({ setOpenModal }) => {
 
   const { mutate: verifyOtp } = useOtpVerNum({
     onSuccess: (variables) => {
-      // console.log(variables, "var")
       // toast.success("OTP verified successfully");
     },
   });

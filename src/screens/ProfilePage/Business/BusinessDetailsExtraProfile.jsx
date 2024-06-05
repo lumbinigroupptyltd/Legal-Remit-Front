@@ -4,6 +4,8 @@ import RenderInput from "../../../components/RenderInput/RenderInput";
 import PersonIcon from "@mui/icons-material/Person";
 import SmartphoneIcon from "@mui/icons-material/Smartphone";
 import EmailIcon from "@mui/icons-material/Email";
+import FlagIcon from "@mui/icons-material/Flag";
+
 import {
   Button,
   Grid,
@@ -20,268 +22,131 @@ import {
 } from "../../../hooks/profile/Business/useProfileDetailsBusinessForm";
 import FormModal from "../../../components/formModal/FormModal";
 import { FieldArray, FormikProvider } from "formik";
+import { useGetAllCountries, useGetAllOccupations, useGetUserAllStates, useGetUserNationality } from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
+import { useGetBusinessDetails, useGetBusinessDirectorDetails, useGetBusinessIndustryType, useGetBusinessTypeDetails } from "../../../hooks/profile/Business/useProfileBusinessDetails";
+import CustomTable from "../../../components/CustomTable/CustomTable";
 
-const directiveField = [
+const directiveCloumns = [
   {
-    name: "name",
-    label: "Name",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "text",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
+    id: 1,
+    header: "S.N.",
+    Cell: (cell) => {
+      return cell?.row?.index + 1;
+    },
+    size: 50,
+    sortable: false,
   },
   {
-    name: "email",
-    label: "email",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "text",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
+    id: 2,
+    accessorKey: "name",
+    header: "Full Name",
+    size: 100,
+    sortable: false,
   },
   {
-    name: "phoneCode",
-    label: "phone",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "onlyNumber",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
+    id: 3,
+    accessorKey: "email",
+    header: "Email",
+    size: 100,
+    sortable: false,
   },
   {
-    name: "streetName",
-    label: "Street Name",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "text",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
+    id: 4,
+    accessorKey: "phone",
+    header: "Mobile Number",
+    size: 100,
+    sortable: false,
   },
   {
-    name: "suburb",
-    label: "City",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "text",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
+    id: 5,
+    accessorKey: "streetName",
+    header: "Street Name",
+    size: 100,
+    sortable: false,
   },
   {
-    name: "zipCode",
-    label: "zip code",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "text",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
-  },
-  // {
-  //   name: "add",
-  //   label: "Add More",
-  //   required: true,
-  //   iconStart: <SmartphoneIcon />,
-  //   type: "fieldArraySwitch",
-  //   max: 10,
-  //   id: nanoid(),
-  //   md: 6,
-  //   sm: 12,
-  // },
-];
-const shareField = [
-  {
-    name: "name",
-    label: "Name",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "text",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
+    id: 6,
+    accessorKey: "suburb",
+    header: "City",
+    size: 100,
+    sortable: false,
   },
   {
-    name: "email",
-    label: "email",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "text",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
+    id: 7,
+    accessorKey: "zipCode",
+    header: "Zip Code",
+    size: 100,
+    sortable: false,
   },
   {
-    name: "phoneCode",
-    label: "phone",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "onlyNumber",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
+    id: 8,
+    accessorKey: "idNumber",
+    header: "ID Number",
+    size: 100,
+    sortable: false,
   },
   {
-    name: "streetName",
-    label: "Street Name",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "text",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
+    id: 9,
+    accessorKey: "cardNumber",
+    header: "Card Number",
+    size: 100,
+    sortable: false,
   },
   {
-    name: "suburb",
-    label: "City",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "text",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
+    id: 10,
+    accessorKey: "dob",
+    header: "Date of Birth",
+    size: 100,
+    sortable: false,
   },
   {
-    name: "zipCode",
-    label: "zip code",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "text",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
+    id: 11,
+    accessorKey: "documentValidity",
+    header: "Document Validity",
+    size: 100,
+    sortable: false,
+  },
+  {
+    id: 12,
+    accessorKey: "businessDetailId",
+    header: "Business",
+    size: 100,
+    sortable: false,
+  },
+  {
+    id: 13,
+    accessorKey: "occupationId",
+    header: "occupation",
+    size: 100,
+    sortable: false,
+  },
+  {
+    id: 14,
+    accessorKey: "Nationality",
+    header: "Nationality",
+    size: 100,
+    sortable: false,
   },
 ];
-const basicInputData = [
-  {
-    name: "companyTypeId",
-    label: "Company Type",
-    required: true,
-    type: "text",
-    iconStart: <PersonIcon />,
-    id: nanoid(),
-    md: 6,
-    sm: 6,
-    xs: 12,
-  },
-  {
-    name: "noOfEmployee",
-    label: "No. Of Employees",
-    required: true,
-    type: "onlyNumber",
-    iconStart: <PersonIcon />,
-    id: nanoid(),
-    md: 6,
-    sm: 6,
-    xs: 12,
-  },
 
-  {
-    name: "industryTypeId",
-    label: "Industry Type",
-    required: true,
-    type: "text",
-    iconStart: <EmailIcon />,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
-  },
-  {
-    name: "targetBusiness",
-    label: "Target Market",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "onlyNumber",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
-  },
-  {
-    name: "expectedRemittance",
-    label: "Expected remittance volume (AUD)/sending currency per year",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "onlyNumber",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
-  },
-  {
-    name: "noOfTransaction",
-    label: "Expected No of transaction per year",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "onlyNumber",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
-  },
-  {
-    name: "website",
-    label: "Website",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "onlyNumber",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
-  },
-  {
-    name: "noOfDirectors",
-    label: "No. of Directors",
-    required: true,
-    type: "onlyNumber",
-    iconStart: <PersonIcon />,
-    id: nanoid(),
-    md: 6,
-    sm: 6,
-    xs: 12,
-  },
-  {
-    name: "noOfShareHolder",
-    label: "No. Of Shareholder",
-    required: true,
-    type: "onlyNumber",
-    iconStart: <PersonIcon />,
-    id: nanoid(),
-    md: 6,
-    sm: 6,
-    xs: 12,
-  },
-];
 
 const BusinessDetailsExtraProfile = ({ userId }) => {
   const theme = useTheme();
   const [directiveModal, setDirectiveModal] = useState(false);
   const [shareModal, setShareModal] = useState(false);
+  const { data: countryData } = useGetAllCountries();
+  const data = countryData && countryData?.data;
+  const { data: businessTypeData } = useGetBusinessTypeDetails();
+  const { data: businessAllData } = useGetBusinessDetails();
+  const { data: nationalityData } = useGetUserNationality();
+  const { data: allStatesData } = useGetUserAllStates();
+  const { data: allOccupationsData } = useGetAllOccupations();
+  const { data: industryTypeData } = useGetBusinessIndustryType();
 
-  const { formik } = usePersonalBusinessProfileExtraForm({ userId });
   const { formikD } = useBusinessDirectiveForm({ userId, setDirectiveModal });
   const { formikS } = useBusinessShareForm({ userId, setShareModal });
-  const handleFormSubmit = () => {
-    formik.handleSubmit();
-  };
 
+  const { data: directorData } = useGetBusinessDirectorDetails();
   const handleFormDirectiveSubmit = () => {
     formikD.handleSubmit();
   };
@@ -291,6 +156,347 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
   const handleRemove = (remove, index, id) => {
     remove(index);
   };
+
+  const BUSINESS_TYPE = businessTypeData && businessTypeData?.data?.map((item) => ({
+    label: item?.name,
+    value: item?.id,
+  }));
+  const INDUSTRY_TYPE = industryTypeData && industryTypeData?.data?.map((item) => ({
+    label: item?.name,
+    value: item?.id,
+  }));
+  const GET_NATIONALITY =
+  nationalityData &&
+  nationalityData?.data?.map((item) => ({
+    value: item.id,
+    label: item.nationality,
+  }));
+const GET_ALL_STATES =
+  allStatesData &&
+  allStatesData?.data?.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
+const GET_ALL_OCCUPATIONS =
+  allOccupationsData &&
+  allOccupationsData?.data?.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
+  const GET_ALL_BUSINESS =
+  businessAllData &&
+  businessAllData?.data?.map((item) => ({
+    value: item.id,
+    label: item.abn,
+  }));
+  
+  const DIRECTOR_DATA = directorData && directorData?.data?.filter((f) => f?.isShareHolder === false);
+  const SHAREHOLDER_DATA = directorData && directorData?.data?.filter((f) => f?.isShareHolder === true);
+
+const totalDirector = DIRECTOR_DATA && DIRECTOR_DATA.length ? DIRECTOR_DATA.length : 0;
+const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLDER_DATA.length : 0;
+
+  const basicInputData = [
+    {
+      name: "companyTypeId",
+      label: "Company Type",
+      required: true,
+      type: "dropDown",
+      options: BUSINESS_TYPE,
+      iconStart: <PersonIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+    {
+      name: "noOfEmployee",
+      label: "No. Of Employees",
+      required: true,
+      type: "onlyNumber",
+      iconStart: <PersonIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+  
+    {
+      name: "industryTypeId",
+      label: "Industry Type",
+      required: true,
+      type: "dropDown",
+      options: INDUSTRY_TYPE,
+      iconStart: <EmailIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "targetBusiness",
+      label: "Target Market",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "text",
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "businessAddress",
+      label: "Address",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "text",
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "expectedRemittance",
+      label: "Expected remittance volume (AUD)/sending currency per year",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "onlyNumber",
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "noOfTransaction",
+      label: "Expected No of transaction per year",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "onlyNumber",
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "website",
+      label: "Website",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "text",
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "noOfDirectors",
+      label: "No. of Directors",
+      required: true,
+      type: "text",
+      defaultValue: DIRECTOR_DATA ? DIRECTOR_DATA.length : 0,
+      iconStart: <PersonIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+    {
+      name: "noOfShareHolder",
+      label: "No. Of Shareholder",
+      required: true,
+      type: "text",
+      defaultValue: SHAREHOLDER_DATA ? SHAREHOLDER_DATA.length : 0,
+      iconStart: <PersonIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+  ];
+
+  const businessDetailsData = businessAllData && businessAllData?.data;
+  const { formik } = usePersonalBusinessProfileExtraForm({ userId, totalDirector, totalshareholder, businessDetailsData });
+  const iconCode = data && data?.find((d) => d?.id === formik.values.countryId);
+
+  const handleFormSubmit = () => {
+    formik.handleSubmit();
+  };
+  
+  const directiveField = [
+    {
+      name: "countryId",
+      name1: "countryName",
+      name2: "phoneCode",
+      label: "Select Country",
+      type: "asyncDropDown",
+      path: "/country/getall",
+      // options: COUNTRY_SELECTED,
+      iconStart: <FlagIcon />,
+      id: nanoid(),
+      isFLag: true,
+      hasDoubleValue: true,
+      required: true,
+      responseLabel: "name",
+      responseId: "id",
+      responseCode: "phoneCode",
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "name",
+      label: "Full Name",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "text",
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "email",
+      label: "Email",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "text",
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "phone",
+      label: "Mobile Number",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      iconCode: iconCode?.phoneCode,
+      type: "numWithCode",
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "percentageOfShareHolding",
+      label: "Percentage Of ShareHolding",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "text",
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "streetName",
+      label: "Street Name",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "text",
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "suburb",
+      label: "City/State",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "text",
+      options: GET_ALL_STATES,
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "zipCode",
+      label: "zip code",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "text",
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "idNumber",
+      label: "ID Number",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "text",
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "cardNumber",
+      label: "Card Number",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "text",
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "dob",
+      label: "Date of Birth",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "datePicker",
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "documentValidity",
+      label: "Document Validity Date",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "datePicker",
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "businessDetailId",
+      label: "Business Detail",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "dropDown",
+      options: GET_ALL_BUSINESS,
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "occupationId",
+      label: "Occupation",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "dropDown",
+      options: GET_ALL_OCCUPATIONS,
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+    {
+      name: "nationalityId",
+      label: "Nationality",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "dropDown",
+      options: GET_NATIONALITY,
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
+  ];
 
   return (
     <>
@@ -320,137 +526,53 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
                 />
               </Grid>
               {directiveModal && (
-                <FormModal
-                  open={directiveModal}
-                  onClose={() => {
-                    setDirectiveModal(false);
-                    formikD.setFieldValue("isDirective", false);
-                  }}
-                  width={700}
-                  height={"auto"}
-                  maxHeight={"80vh"}
-                  header={"Add Directors"}
-                  formComponent={
-                    <>
-                      <FieldArray name="directive">
-                        {({ push, remove }) => {
-                          return (
-                            formikD.values.directive &&
-                            formikD.values.directive.map((_, index) => {
-                              const field = directiveField.map((d) => {
-                                return {
-                                  ...d,
-                                  name: `directive.${index}.${d.name}`,
-                                };
-                              });
-                              return (
-                                <>
-                                  <Grid mt={2}>
-                                    <RenderInput
-                                      inputField={field}
-                                      formik={formikD}
-                                      index={index}
-                                      isFieldArray={true}
-                                      fieldArrayName="directive"
-                                      pushArray={() =>
-                                        push({
-                                          name: "",
-                                          email: "",
-                                          phoneCode: "",
-                                          streetName: "",
-                                          suburb: "",
-                                          zipCode: "",
-                                        })
-                                      }
-                                      removeArray={() => remove()}
-                                    />
-                                  </Grid>
-                                  <Stack display={"flex"} flexDirection={"row"}>
-                                    {index >= 0 &&
-                                      index ===
-                                        formikD.values?.directive.length -
-                                          1 && (
-                                        <Button
-                                          variant="outlined"
-                                          color="primary"
-                                          style={{
-                                            border: "1px solid #6C49B4",
-                                            margin: "1rem 1rem 1rem 0",
-                                            width: "fit-content",
-                                          }}
-                                          onClick={() =>
-                                            push({
-                                              name: "",
-                                              email: "",
-                                              phoneCode: "",
-                                              streetName: "",
-                                              suburb: "",
-                                              zipCode: "",
-                                            })
-                                          }
-                                        >
-                                          <Typography
-                                            color={"#6C49B4"}
-                                            fontWeight={600}
-                                          >
-                                            + Add
-                                          </Typography>
-                                        </Button>
-                                      )}
-                                    {index >= 1 &&
-                                      formikD.values.directive.length > 1 && (
-                                        <Button
-                                          variant="outlined"
-                                          color="secondary"
-                                          style={{
-                                            border: "1px solid #B4271F",
-                                            margin: "1rem 0",
-                                            width: "fit-content",
-                                          }}
-                                          onClick={() => {
-                                            handleRemove(remove, index, _?.id);
-                                          }}
-                                        >
-                                          <Typography
-                                            color="#B4271F"
-                                            fontWeight={600}
-                                          >
-                                            Remove
-                                          </Typography>
-                                        </Button>
-                                      )}
-                                  </Stack>
-                                </>
-                              );
-                            })
-                          );
-                        }}
-                      </FieldArray>
-                      <Grid
-                        item
-                        mt={2}
-                        sx={{
-                          display: "flex",
-                          width: "100%",
-                          justifyContent: "end",
-                          gap: "1rem",
-                        }}
-                      >
-                        <CButton
-                          buttonName={"ADD"}
-                          OnClick={handleFormDirectiveSubmit}
-                          variant={"contained"}
-                          Width={"fit-content"}
-                          TextColor={"#000"}
-                          TextColorHover={"#fff"}
-                          Border={`1px solid ${theme.palette.button.primary}`}
-                          BGColor={`${theme.palette.background.default}`}
-                          BGHover={`${theme.palette.hover.primary}`}
+                <>
+                  <FormModal
+                    open={directiveModal}
+                    onClose={() => {
+                      setDirectiveModal(false);
+                      formikD.setFieldValue("isDirective", false);
+                    }}
+                    width={"90%"}
+                    height={"90dvh"}
+                    header={"Add Directors"}
+                    formComponent={
+                      <>
+                        <RenderInput inputField={directiveField} formik={formikD} />
+                        <Grid
+                          item
+                          mt={2}
+                          sx={{
+                            display: "flex",
+                            width: "100%",
+                            justifyContent: "end",
+                            gap: "1rem",
+                          }}
+                        >
+                          <CButton
+                            buttonName={"ADD"}
+                            OnClick={handleFormDirectiveSubmit}
+                            variant={"contained"}
+                            Width={"fit-content"}
+                            TextColor={"#000"}
+                            TextColorHover={"#fff"}
+                            Border={`1px solid ${theme.palette.button.primary}`}
+                            BGColor={`${theme.palette.background.default}`}
+                            BGHover={`${theme.palette.hover.primary}`}
+                          />
+                        </Grid>
+                        <CustomTable
+                          title={"Directive Details"}
+                          data={DIRECTOR_DATA}
+                          columns={directiveCloumns}
+                          headerBackgroundColor={theme.palette.background.main}
+                          overFlow={"scroll"}
+                          // handleEditRow={handleEditRow}
                         />
-                      </Grid>
-                    </>
-                  }
-                />
+                      </>
+                    }
+                  />
+                </>
               )}
             </>
           </FormikProvider>
@@ -470,9 +592,9 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
                 <Typography>Add Share Holder Detail</Typography>
 
                 <Switch
-                  checked={formikS.values?.isShareholder}
+                  checked={formikS.values?.isShare}
                   onChange={(e) => {
-                    formikS.setFieldValue("isShareholder", e.target.checked);
+                    formikS.setFieldValue("isShare", e.target.checked);
                     setShareModal(e.target.checked);
                   }}
                 />
@@ -482,108 +604,14 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
                   open={shareModal}
                   onClose={() => {
                     setShareModal(false);
-                    formikS.setFieldValue("isShareholder", false);
+                    formikS.setFieldValue("isShare", false);
                   }}
-                  width={700}
-                  height={"auto"}
-                  maxHeight={"80vh"}
+                  width={"85%"}
+                  height={"85dvh"}
                   header={"Add Share Holder"}
                   formComponent={
                     <>
-                      <FieldArray name="shareHolder">
-                        {({ push, remove }) => {
-                          return (
-                            formikS.values.shareHolder &&
-                            formikS.values.shareHolder.map((_, index) => {
-                              const field = shareField.map((d) => {
-                                return {
-                                  ...d,
-                                  name: `shareHolder.${index}.${d.name}`,
-                                };
-                              });
-                              return (
-                                <>
-                                  <Grid mt={2}>
-                                    <RenderInput
-                                      inputField={field}
-                                      formik={formikS}
-                                      index={index}
-                                      isFieldArray={true}
-                                      fieldArrayName="shareHolder"
-                                      pushArray={() =>
-                                        push({
-                                          name: "",
-                                          email: "",
-                                          phoneCode: "",
-                                          streetName: "",
-                                          suburb: "",
-                                          zipCode: "",
-                                        })
-                                      }
-                                      removeArray={() => remove()}
-                                    />
-                                  </Grid>
-                                  <Stack display={"flex"} flexDirection={"row"}>
-                                    {index >= 0 &&
-                                      index ===
-                                        formikS.values?.shareHolder.length -
-                                          1 && (
-                                        <Button
-                                          variant="outlined"
-                                          color="primary"
-                                          style={{
-                                            border: "1px solid #6C49B4",
-                                            margin: "1rem 1rem 1rem 0",
-                                            width: "fit-content",
-                                          }}
-                                          onClick={() =>
-                                            push({
-                                              name: "",
-                                              email: "",
-                                              phoneCode: "",
-                                              streetName: "",
-                                              suburb: "",
-                                              zipCode: "",
-                                            })
-                                          }
-                                        >
-                                          <Typography
-                                            color={"#6C49B4"}
-                                            fontWeight={600}
-                                          >
-                                            + Add
-                                          </Typography>
-                                        </Button>
-                                      )}
-                                    {index >= 1 &&
-                                      formikS.values.shareHolder.length > 1 && (
-                                        <Button
-                                          variant="outlined"
-                                          color="secondary"
-                                          style={{
-                                            border: "1px solid #B4271F",
-                                            margin: "1rem 0",
-                                            width: "fit-content",
-                                          }}
-                                          onClick={() => {
-                                            handleRemove(remove, index, _?.id);
-                                          }}
-                                        >
-                                          <Typography
-                                            color="#B4271F"
-                                            fontWeight={600}
-                                          >
-                                            Remove
-                                          </Typography>
-                                        </Button>
-                                      )}
-                                  </Stack>
-                                </>
-                              );
-                            })
-                          );
-                        }}
-                      </FieldArray>
+                      <RenderInput inputField={directiveField} formik={formikS} />
                       <Grid
                         item
                         mt={2}
@@ -606,6 +634,15 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
                           BGHover={`${theme.palette.hover.primary}`}
                         />
                       </Grid>
+
+                      <CustomTable
+                          title={"Directive Details"}
+                          data={SHAREHOLDER_DATA}
+                          columns={directiveCloumns}
+                          headerBackgroundColor={theme.palette.background.main}
+                          overFlow={"scroll"}
+                          // handleEditRow={handleEditRow}
+                        />
                     </>
                   }
                 />

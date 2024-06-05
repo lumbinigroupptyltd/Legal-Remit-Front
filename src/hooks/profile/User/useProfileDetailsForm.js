@@ -106,16 +106,7 @@ export const useKycDetailsProfileForm = ({data, userId, countryId}) => {
 };
 
 
-// const filterDocTypeData = (newDocData, values) => {
-// console.log({"newDocData": newDocData, "values": values})
-//   const relevantDocNames = ['Front', 'Back', 'Driving License', 'Passport'];
-//   return newDocData.filter(doc => 
-//     relevantDocNames.includes(doc.name) && values[doc.name]
-//   );
-// };
-
 const filterDocTypeData = (docTypeData, values) => {
-  console.log({docTypeData, values}); // Log the inputs for debugging
   const relevantDocNames = ['Front', 'Back', 'Driving License', 'Passport'];
   return docTypeData.filter(doc => 
     relevantDocNames.includes(doc.docTypeName) && values[doc.docTypeName]
@@ -138,9 +129,6 @@ export const useMyDocumentsProfileForm = ({newDocData}) => {
    
   async function handleSubmit(values) {
     const filteredDocData = filterDocTypeData(newDocData, values);
-
-    console.log(filteredDocData, "filteredDocData")
-    // console.log(values?.front?.name, "values")
     try {
       await addDocument({ ...values, getDocData: filteredDocData });
       // await addDocument({...values, getDocData: getDocData});

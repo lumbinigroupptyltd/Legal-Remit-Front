@@ -1,7 +1,7 @@
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { toast } from "react-toastify";
-import { useMutation, useQueryClient } from "react-query";
-import { addIdDetailsProfile, addKycDetailsProfile, addMyDocumentsProfile, addPersonalDetailsProfile } from "../../../api/profile/profile-api";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { addIdDetailsProfile, addKycDetailsProfile, addMyDocumentsProfile, addPersonalDetailsProfile, getBusinessDetails, getBusinessDirectorDetails, getBusinessIndustryType, getBusinessTypeDetails } from "../../../api/profile/profile-api";
 import { addBusinessDirective, addBusinessShare, addPersonalBusinessExtraProfile, addPersonalBusinessProfile, editBusinessDirective, editBusinessShare, editPersonalBusinessExtraProfile, editPersonalBusinessProfile } from "../../../api/profile/business-profile-api";
 
 {
@@ -273,4 +273,58 @@ export const useDeleteDocField = ({ onSuccess }) => {
     isSuccess: kycBankDelete.isSuccess,
     deleteKycBankMutation: kycBankDelete.mutate,
   };
+};
+
+
+
+
+
+
+
+
+
+
+{
+  /*________________________GET_____________________________________*/
+}
+export const useGetBusinessDirectorDetails = () => {
+  return useQuery(["getDirectors"], () => getBusinessDirectorDetails(), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
+};
+
+{
+  /*________________________GET_____________________________________*/
+}
+export const useGetBusinessDetails = () => {
+  return useQuery(["getBusinessDetails"], () => getBusinessDetails(), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
+};
+
+{
+  /*________________________GET_____________________________________*/
+}
+export const useGetBusinessTypeDetails = () => {
+  return useQuery(["getBusinessTypeDetails"], () => getBusinessTypeDetails(), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
+};
+
+
+{
+  /*________________________GET_____________________________________*/
+}
+export const useGetBusinessIndustryType = () => {
+  return useQuery(["getBusinessIndustryType"], () => getBusinessIndustryType(), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
 };
