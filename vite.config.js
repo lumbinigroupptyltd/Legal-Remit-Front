@@ -17,7 +17,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ['export-to-csv'],
+      external: ['export-to-csv', 'jspdf-autotable', 'jspdf-autotable'],
     },
   },
 });
