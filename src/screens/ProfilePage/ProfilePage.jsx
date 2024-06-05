@@ -289,14 +289,14 @@ export default function ProfilePage () {
 	}
 
 	const UpdateremoveFieldsReciptionDetails = (index) => {
-		// debugger;
+		
 		const fields = [...formDataa]
 		fields.splice(index, 1)
 		setFormData(fields)
 	}
 
 	const UpdateremoveFieldsShareHolder = (index) => {
-		// debugger;
+		
 		const fields = [...formData2]
 		fields.splice(index, 1)
 		setFormData2(fields)

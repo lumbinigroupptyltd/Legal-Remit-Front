@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useSignUp } from "./useSignUp";
 import { signupSchema } from "./validation/signupSchema";
 import { useState } from "react";
-import { useGetOtpVerify, useOtpVerNum } from "./OTP/useOtpVerification";
+import { useOtpVerNum } from "./OTP/useOtpVerification";
 
 const useSignUpForm = ({ setOpenModal }) => {
   const [loading, setLoading] = useState(false);
@@ -24,10 +24,9 @@ const useSignUpForm = ({ setOpenModal }) => {
           password: "",
           confirmPassword: "",
           roleId: "4b0fa25e-6dd9-480f-bdd7-59247705c132",
-          fullName: "",
           businessName: "",
-          registrationNumber: "",
-          address: "",
+          regNo: "",
+          businessAddress: "",
     },
     validationSchema: signupSchema,
     enableReinitialize: true,
@@ -62,7 +61,6 @@ const useSignUpForm = ({ setOpenModal }) => {
 
   const { mutate: verifyOtp } = useOtpVerNum({
     onSuccess: (variables) => {
-      // console.log(variables, "var")
       // toast.success("OTP verified successfully");
     },
   });

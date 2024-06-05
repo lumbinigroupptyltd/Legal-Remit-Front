@@ -22,7 +22,7 @@ const KycBusinessProfile = () => {
   const { data: allOccupationsData } = useGetAllOccupations();
   const { formik } = useKycBusinessProfileForm();
   const handleFormSubmit = () => {
-    console.log("success");
+    // console.log("success");
   };
   const nationData = nationalityData && nationalityData?.data;
   const stateData = allStatesData && allStatesData?.data;
@@ -30,19 +30,19 @@ const KycBusinessProfile = () => {
   const GET_NATIONALITY =
     nationData &&
     nationData?.map((item) => ({
-      value: item.nationality,
-      label: item.passToMg,
+      value: item.id,
+      label: item.nationality,
     }));
   const GET_ALL_STATES =
     stateData &&
     stateData?.map((item) => ({
-      value: item.name,
-      label: item.name,
+      value: item.id,
+    label: item.name,
     }));
   const GET_ALL_OCCUPATIONS =
     occuData &&
     occuData?.map((item) => ({
-      value: item.name,
+      value: item.id,
       label: item.name,
     }));
 

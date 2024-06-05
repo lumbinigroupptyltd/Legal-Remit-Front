@@ -22,10 +22,15 @@ import React, { useEffect, useState } from "react";
 import OptionalRender from "./OptionalRender";
 import CustomizedSwitches from "./SwitchInput";
 import AsyncDropDownOption from "./AsyncDropDownOption";
+import switchWithModalField from "./switchWithModalField";
 import { AsyncDropDownCustom, AsyncDropDown } from "./AsyncDropDown";
 import { PickDate } from "./DatePicker";
 import DropZoneUploadFile from "./DropZoneUploadFile";
 import NewDropZone from "./NewDropZone";
+import SwitchWithModalField from "./switchWithModalField";
+import { useGetVerifyEmail } from "../../hooks/profile/User/useProfileDetails";
+import { getVerifyEmail } from "../../api/profile/profile-api";
+import { toast } from "react-toastify";
 
 const RenderInput = ({
   inputField,
@@ -53,6 +58,15 @@ const RenderInput = ({
     }
   }, [formik.values.documentType]);
 
+  const handleEmail = async () => {
+    try {
+      await getVerifyEmail();
+      toast.success("Verification email sent successfully!");
+    } catch (error) {
+      toast.error("Failed to send verification email.");
+    }
+  };
+
   const getComponentToRender = (element, disableField, index) => {
     if (!element) return null;
     const formValues = isFieldArray
@@ -68,43 +82,59 @@ const RenderInput = ({
     switch (element.type) {
       case "text":
         return (
-          <TextField
-            name={element?.name}
-            label={element?.label}
-            value={formValues}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            fullWidth
-            required={element.required}
-            variant="outlined"
-            className="textfield-icon-input"
-            disabled={element.isDisabled}
-            error={formTouched && Boolean(formError)}
-            onKeyPress={(ev) => {
-              if (ev.key === "Enter") {
-                formik.handleSubmit();
-                ev.preventDefault();
-              }
-            }}
-            inputProps={{
-              minLength: element?.min,
-              maxLength: element?.max,
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment
-                  position="start"
-                  sx={{
-                    color: theme.palette.button.primary,
-                  }}
+          <>
+            <TextField
+              name={element?.name}
+              label={element?.label}
+              value={formValues}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              fullWidth
+              required={element.required}
+              variant="outlined"
+              className="textfield-icon-input"
+              disabled={element.isDisabled}
+              error={formTouched && Boolean(formError)}
+              onKeyPress={(ev) => {
+                if (ev.key === "Enter") {
+                  formik.handleSubmit();
+                  ev.preventDefault();
+                }
+              }}
+              inputProps={{
+                minLength: element?.min,
+                maxLength: element?.max,
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment
+                    position="start"
+                    sx={{
+                      color: theme.palette.button.primary,
+                    }}
+                  >
+                    <Tooltip>{element?.iconStart}</Tooltip>
+                  </InputAdornment>
+                ),
+              }}
+              helperText={formTouched && formError}
+              InputLabelProps={{ shrink: Boolean(formValues) }}
+            />
+            {!element?.isVerified && element?.isEmailCheck && (
+              <div>
+                <Typography variant="p" color="error">
+                  Please Verify Email
+                </Typography>
+                <Typography
+                  variant="p"
+                  sx={{ textDecoration: "underline", cursor: "pointer" }}
+                  onClick={handleEmail}
                 >
-                  <Tooltip>{element?.iconStart}</Tooltip>
-                </InputAdornment>
-              ),
-            }}
-            helperText={formTouched && formError}
-            InputLabelProps={{ shrink: Boolean(formValues) }}
-          />
+                  Click here
+                </Typography>
+              </div>
+            )}
+          </>
         );
       case "password":
         const isConfirmPassword = element.name === "confirmPassword";
@@ -185,7 +215,7 @@ const RenderInput = ({
           <TextField
             name={element?.name}
             label={element?.label}
-            value={formValues}
+            value={element?.defaultValue ? element?.defaultValue : formValues}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             onKeyPress={(e) => {
@@ -195,7 +225,7 @@ const RenderInput = ({
             }}
             fullWidth
             required={element.required}
-            variant="outlined"
+            // variant="outlined"
             className="textfield-icon-input"
             disabled={element.isDisabled}
             error={formTouched && Boolean(formError)}
@@ -546,6 +576,15 @@ const RenderInput = ({
               }
               label={element?.label}
             />
+            {element?.options && (
+              <SwitchWithModalField
+                element={element?.options}
+                formik={formik}
+                isFieldArray={isFieldArray}
+                arrayIndex={arrayIndex}
+                fieldArrayName={fieldArrayName}
+              />
+            )}
             {element?.infoAlert && !formik.values[element?.name] && (
               <Alert
                 variant="standard"
@@ -695,6 +734,16 @@ const RenderInput = ({
                 <RenderInput inputField={element.newFields} formik={formik} />
               </div>
             )}
+          </div>
+        );
+      case "switchWithModalField":
+        return (
+          <div>
+            <switchWithModalField
+              element={element}
+              formik={formik}
+              isFieldArray={isFieldArray}
+            />
           </div>
         );
 

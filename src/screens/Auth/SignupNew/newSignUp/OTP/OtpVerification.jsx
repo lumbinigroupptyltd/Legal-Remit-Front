@@ -11,8 +11,6 @@ import { LoadingButton } from "@mui/lab";
 import ChangeOtpNumber from "./ChangeOtpNumber";
 import FormModal from "../../../../../components/formModal/FormModal";
 import { useFinalOtpVerNumForm, useOtpVerNumForm, useResendOtpVerNumForm } from "../../../../../hooks/auth/signup/OTP/useVerifyOtpNumber";
-import { useNavigate } from "react-router-dom";
-import { useGetOtpVerify } from "../../../../../hooks/auth/signup/OTP/useOtpVerification";
 
 const OtpVerification = ({ open, onClose }) => {
   const [required, setRequired] = useState(false);
@@ -121,9 +119,9 @@ const sendNewOtp = () => {
         <Button onClick={sendNewOtp} disabled={seconds > 0}>
           Resend OTP
         </Button>
-        <Grid>
+        {/* <Grid>
           <Typography onClick={handleNumberChange} variant="p">Change Number</Typography>
-        </Grid>
+        </Grid> */}
         <LoadingButton
           fullWidth
           onClick={handleSubmit}

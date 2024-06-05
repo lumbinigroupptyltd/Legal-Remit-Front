@@ -8,7 +8,10 @@ import { CButton } from "../../../components/UIElements/CButton";
 import { Grid, useTheme } from "@mui/material";
 import { useGetIdIssuingAuthority } from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
 import { useIdDetailsProfileForm } from "../../../hooks/profile/User/useProfileDetailsForm";
-import { useGetUserIdDetails } from "../../../hooks/profile/User/useProfileDetails";
+import {
+  useGetDocTypeDetails,
+  useGetUserIdDetails,
+} from "../../../hooks/profile/User/useProfileDetails";
 
 const ID_TYPE = [
   {
@@ -23,19 +26,27 @@ const ID_TYPE = [
   },
 ];
 
-const IdDetailsProfile = () => {
+const IdDetailsProfile = ({ userId }) => {
   const theme = useTheme();
   const { data: authorityData } = useGetIdIssuingAuthority();
-  const { data: userIdDetails } = useGetUserIdDetails();
-  const userData = userIdDetails && userIdDetails?.data;
-  const { formik } = useIdDetailsProfileForm({ userData });
+  const { data: userIdDetails } = useGetUserIdDetails(userId);
+  const userData = userIdDetails && userIdDetails?.data?.[0];
+  const { data: docTypeData } = useGetDocTypeDetails();
+  const { formik } = useIdDetailsProfileForm({ userId, userData });
   const auData = authorityData && authorityData?.data;
-
+  const ID_TYPE = docTypeData?.data
+  ?.filter((doc) => doc.name === "Passport" || doc.name === "Driving License")
+  ?.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
+  
+ 
   const GET_AUTHORITY =
     auData &&
     auData?.map((item) => ({
-      value: item?.moneyGramName,
-      label: item?.name,
+      value: item?.id,
+      label: item?.authorityName,
     }));
 
   const handleFormSubmit = () => {
@@ -44,7 +55,7 @@ const IdDetailsProfile = () => {
 
   const basicInputData = [
     {
-      name: "issuingAuthority",
+      name: "issueAuthorityId",
       label: "ID Issuing Authority",
       required: true,
       type: "dropDown",
@@ -56,7 +67,7 @@ const IdDetailsProfile = () => {
       xs: 12,
     },
     {
-      name: "typeId",
+      name: "documentTypeId",
       label: "ID Type",
       required: true,
       type: "dropDown",
@@ -94,6 +105,7 @@ const IdDetailsProfile = () => {
       label: "Date Of Birth",
       required: true,
       type: "datePicker",
+      maxDate: true,
       iconStart: <DateRangeIcon />,
       id: nanoid(),
       md: 6,
@@ -105,6 +117,7 @@ const IdDetailsProfile = () => {
       label: "Date Of ID Expiry",
       required: true,
       type: "datePicker",
+      disablePast: true,
       iconStart: <DateRangeIcon />,
       id: nanoid(),
       md: 6,
@@ -169,7 +182,7 @@ const IdDetailsProfile = () => {
           BGHover={`${theme.palette.hover.error}`}
         />
         <CButton
-          buttonName={"ADD"}
+          buttonName={userData?.id ? "UPDATE" : "ADD"}
           OnClick={handleFormSubmit}
           variant={"contained"}
           Width={"fit-content"}

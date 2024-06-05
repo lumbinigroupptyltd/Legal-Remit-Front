@@ -1,12 +1,13 @@
 import { getUserToken } from '../../utils/useHelper';
 import { jwtDecode } from "jwt-decode";
-import { LOGIN_SUCCESS, LOGOUT } from '../types/types';
+import { LOGIN_SUCCESS, LOGOUT, OTP_SUCCESS } from '../types/types';
 
 
 const initialState = {
   token: getUserToken() || null,
   validToken: getUserToken() ? true : false,
   role: null,
+  otpData: null,
   verified: false,
 };
 
@@ -14,6 +15,9 @@ if (initialState.token) {
   const decodedInfo = jwtDecode(initialState.token);
   initialState.role = decodedInfo.role;
   initialState.verified = decodedInfo.isSignupCompleted;
+  initialState.isSignupCompleted = decodedInfo.isSignupCompleted;
+  initialState.isBlacklisted = decodedInfo.isBlacklisted;
+  initialState.userId = decodedInfo.userId;
 }
 
 const authReducer = (state = initialState, action) => {
@@ -24,7 +28,7 @@ const authReducer = (state = initialState, action) => {
         token: action.payload.token,
         validToken: true,
         role: action.payload.role,
-        verified: action.payload.verified,
+        userId: action.payload.userId,
       };
     case LOGOUT:
       return {
@@ -34,6 +38,11 @@ const authReducer = (state = initialState, action) => {
         role: null,
         verified: false,
       };
+      case OTP_SUCCESS:
+        return {
+          ...state,
+          otpData: action.payload.otpData,
+        };
     default:
       return state;
   }

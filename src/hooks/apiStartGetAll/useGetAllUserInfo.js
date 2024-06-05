@@ -25,13 +25,14 @@ export const useGetAllCountries = () => {
 {
   /*________________________GET_____________________________________*/
 }
-export const useGetUserInfo = () => {
-  return useQuery(["getUserInfo"], () => getUserInfo(), {
+export const useGetUserInfo = (userId) => {
+  return useQuery(["getUserInfo"], () => getUserInfo(userId), {
     cacheTime: 10000,
     refetchInterval: false,
     refetchOnWindowFocus: false,
   });
 };
+
 {
   /*________________________GET_____________________________________*/
 }

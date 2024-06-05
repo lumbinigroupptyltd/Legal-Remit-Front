@@ -27,19 +27,20 @@ import axios from "axios";
 import Loader from "../Loader/Loader";
 import { Form } from "react-bootstrap";
 import ModalComponent from "./ModalComponent";
-// import styled from "styled-components";
-import { styled } from '@mui/system';
+// import { styled } from '@mui/material/styles';
+
 
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+// const Item = styled(Paper)(({ theme }) => ({
+//   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+//   ...theme.typography.body2,
+//   padding: theme.spacing(1),
+//   textAlign: "center",
+//   color: theme.palette.text.secondary,
+// }));
+
 function UserManagement({ individualuserData }) {
   const [openConfirmModule, setOpenConfirmModule] = useState(false);
   const [loadervalue, setloadervalue] = useState(false);
@@ -709,33 +710,6 @@ function UserManagement({ individualuserData }) {
                 })}
               </Row>
 
-              {/* <Grid container spacing={5} className="">
-                  <Grid item xs={4}>
-                    <Item className="d-flex align-items-center flex-column">
-                      <Switch className="d-flex ms-auto" {...label} />
-                      <img
-                        src={trans}
-                        className="img-fluid"
-                        height="130"
-                        width="130"
-                      />
-                      <h5 className="payName py-4">Bank Transfer</h5>
-                    </Item>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Item className="d-flex align-items-center flex-column">
-                      <Switch className="d-flex ms-auto" {...label} />
-                      <img
-                        src={payid}
-                        className="img-fluid"
-                        height="230"
-                        width="230"
-                      />
-                      <h5 className="payName py-3">PayID</h5>
-                    </Item>
-                  </Grid>
-                </Grid> */}
-
               <Modal open={openModal} onClose={() => setOpenModal(false)}>
                 <Box
                   sx={{
@@ -780,7 +754,7 @@ function UserManagement({ individualuserData }) {
               </Modal>
             </Tab>
             <Tab eventKey="contact" title="Notification Management">
-              <Item className="my-3">
+              <div className="my-3">
                 <List
                   className="ddList"
                   sx={{ width: "100%", bgcolor: "background.paper" }}
@@ -820,8 +794,8 @@ function UserManagement({ individualuserData }) {
                     />
                   </ListItem>
                 </List>
-              </Item>
-              <Item className="my-3">
+              </div>
+              <div className="my-3">
                 <List sx={{ width: "100%", bgcolor: "background.paper" }}>
                   <ListItem
                     alignItems="flex-center"
@@ -855,8 +829,8 @@ function UserManagement({ individualuserData }) {
                     />
                   </ListItem>
                 </List>
-              </Item>
-              <Item className="my-3">
+              </div>
+              <div className="my-3">
                 <List sx={{ width: "100%", bgcolor: "background.paper" }}>
                   <ListItem
                     alignItems="flex-center"
@@ -890,8 +864,8 @@ function UserManagement({ individualuserData }) {
                     />
                   </ListItem>
                 </List>
-              </Item>
-              <Item className="my-3">
+              </div>
+              <div className="my-3">
                 <List sx={{ width: "100%", bgcolor: "background.paper" }}>
                   <ListItem
                     alignItems="flex-center"
@@ -925,8 +899,8 @@ function UserManagement({ individualuserData }) {
                     />
                   </ListItem>
                 </List>
-              </Item>
-              <Item className="my-3">
+              </div>
+              <div className="my-3">
                 <List sx={{ width: "100%", bgcolor: "background.paper" }}>
                   <ListItem
                     alignItems="flex-center"
@@ -960,7 +934,7 @@ function UserManagement({ individualuserData }) {
                     />
                   </ListItem>
                 </List>
-              </Item>
+              </div>
             </Tab>
           </Tabs>
 
