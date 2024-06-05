@@ -1,19 +1,13 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  resolve: {
-    alias: {
-      'export-to-csv': 'export-to-csv',
-    },
+  base: '',
+  define: {
+    global: {}
   },
-  optimizeDeps: {
-    include: ['export-to-csv', 'jspdf', 'jspdf-autotable', 'material-react-table'],
-  },
-  build: {
-    rollupOptions: {
-      external: ['export-to-csv', 'jspdf', 'jspdf-autotable', 'material-react-table'],
-    },
+  server: {
+    port: 5000,
   },
 });
