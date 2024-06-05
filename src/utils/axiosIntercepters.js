@@ -4,16 +4,20 @@ import { logout } from "./logout";
 import { jwtDecode } from "jwt-decode";
 import { CancelToken } from "axios";
 
-const envType = import.meta.env.MODE;
+// const envType = import.meta.env.MODE;
 const BASEURL = getBaseUrl();
 const UNAUTHORIZED = 401;
 
+// const navigateOnError = () => {
+//   if (envType === "development") {
+//     return window.location.replace("/#/login");
+//   } else {
+//     return window.location.replace("/#/login");
+//   }
+// };
+
 const navigateOnError = () => {
-  if (envType === "development") {
-    return window.location.replace("/#/login");
-  } else {
-    return window.location.replace("/#/login");
-  }
+    return "https://new-dev.legalremit.com/#/login"
 };
 
 export const axiosInstance = Axios.create({

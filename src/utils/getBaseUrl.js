@@ -1,10 +1,10 @@
-const envType = import.meta.env.MODE;
-export const contextPath = () => {
-  return window.location.pathname.substring(
-    0,
-    window.location.pathname.indexOf("/", 2)
-  );
-};
+// const envType = import.meta.env.MODE;
+// export const contextPath = () => {
+//   return window.location.pathname.substring(
+//     0,
+//     window.location.pathname.indexOf("/", 2)
+//   );
+// };
 
 // export const getBaseUrl = () => {
 //   if (envType === "development") {
