@@ -1,6 +1,6 @@
 import { getUserToken, setUser, setRefreshToken } from '../../utils/useHelper';
 import { jwtDecode } from "jwt-decode";
-import { LOGIN_SUCCESS, LOGOUT } from '../types/types';
+import { LOGIN_SUCCESS, LOGOUT, OTP_SUCCESS } from '../types/types';
 
 export const login = (token, refreshToken) => (dispatch) => {
   setUser(token);
@@ -12,7 +12,10 @@ export const login = (token, refreshToken) => (dispatch) => {
       token,
       refreshToken,
       role: decodedInfo.role,
-      verified: decodedInfo.isSignupCompleted,
+      signupCompleted: decodedInfo.isSignupCompleted,
+      blacklisted: decodedInfo.isBlacklisted,
+      duplicate: decodedInfo.isDuplicate,
+      userId: decodedInfo.userId,
     },
   });
 };
@@ -22,5 +25,15 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem('refreshToken');
   dispatch({
     type: LOGOUT,
+  });
+};
+
+
+export const resendOtp = (otpData) => (dispatch) => {
+  dispatch({
+    type: OTP_SUCCESS,
+    payload: {
+      otpData,
+    },
   });
 };

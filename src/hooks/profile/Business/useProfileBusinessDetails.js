@@ -1,7 +1,8 @@
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { toast } from "react-toastify";
-import { useMutation, useQueryClient } from "react-query";
-import { addIdDetailsProfile, addKycDetailsProfile, addMyDocumentsProfile, addPersonalDetailsProfile } from "../../../api/profile/profile-api";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { addIdDetailsProfile, addKycDetailsProfile, addMyDocumentsProfile, addPersonalDetailsProfile, getBusinessDetails, getBusinessDirectorDetails, getBusinessIndustryType, getBusinessTypeDetails } from "../../../api/profile/profile-api";
+import { addBusinessDirective, addBusinessShare, addPersonalBusinessExtraProfile, addPersonalBusinessProfile, editBusinessDirective, editBusinessShare, editPersonalBusinessExtraProfile, editPersonalBusinessProfile } from "../../../api/profile/business-profile-api";
 
 {
   /*________________________POST_____________________________________*/
@@ -48,7 +49,153 @@ export const usePersonalBusinessProfile = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
     ["addsignup"],
-    (formData) => personalBusinessProfile(formData),
+    (formData) => addPersonalBusinessProfile(formData),
+    {
+      onSuccess: (data, variables, context) => {
+        toast.success("");
+        onSuccess && onSuccess(data, variables, context);
+        queryClient.invalidateQueries("");
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(getErrorMessage(err));
+      },
+    }
+  );
+};
+{
+  /*________________________PATCH_____________________________________*/
+}
+export const useEditPersonalBusinessProfile = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ['editPersonalDetails'],
+    (formData) => {
+      editPersonalBusinessProfile(formData);
+  },
+    {
+      onSuccess: (data, variable, context) => {
+        toast.success('User edited successfully');
+        onSuccess && onSuccess(data, variable, context);
+        queryClient.invalidateQueries('getPersonalDetails');
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(getErrorMessage(err));
+      },
+    }
+  );
+};
+
+{
+  /*________________________POST_____________________________________*/
+}
+export const usePersonalBusinessExtraProfile = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ["addsignup"],
+    (formData) => addPersonalBusinessExtraProfile(formData),
+    {
+      onSuccess: (data, variables, context) => {
+        toast.success("");
+        onSuccess && onSuccess(data, variables, context);
+        queryClient.invalidateQueries("");
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(getErrorMessage(err));
+      },
+    }
+  );
+};
+{
+  /*________________________PATCH_____________________________________*/
+}
+export const useEditPersonalBusinessExtraProfile = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ['editPersonalDetails'],
+    (formData) => {
+      editPersonalBusinessExtraProfile(formData);
+  },
+    {
+      onSuccess: (data, variable, context) => {
+        toast.success('User edited successfully');
+        onSuccess && onSuccess(data, variable, context);
+        queryClient.invalidateQueries('getPersonalDetails');
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(getErrorMessage(err));
+      },
+    }
+  );
+};
+
+{
+  /*________________________PUT_____________________________________*/
+}
+export const useBusinessDirective = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ["addDirectors"],
+    (formData) => addBusinessDirective(formData),
+    {
+      onSuccess: (data, variables, context) => {
+        toast.success("Directors added successfully");
+        onSuccess && onSuccess(data, variables, context);
+        queryClient.invalidateQueries("");
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(getErrorMessage(err));
+      },
+    }
+  );
+};
+{
+  /*________________________PATCH_____________________________________*/
+}
+export const useEditBusinessDirective = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ["addsignup"],
+    (formData) => editBusinessDirective(formData),
+    {
+      onSuccess: (data, variables, context) => {
+        toast.success("");
+        onSuccess && onSuccess(data, variables, context);
+        queryClient.invalidateQueries("");
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(getErrorMessage(err));
+      },
+    }
+  );
+};
+{
+  /*________________________PUT_____________________________________*/
+}
+export const useBusinessShare = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ["addsignup"],
+    (formData) => addBusinessShare(formData),
+    {
+      onSuccess: (data, variables, context) => {
+        toast.success("");
+        onSuccess && onSuccess(data, variables, context);
+        queryClient.invalidateQueries("");
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(getErrorMessage(err));
+      },
+    }
+  );
+};
+{
+  /*________________________PATCH_____________________________________*/
+}
+export const useEditBusinessShare = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ["addsignup"],
+    (formData) => editBusinessShare(formData),
     {
       onSuccess: (data, variables, context) => {
         toast.success("");
@@ -126,4 +273,58 @@ export const useDeleteDocField = ({ onSuccess }) => {
     isSuccess: kycBankDelete.isSuccess,
     deleteKycBankMutation: kycBankDelete.mutate,
   };
+};
+
+
+
+
+
+
+
+
+
+
+{
+  /*________________________GET_____________________________________*/
+}
+export const useGetBusinessDirectorDetails = () => {
+  return useQuery(["getDirectors"], () => getBusinessDirectorDetails(), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
+};
+
+{
+  /*________________________GET_____________________________________*/
+}
+export const useGetBusinessDetails = () => {
+  return useQuery(["getBusinessDetails"], () => getBusinessDetails(), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
+};
+
+{
+  /*________________________GET_____________________________________*/
+}
+export const useGetBusinessTypeDetails = () => {
+  return useQuery(["getBusinessTypeDetails"], () => getBusinessTypeDetails(), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
+};
+
+
+{
+  /*________________________GET_____________________________________*/
+}
+export const useGetBusinessIndustryType = () => {
+  return useQuery(["getBusinessIndustryType"], () => getBusinessIndustryType(), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
 };

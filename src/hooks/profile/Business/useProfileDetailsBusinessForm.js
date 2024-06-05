@@ -1,31 +1,60 @@
 import { useFormik } from "formik";
-import { IdBusinessSchema, documentsBusinessSchema, kycBusinessSchema, personalBusinessExtraSchema, personalBusinessSchema } from "../validation/businessProfileValidation";
+import {
+  IdBusinessSchema,
+  documentsBusinessSchema,
+  kycBusinessSchema,
+  personalBusinessExtraSchema,
+  personalBusinessSchema,
+} from "../validation/businessProfileValidation";
+import {
+  useBusinessDirective,
+  useBusinessShare,
+  useEditBusinessDirective,
+  useEditBusinessShare,
+  useEditPersonalBusinessExtraProfile,
+  useEditPersonalBusinessProfile,
+  usePersonalBusinessExtraProfile,
+  usePersonalBusinessProfile,
+} from "./useProfileBusinessDetails";
+import { useMyDocumentsProfile } from "../User/useProfileDetails";
 
-export const usePersonalBusinessProfileForm = () => {
-  // const {mutate: personalDetailsProfile } = usePersonalDetailsProfile();
+export const usePersonalBusinessProfileForm = ({ data, userId }) => {
+  const { mutate: addMutate } = usePersonalBusinessProfile({});
+  const { mutate: editMutate } = useEditPersonalBusinessProfile({});
 
   const formik = useFormik({
     initialValues: {
-      fullName: "",
-      firstName: "",
-      email: "",
-      phone: "",
-      phoneCode: "",
+      userId: userId || "",
+      firstName: data?.firstName || "",
+      businessName: data?.businessName || "",
+      businessAddress: data?.businessAddress || "",
+      email: data?.email || "",
+      phoneNumber: data?.phoneNumber || "",
+      phoneCode: data?.phoneCode || "",
+      regNo: data?.regNo || "",
     },
     validationSchema: personalBusinessSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      handledAddRequest(values);
+      if (values?.email) {
+        handledEditRequest(values);
+      } else {
+        handledAddRequest(values);
+      }
     },
   });
 
   const handledAddRequest = async (values) => {
     values = { ...values };
-   
-    // personalDetailsProfile(values, {
-    //   onSuccess: async() => {
-    //   }
-    // });
+    addMutate(values, {
+      onSuccess: async () => {},
+    });
+  };
+  const handledEditRequest = (values) => {
+    values = { ...values };
+    editMutate(values, {
+      onSuccess: () => {},
+    });
   };
 
   return {
@@ -33,39 +62,167 @@ export const usePersonalBusinessProfileForm = () => {
   };
 };
 
-export const usePersonalBusinessProfileExtraForm = () => {
-  // const {mutate: personalDetailsProfile } = usePersonalDetailsProfile();
-
+export const usePersonalBusinessProfileExtraForm = ({ businessDetailsData, userId, totalDirector, totalshareholder }) => {
+  const { mutate: addMutate } = usePersonalBusinessExtraProfile({});
+  const { mutate: editMutate } = useEditPersonalBusinessExtraProfile({});
+ 
   const formik = useFormik({
     initialValues: {
-      companyType: "",
-      employees: "",
-      directors: "",
-      shareholder: "",
-      market: "",
-      remittance: "",
-      trans: "",
-      website: "",
+      id: businessDetailsData?.id || "",
+      userId: userId || "",
+      companyTypeId: businessDetailsData?.companyTypeId || "",
+      noOfEmployee: businessDetailsData?.noOfEmployee || "",
+      industryTypeId: businessDetailsData?.industryTypeId || "",
+      targetBusiness: businessDetailsData?.targetBusiness || "",
+      businessAddress: businessDetailsData?.businessAddress || "",
+      expectedRemittance: businessDetailsData?.expectedRemittance || "",
+      percentageOfShareHolding: businessDetailsData?.percentageOfShareHolding || "",
+      noOfTransaction: businessDetailsData?.noOfTransaction || "",
+      website: businessDetailsData?.website || "",
+      noOfDirectors: totalDirector || "",
+      noOfShareHolder: totalshareholder || "",
     },
-    validationSchema: personalBusinessExtraSchema,
+    // validationSchema: personalBusinessExtraSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      handledAddRequest(values);
+      if (!values?.id) {
+        handledEditRequest(values);
+      } else {
+        handledAddRequest(values);
+      }
     },
   });
 
   const handledAddRequest = async (values) => {
     values = { ...values };
-   
-    // personalDetailsProfile(values, {
-    //   onSuccess: async() => {
-    //   }
-    // });
+    addMutate(values, {
+      onSuccess: async () => {},
+    });
+  };
+  const handledEditRequest = (values) => {
+    values = { ...values };
+    editMutate(values, {
+      onSuccess: () => {},
+    });
   };
 
   return {
     formik,
   };
+};
+
+export const useBusinessDirectiveForm = ({
+  data,
+  userId,
+  setDirectiveModal,
+}) => {
+  const { mutate: addMutate } = useBusinessDirective({});
+  const { mutate: editMutate } = useEditBusinessDirective({});
+
+  const formikD = useFormik({
+    initialValues: {
+      id: data?.id || "",
+      isDirective: data?.isDirective || false,
+      userId: userId,
+      name: "",
+      email: "",
+      phoneCode: "61",
+      phone: "",
+      streetName: "",
+      isShareholder: false,
+      suburb: "",
+      zipCode: "",
+      idNumber: "",
+      cardNumber: "",
+      dob: "",
+      documentValidity: "",
+      businessDetailId: "",
+      occupationId: "",
+      nationalityId: "",
+    },
+    enableReinitialize: true,
+    // validationSchema: initialValuesSchema,
+    onSubmit: async (values) => {
+      if (values?.id) {
+        handledEditRequest(values);
+      } else {
+        handledAddRequest(values);
+      }
+    },
+  });
+
+  const handledAddRequest = async (values) => {
+    values = [{...values}];
+    addMutate(values, {
+      onSuccess: async () => {
+        formikD.resetForm();
+        setDirectiveModal(false);
+        formikD.setFieldValue("isDirector", false);
+      },
+    });
+  };
+  const handledEditRequest = (values) => {
+    values = { ...values };
+    editMutate(values, {
+      onSuccess: () => {},
+    });
+  };
+  return { formikD };
+};
+
+export const useBusinessShareForm = ({ data, userId, setShareModal }) => {
+  const { mutate: addMutate } = useBusinessShare({});
+  const { mutate: editMutate } = useEditBusinessShare({});
+
+  const formikS = useFormik({
+    initialValues: {
+      id: data?.id || "",
+      isShare: data?.isShare || false,
+      userId: userId,
+      name: "",
+      email: "",
+      phoneCode: "61",
+      phone: "",
+      streetName: "",
+      isShareholder: true,
+      suburb: "",
+      zipCode: "",
+      idNumber: "",
+      cardNumber: "",
+      dob: "",
+      documentValidity: "",
+      businessDetailId: "",
+      occupationId: "",
+      nationalityId: "",
+    },
+    enableReinitialize: true,
+    // validationSchema: initialValuesSchema,
+    onSubmit: async (values) => {
+      if (values?.id) {
+        handledEditRequest(values);
+      } else {
+        handledAddRequest(values);
+      }
+    },
+  });
+
+  const handledAddRequest = async (values) => {
+    values = [{ ...values }];
+    addMutate(values, {
+      onSuccess: async () => {
+        formikS.resetForm();
+        setShareModal(false);
+        formikS.setFieldValue("isShareholder", false);
+      },
+    });
+  };
+  const handledEditRequest = (values) => {
+    values = { ...values };
+    editMutate(values, {
+      onSuccess: () => {},
+    });
+  };
+  return { formikS };
 };
 
 export const useKycBusinessProfileForm = () => {
@@ -89,7 +246,7 @@ export const useKycBusinessProfileForm = () => {
 
   const handledAddRequest = async (values) => {
     values = { ...values };
-    
+
     // kycDetailsProfile(values, {
     //   onSuccess: async() => {
     //   }
@@ -101,29 +258,45 @@ export const useKycBusinessProfileForm = () => {
   };
 };
 
-export const useMyDocumentsBusinessForm = () => {
-  // const {mutate: documentsProfileForm } = useMyDocumentsProfile();
+const filterDocTypeData = (docTypeData, values) => {
+  const relevantDocNames = [
+    "Front",
+    "Back",
+    "Driving License",
+    "Passport",
+    "Additional",
+  ];
+  return docTypeData.filter(
+    (doc) =>
+      relevantDocNames.includes(doc.docTypeName) && values[doc.docTypeName]
+  );
+};
+
+export const useMyDocumentsBusinessForm = ({ newDocData }) => {
+  const { mutate: addDocument } = useMyDocumentsProfile({});
 
   const formik = useFormik({
     initialValues: {
-      kyc: "citizenship",
-      kycback: "",
+      documentType: "",
+      Front: "",
+      Back: "",
+      Additional: "",
     },
     validationSchema: documentsBusinessSchema,
     enableReinitialize: true,
-    onSubmit: async (values) => {
-      handledAddRequest(values);
-    },
+    onSubmit: handleSubmit,
   });
 
-  const handledAddRequest = async (values) => {
-    values = { ...values };
-   
-    // documentsProfileForm(values, {
-    //   onSuccess: async() => {
-    //   }
-    // });
-  };
+  async function handleSubmit(values) {
+    const filteredDocData = filterDocTypeData(newDocData, values);
+
+    try {
+      await addDocument({ ...values, getDocData: filteredDocData });
+      // await addDocument({...values, getDocData: getDocData});
+    } catch (error) {
+      console.error("Error during form submission:", error);
+    }
+  }
 
   return {
     formik,
@@ -151,7 +324,7 @@ export const useIdBusinessProfileForm = () => {
 
   const handledAddRequest = async (values) => {
     values = { ...values };
-   
+
     // idDetailsProfile(values, {
     //   onSuccess: async() => {
     //   }

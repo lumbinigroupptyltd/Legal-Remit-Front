@@ -6,7 +6,7 @@ import { Grid, useTheme } from "@mui/material";
 
 export const PickDate = ({ element, formik }) => {
   const theme = useTheme();
-  const today = dayjs(); 
+  const today = dayjs();
 
   const handleChange = (e) => {
     const date = new Date(e);
@@ -16,6 +16,8 @@ export const PickDate = ({ element, formik }) => {
     const newDate = adjustedDate.toISOString().substring(0, 10);
     formik.setFieldValue(element.name, newDate);
   };
+
+ 
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -30,6 +32,10 @@ export const PickDate = ({ element, formik }) => {
           value={dayjs(formik.values[element.name]) || today || null}
           onChange={handleChange}
           required={element.required}
+          // minDate={element?.minDate} // Set min date
+          // maxDate={element?.maxDate ? maxDate : false} // Set max date
+          // disableFuture={element?.disableFuture} // Disable future dates
+          // disablePast={element?.disablePast}
           slotProps={{
             textField: {
               error:
@@ -43,8 +49,6 @@ export const PickDate = ({ element, formik }) => {
     </LocalizationProvider>
   );
 };
-
-
 
 // import React from "react";
 // import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";

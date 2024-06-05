@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useChangeOtpNumber, useGetOtpVerify, useOtpVerNum, useResendOtpVerNum } from "./useOtpVerification";
+import { useSelector } from "react-redux";
 
 export const otpSchema = Yup.object().shape({
   change_phone_verify_number: Yup.string().required("Number is required"),
@@ -61,7 +62,7 @@ export const useFinalOtpVerNumForm = (onClose) => {
     setLoading(true);
     mutate({ otp }, { onSettled: () => {
       setLoading(false)
-      onClose();
+      // onClose();
     } });
   };
 
@@ -80,12 +81,14 @@ export const useFinalOtpVerNumForm = (onClose) => {
 export const useResendOtpVerNumForm = () => {
   const [load, setLoad] = useState(false);
   const [resetTimer, setResetTimer] = useState(false);
+  const { otpData } = useSelector((state) => state.auth);
+
   const { mutate } = useResendOtpVerNum({});
 
   const handleResendVerification = () => {
     
     mutate(
-      {  },
+      { otpData },
       {
         onSuccess: () => {
           setResetTimer(true);

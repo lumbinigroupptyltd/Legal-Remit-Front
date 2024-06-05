@@ -16,7 +16,6 @@ export const AsyncDropDown = ({ element, formik, formValues }) => {
       try {
         const response = await axiosInstance.get(element?.path);
         const data = response?.data?.data;
-        console.log(data, "data")
         const options = data?.map((item) => ({
           label: item[element.responseLabel],
           value: item[element.responseId],

@@ -2,19 +2,36 @@ import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { toast } from "react-toastify";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
+  addDocument,
   addIdDetailsProfile,
   addKycDetailsProfile,
   addMyDocumentsProfile,
   addPersonalDetailsProfile,
+  editIdDetailsProfile,
+  editKycDetailsProfile,
+  editPersonalDetailsProfile,
+  getDocTypeById,
+  getDocTypeDetails,
   getUserIdDetails,
   getUserKycDetails,
+  getVerifyEmail,
 } from "../../../api/profile/profile-api";
 
 {
   /*________________________GET_____________________________________*/
 }
-export const useGetUserIdDetails = () => {
-  return useQuery(["getIdDetails"], () => getUserIdDetails(), {
+export const useGetUserIdDetails = (userId) => {
+  return useQuery(["getIdDetails"], () => getUserIdDetails(userId), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
+};
+{
+  /*________________________GET_____________________________________*/
+}
+export const useGetDocTypeDetails = () => {
+  return useQuery(["getDocTypes"], () => getDocTypeDetails(), {
     cacheTime: 10000,
     refetchInterval: false,
     refetchOnWindowFocus: false,
@@ -24,8 +41,18 @@ export const useGetUserIdDetails = () => {
 {
   /*________________________GET_____________________________________*/
 }
-export const useGetUserKycDetails = () => {
-  return useQuery(["getKycDetails"], () => getUserKycDetails(), {
+export const useGetDocTypeById = (doTypeId) => {
+  return useQuery(["getDocTypeById"], () => getDocTypeById(doTypeId), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
+};
+{
+  /*________________________GET_____________________________________*/
+}
+export const useGetUserKycDetails = (userId) => {
+  return useQuery(["getKycDetails"], () => getUserKycDetails(userId), {
     cacheTime: 10000,
     refetchInterval: false,
     refetchOnWindowFocus: false,
@@ -38,13 +65,13 @@ export const useGetUserKycDetails = () => {
 export const useKycDetailsProfile = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["verification"],
+    ["addKycDetails"],
     (formData) => addKycDetailsProfile(formData),
     {
       onSuccess: (data, variables, context) => {
-        toast.success("OTP send successfully");
+        toast.success("kyc details successfully");
         onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("");
+        queryClient.invalidateQueries("getKycDetails");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -52,17 +79,38 @@ export const useKycDetailsProfile = ({ onSuccess }) => {
     }
   );
 };
-
+{
+  /*________________________PATCH_____________________________________*/
+}
+export const useEditKycDetailsProfile = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ['editKycDetails'],
+    (formData) => {
+      editKycDetailsProfile(formData);
+    },
+    {
+      onSuccess: (data, variable, context) => {
+        toast.success('User edited successfully');
+        onSuccess && onSuccess(data, variable, context);
+        queryClient.invalidateQueries('getKycDetails');
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(getErrorMessage(err));
+      },
+    }
+  );
+};
 {
   /*________________________POST_____________________________________*/
 }
 export const useMyDocumentsProfile = ({ onSuccess }) => {
   const queryClient = useQueryClient();
-  return useMutation(["verification"], () => addMyDocumentsProfile(), {
+  return useMutation(["addDocuments"], (formData) => addDocument(formData), {
     onSuccess: (data, variables, context) => {
-      toast.success("code re-send Successfully");
+      toast.success("Photo uploaded successfully");
       onSuccess && onSuccess(data, variables, context);
-      queryClient.invalidateQueries("");
+      queryClient.invalidateQueries("getDocuments");
     },
     onError: (err, _variables, _context) => {
       toast.error(getErrorMessage(err));
@@ -76,13 +124,13 @@ export const useMyDocumentsProfile = ({ onSuccess }) => {
 export const usePersonalDetailsProfile = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["addsignup"],
+    ["addPersonalDetails"],
     (formData) => addPersonalDetailsProfile(formData),
     {
       onSuccess: (data, variables, context) => {
         toast.success("");
         onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("");
+        queryClient.invalidateQueries("getPersonalDetails");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -91,18 +139,20 @@ export const usePersonalDetailsProfile = ({ onSuccess }) => {
   );
 };
 {
-  /*________________________POST_____________________________________*/
+  /*________________________PATCH_____________________________________*/
 }
-export const useIdDetailsProfile = ({ onSuccess }) => {
+export const useEditPersonalDetailsProfile = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["addsignup"],
-    (formData) => addIdDetailsProfile(formData),
+    ['editPersonalDetails'],
+    (formData) => {
+      editPersonalDetailsProfile(formData);
+  },
     {
-      onSuccess: (data, variables, context) => {
-        toast.success("");
-        onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("");
+      onSuccess: (data, variable, context) => {
+        toast.success('User edited successfully');
+        onSuccess && onSuccess(data, variable, context);
+        queryClient.invalidateQueries('getPersonalDetails');
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -114,15 +164,57 @@ export const useIdDetailsProfile = ({ onSuccess }) => {
 {
   /*________________________POST_____________________________________*/
 }
+export const useIdDetailsProfile = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ["addIdDetails"],
+    (formData) => addIdDetailsProfile(formData),
+    {
+      onSuccess: (data, variables, context) => {
+        toast.success("Succesfully added");
+        onSuccess && onSuccess(data, variables, context);
+        queryClient.invalidateQueries("getIdDetails");
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(getErrorMessage(err));
+      },
+    }
+  );
+};
+{
+  /*________________________PATCH_____________________________________*/
+}
+export const useEditIdDetailsProfile = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ['editIdDetails'],
+    (formData) => {
+      editIdDetailsProfile(formData);
+    },
+    {
+      onSuccess: (data, variable, context) => {
+        toast.success('User edited successfully');
+        onSuccess && onSuccess(data, variable, context);
+        queryClient.invalidateQueries('getIdDetails');
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(getErrorMessage(err));
+      },
+    }
+  );
+};
+{
+  /*________________________POST_____________________________________*/
+}
 export const useAddDocument = ({ onSuccess, bodHead }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["getCitizenshipField"],
+    ["addDocument"],
     async (formData) => await addMyDocumentsProfile(formData),
     {
       onSuccess: (data, variables, context) => {
         onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("getDocAll");
+        queryClient.invalidateQueries("getDocument");
         toast.success("Photo added successfully");
       },
       onError: (err, _variables, _context) => {
@@ -155,4 +247,25 @@ export const useDeleteDocField = ({ onSuccess }) => {
     isSuccess: kycBankDelete.isSuccess,
     deleteKycBankMutation: kycBankDelete.mutate,
   };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+/*________________________DELETE DOC DETAIL_____________________________________*/
+
+export const useGetVerifyEmail = () => {
+  return useQuery(["getIdDetails"], () => getVerifyEmail(), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
 };

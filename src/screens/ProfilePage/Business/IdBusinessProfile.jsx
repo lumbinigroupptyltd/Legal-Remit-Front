@@ -37,7 +37,7 @@ const IdBusinessProfile = () => {
     }));
 
   const handleFormSubmit = () => {
-    console.log("success");
+    // console.log("success");
   };
 
   const basicInputData = [

@@ -1,4 +1,4 @@
-const envType = import.meta.env.MODE;
+// const envType = import.meta.env.MODE;
 export const contextPath = () => {
   return window.location.pathname.substring(
     0,
@@ -6,14 +6,17 @@ export const contextPath = () => {
   );
 };
 
-export const getBaseUrl = () => {
-  if (envType === "development") {
-    return "https://core1.dev.legalremit.com";
-  } else if (envType === "production") {
-    let path = window.localStorage.getItem("legal-path");
+// export const getBaseUrl = () => {
+//   if (envType === "development") {
+//     return "https://core1.dev.legalremit.com";
+//   } else if (envType === "production") {
+//     let path = window.localStorage.getItem("legal-path");
 
-    path = path ? path + "/" : null;
-    return path || contextPath() + "/";
-    // return "https://core1.dev.legalremit.com";
-  }
+//     path = path ? path + "/" : null;
+//     return path || contextPath() + "/";
+//   }
+// };
+
+export const getBaseUrl = () => {
+    return "https://core1.dev.legalremit.com";
 };

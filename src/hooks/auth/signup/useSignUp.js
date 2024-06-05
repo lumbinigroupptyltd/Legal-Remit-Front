@@ -15,6 +15,7 @@ import { getErrorMessage } from '../../../utils/getErrorMessage';
         onSuccess: (data, variables, context) => {
           toast.success('Sign up successful! Verify your OTP');
           onSuccess && onSuccess(data, variables, context);
+          
           queryClient.invalidateQueries('');
         },
         onError: (err, _variables, _context) => {

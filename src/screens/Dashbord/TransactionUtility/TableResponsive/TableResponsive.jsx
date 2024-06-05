@@ -65,52 +65,52 @@ import ModalComponent from "../../ModalComponent";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import TransactionFooter from "./TransactionFooter";
 import ModalComponentPopup from "../../ModalComponentPopup";
-// import styled from "styled-components";
-import { styled } from '@mui/system';
+// import { styled } from '@mui/material/styles';
 
 
-const StyledMenu = styled((props) => (
-  <Menu
-    elevation={0}
-    anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "right",
-    }}
-    transformOrigin={{
-      vertical: "top",
-      horizontal: "right",
-    }}
-    {...props}
-  />
-))(({ theme }) => ({
-  "& .MuiPaper-root": {
-    borderRadius: 6,
-    marginTop: theme.spacing(1),
-    minWidth: 180,
-    color:
-      theme.palette.mode === "light"
-        ? "rgb(55, 65, 81)"
-        : theme.palette.grey[300],
-    boxShadow:
-      "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 5px 7px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-    "& .MuiMenu-list": {
-      padding: "4px 0",
-    },
-    "& .MuiMenuItem-root": {
-      "& .MuiSvgIcon-root": {
-        fontSize: 18,
-        color: theme.palette.text.secondary,
-        marginRight: theme.spacing(1.5),
-      },
-      "&:active": {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          theme.palette.action.selectedOpacity
-        ),
-      },
-    },
-  },
-}));
+
+// const StyledMenu = styled((props) => (
+//   <Menu
+//     elevation={0}
+//     anchorOrigin={{
+//       vertical: "bottom",
+//       horizontal: "right",
+//     }}
+//     transformOrigin={{
+//       vertical: "top",
+//       horizontal: "right",
+//     }}
+//     {...props}
+//   />
+// ))(({ theme }) => ({
+//   "& .MuiPaper-root": {
+//     borderRadius: 6,
+//     marginTop: theme.spacing(1),
+//     minWidth: 180,
+//     color:
+//       theme.palette.mode === "light"
+//         ? "rgb(55, 65, 81)"
+//         : theme.palette.grey[300],
+//     boxShadow:
+//       "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 5px 7px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+//     "& .MuiMenu-list": {
+//       padding: "4px 0",
+//     },
+//     "& .MuiMenuItem-root": {
+//       "& .MuiSvgIcon-root": {
+//         fontSize: 18,
+//         color: theme.palette.text.secondary,
+//         marginRight: theme.spacing(1.5),
+//       },
+//       "&:active": {
+//         backgroundColor: alpha(
+//           theme.palette.primary.main,
+//           theme.palette.action.selectedOpacity
+//         ),
+//       },
+//     },
+//   },
+// }));
 const steps = [
   "Transaction Initiated",
   "Received to bank",
@@ -1476,7 +1476,7 @@ function Row(props) {
                     />
                   </Tooltip>
 
-                  <StyledMenu
+                  <div
                     id="demo-customized-menu"
                     MenuListProps={{
                       "aria-labelledby": "demo-customized-button",
@@ -1567,7 +1567,7 @@ function Row(props) {
                       //   Refund
                       // </MenuItem>
                     }
-                  </StyledMenu>
+                  </div>
                 </div>
               </>
             ) : row.transactionStatus === "Unconfirmed" ? (
@@ -1652,7 +1652,7 @@ function Row(props) {
                     />
                   </Tooltip>
 
-                  <StyledMenu
+                  <div
                     id="demo-customized-menu"
                     MenuListProps={{
                       "aria-labelledby": "demo-customized-button",
@@ -1889,7 +1889,7 @@ function Row(props) {
                       //   Refund
                       // </MenuItem>
                     } */}
-                  </StyledMenu>
+                  </div>
                 </div>
               </>
             ) : row.transactionStatus === "Confirmed" ? (
@@ -1952,7 +1952,7 @@ function Row(props) {
                       onClick={(e) => handleClick1(e, row.id, row.userId)}
                     />
                   </Tooltip>
-                  <StyledMenu
+                  <div
                     id="demo-customized-menu"
                     MenuListProps={{
                       "aria-labelledby": "demo-customized-button",
@@ -2151,7 +2151,7 @@ function Row(props) {
                       </MenuItem>
                     ) : (
                     )} */}
-                  </StyledMenu>
+                  </div>
                 </div>
               </>
             ) : row.transactionStatus === "Cancelled" ? (
@@ -2197,7 +2197,7 @@ function Row(props) {
                     />
                   </Tooltip>
 
-                  <StyledMenu
+                  <div
                     id="demo-customized-menu"
                     MenuListProps={{
                       "aria-labelledby": "demo-customized-button",
@@ -2278,7 +2278,7 @@ function Row(props) {
                       <DeleteIcon />
                       Delete
                     </MenuItem>
-                  </StyledMenu>
+                  </div>
                 </div>
               </>
             ) : row.transactionStatus === "Compliance Hold" ? (
@@ -2334,7 +2334,7 @@ function Row(props) {
                       onClick={(e) => handleClick2(e, row.id, row.userId)}
                     />
                   </Tooltip>
-                  <StyledMenu
+                  <div
                     id="demo-customized-menu"
                     MenuListProps={{
                       "aria-labelledby": "demo-customized-button",
@@ -2569,7 +2569,7 @@ function Row(props) {
                         </>
                       )}
                     </MenuItem> */}
-                  </StyledMenu>
+                  </div>
                 </div>
               </>
             ) : row.transactionStatus === "Draft" ? (
@@ -2622,7 +2622,7 @@ function Row(props) {
                     />
                   </Tooltip>
 
-                  <StyledMenu
+                  <div
                     id="demo-customized-menu"
                     MenuListProps={{
                       "aria-labelledby": "demo-customized-button",
@@ -2779,7 +2779,7 @@ function Row(props) {
                       <AssignmentTurnedInIcon />
                       Mark SMR
                     </MenuItem>
-                  </StyledMenu>
+                  </div>
                 </div>
               </>
             ) : row.transactionStatus === "Processing" ||
@@ -2837,7 +2837,7 @@ function Row(props) {
                       </Tooltip>
                     </>
                   )}
-                  <StyledMenu
+                  <div
                     id="demo-customized-menu"
                     MenuListProps={{
                       "aria-labelledby": "demo-customized-button",
@@ -3023,7 +3023,7 @@ function Row(props) {
                         </>
                       )}
                     </MenuItem> */}
-                  </StyledMenu>
+                  </div>
                 </div>
               </>
             ) : row.transactionStatus === "Refunded" ? (
@@ -3071,7 +3071,7 @@ function Row(props) {
                       />
                     </Tooltip>
 
-                    <StyledMenu
+                    <div
                       id="demo-customized-menu"
                       MenuListProps={{
                         "aria-labelledby": "demo-customized-button",
@@ -3141,7 +3141,7 @@ function Row(props) {
                         <TextSnippetIcon />
                         Notes
                       </MenuItem>
-                    </StyledMenu>
+                    </div>
                   </div>
                 </>
               </>

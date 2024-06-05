@@ -69,33 +69,33 @@ const signupSchema = Yup.object().shape({
   countryName: Yup.string().required("Country Name is required"),
   roleId: Yup.string().required("User Type is required"),
   firstName: Yup.string().when("roleId", {
-    is: (val) => val === "2",
+    is: (val) => val === "4b0fa25e-6dd9-480f-bdd7-59247705c132",
     then: Yup.string().required("First Name is required"),
     otherwise: Yup.string(),
   }),
   middleName: Yup.string(),
   lastName: Yup.string().when("roleId", {
-    is: (val) => val === "2",
+    is: (val) => val === "4b0fa25e-6dd9-480f-bdd7-59247705c132",
     then: Yup.string().required("Last Name is required"),
     otherwise: Yup.string(),
   }),
-  fullName: Yup.string().when("roleId", {
-    is: (val) => val === "3",
+  firstName: Yup.string().when("roleId", {
+    is: (val) => val === "3221eca8-3f8e-40ab-b046-3fb56af938fd",
     then: Yup.string().required("Full Name is required"),
     otherwise: Yup.string(),
   }),
-  firstName: Yup.string().when("roleId", {
-    is: (val) => val === "3",
+  businessName: Yup.string().when("roleId", {
+    is: (val) => val === "3221eca8-3f8e-40ab-b046-3fb56af938fd",
     then: Yup.string().required("Business Name is required"),
     otherwise: Yup.string(),
   }),
-  registrationNumber: Yup.string().when("roleId", {
-    is: (val) => val === "3",
+  regNo: Yup.string().when("roleId", {
+    is: (val) => val === "3221eca8-3f8e-40ab-b046-3fb56af938fd",
     then: Yup.string().required("Registration Number is required"),
     otherwise: Yup.string(),
   }),
-  address: Yup.string().when("roleId", {
-    is: (val) => val === "3",
+  businessAddress: Yup.string().when("roleId", {
+    is: (val) => val === "3221eca8-3f8e-40ab-b046-3fb56af938fd",
     then: Yup.string().required("Address is required"),
     otherwise: Yup.string(),
   }),
