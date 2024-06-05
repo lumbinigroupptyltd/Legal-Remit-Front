@@ -3,24 +3,17 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '',
-  define: {
-    global: {}
-  },
-  server: {
-    port: 5000,
-  },
   resolve: {
     alias: {
-      'export-to-csv': 'export-to-csv/dist/index.esm.js'
+      'export-to-csv': 'export-to-csv',
     },
   },
   optimizeDeps: {
-    include: ['export-to-csv', 'jspdf-autotable', 'material-react-table'],
+    include: ['export-to-csv', 'jspdf', 'jspdf-autotable', 'material-react-table'],
   },
   build: {
     rollupOptions: {
-      external: ['export-to-csv', 'jspdf-autotable', 'material-react-table'],
+      external: ['export-to-csv', 'jspdf', 'jspdf-autotable', 'material-react-table'],
     },
   },
 });
