@@ -12,8 +12,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      'export-to-csv': 'export-to-csv/dist/index.esm.js'
     },
-    dedupe: ['react', 'react-dom']
   },
   optimizeDeps: {
     include: ['export-to-csv', 'jspdf-autotable', 'jspdf-autotable', 'material-react-table'],
