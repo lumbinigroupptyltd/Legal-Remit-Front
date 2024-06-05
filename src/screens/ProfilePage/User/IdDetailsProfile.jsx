@@ -30,18 +30,18 @@ const IdDetailsProfile = ({ userId }) => {
   const theme = useTheme();
   const { data: authorityData } = useGetIdIssuingAuthority();
   const { data: userIdDetails } = useGetUserIdDetails(userId);
-  const userData = userIdDetails && userIdDetails?.data?.[0];;
+  const userData = userIdDetails && userIdDetails?.data?.[0];
   const { data: docTypeData } = useGetDocTypeDetails();
   const { formik } = useIdDetailsProfileForm({ userId, userData });
   const auData = authorityData && authorityData?.data;
-console.log(userData, "userdata")
   const ID_TYPE = docTypeData?.data
-    ?.filter((doc) => doc.name === "Passport" || doc.name === "Driving License")
-    ?.map((item) => ({
-      value: item.id,
-      label: item.name,
-    }));
-
+  ?.filter((doc) => doc.name === "Passport" || doc.name === "Driving License")
+  ?.map((item) => ({
+    value: item.id,
+    label: item.name,
+  }));
+  
+ 
   const GET_AUTHORITY =
     auData &&
     auData?.map((item) => ({

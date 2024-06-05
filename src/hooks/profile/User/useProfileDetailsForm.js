@@ -106,21 +106,29 @@ export const useKycDetailsProfileForm = ({data, userId, countryId}) => {
 };
 
 
+// const filterDocTypeData = (newDocData, values) => {
+// console.log({"newDocData": newDocData, "values": values})
+//   const relevantDocNames = ['Front', 'Back', 'Driving License', 'Passport'];
+//   return newDocData.filter(doc => 
+//     relevantDocNames.includes(doc.name) && values[doc.name]
+//   );
+// };
+
 const filterDocTypeData = (docTypeData, values) => {
-  const relevantDocNames = ['front', 'back', 'Driving License', "Passport"];
+  console.log({docTypeData, values}); // Log the inputs for debugging
+  const relevantDocNames = ['Front', 'Back', 'Driving License', 'Passport'];
   return docTypeData.filter(doc => 
-    relevantDocNames.includes(doc.name) && values[doc.name]
+    relevantDocNames.includes(doc.docTypeName) && values[doc.docTypeName]
   );
 };
-
-export const useMyDocumentsProfileForm = ({getDocData}) => {
+export const useMyDocumentsProfileForm = ({newDocData}) => {
   const {mutate: addDocument } = useMyDocumentsProfile({});
 
   const formik = useFormik({
     initialValues: {
       documentType: "",
-      front: "",
-      back: "",
+      Front: "",
+      Back: "",
     },
     validationSchema: documentsProfileSchema,
     enableReinitialize: true,
@@ -129,11 +137,9 @@ export const useMyDocumentsProfileForm = ({getDocData}) => {
 
    
   async function handleSubmit(values) {
-    const filteredDocData = filterDocTypeData(getDocData, values);
-    // const newData = filteredDocData && filteredDocData.map((item) => (
-  
-    // ))
-    // console.log(filteredDocData, "filteredDocData")
+    const filteredDocData = filterDocTypeData(newDocData, values);
+
+    console.log(filteredDocData, "filteredDocData")
     // console.log(values?.front?.name, "values")
     try {
       await addDocument({ ...values, getDocData: filteredDocData });

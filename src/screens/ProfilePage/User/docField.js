@@ -9,13 +9,13 @@ export const userKycDocField = [
     required: true,
     type: "dropDown",
     options: [
-      { id: 1, value: "KYC", label: "KYC" },
-      { id: 1, value: "additional", label: "Addtional" },
+      { id: 1, value: "Passport", label: "Passport" },
+      { id: 2, value: "Driving License", label: "Driving License" },
     ],
   },
 ];
 
-export const kycDocument = [
+export const Passport_FIELD = [
   {
     name: "documentType",
     label: "Select Document Type",
@@ -26,13 +26,13 @@ export const kycDocument = [
     required: true,
     type: "dropDown",
     options: [
-      { id: 1, value: "KYC", label: "KYC" },
-      { id: 1, value: "additional", label: "Addtional" },
+      { id: 1, value: "Passport", label: "Passport" },
+      { id: 2, value: "Driving License", label: "Driving License" },
     ],
   },
   {
-    name: "front",
-    label: "KYC Document",
+    name: "Front",
+    label: "Passport Document",
     required: true,
     type: "newDocumentUpload",
     title: "Document ID Front",
@@ -42,8 +42,8 @@ export const kycDocument = [
     xs: 12,
   },
   {
-    name: "back",
-    label: "KYC Document",
+    name: "Back",
+    label: "Passport Document",
     required: true,
     type: "newDocumentUpload",
     title: "Document ID Back",
@@ -54,7 +54,7 @@ export const kycDocument = [
   },
 ];
 
-export const additionalDocument = [
+export const License_FIELD = [
   {
     name: "documentType",
     label: "Select Document Type",
@@ -65,16 +65,74 @@ export const additionalDocument = [
     required: true,
     type: "dropDown",
     options: [
-      { id: 1, value: "KYC", label: "KYC" },
-      { id: 1, value: "additional", label: "Addtional" },
+      { id: 1, value: "Passport", label: "Passport" },
+      { id: 2, value: "Driving License", label: "Driving License" },
     ],
   },
   {
-    name: "isAdditional",
-    label: "Additional Document",
+    name: "Front",
+    label: "Passport Document",
     required: true,
     type: "newDocumentUpload",
-    title: "Additional Document",
+    title: "Document ID Front",
+
+    md: 6,
+    sm: 6,
+    xs: 12,
+  },
+  {
+    name: "Back",
+    label: "Passport Document",
+    required: true,
+    type: "newDocumentUpload",
+    title: "Document ID Back",
+
+    md: 6,
+    sm: 6,
+    xs: 12,
+  },
+];
+
+export const userKycBussDocField = [
+  {
+    name: "documentType",
+    label: "Select Document Type",
+    md: 12,
+    sm: 12,
+    lg: 12,
+    xs: 12,
+    required: true,
+    type: "dropDown",
+    options: [
+      { id: 1, value: "Passport", label: "Passport" },
+      { id: 3, value: "Additional", label: "Additional" },
+      { id: 2, value: "Driving License", label: "Driving License" },
+    ],
+  },
+];
+
+export const Additional_FIELD = [
+  {
+    name: "documentType",
+    label: "Select Document Type",
+    md: 12,
+    sm: 12,
+    lg: 12,
+    xs: 12,
+    required: true,
+    type: "dropDown",
+    options: [
+      { id: 1, value: "Passport", label: "Passport" },
+      { id: 3, value: "Additional", label: "Additional" },
+      { id: 2, value: "Driving License", label: "Driving License" },
+    ],
+  },
+  {
+    name: "additional",
+    label: "Additonal Document",
+    required: true,
+    type: "newDocumentUpload",
+    title: "Additonal Document",
     md: 6,
     sm: 6,
     xs: 12,

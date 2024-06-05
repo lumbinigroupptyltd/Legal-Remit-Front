@@ -8,81 +8,87 @@ import { Grid, useTheme } from "@mui/material";
 import { CButton } from "../../../components/UIElements/CButton";
 import { usePersonalBusinessProfileForm } from "../../../hooks/profile/Business/useProfileDetailsBusinessForm";
 
-const basicInputData = [
-  {
-    name: "fullName",
-    label: "Full Name",
-    required: true,
-    type: "text",
-    iconStart: <PersonIcon />,
-    id: nanoid(),
-    md: 6,
-    sm: 6,
-    xs: 12,
-  },
-  {
-    name: "firstName",
-    label: "Business Name",
-    required: true,
-    type: "text",
-    iconStart: <PersonIcon />,
-    id: nanoid(),
-    md: 6,
-    sm: 6,
-    xs: 12,
-  },
-  {
-    name: "registrationNumber",
-    label: "ACN/ABN/Registration No",
-    required: true,
-    type: "text",
-    iconStart: <PersonIcon />,
-    id: nanoid(),
-    md: 6,
-    sm: 6,
-    xs: 12,
-  },
-  {
-    name: "address",
-    label: "Address Of Business",
-    required: true,
-    type: "text",
-    iconStart: <EmailIcon />,
-    id: nanoid(),
-    md: 6,
-    sm: 6,
-    xs: 12,
-  },
-  {
-    name: "email",
-    label: "Email",
-    required: true,
-    type: "text",
-    iconStart: <EmailIcon />,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
-  },
-  {
-    name: "phone",
-    label: "Mobile Number",
-    required: true,
-    iconStart: <SmartphoneIcon />,
-    type: "onlyNumber",
-    max: 10,
-    id: nanoid(),
-    md: 6,
-    sm: 12,
-  },
-];
 
-const BusinessDetailsProfile = () => {
+
+const BusinessDetailsProfile = ({ data, userId }) => {
+  console.log(data, "new")
+  
   const theme = useTheme();
-  const { formik } = usePersonalBusinessProfileForm();
+  const { formik } = usePersonalBusinessProfileForm({data, userId});
   const handleFormSubmit = () => {
-    // console.log("success");
+    formik.handleSubmit();
   };
-
+  const basicInputData = [
+    {
+      name: "firstName",
+      label: "Full Name",
+      required: true,
+      type: "text",
+      iconStart: <PersonIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+    {
+      name: "businessName",
+      label: "Business Name",
+      required: true,
+      type: "text",
+      iconStart: <PersonIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+    {
+      name: "regNo",
+      label: "ACN/ABN/Registration No",
+      required: true,
+      type: "text",
+      iconStart: <PersonIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+    {
+      name: "businessAddress",
+      label: "Address Of Business",
+      required: true,
+      type: "text",
+      iconStart: <EmailIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+    {
+      name: "email",
+      label: "Email",
+      required: true,
+      type: "text",
+      isVerified: data?.isEmailVerified,
+      isEmailCheck: true,
+      iconStart: <EmailIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+    {
+      name: "phoneNumber",
+      label: "Mobile Number",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "onlyNumber",
+      max: 10,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+  ];
   return (
     <Grid container mt={2}>
       <RenderInput inputField={basicInputData} formik={formik} />

@@ -20,38 +20,12 @@ import LinkIcon from "@mui/icons-material/Link";
 import { CButton } from "../../../../components/UIElements/CButton";
 import FlagIcon from "@mui/icons-material/Flag";
 import { useNavigate } from "react-router-dom";
-import { useGetRoles } from "../../../../hooks/role/useGetRoles";
 import { useGetAllCountries } from "../../../../hooks/apiStartGetAll/useGetAllUserInfo";
 
 const ROLE_SELECTED = [
   { id: nanoid(), label: "Individual", value: "4b0fa25e-6dd9-480f-bdd7-59247705c132" },
-  { id: nanoid(), label: "Business", value: "BUSINESS" },
+  { id: nanoid(), label: "Business", value: "3221eca8-3f8e-40ab-b046-3fb56af938fd" },
 ];
-
-
-// const COUNTRY_SELECTED = [
-//   {
-//     id: nanoid(),
-//     label: "Australia",
-//     value: "610179f9-877e-4f9b-a266-a19068b7ff1a",
-//     flag: "https://flagcdn.com/16x12/au.png",
-//     code: "+61",
-//   },
-//   {
-//     id: nanoid(),
-//     label: "Canada",
-//     value: "15",
-//     flag: "https://flagcdn.com/16x12/ca.png",
-//     code: "+1",
-//   },
-//   {
-//     id: nanoid(),
-//     label: "USA",
-//     value: "16",
-//     flag: "https://flagcdn.com/16x12/us.png",
-//     code: "+1",
-//   },
-// ];
 
 const NewSignUpPage = () => {
   const theme = useTheme();
@@ -83,7 +57,7 @@ const NewSignUpPage = () => {
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
-
+console.log(formik, "formik")
   const generateInputFields = (roleId) => {
     const iconCode = data && data?.find((d) => d?.id === formik.values.countryId)
     let inputFields = [
@@ -151,10 +125,10 @@ const NewSignUpPage = () => {
             },
           ]
         : []),
-      ...(roleId === "BUSINESS"
+      ...(roleId === "3221eca8-3f8e-40ab-b046-3fb56af938fd"
         ? [
             {
-              name: "fullName",
+              name: "firstName",
               label: "Full Name",
               required: true,
               iconStart: <PersonIcon />,
@@ -164,7 +138,7 @@ const NewSignUpPage = () => {
               sm: 12,
             },
             {
-              name: "firstName",
+              name: "businessName",
               label: "Business Name",
               required: true,
               iconStart: <PersonIcon />,
@@ -174,7 +148,7 @@ const NewSignUpPage = () => {
               sm: 12,
             },
             {
-              name: "registrationNumber",
+              name: "regNo",
               label: "ACN/ABN/Registration No",
               required: true,
               iconStart: <PersonIcon />,
@@ -184,7 +158,7 @@ const NewSignUpPage = () => {
               sm: 12,
             },
             {
-              name: "address",
+              name: "businessAddress",
               label: "Address Of Business",
               required: true,
               iconStart: <PersonIcon />,

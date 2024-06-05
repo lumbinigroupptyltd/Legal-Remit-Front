@@ -1,94 +1,91 @@
-import React from "react";
+import React, { useMemo } from "react";
 import RenderInput from "../../../components/RenderInput/RenderInput";
 import { nanoid } from "nanoid";
 import { Grid, useTheme } from "@mui/material";
 import { CButton } from "../../../components/UIElements/CButton";
 import AttachmentIcon from "@mui/icons-material/Attachment";
 import { useMyDocumentsBusinessForm } from "../../../hooks/profile/Business/useProfileDetailsBusinessForm";
+import { Additional_FIELD, License_FIELD, Passport_FIELD, userKycBussDocField, userKycDocField } from "../User/docField";
+import { useGetDocTypeDetails, useGetUserIdDetails } from "../../../hooks/profile/User/useProfileDetails";
+import CustomTable from "../../../components/CustomTable/CustomTable";
 
 const DOCUMENT_OPTIONS = [
-  { id: nanoid(), label: "Citizenship", value: "citizenship" },
   { id: nanoid(), label: "Lisence", value: "lisence" },
   { id: nanoid(), label: "Passport", value: "passport" },
   { id: nanoid(), label: "Additional", value: "additional" },
 ];
 
-const MyDocumentsBusinessProfile = () => {
+const MyDocumentsBusinessProfile = ({ userId }) => {
   const theme = useTheme();
-  const { formik } = useMyDocumentsBusinessForm();
+  const { data: docTypeData } = useGetDocTypeDetails();
+  const getDocData = docTypeData && docTypeData?.data;
+  
+  const { data: userIdDetails } = useGetUserIdDetails(userId);
+  const doTypeId = userIdDetails && userIdDetails?.data?.[0]?.id;
 
+
+  const newDocData = getDocData
+  ?.filter((item) => item?.documentTypes?.length > 0) // Filter items with non-empty documentTypes
+  ?.flatMap(
+    ( item ) =>
+      item.documentTypes.map((docType) => ({
+        idDetailsId: doTypeId,
+        documentTypeId: docType?.id,
+        docTypeName: docType?.name,
+      }))
+    );
+    
+    const { formik } = useMyDocumentsBusinessForm({ newDocData });
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
 
-  const generateInputFields = (kyc) => {
-    let inputFields = [
+  const data = [
+    {
+      id: 1,
+      value: "hello"
+    },
+    {
+      id: 2,
+      value: "hello"
+    }
+  ]
+  const columns = useMemo(
+    () => [
       {
-        name: "kyc",
-        label: "Select Document",
-        required: true,
-        type: "dropDown",
-        options: DOCUMENT_OPTIONS,
-        iconStart: <AttachmentIcon />,
-        id: nanoid(),
-        md: 12,
-        sm: 12,
-        xs: 12,
+        id: 1,
+        accessorKey: 'data',
+        header: 'New Data',
+        size: 100,
+        sortable: false,
       },
-      ...(kyc === "citizenship" || kyc === "lisence" || kyc === "passport"
-        ? [
-            {
-              name: "kycfront",
-              label: "KYC Document",
-              required: true,
-              type: "newDocumentUpload",
-              title: "Document ID Front",
-              iconStart: <AttachmentIcon />,
-              id: nanoid(),
-              md: 6,
-              sm: 6,
-              xs: 12,
-            },
-            {
-              name: "kycback",
-              label: "KYC Document",
-              required: true,
-              type: "newDocumentUpload",
-              title: "Document ID Back",
-              iconStart: <AttachmentIcon />,
-              id: nanoid(),
-              md: 6,
-              sm: 6,
-              xs: 12,
-            },
-          ]
-        : []),
-      ...(kyc === "additional"
-        ? [
-            {
-              name: "additional",
-              label: "Additional Documents",
-              required: true,
-              type: "newDocumentUpload",
-              title: "Additional Documents",
-              iconStart: <AttachmentIcon />,
-              id: nanoid(),
-              md: 6,
-              sm: 6,
-              xs: 12,
-            },
-          ]
-        : []),
-    ];
-    return inputFields;
-  };
+      {
+        id: 2,
+        accessorKey: 'value',
+        header: 'Value',
+        size: 100,
+        sortable: false,
+      },
+    ],
+    []
+  );
 
   return (
     <Grid container mt={2}>
-      <RenderInput
-        inputField={generateInputFields(formik.values.kyc)}
-        formik={formik}
-      />
+      {formik.values.documentType === "" && (
+        <RenderInput inputField={userKycBussDocField} formik={formik} />
+      )}
+
+      {formik.values.documentType === "Passport" && (
+        <RenderInput inputField={Passport_FIELD} formik={formik} />
+      )}
+
+      {formik.values.documentType === "Driving License" && (
+        <RenderInput inputField={License_FIELD} formik={formik} />
+      )}
+       {formik.values.documentType === "additional" && (
+        <RenderInput inputField={Additional_FIELD} formik={formik} />
+      )}
       <Grid
         item
         mt={2}
@@ -121,6 +118,27 @@ const MyDocumentsBusinessProfile = () => {
           BGColor={`${theme.palette.background.default}`}
           BGHover={`${theme.palette.hover.primary}`}
         />
+      </Grid>
+
+      <Grid>
+      <CustomTable
+      title='Documents'
+      columns={columns}
+      data={data}
+      exportAsCSV
+      exportAsPdf
+      enablePagination={false}
+      enableEditing={false}
+      enableColumnResizing={false}
+      enableColumnActions={false}
+      enableColumnFilters={false}
+      enableSorting={false}
+      enableBottomToolbar={false}
+      enableTopToolbar={false}
+      headerBackgroundColor='#401686'
+      headerColor={theme.palette.text.alt}
+      enableRowNumbers={true}
+    />
       </Grid>
     </Grid>
   );

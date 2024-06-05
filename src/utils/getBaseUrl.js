@@ -10,10 +10,10 @@ export const getBaseUrl = () => {
   if (envType === "development") {
     return "https://core1.dev.legalremit.com";
   } else if (envType === "production") {
-    let path = window.localStorage.getItem("legal-path");
+    // let path = window.localStorage.getItem("legal-path");
 
-    path = path ? path + "/" : null;
-    return path || contextPath() + "/";
-    // return "https://core1.dev.legalremit.com";
+    // path = path ? path + "/" : null;
+    // return path || contextPath() + "/";
+    return "https://core1.dev.legalremit.com";
   }
 };

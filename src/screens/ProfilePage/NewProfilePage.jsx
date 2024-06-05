@@ -18,16 +18,19 @@ import { logout } from "../../utils/logout";
 import { useNavigate } from "react-router-dom";
 import { useGetUserInfo } from "../../hooks/apiStartGetAll/useGetAllUserInfo";
 import { useSelector } from "react-redux";
+import { useGetUserKycDetails } from "../../hooks/profile/User/useProfileDetails";
 
 const NewProfilePage = () => {
   const { role, userId } = useSelector((state) => state.auth);
   const theme = useTheme();
   const navigate = useNavigate();
-  const {data: userData} = useGetUserInfo(userId);
+  const { data: userData } = useGetUserInfo(userId);
   const newData = userData && userData?.data;
   const newKycDetails = newData?.userkycdetails;
   const [verificationMethod, setVerificationMethod] = useState(null);
- 
+  const { data: userKycData } = useGetUserKycDetails(userId);
+  const kycData = userKycData && userKycData?.data;
+
   const handleDigitalVerification = () => {
     setVerificationMethod("digital");
     window.location.href = "https://digitallink.com";
@@ -38,22 +41,32 @@ const NewProfilePage = () => {
   };
 
   const handleLogout = () => {
-    navigate("/")
+    navigate("/");
     logout();
   };
 
   return (
     <>
-      <Grid container mt={2} sx={{display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+      <Grid
+        container
+        mt={2}
+        sx={{
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
+      >
         <Grid>
           <img width={120} src={logo} alt="logo" />
         </Grid>
         <Grid></Grid>
         <Grid>
-          <Button variant="outlined" onClick={handleLogout}>Logout</Button>
+          <Button variant="outlined" onClick={handleLogout}>
+            Logout
+          </Button>
         </Grid>
       </Grid>
-    
+
       <Grid
         sx={{
           margin: "3rem auto",
@@ -81,7 +94,7 @@ const NewProfilePage = () => {
             {role === "USER" ? (
               <PersonalDetailsProfile data={newData} userId={userId} />
             ) : (
-              <BusinessDetailsProfile />
+              <BusinessDetailsProfile data={newData} userId={userId} />
             )}
           </AccordionDetails>
         </Accordion>
@@ -103,7 +116,7 @@ const NewProfilePage = () => {
               Business Details
             </AccordionSummary>
             <AccordionDetails>
-              <BusinessDetailsExtraProfile />
+              <BusinessDetailsExtraProfile userId={userId} />
             </AccordionDetails>
           </Accordion>
         )}
@@ -140,43 +153,53 @@ const NewProfilePage = () => {
             Verification Method
           </AccordionSummary>
           <AccordionDetails>
-            <Box sx={{ display: "flex" }}>
-              <Grid sx={{ display: "flex", flexDirection: "column" }}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleDigitalVerification}
-                  sx={{ marginRight: "1rem" }}
-                >
-                  <Typography variant="h6" align="center">
-                    Digital Verification (Recommended)
+            {kycData ? (
+              <Box sx={{ display: "flex" }}>
+                <Grid sx={{ display: "flex", flexDirection: "column" }}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleDigitalVerification}
+                    sx={{ marginRight: "1rem" }}
+                  >
+                    <Typography variant="h6" align="center">
+                      Digital Verification (Recommended)
+                    </Typography>
+                  </Button>
+                  <div style={{ padding: "0 2rem" }}>
+                    <Typography variant="p">
+                      It is recommended to use Digital verification for faster
+                      process. Click on Button to proceed.
+                    </Typography>
+                  </div>
+                </Grid>
+                <Grid sx={{ display: "flex", flexDirection: "column" }}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleManualVerification}
+                  >
+                    <Typography variant="h6" align="center">
+                      Manual Verification (Slower Method)
+                    </Typography>
+                  </Button>
+                  <div style={{ padding: "0 2rem" }}>
+                    <Typography variant="p">
+                      It is slower method of verification process. Click on
+                      Button to proceed.
+                    </Typography>
+                  </div>
+                </Grid>
+              </Box>
+            ) : (
+              <>
+                <Grid align="center">
+                  <Typography variant="h6" color={"error"}>
+                    Please first fill ID Details form above to upload documents.
                   </Typography>
-                </Button>
-                <div style={{ padding: "0 2rem" }}>
-                  <Typography variant="p">
-                    It is recommended to use Digital verification for faster
-                    process. Click on Button to proceed.
-                  </Typography>
-                </div>
-              </Grid>
-              <Grid sx={{ display: "flex", flexDirection: "column" }}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleManualVerification}
-                >
-                  <Typography variant="h6" align="center">
-                    Manual Verification (Slower Method)
-                  </Typography>
-                </Button>
-                <div style={{ padding: "0 2rem" }}>
-                  <Typography variant="p">
-                    It is slower method of verification process. Click on Button
-                    to proceed.
-                  </Typography>
-                </div>
-              </Grid>
-            </Box>
+                </Grid>
+              </>
+            )}
           </AccordionDetails>
         </Accordion>
 
@@ -215,9 +238,9 @@ const NewProfilePage = () => {
               </AccordionSummary>
               <AccordionDetails>
                 {role === "USER" ? (
-                  <MyDocumentsProfile />
+                  <MyDocumentsProfile userId={userId} />
                 ) : (
-                  <MyDocumentsBusinessProfile />
+                  <MyDocumentsBusinessProfile userId={userId}  />
                 )}
               </AccordionDetails>
             </Accordion>
