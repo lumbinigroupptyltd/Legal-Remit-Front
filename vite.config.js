@@ -15,6 +15,9 @@ export default defineConfig({
     },
     dedupe: ['react', 'react-dom']
   },
+  optimizeDeps: {
+    include: ['export-to-csv', 'jspdf-autotable', 'jspdf-autotable', 'material-react-table'],
+  },
   build: {
     rollupOptions: {
       external: ['export-to-csv', 'jspdf-autotable', 'jspdf-autotable', 'material-react-table'],
