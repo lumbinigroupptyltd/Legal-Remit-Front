@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
@@ -16,11 +16,11 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['export-to-csv', 'jspdf-autotable', 'jspdf-autotable', 'material-react-table'],
+    include: ['export-to-csv', 'jspdf-autotable', 'material-react-table'],
   },
   build: {
     rollupOptions: {
-      external: ['export-to-csv', 'jspdf-autotable', 'jspdf-autotable', 'material-react-table'],
+      external: ['export-to-csv', 'jspdf-autotable', 'material-react-table'],
     },
   },
 });
