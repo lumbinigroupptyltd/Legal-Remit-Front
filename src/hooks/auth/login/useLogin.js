@@ -50,9 +50,10 @@ export const useLogin = ({ onSuccess }) => {
       const refreshToken = data?.data?.refreshToken;
       dispatch(login(token, refreshToken));
       const decodedInfo = jwtDecode(token);
-      if (decodedInfo?.isSignupCompleted) {
+      console.log(decodedInfo, "decodedInfo")
+      if (decodedInfo?.role === "ADMIN") {
         navigate("/dashboard");
-      } else {
+      } else if (decodedInfo?.role === "USER" || decodedInfo?.role === "BUSINESS"){
         navigate("/profile");
       }
       queryClient.invalidateQueries("");

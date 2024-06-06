@@ -4,11 +4,14 @@ import RenderInput from "../../../components/RenderInput/RenderInput";
 import PersonIcon from "@mui/icons-material/Person";
 import SmartphoneIcon from "@mui/icons-material/Smartphone";
 import EmailIcon from "@mui/icons-material/Email";
-import { Button, Grid, useTheme } from "@mui/material";
+import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import { CButton } from "../../../components/UIElements/CButton";
 import { usePersonalDetailsProfileForm } from "../../../hooks/profile/User/useProfileDetailsForm";
 import FlagIcon from "@mui/icons-material/Flag";
-import { useGetAllCountries, useGetUserInfo } from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
+import {
+  useGetAllCountries,
+  useGetUserInfo,
+} from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
 
 const COUNTRY_SELECTED = [
   {
@@ -42,27 +45,28 @@ const PersonalDetailsProfile = ({ data, userId }) => {
   };
   const { data: countryData } = useGetAllCountries();
   const coData = countryData && countryData?.data;
- 
-  const iconCode = coData && coData?.find((d) => d?.id === data?.country?.countryId)
+
+  const iconCode =
+    coData && coData?.find((d) => d?.id === data?.country?.countryId);
 
   const basicInputData = [
     {
       // name: "countryId",
-        name: "countryName",
-        name2: "phoneCode",
-        label: "Select Country",
-        type: "text",
-        path: "/country/getall",
-        options: coData,
-        id: nanoid(),
-        isFLag: true,
-        isDisabled: true,
-        hasDoubleValue: true,
-        required: true,
-        responseLabel: "name",
-        responseId: "id",
-        responseCode: "phoneCode",
-        md: 6,
+      name: "countryName",
+      name2: "phoneCode",
+      label: "Select Country",
+      type: "text",
+      path: "/country/getall",
+      options: coData,
+      id: nanoid(),
+      isFLag: true,
+      isDisabled: true,
+      hasDoubleValue: true,
+      required: true,
+      responseLabel: "name",
+      responseId: "id",
+      responseCode: "phoneCode",
+      md: 6,
       sm: 6,
       xs: 12,
     },
@@ -128,6 +132,15 @@ const PersonalDetailsProfile = ({ data, userId }) => {
     },
   ];
 
+  const handleEmail = async () => {
+    try {
+      await getVerifyEmail();
+      toast.success("Check your email & verify!");
+    } catch (error) {
+      toast.error("Failed to send verification email.");
+    }
+  };
+
   return (
     <Grid container mt={2}>
       <RenderInput inputField={basicInputData} formik={formik} />
@@ -137,10 +150,22 @@ const PersonalDetailsProfile = ({ data, userId }) => {
         sx={{
           display: "flex",
           width: "100%",
-          justifyContent: "end",
-          gap: "1rem",
+          justifyContent: "space-between",
         }}
       >
+        {data && !data?.isEmailverified && (
+          <Box sx={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
+            <Typography variant="p" color={"error"}>Verify Email </Typography>
+            <Typography
+              OnClick={handleEmail}
+              variant="p"
+              sx={{ textDecoration: "underline", cursor: "pointer" }}
+            >
+              Click here
+            </Typography>
+          </Box>
+        )}
+        <Box sx={{display: "flex", alignItems: "center", gap: "1rem"}}>
         <CButton
           buttonName={"Cancel"}
           // OnClick={handleCancel}
@@ -163,6 +188,7 @@ const PersonalDetailsProfile = ({ data, userId }) => {
           BGColor={`${theme.palette.background.default}`}
           BGHover={`${theme.palette.hover.primary}`}
         />
+        </Box>
       </Grid>
     </Grid>
   );

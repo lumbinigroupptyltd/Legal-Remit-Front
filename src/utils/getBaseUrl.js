@@ -20,3 +20,6 @@ export const contextPath = () => {
 export const getBaseUrl = () => {
     return "https://core1.dev.legalremit.com";
 };
+export const DOC_URL = () => {
+  return "https://core1.dev.legalremit.com";
+};

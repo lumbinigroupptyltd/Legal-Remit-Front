@@ -22,12 +22,15 @@ export const usePersonalDetailsProfileForm = ({ data, userId }) => {
       phoneNumber: data?.phoneNumber || "",
       phoneCode: data?.phoneCode || "+61",
       countryId: data?.countryID || "14",
+      signupCompleted: data?.signupCompleted || false,
       countryName: data?.countryName || "Australia",
     },
     validationSchema: personalDetailsSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
+      console.log(values, "values")
       if (values?.email) {
+        console.log(values)
         handledEditRequest(values);
       } else {
         handledAddRequest(values);

@@ -147,6 +147,13 @@ export const getBusinessTypeDetails = async () => {
   return data;
 };
 
+{
+  /*________________________GET_____________________________________*/
+}
+export const getCompanyTypeDetails = async () => {
+  const { data } = await axiosInstance.get(`/companytype/getall`);
+  return data;
+};
 
 {
   /*________________________GET_____________________________________*/

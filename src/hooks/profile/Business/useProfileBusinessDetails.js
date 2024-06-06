@@ -1,7 +1,7 @@
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 import { toast } from "react-toastify";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { addIdDetailsProfile, addKycDetailsProfile, addMyDocumentsProfile, addPersonalDetailsProfile, getBusinessDetails, getBusinessDirectorDetails, getBusinessIndustryType, getBusinessTypeDetails } from "../../../api/profile/profile-api";
+import { addIdDetailsProfile, addKycDetailsProfile, addMyDocumentsProfile, addPersonalDetailsProfile, getBusinessDetails, getBusinessDirectorDetails, getBusinessIndustryType, getBusinessTypeDetails, getCompanyTypeDetails } from "../../../api/profile/profile-api";
 import { addBusinessDirective, addBusinessShare, addPersonalBusinessExtraProfile, addPersonalBusinessProfile, editBusinessDirective, editBusinessShare, editPersonalBusinessExtraProfile, editPersonalBusinessProfile } from "../../../api/profile/business-profile-api";
 
 {
@@ -91,13 +91,13 @@ export const useEditPersonalBusinessProfile = ({ onSuccess }) => {
 export const usePersonalBusinessExtraProfile = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["addsignup"],
+    ["addBusinessExtra"],
     (formData) => addPersonalBusinessExtraProfile(formData),
     {
       onSuccess: (data, variables, context) => {
-        toast.success("");
+        toast.success("Business details added successfully");
         onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("");
+        queryClient.invalidateQueries("getBusinessDetails");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -316,7 +316,16 @@ export const useGetBusinessTypeDetails = () => {
     refetchOnWindowFocus: false,
   });
 };
-
+{
+  /*________________________GET_____________________________________*/
+}
+export const useGetCompanyTypeDetails = () => {
+  return useQuery(["getCompanyTypeDetails"], () => getCompanyTypeDetails(), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
+};
 
 {
   /*________________________GET_____________________________________*/

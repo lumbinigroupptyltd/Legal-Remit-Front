@@ -331,12 +331,16 @@ const CustomTable = (props) => {
           );
         }}
       />
-      <style>{`
+      <style>
+        {`
       .css-1e1m30i, .css-1f2qhs8, .css-1xqjr4h-MuiTableCell-root, .css-1w86f15, .css-c8wlay {
         color: ${theme?.palette?.mode === "dark" ? "black" : "#ffff"};
       }
-
-      `}</style>
+      .css-1n3ulyw h3{
+        font-size: 2rem;
+      }
+      `}
+      </style>
     </div>
   );
 };

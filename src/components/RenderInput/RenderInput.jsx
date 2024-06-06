@@ -58,14 +58,7 @@ const RenderInput = ({
     }
   }, [formik.values.documentType]);
 
-  const handleEmail = async () => {
-    try {
-      await getVerifyEmail();
-      toast.success("Verification email sent successfully!");
-    } catch (error) {
-      toast.error("Failed to send verification email.");
-    }
-  };
+
 
   const getComponentToRender = (element, disableField, index) => {
     if (!element) return null;
@@ -120,20 +113,6 @@ const RenderInput = ({
               helperText={formTouched && formError}
               InputLabelProps={{ shrink: Boolean(formValues) }}
             />
-            {!element?.isVerified && element?.isEmailCheck && (
-              <div>
-                <Typography variant="p" color="error">
-                  Please Verify Email
-                </Typography>
-                <Typography
-                  variant="p"
-                  sx={{ textDecoration: "underline", cursor: "pointer" }}
-                  onClick={handleEmail}
-                >
-                  Click here
-                </Typography>
-              </div>
-            )}
           </>
         );
       case "password":
@@ -212,42 +191,44 @@ const RenderInput = ({
         );
       case "onlyNumber":
         return (
-          <TextField
-            name={element?.name}
-            label={element?.label}
-            value={element?.defaultValue ? element?.defaultValue : formValues}
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            onKeyPress={(e) => {
-              if (isNaN(e.key)) {
-                e.preventDefault();
-              }
-            }}
-            fullWidth
-            required={element.required}
-            // variant="outlined"
-            className="textfield-icon-input"
-            disabled={element.isDisabled}
-            error={formTouched && Boolean(formError)}
-            helperText={formTouched && formError}
-            inputProps={{
-              minLength: element?.min,
-              maxLength: element?.max,
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment
-                  position="start"
-                  sx={{
-                    color: theme.palette.button.primary,
-                  }}
-                >
-                  <Tooltip>{element?.iconStart}</Tooltip>
-                </InputAdornment>
-              ),
-            }}
-            InputLabelProps={{ shrink: Boolean(formValues) }}
-          />
+          <>
+            <TextField
+              name={element?.name}
+              label={element?.label}
+              value={element?.defaultValue ? element?.defaultValue : formValues}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              onKeyPress={(e) => {
+                if (isNaN(e.key)) {
+                  e.preventDefault();
+                }
+              }}
+              fullWidth
+              required={element.required}
+              // variant="outlined"
+              className="textfield-icon-input"
+              disabled={element.isDisabled}
+              error={formTouched && Boolean(formError)}
+              helperText={formTouched && formError}
+              inputProps={{
+                minLength: element?.min,
+                maxLength: element?.max,
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment
+                    position="start"
+                    sx={{
+                      color: theme.palette.button.primary,
+                    }}
+                  >
+                    <Tooltip>{element?.iconStart}</Tooltip>
+                  </InputAdornment>
+                ),
+              }}
+              InputLabelProps={{ shrink: Boolean(formValues) }}
+            />
+          </>
         );
       case "numWithCode":
         return (
