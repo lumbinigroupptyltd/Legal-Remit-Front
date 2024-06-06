@@ -20,7 +20,7 @@ const AppLayout = () => {
 
   return (
     <>
-      {/* <ErrorBoundary> */}
+      <ErrorBoundary>
         <div style={{ position: "relative", height: "100vh" }} className="mainLoginSection2">
           <NavBarTest />
           <section>
@@ -28,7 +28,7 @@ const AppLayout = () => {
           </section>
           <Footer />
         </div>
-      {/* </ErrorBoundary> */}
+      </ErrorBoundary>
     </>
   );
 };

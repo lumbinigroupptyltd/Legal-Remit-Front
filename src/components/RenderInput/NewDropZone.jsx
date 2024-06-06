@@ -3,10 +3,7 @@ import { Typography, useMediaQuery, useTheme } from "@mui/material";
 import Dropzone from "react-dropzone";
 import Picture from "../../assets/images/doc/Picture.png";
 import { useDeleteDocField } from "../../hooks/profile/User/useProfileDetails";
-import { checkImageURL, fileResize } from "../../utils/image";
-import { toast } from "react-toastify";
-
-const DOC_URL = "https://doc-url";
+import { DOC_URL } from "../../utils/getBaseUrl";
 
 const NewDropZone = ({ element, formik }) => {
   const { deleteKycDocMutation, isSuccess: isDeleteSuccess } =
@@ -21,50 +18,13 @@ const NewDropZone = ({ element, formik }) => {
 
   const title = element?.title;
 
-  useEffect(() => {
-    checkImageURL(file).then((isImageValid) => {
-      if (isImageValid) {
-        setReq(false);
-      } else {
-        setReq(true);
-      }
-    });
-  }, [file]);
-
-  useEffect(() => {
-    const fileKeys = Object.keys(formik.values).filter((key) =>
-      key.startsWith("files-")
-    );
-    const filePaths = fileKeys.map((key) => formik.values[key]).filter(Boolean);
-
-    if (filePaths.length === 0) {
-      if (formik.values?.pathArray?.length > 0) {
-        const newPathObj = formik.values.pathArray.find(
-          (item) => item.type === element.name
-        );
-        if (newPathObj) {
-          setFileName(newPathObj?.type);
-          if (newPathObj.path) {
-            const newPath = DOC_URL + newPathObj.path;
-            setFile(newPath);
-          }
-        }
-      } else if (formik.values.path) {
-        setFileName(formik.values?.documentType);
-        setFile(DOC_URL + formik.values.path);
-      } else if (element.imagePath) {
-        setFile(DOC_URL + element.imagePath);
-      }
-    }
-  }, [formik.values, element.name, element.imagePath]);
-
   const handleUpload = async (acceptedFiles) => {
     const file = acceptedFiles[0];
 
     if (file) {
       try {
         setFile(file);
-          formik.setFieldValue(`${element.name}`, file);
+        formik.setFieldValue(`${element.name}`, file);
       } catch (error) {
         console.error("Error", error);
       }
@@ -74,7 +34,7 @@ const NewDropZone = ({ element, formik }) => {
   const handleDelete = (fileName) => {
     if (file) {
       if (!file.path) {
-        deleteKycDocMutation({row: fileName});
+        deleteKycDocMutation({ row: fileName });
       }
       if (formik.values.pathArray) {
         let newArray = formik.values.pathArray.map((item) => {
@@ -104,7 +64,7 @@ const NewDropZone = ({ element, formik }) => {
       setFile(null);
     }
   }, [isDeleteSuccess]);
-
+console.log(file, "file")
   return (
     <div style={{ width: isSm || isMd ? "300px" : "360px" }}>
       {title && (
@@ -130,15 +90,24 @@ const NewDropZone = ({ element, formik }) => {
           onMouseOver={() => setShowDelete(true)}
           onMouseLeave={() => setShowDelete(false)}
         >
-          <img
-            src={
-              typeof file === "string"
-                ? `${file}?t=${new Date()}`
-                : URL.createObjectURL(file)
-            }
-            alt="Uploaded file"
-            style={{ width: "100%", height: "100%" }}
-          />
+          {file && file?.type === "application/pdf"? (
+             <iframe
+             src={URL.createObjectURL(file)}
+             title="PDF Preview"
+             style={{ width: "100%", height: "100%", border: "none" }}
+           />
+          ) : (
+            <img
+              src={
+                typeof file === "string"
+                  ? `${file}?t=${new Date()}`
+                  : URL.createObjectURL(file)
+              }
+              alt="Uploaded file"
+              style={{ width: "100%", height: "100%" }}
+            />
+          )}
+
           {showDelete && (
             <div
               style={{

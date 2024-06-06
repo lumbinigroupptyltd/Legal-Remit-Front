@@ -19,11 +19,14 @@ import { useNavigate } from "react-router-dom";
 import { useGetUserInfo } from "../../hooks/apiStartGetAll/useGetAllUserInfo";
 import { useSelector } from "react-redux";
 import { useGetUserKycDetails } from "../../hooks/profile/User/useProfileDetails";
+import FormModal from "../../components/formModal/FormModal";
+import ConfirmationModal from "../../components/formModal/ConfirmationModal";
 
 const NewProfilePage = () => {
   const { role, userId } = useSelector((state) => state.auth);
   const theme = useTheme();
   const navigate = useNavigate();
+  const [submitModal, setSubmitModal] = useState(false);
   const { data: userData } = useGetUserInfo(userId);
   const newData = userData && userData?.data;
   const newKycDetails = newData?.userkycdetails;
@@ -43,6 +46,10 @@ const NewProfilePage = () => {
   const handleLogout = () => {
     navigate("/");
     logout();
+  };
+
+  const handleSubmitForm = () => {
+    setSubmitModal(true);
   };
 
   return (
@@ -240,11 +247,39 @@ const NewProfilePage = () => {
                 {role === "USER" ? (
                   <MyDocumentsProfile userId={userId} />
                 ) : (
-                  <MyDocumentsBusinessProfile userId={userId}  />
+                  <MyDocumentsBusinessProfile userId={userId} />
                 )}
               </AccordionDetails>
             </Accordion>
           </>
+        )}
+      </Grid>
+
+      <Grid container mt={2}>
+        <Grid item sx={{width: "100%", background: theme.palette.background.main, color: "#fff", textAlign: "center", margin: "auto 4rem", cursor: "pointer"}}>
+          <Typography variant="p" sx={{fontSize: "1.5rem", fontWeight: "500", letterSpacing: "0.15rem"}} onClick={handleSubmitForm}>Submit Form</Typography>
+        </Grid>
+        {submitModal && (
+          <FormModal
+            open={submitModal}
+            onClose={() => setSubmitModal(false)}
+            width={700}
+            height={"auto"}
+            maxHeight={"80vh"}
+            header={"Submit Application"}
+            formComponent={
+              <ConfirmationModal
+                title={"Submit Application"}
+                message={
+                  "Are you sure you have filled all the required fields & want to submit form?"
+                }
+                data={newData}
+                userId={userId}
+                buttonName={"Submit"}
+                handleCloseModal={() => setSubmitModal(false)}
+              />
+            }
+          />
         )}
       </Grid>
       <Footer />

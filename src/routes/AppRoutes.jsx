@@ -41,6 +41,8 @@ const ContactUsPage = React.lazy(() =>
   import("../screens/ContactUsPage/ContactUsPage")
 );
 import { DashboardRoutes } from "./DashboardRoutes";
+import { UserRoutes } from "./UserRoutes";
+import UserDashboard from "../screens/Dashbord/UserDashboard";
 
 const AppRoutes = () => {
   const { role, verified } = useSelector((state) => state.auth);
@@ -104,7 +106,20 @@ const AppRoutes = () => {
               <Route exact path="/profile" element={<NewProfilePage />} />
             )}
             {verified && (role === "USER" || role === "BUSINESS") && (
-              <Route exact path="/home" element={<Home />} />
+              <Route exact path="/home" element={<UserLayout />}>
+                <Route exact index element={<UserDashboard />} />
+                 {UserRoutes?.map((route) => {
+                  return (
+                    <Route
+                      index
+                      key={route?.id}
+                      path={route?.path}
+                      exact
+                      element={route?.component}
+                    />
+                  );
+                })}
+              </Route>
             )}
           </Routes>
         </Suspense>

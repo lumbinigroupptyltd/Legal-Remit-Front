@@ -65,20 +65,22 @@ export const usePersonalBusinessProfileForm = ({ data, userId }) => {
 export const usePersonalBusinessProfileExtraForm = ({ businessDetailsData, userId, totalDirector, totalshareholder }) => {
   const { mutate: addMutate } = usePersonalBusinessExtraProfile({});
   const { mutate: editMutate } = useEditPersonalBusinessExtraProfile({});
- 
+  const data = businessDetailsData && businessDetailsData?.[0];
+ console.log(data?.companyTypeId, "data")
   const formik = useFormik({
     initialValues: {
-      id: businessDetailsData?.id || "",
+      id: data?.id || "",
       userId: userId || "",
-      companyTypeId: businessDetailsData?.companyTypeId || "",
-      noOfEmployee: businessDetailsData?.noOfEmployee || "",
-      industryTypeId: businessDetailsData?.industryTypeId || "",
-      targetBusiness: businessDetailsData?.targetBusiness || "",
-      businessAddress: businessDetailsData?.businessAddress || "",
-      expectedRemittance: businessDetailsData?.expectedRemittance || "",
-      percentageOfShareHolding: businessDetailsData?.percentageOfShareHolding || "",
-      noOfTransaction: businessDetailsData?.noOfTransaction || "",
-      website: businessDetailsData?.website || "",
+      companyTypeId: data?.companyTypeId || "",
+      businessTypeId: data?.businessTypeId || "",
+      noOfEmployee: data?.noOfEmployee || "",
+      industryTypeId: data?.industryTypeId || "",
+      targetBusiness: data?.targetBusiness || "",
+      businessAddress: data?.businessAddress || "",
+      expectedRemittance: data?.expectedRemittance || "",
+      // percentageOfShareHolding: data?.percentageOfShareHolding || "",
+      noOfTransaction: data?.noOfTransaction || "",
+      website: data?.website || "",
       noOfDirectors: totalDirector || "",
       noOfShareHolder: totalshareholder || "",
     },

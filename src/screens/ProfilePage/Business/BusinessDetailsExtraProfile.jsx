@@ -23,7 +23,7 @@ import {
 import FormModal from "../../../components/formModal/FormModal";
 import { FieldArray, FormikProvider } from "formik";
 import { useGetAllCountries, useGetAllOccupations, useGetUserAllStates, useGetUserNationality } from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
-import { useGetBusinessDetails, useGetBusinessDirectorDetails, useGetBusinessIndustryType, useGetBusinessTypeDetails } from "../../../hooks/profile/Business/useProfileBusinessDetails";
+import { useGetBusinessDetails, useGetBusinessDirectorDetails, useGetBusinessIndustryType, useGetBusinessTypeDetails, useGetCompanyTypeDetails } from "../../../hooks/profile/Business/useProfileBusinessDetails";
 import CustomTable from "../../../components/CustomTable/CustomTable";
 
 const directiveCloumns = [
@@ -137,6 +137,7 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
   const { data: countryData } = useGetAllCountries();
   const data = countryData && countryData?.data;
   const { data: businessTypeData } = useGetBusinessTypeDetails();
+  const { data: companyTypeData } = useGetCompanyTypeDetails();
   const { data: businessAllData } = useGetBusinessDetails();
   const { data: nationalityData } = useGetUserNationality();
   const { data: allStatesData } = useGetUserAllStates();
@@ -158,6 +159,10 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
   };
 
   const BUSINESS_TYPE = businessTypeData && businessTypeData?.data?.map((item) => ({
+    label: item?.name,
+    value: item?.id,
+  }));  
+  const COMPANY_TYPE = companyTypeData && companyTypeData?.data?.map((item) => ({
     label: item?.name,
     value: item?.id,
   }));
@@ -200,6 +205,18 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
     {
       name: "companyTypeId",
       label: "Company Type",
+      required: true,
+      type: "dropDown",
+      options: COMPANY_TYPE,
+      iconStart: <PersonIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+    {
+      name: "businessTypeId",
+      label: "Business Type",
       required: true,
       type: "dropDown",
       options: BUSINESS_TYPE,
@@ -263,6 +280,16 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       md: 6,
       sm: 12,
     },
+    // {
+    //   name: "percentageOfShareHolding",
+    //   label: "Percentage of Shareholding",
+    //   required: true,
+    //   iconStart: <SmartphoneIcon />,
+    //   type: "text",      
+    //   id: nanoid(),
+    //   md: 6,
+    //   sm: 12,
+    // },
     {
       name: "noOfTransaction",
       label: "Expected No of transaction per year",
@@ -289,6 +316,7 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       name: "noOfDirectors",
       label: "No. of Directors",
       required: true,
+      isDisabled: true,
       type: "text",
       defaultValue: DIRECTOR_DATA ? DIRECTOR_DATA.length : 0,
       iconStart: <PersonIcon />,
@@ -305,6 +333,7 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       defaultValue: SHAREHOLDER_DATA ? SHAREHOLDER_DATA.length : 0,
       iconStart: <PersonIcon />,
       id: nanoid(),
+      isDisabled: true,
       md: 6,
       sm: 6,
       xs: 12,
@@ -673,7 +702,7 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
             BGHover={`${theme.palette.hover.error}`}
           />
           <CButton
-            buttonName={"ADD"}
+            buttonName={businessDetailsData ? "Update" : "ADD"}
             OnClick={handleFormSubmit}
             variant={"contained"}
             Width={"fit-content"}
