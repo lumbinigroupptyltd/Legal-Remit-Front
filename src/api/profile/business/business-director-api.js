@@ -9,6 +9,15 @@ export const getBusinessDirectorDetails = async () => {
 };
 
 {
+  /*________________________GET_____________________________________*/
+}
+export const getDirectorDetailsByBussId = async (bussId) => {
+  const { data } = await axiosInstance.get(`/director/getByBusinessDetailsId/${bussId}`);
+  return data;
+};
+
+
+{
     /*________________________POST_____________________________________*/
   }
   export const addDirectorDetails = async (formData) => {

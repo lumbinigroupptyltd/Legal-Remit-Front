@@ -93,13 +93,13 @@ export const useBusinessExtraDetailsForm = ({
       expectedRemittance: data?.expectedRemittance || "",
       noOfTransaction: data?.noOfTransaction || "",
       website: data?.website || "",
-      noOfDirectors: totalDirector || "",
-      noOfShareHolder: totalshareholder || "",
+      noOfDirectors: totalDirector || "0",
+      noOfShareHolder: totalshareholder || "0",
     },
     validationSchema: personalBusinessExtraSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      if (!values?.id) {
+      if (values?.id) {
         handledEditRequest(values);
       } else {
         handledAddRequest(values);
@@ -125,13 +125,14 @@ export const useBusinessExtraDetailsForm = ({
   };
 };
 
-export const useDirectorDetailsForm = ({ data, userId, setDirectiveModal }) => {
+export const useDirectorDetailsForm = ({ bussId, data, userId, setDirectiveModal }) => {
   const { mutate: addMutate } = useAddDirectorDetails({});
   const { mutate: editMutate } = useEditDirectorDetails({});
 
   const formikD = useFormik({
     initialValues: {
       id: data?.id || "",
+      businessDetailId: bussId || "",
       isDirective: data?.isDirective || false,
       userId: userId,
       name: "",
@@ -146,7 +147,6 @@ export const useDirectorDetailsForm = ({ data, userId, setDirectiveModal }) => {
       cardNumber: "",
       dob: "",
       documentValidity: "",
-      businessDetailId: "",
       occupationId: "",
       nationalityId: "",
     },
@@ -180,13 +180,14 @@ export const useDirectorDetailsForm = ({ data, userId, setDirectiveModal }) => {
   return { formikD };
 };
 
-export const useShareHolderDetailsForm = ({ data, userId, setShareModal }) => {
+export const useShareHolderDetailsForm = ({bussId,  data, userId, setShareModal }) => {
   const { mutate: addMutate } = useAddShareHolderDetails({});
   const { mutate: editMutate } = useEditShareHolderDetails({});
 
   const formikS = useFormik({
     initialValues: {
       id: data?.id || "",
+      businessDetailId: bussId || "",
       isShare: data?.isShare || false,
       userId: userId,
       name: "",
@@ -201,7 +202,6 @@ export const useShareHolderDetailsForm = ({ data, userId, setShareModal }) => {
       cardNumber: "",
       dob: "",
       documentValidity: "",
-      businessDetailId: "",
       occupationId: "",
       nationalityId: "",
     },
