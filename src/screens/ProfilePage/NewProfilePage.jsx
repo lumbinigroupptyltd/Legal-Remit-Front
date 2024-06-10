@@ -34,14 +34,14 @@ const NewProfilePage = () => {
   const [verificationMethod, setVerificationMethod] = useState(null);
   const { data: userData } = useGetUserInfoByUserId(userId);
   const newData = userData && userData?.data;
-  // const kycStatus = "";
   const { data: userKycData } = useGetUserKycDetailsByUserId(userId);
   const kycData = userKycData && userKycData?.data?.[0];
   console.log(isSignupCompleted, "isgn", kycData, "kyc")
 
   const handleDigitalVerification = () => {
     setVerificationMethod("digital");
-    window.location.href = "https://digitallink.com";
+    window.open("https://sandbox.sctk.au/s-93ta-s2qp-ii8h", "_blank");
+
   };
 
   const handleManualVerification = () => {
@@ -167,11 +167,11 @@ const NewProfilePage = () => {
                 KYC Details
               </AccordionSummary>
               <AccordionDetails>
-                {role === "USER" ? (
+               
                   <KycDetailsProfile userId={userId} />
-                ) : (
-                  <KycBusinessProfile userId={userId} />
-                )}
+               
+                  {/* <KycBusinessProfile userId={userId} /> */}
+               
               </AccordionDetails>
             </Accordion>
             <Accordion defaultExpanded>
@@ -255,11 +255,10 @@ const NewProfilePage = () => {
                     ID Details
                   </AccordionSummary>
                   <AccordionDetails>
-                    {role === "USER" ? (
                       <IdDetailsProfile data={newData} userId={userId} />
-                    ) : (
-                      <IdBusinessProfile data={newData} userId={userId} />
-                    )}
+                    
+                      {/* <IdBusinessProfile data={newData} userId={userId} /> */}
+                   
                   </AccordionDetails>
                 </Accordion>
 
@@ -277,11 +276,11 @@ const NewProfilePage = () => {
                     My Documents
                   </AccordionSummary>
                   <AccordionDetails>
-                    {role === "USER" ? (
+                    
                       <MyDocumentsProfile userId={userId} />
-                    ) : (
-                      <MyDocumentsBusinessProfile userId={userId} />
-                    )}
+                  
+                      {/* <MyDocumentsBusinessProfile userId={userId} /> */}
+                   
                   </AccordionDetails>
                 </Accordion>
               </>

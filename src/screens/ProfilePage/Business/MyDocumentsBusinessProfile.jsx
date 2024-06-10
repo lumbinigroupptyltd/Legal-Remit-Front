@@ -14,6 +14,8 @@ import {
 import { useBusinessDocumentDetailsForm } from "../../../forms/profile/business/businessBasicDetailsForm";
 import { useGetBusinessIdDetailsByUserId } from "../../../hooks/profile/Business/businessId/useBusinessIdDetails";
 import { useGetBusinessDocTypeByDocId, useGetBusinessDocTypeDetails } from "../../../hooks/profile/Business/businessDocument/useBusinessDocumentDetails";
+import { useGetUserIdDetailsById, useGetUserIdDetailsByUserId } from "../../../hooks/profile/User/userId/useUserIdDetails";
+import { useGetUserDocumentsTypeDetails } from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
 
 const BUSS_DOC_FIELD = [
   {
@@ -36,15 +38,13 @@ const BUSS_DOC_FIELD = [
 
 const MyDocumentsBusinessProfile = ({ userId }) => {
   const theme = useTheme();
-  const { data: docTypeData } = useGetBusinessDocTypeDetails();
+  const { data: docTypeData } = useGetUserDocumentsTypeDetails();
   const getDocData = docTypeData && docTypeData?.data;
+  const { data: userIdDetails } = useGetUserIdDetailsByUserId(userId);
+  const doTypeId = userIdDetails && userIdDetails?.data?.[0]?.id;
+  const { data: userIdData } = useGetUserIdDetailsById(doTypeId);
+  const documentData = userIdData && userIdData?.data?.document;
 
-  const { data: userIdDetails } = useGetBusinessIdDetailsByUserId(userId);
-  const doTypeId = userIdDetails && userIdDetails?.data?.[0];
-  const docTypeId = doTypeId && doTypeId?.documentTypeId;
-
-  const { data: getDocTypeIdData } = useGetBusinessDocTypeByDocId(docTypeId);
-  const getDocTypeIdName = getDocTypeIdData && getDocTypeIdData?.data;
   const newDocData = getDocData
     ?.filter((item) => item?.documentTypes?.length > 0)
     ?.flatMap((item) =>
@@ -191,7 +191,7 @@ const MyDocumentsBusinessProfile = ({ userId }) => {
           <CustomTable
             title={"Documents"}
             columns={columns}
-            data={data}
+            data={documentData}
             headerBackgroundColor={theme.palette.background.main}
             overFlow={"scroll"}
             width={"100%"}

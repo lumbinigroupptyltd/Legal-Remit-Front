@@ -6,9 +6,7 @@ import SmartphoneIcon from "@mui/icons-material/Smartphone";
 import EmailIcon from "@mui/icons-material/Email";
 import FlagIcon from "@mui/icons-material/Flag";
 import {
-  Button,
   Grid,
-  Stack,
   Switch,
   Typography,
   useTheme,
@@ -19,15 +17,23 @@ import { FormikProvider } from "formik";
 import CustomTable from "../../../components/CustomTable/CustomTable";
 import { useGetBusinessTypeDetails } from "../../../hooks/profile/Business/businessType/useBusinessTypeDetails";
 import { useGetCompanyTypeDetails } from "../../../hooks/companyType/useCompanyTypeDetails";
-import { useGetBusinessDetails } from "../../../hooks/profile/Business/business/useBasicBusinessDetails";
+import {
+  useGetBusinessDetails,
+  useGetBusinessDetailsByUserId,
+} from "../../../hooks/profile/Business/business/useBasicBusinessDetails";
 import { useGetUserNationality } from "../../../hooks/nationality/useNationalityDetails";
 import { useGetUserAllStates } from "../../../hooks/state/useStateDetails";
 import { useGetAllOccupations } from "../../../hooks/occupation/useOccupationDetails";
 import { useGetIndustryTypeDetails } from "../../../hooks/industryType/useIndustryTypeDetails";
-import { useBusinessExtraDetailsForm, useDirectorDetailsForm, useShareHolderDetailsForm } from "../../../forms/profile/business/businessBasicDetailsForm";
-import { useGetDirectorDetails } from "../../../hooks/profile/Business/director/useDirectorDetails";
+import {
+  useBusinessExtraDetailsForm,
+  useDirectorDetailsForm,
+  useShareHolderDetailsForm,
+} from "../../../forms/profile/business/businessBasicDetailsForm";
+import {
+  useGetDirectorDetailsByBussId,
+} from "../../../hooks/profile/Business/director/useDirectorDetails";
 import { useGetAllCountries } from "../../../hooks/country/useCountryDetails";
-import { useGetShareDetails } from "../../../hooks/profile/Business/shareHolder/useShareHolderDetails";
 
 const directiveCloumns = [
   {
@@ -132,7 +138,6 @@ const directiveCloumns = [
   },
 ];
 
-
 const BusinessDetailsExtraProfile = ({ userId }) => {
   const theme = useTheme();
   const [directiveModal, setDirectiveModal] = useState(false);
@@ -140,18 +145,28 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
   const { data: countryData } = useGetAllCountries();
   const data = countryData && countryData?.data;
   const { data: businessTypeData } = useGetBusinessTypeDetails();
+  const { data: businessDetailData } = useGetBusinessDetailsByUserId(userId);
   const { data: companyTypeData } = useGetCompanyTypeDetails();
-  const { data: businessAllData } = useGetBusinessDetails();
   const { data: nationalityData } = useGetUserNationality();
   const { data: allStatesData } = useGetUserAllStates();
   const { data: allOccupationsData } = useGetAllOccupations();
   const { data: industryTypeData } = useGetIndustryTypeDetails();
 
-  const { formikD } = useDirectorDetailsForm({ userId, setDirectiveModal });
-  const { formikS } = useShareHolderDetailsForm({ userId, setShareModal });
+  const bussId = businessDetailData && businessDetailData?.data?.[0]?.id;
 
-  const { data: directorData } = useGetDirectorDetails();
-  const { data: shareData } = useGetShareDetails();
+  const { formikD } = useDirectorDetailsForm({
+    userId,
+    setDirectiveModal,
+    bussId,
+  });
+  const { formikS } = useShareHolderDetailsForm({
+    userId,
+    setShareModal,
+    bussId,
+  });
+
+  const { data: directorBussData } = useGetDirectorDetailsByBussId(bussId);
+
   const handleFormDirectiveSubmit = () => {
     formikD.handleSubmit();
   };
@@ -162,48 +177,54 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
     remove(index);
   };
 
-  const BUSINESS_TYPE = businessTypeData && businessTypeData?.data?.map((item) => ({
-    label: item?.name,
-    value: item?.id,
-  }));  
-  const COMPANY_TYPE = companyTypeData && companyTypeData?.data?.map((item) => ({
-    label: item?.name,
-    value: item?.id,
-  }));
-  const INDUSTRY_TYPE = industryTypeData && industryTypeData?.data?.map((item) => ({
-    label: item?.name,
-    value: item?.id,
-  }));
+  const BUSINESS_TYPE =
+    businessTypeData &&
+    businessTypeData?.data?.map((item) => ({
+      label: item?.name,
+      value: item?.id,
+    }));
+  const COMPANY_TYPE =
+    companyTypeData &&
+    companyTypeData?.data?.map((item) => ({
+      label: item?.name,
+      value: item?.id,
+    }));
+  const INDUSTRY_TYPE =
+    industryTypeData &&
+    industryTypeData?.data?.map((item) => ({
+      label: item?.name,
+      value: item?.id,
+    }));
   const GET_NATIONALITY =
-  nationalityData &&
-  nationalityData?.data?.map((item) => ({
-    value: item.id,
-    label: item.nationality,
-  }));
-const GET_ALL_STATES =
-  allStatesData &&
-  allStatesData?.data?.map((item) => ({
-    value: item.id,
-    label: item.name,
-  }));
-const GET_ALL_OCCUPATIONS =
-  allOccupationsData &&
-  allOccupationsData?.data?.map((item) => ({
-    value: item.id,
-    label: item.name,
-  }));
-  const GET_ALL_BUSINESS =
-  businessAllData &&
-  businessAllData?.data?.map((item) => ({
-    value: item.id,
-    label: item.id,
-  }));
-  
-  const DIRECTOR_DATA = directorData && directorData?.data?.filter((f) => f?.isShareHolder === false);
-  const SHAREHOLDER_DATA = directorData && directorData?.data?.filter((f) => f?.isShareHolder === true);
+    nationalityData &&
+    nationalityData?.data?.map((item) => ({
+      value: item.id,
+      label: item.nationality,
+    }));
+  const GET_ALL_STATES =
+    allStatesData &&
+    allStatesData?.data?.map((item) => ({
+      value: item.id,
+      label: item.name,
+    }));
+  const GET_ALL_OCCUPATIONS =
+    allOccupationsData &&
+    allOccupationsData?.data?.map((item) => ({
+      value: item.id,
+      label: item.name,
+    }));
 
-const totalDirector = DIRECTOR_DATA && DIRECTOR_DATA.length ? DIRECTOR_DATA.length : 0;
-const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLDER_DATA.length : 0;
+  const DIRECTOR_DATA =
+    directorBussData &&
+    directorBussData?.data?.filter((f) => f?.isShareHolder === false);
+  const SHAREHOLDER_DATA =
+    directorBussData &&
+    directorBussData?.data?.filter((f) => f?.isShareHolder === true);
+
+  const totalDirector =
+    DIRECTOR_DATA && DIRECTOR_DATA.length ? DIRECTOR_DATA.length : 0;
+  const totalshareholder =
+    SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLDER_DATA.length : 0;
 
   const basicInputData = [
     {
@@ -241,7 +262,7 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       sm: 6,
       xs: 12,
     },
-  
+
     {
       name: "industryTypeId",
       label: "Industry Type",
@@ -281,7 +302,7 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       label: "Expected remittance volume (AUD)/sending currency per year",
       required: true,
       iconStart: <SmartphoneIcon />,
-      type: "onlyNumber",      
+      type: "onlyNumber",
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -292,7 +313,7 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       label: "Expected No of transaction per year",
       required: true,
       iconStart: <SmartphoneIcon />,
-      type: "onlyNumber",      
+      type: "onlyNumber",
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -330,21 +351,26 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       required: true,
       iconStart: <SmartphoneIcon />,
       type: "text",
-      
+
       id: nanoid(),
       md: 6,
       sm: 12,
     },
   ];
-console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
-  const businessDetailsData = businessAllData && businessAllData?.data;
-  const { formik } = useBusinessExtraDetailsForm({ userId, totalDirector, totalshareholder, businessDetailsData });
+
+  const businessDetailsData = businessDetailData && businessDetailData?.data;
+  const { formik } = useBusinessExtraDetailsForm({
+    userId,
+    totalDirector,
+    totalshareholder,
+    businessDetailsData,
+  });
   const iconCode = data && data?.find((d) => d?.id === formik.values.countryId);
 
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
-  
+
   const directiveField = [
     {
       name: "countryId",
@@ -372,7 +398,7 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
       required: true,
       iconStart: <SmartphoneIcon />,
       type: "text",
-      
+
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -396,7 +422,7 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
       iconStart: <SmartphoneIcon />,
       iconCode: iconCode?.phoneCode,
       type: "numWithCode",
-      
+
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -419,7 +445,7 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
       required: true,
       iconStart: <SmartphoneIcon />,
       type: "text",
-      
+
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -432,7 +458,7 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
       iconStart: <SmartphoneIcon />,
       type: "text",
       options: GET_ALL_STATES,
-      
+
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -444,7 +470,7 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
       required: true,
       iconStart: <SmartphoneIcon />,
       type: "text",
-      
+
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -456,7 +482,7 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
       required: true,
       iconStart: <SmartphoneIcon />,
       type: "text",
-      
+
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -468,7 +494,7 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
       required: true,
       iconStart: <SmartphoneIcon />,
       type: "text",
-      
+
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -480,7 +506,7 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
       required: true,
       iconStart: <SmartphoneIcon />,
       type: "datePicker",
-      
+
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -492,25 +518,25 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
       required: true,
       iconStart: <SmartphoneIcon />,
       type: "datePicker",
-      
+
       id: nanoid(),
       md: 6,
       sm: 6,
       xs: 12,
     },
-    {
-      name: "businessDetailId",
-      label: "Business Detail",
-      required: true,
-      iconStart: <SmartphoneIcon />,
-      type: "dropDown",
-      options: GET_ALL_BUSINESS,
-      
-      id: nanoid(),
-      md: 6,
-      sm: 6,
-      xs: 12,
-    },
+    // {
+    //   name: "businessDetailId",
+    //   label: "Business Detail",
+    //   required: true,
+    //   iconStart: <SmartphoneIcon />,
+    //   type: "dropDown",
+    //   options: GET_ALL_BUSINESS,
+
+    //   id: nanoid(),
+    //   md: 6,
+    //   sm: 6,
+    //   xs: 12,
+    // },
     {
       name: "occupationId",
       label: "Occupation",
@@ -518,7 +544,7 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
       iconStart: <SmartphoneIcon />,
       type: "dropDown",
       options: GET_ALL_OCCUPATIONS,
-      
+
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -531,7 +557,7 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
       iconStart: <SmartphoneIcon />,
       type: "dropDown",
       options: GET_NATIONALITY,
-      
+
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -579,7 +605,10 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
                     header={"Add Directors"}
                     formComponent={
                       <>
-                        <RenderInput inputField={directiveField} formik={formikD} />
+                        <RenderInput
+                          inputField={directiveField}
+                          formik={formikD}
+                        />
                         <Grid
                           item
                           mt={2}
@@ -652,7 +681,10 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
                   header={"Add Share Holder"}
                   formComponent={
                     <>
-                      <RenderInput inputField={directiveField} formik={formikS} />
+                      <RenderInput
+                        inputField={directiveField}
+                        formik={formikS}
+                      />
                       <Grid
                         item
                         mt={2}
@@ -677,13 +709,13 @@ console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
                       </Grid>
 
                       <CustomTable
-                          title={"Directive Details"}
-                          data={SHAREHOLDER_DATA}
-                          columns={directiveCloumns}
-                          headerBackgroundColor={theme.palette.background.main}
-                          overFlow={"scroll"}
-                          // handleEditRow={handleEditRow}
-                        />
+                        title={"Directive Details"}
+                        data={SHAREHOLDER_DATA}
+                        columns={directiveCloumns}
+                        headerBackgroundColor={theme.palette.background.main}
+                        overFlow={"scroll"}
+                        // handleEditRow={handleEditRow}
+                      />
                     </>
                   }
                 />

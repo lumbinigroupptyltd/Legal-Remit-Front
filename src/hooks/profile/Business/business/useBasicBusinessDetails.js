@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { addBasicBusinessDetails, editBasicBusinessDetails, getBasicBusinessDetails } from "../../../../api/profile/business/business-basic-api";
+import { addBasicBusinessDetails, editBasicBusinessDetails, getBasicBusinessDetails, getBusinessDetailsByUserId } from "../../../../api/profile/business/business-basic-api";
 
 {
     /*________________________GET_____________________________________*/

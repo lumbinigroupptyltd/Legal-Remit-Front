@@ -22,7 +22,7 @@ const MyDocumentsProfile = ({ userId }) => {
   const doTypeId = userIdDetails && userIdDetails?.data?.[0]?.id;
   const { data: userIdData } = useGetUserIdDetailsById(doTypeId);
   const documentData = userIdData && userIdData?.data?.document;
-
+console.log(userIdDetails, "do")
   const newDocData = getDocData
     ?.filter((item) => item?.documentTypes?.length > 0) // Filter items with non-empty documentTypes
     ?.flatMap((item) =>
@@ -61,24 +61,25 @@ const MyDocumentsProfile = ({ userId }) => {
         header: "File",
         size: 250,
         Cell: (cell) => {
-          const image =
-            (cell?.row?.original?.fileName &&
-              `${DOC_URL}${cell?.row?.original?.fileName}?t=${new Date()}`) ||
-            "";
-            console.log(image, "image")
+          const fileName = cell?.row?.original?.fileName;
+          const image = fileName ? fileName : "";
+      
+          console.log(image, "image");
+      
           const renderImage = (src) => {
             if (src) {
               return (
                 <img
-                  onClick={() => handleImageRow(cell.row.original, src)}
-                  width={100}
-                  src={`${src}?t=${new Date()}`}
+                  onClick={() => handleImageRow(fileName, src)}
+                  width={150}
+                  src={src}
                   alt=""
                 />
               );
             }
             return null;
           };
+      
           return (
             <div style={{ display: "flex", gap: "8px" }}>
               {renderImage(image)}

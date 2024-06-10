@@ -1,11 +1,23 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { addDirectorDetails, editDirectorDetails, getBusinessDirectorDetails } from "../../../../api/profile/business/business-director-api";
+import { addDirectorDetails, editDirectorDetails, getBusinessDirectorDetails, getDirectorDetailsByBussId } from "../../../../api/profile/business/business-director-api";
 
 {
     /*________________________GET_____________________________________*/
   }
   export const useGetDirectorDetails = () => {
     return useQuery(["getDirectorDetails"], () => getBusinessDirectorDetails(), {
+      cacheTime: 10000,
+      refetchInterval: false,
+      refetchOnWindowFocus: false,
+    });
+  };
+
+  {
+    /*________________________GET_____________________________________*/
+  }
+  export const useGetDirectorDetailsByBussId = (bussId) => {
+    return useQuery(["getDirectorDetailsByBussId"], () => getDirectorDetailsByBussId(bussId), {
+    enabled: !!bussId,
       cacheTime: 10000,
       refetchInterval: false,
       refetchOnWindowFocus: false,
@@ -24,7 +36,7 @@ import { addDirectorDetails, editDirectorDetails, getBusinessDirectorDetails } f
         onSuccess: (data, variables, context) => {
           toast.success("Directors added successfully");
           onSuccess && onSuccess(data, variables, context);
-          queryClient.invalidateQueries("getDirectorDetails");
+          queryClient.invalidateQueries("getDirectorDetailsByBussId");
         },
         onError: (err, _variables, _context) => {
           toast.error(getErrorMessage(err));
@@ -46,7 +58,7 @@ import { addDirectorDetails, editDirectorDetails, getBusinessDirectorDetails } f
         onSuccess: (data, variables, context) => {
           toast.success("");
           onSuccess && onSuccess(data, variables, context);
-          queryClient.invalidateQueries("");
+          queryClient.invalidateQueries("getDirectorDetailsByBussId");
         },
         onError: (err, _variables, _context) => {
           toast.error(getErrorMessage(err));

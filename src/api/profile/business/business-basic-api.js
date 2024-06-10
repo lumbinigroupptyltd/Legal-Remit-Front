@@ -9,6 +9,15 @@ import { axiosInstance } from "../../../utils/axiosIntercepters";
     return data;
   };
 
+  
+{
+  /*________________________GET_____________________________________*/
+}
+export const getBusinessDetailsByUserId = async (userId) => {
+  const { data } = await axiosInstance.get(`/businessdetails/getbyuserid/${userId}`);
+  return data;
+};
+
 {
   /*________________________POST_____________________________________*/
 }
