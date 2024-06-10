@@ -1,39 +1,40 @@
-import React, { Suspense, useState } from "react";
+import React, { useState } from "react";
 import Footer from "../Home/Footer/Footer";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import IdDetailsProfile from "./User/IdDetailsProfile";
-import KycDetailsProfile from "./User/KycDetailsProfile";
-import MyDocumentsProfile from "./User/MyDocumentsProfile";
 import PersonalDetailsProfile from "./User/PersonalDetailsProfile";
 import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
-import { getUser } from "../../utils/useHelper";
 import BusinessDetailsProfile from "./Business/BusinessDetailsProfile";
-import BusinessDetailsExtraProfile from "./Business/BusinessDetailsExtraProfile";
-import MyDocumentsBusinessProfile from "./Business/MyDocumentsBusinessProfile";
 import logo from "../../assets/images/Logo-LR.png";
 import { logout } from "../../utils/logout";
 import { useNavigate } from "react-router-dom";
-import { useGetUserInfo } from "../../hooks/apiStartGetAll/useGetAllUserInfo";
 import { useSelector } from "react-redux";
-import { useGetUserKycDetails } from "../../hooks/profile/User/useProfileDetails";
 import FormModal from "../../components/formModal/FormModal";
 import ConfirmationModal from "../../components/formModal/ConfirmationModal";
+import BusinessDetailsExtraProfile from "./Business/BusinessDetailsExtraProfile";
+import KycDetailsProfile from "./User/KycDetailsProfile";
+import KycBusinessProfile from "./Business/KycBusinessProfile";
+import IdDetailsProfile from "./User/IdDetailsProfile";
+import IdBusinessProfile from "./Business/IdBusinessProfile";
+import MyDocumentsProfile from "./User/MyDocumentsProfile";
+import MyDocumentsBusinessProfile from "./Business/MyDocumentsBusinessProfile";
+import { useGetUserInfoByUserId } from "../../hooks/userInfo/useUserInfo";
+import { useGetUserKycDetailsByUserId } from "../../hooks/profile/User/userKyc/useUserKycDetails";
 
 const NewProfilePage = () => {
   const { role, userId } = useSelector((state) => state.auth);
   const theme = useTheme();
   const navigate = useNavigate();
   const [submitModal, setSubmitModal] = useState(false);
-  const { data: userData } = useGetUserInfo(userId);
-  const newData = userData && userData?.data;
-  const newKycDetails = newData?.userkycdetails;
   const [verificationMethod, setVerificationMethod] = useState(null);
-  const { data: userKycData } = useGetUserKycDetails(userId);
-  const kycData = userKycData && userKycData?.data;
+  const { data: userData } = useGetUserInfoByUserId(userId);
+  const newData = userData && userData?.data;
 
+  const { data: userKycData } = useGetUserKycDetailsByUserId(userId);
+  const kycData = userKycData && userKycData?.data;
+ 
   const handleDigitalVerification = () => {
     setVerificationMethod("digital");
     window.location.href = "https://digitallink.com";
@@ -123,7 +124,10 @@ const NewProfilePage = () => {
               Business Details
             </AccordionSummary>
             <AccordionDetails>
-              <BusinessDetailsExtraProfile userId={userId} />
+              <BusinessDetailsExtraProfile
+                data={businessDetailsData}
+                userId={userId}
+              />
             </AccordionDetails>
           </Accordion>
         )}
@@ -142,10 +146,13 @@ const NewProfilePage = () => {
             KYC Details
           </AccordionSummary>
           <AccordionDetails>
-            <KycDetailsProfile data={newKycDetails} userId={userId} />
+            {role === "USER" ? (
+              <KycDetailsProfile userId={userId} />
+            ) : (
+              <KycBusinessProfile userId={userId} />
+            )}
           </AccordionDetails>
         </Accordion>
-
         <Accordion defaultExpanded>
           <AccordionSummary
             sx={{
@@ -226,7 +233,11 @@ const NewProfilePage = () => {
                 ID Details
               </AccordionSummary>
               <AccordionDetails>
-                <IdDetailsProfile userId={userId} />
+                {role === "USER" ? (
+                  <IdDetailsProfile data={newData} userId={userId} />
+                ) : (
+                  <IdBusinessProfile data={newData} userId={userId} />
+                )}
               </AccordionDetails>
             </Accordion>
 
@@ -256,8 +267,28 @@ const NewProfilePage = () => {
       </Grid>
 
       <Grid container mt={2}>
-        <Grid item sx={{width: "100%", background: theme.palette.background.main, color: "#fff", textAlign: "center", margin: "auto 4rem", cursor: "pointer"}}>
-          <Typography variant="p" sx={{fontSize: "1.5rem", fontWeight: "500", letterSpacing: "0.15rem"}} onClick={handleSubmitForm}>Submit Form</Typography>
+        <Grid
+          item
+          sx={{
+            width: "100%",
+            background: theme.palette.background.main,
+            color: "#fff",
+            textAlign: "center",
+            margin: "auto 4rem",
+            cursor: "pointer",
+          }}
+        >
+          <Typography
+            variant="p"
+            sx={{
+              fontSize: "1.5rem",
+              fontWeight: "500",
+              letterSpacing: "0.15rem",
+            }}
+            onClick={handleSubmitForm}
+          >
+            Submit Form
+          </Typography>
         </Grid>
         {submitModal && (
           <FormModal
@@ -273,8 +304,9 @@ const NewProfilePage = () => {
                 message={
                   "Are you sure you have filled all the required fields & want to submit form?"
                 }
-                data={newData}
+                data={kycData?.[0]}
                 userId={userId}
+                countryId={kycData?.[0]?.countryId}
                 buttonName={"Submit"}
                 handleCloseModal={() => setSubmitModal(false)}
               />

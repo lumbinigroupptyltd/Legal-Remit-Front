@@ -1,54 +1,113 @@
-import React, { useState } from "react";
+import React, { useMemo } from "react";
 import RenderInput from "../../../components/RenderInput/RenderInput";
-import { nanoid } from "nanoid";
-import { useMyDocumentsProfileForm } from "../../../hooks/profile/User/useProfileDetailsForm";
-import { Grid, Typography, useTheme } from "@mui/material";
+import { Grid, useTheme } from "@mui/material";
 import { CButton } from "../../../components/UIElements/CButton";
 import {
-  useGetDocTypeById,
-  useGetDocTypeDetails,
-  useGetUserIdDetails,
-} from "../../../hooks/profile/User/useProfileDetails";
-import { License_FIELD, Passport_FIELD, userKycDocField } from "./docField";
+  USER_CITIZENSHIP_FIELD,
+  USER_DOC_FIELD,
+  USER_LICENSE_FIELD,
+  USER_PASSPORT_FIELD,
+} from "./docField";
+import { useGetUserAllDocuments, useGetUserDocumentsTypeDetails } from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
+import { useGetUserIdDetailsById, useGetUserIdDetailsByUserId } from "../../../hooks/profile/User/userId/useUserIdDetails";
+import { useUserDocumentsDetailsForm } from "../../../forms/profile/user/userBasicDetailsForm";
+import CustomTable from "../../../components/CustomTable/CustomTable";
+import { DOC_URL } from "../../../utils/getBaseUrl";
 
 const MyDocumentsProfile = ({ userId }) => {
   const theme = useTheme();
-  const { data: docTypeData } = useGetDocTypeDetails();
+  const { data: docTypeData } = useGetUserDocumentsTypeDetails();
   const getDocData = docTypeData && docTypeData?.data;
-
-  const { data: userIdDetails } = useGetUserIdDetails(userId);
+  const { data: userIdDetails } = useGetUserIdDetailsByUserId(userId);
   const doTypeId = userIdDetails && userIdDetails?.data?.[0]?.id;
+  const { data: userIdData } = useGetUserIdDetailsById(doTypeId);
+  const documentData = userIdData && userIdData?.data?.document;
 
   const newDocData = getDocData
     ?.filter((item) => item?.documentTypes?.length > 0) // Filter items with non-empty documentTypes
-    ?.flatMap(
-      ( item ) =>
-        item.documentTypes.map((docType) => ({
-          idDetailsId: doTypeId,
-          documentTypeId: docType?.id,
-          docTypeName: docType?.name,
-        }))
+    ?.flatMap((item) =>
+      item.documentTypes.map((docType) => ({
+        idDetailId: doTypeId,
+        documentTypeId: docType?.id,
+        docTypeName: docType?.name,
+      }))
     );
 
-  const { formik } = useMyDocumentsProfileForm({ newDocData });
+  const { formik } = useUserDocumentsDetailsForm({ newDocData });
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
 
+  const columns = useMemo(
+    () => [
+      {
+        id: 1,
+        header: "S.N.",
+        Cell: (cell) => {
+          return cell?.row?.index + 1;
+        },
+        size: 100,
+        sortable: false,
+      },
+      {
+        id: 1,
+        accessorKey: "docTypeName",
+        header: "New Data",
+        size: 250,
+        sortable: false,
+      },
+      {
+        id: 3,
+        header: "File",
+        size: 250,
+        Cell: (cell) => {
+          const image =
+            (cell?.row?.original?.fileName &&
+              `${DOC_URL}${cell?.row?.original?.fileName}?t=${new Date()}`) ||
+            "";
+            console.log(image, "image")
+          const renderImage = (src) => {
+            if (src) {
+              return (
+                <img
+                  onClick={() => handleImageRow(cell.row.original, src)}
+                  width={100}
+                  src={`${src}?t=${new Date()}`}
+                  alt=""
+                />
+              );
+            }
+            return null;
+          };
+          return (
+            <div style={{ display: "flex", gap: "8px" }}>
+              {renderImage(image)}
+            </div>
+          );
+        },
+        sortable: false,
+      },
+    ],
+    []
+  );
+
   return (
     <Grid container mt={2}>
       {formik.values.documentType === "" && (
-        <RenderInput inputField={userKycDocField} formik={formik} />
+        <RenderInput inputField={USER_DOC_FIELD} formik={formik} />
       )}
 
       {formik.values.documentType === "Passport" && (
-        <RenderInput inputField={Passport_FIELD} formik={formik} />
+        <RenderInput inputField={USER_PASSPORT_FIELD} formik={formik} />
       )}
 
       {formik.values.documentType === "Driving License" && (
-        <RenderInput inputField={License_FIELD} formik={formik} />
+        <RenderInput inputField={USER_LICENSE_FIELD} formik={formik} />
       )}
-
+      
+      {formik.values.documentType === "Citizenship" && (
+        <RenderInput inputField={USER_CITIZENSHIP_FIELD} formik={formik} />
+      )}
 
       <Grid
         item
@@ -83,6 +142,18 @@ const MyDocumentsProfile = ({ userId }) => {
           BGHover={`${theme.palette.hover.primary}`}
         />
       </Grid>
+
+      <Grid item xs={12} md={12} lg={12}>
+          <CustomTable
+            title={"Documents"}
+            columns={columns}
+            data={documentData}
+            headerBackgroundColor={theme.palette.background.main}
+            overFlow={"scroll"}
+            width={"100%"}
+          />
+        </Grid>
+
     </Grid>
   );
 };

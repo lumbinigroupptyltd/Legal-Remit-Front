@@ -7,26 +7,32 @@ import EmailIcon from "@mui/icons-material/Email";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import { CButton } from "../../../components/UIElements/CButton";
 import { Grid, useTheme } from "@mui/material";
-import {
-  useGetAllOccupations,
-  useGetUserAllStates,
-  useGetUserNationality,
-} from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
 import RenderInput from "../../../components/RenderInput/RenderInput";
-import { useKycBusinessProfileForm } from "../../../hooks/profile/Business/useProfileDetailsBusinessForm";
+import { useGetUserNationality } from "../../../hooks/nationality/useNationalityDetails";
+import { useGetUserAllStates } from "../../../hooks/state/useStateDetails";
+import { useGetAllOccupations } from "../../../hooks/occupation/useOccupationDetails";
+import { useKycBusinessDetailsForm } from "../../../forms/profile/business/businessBasicDetailsForm";
+import { useGetBusinessKycDetailsByUserId } from "../../../hooks/profile/Business/businessKyc/useBusinessKycDetails";
 
 const KycBusinessProfile = () => {
   const theme = useTheme();
   const { data: nationalityData } = useGetUserNationality();
   const { data: allStatesData } = useGetUserAllStates();
   const { data: allOccupationsData } = useGetAllOccupations();
-  const { formik } = useKycBusinessProfileForm();
-  const handleFormSubmit = () => {
-    // console.log("success");
-  };
+  const { data: businessKycData } = useGetBusinessKycDetailsByUserId(userId);
+
+  const data = businessKycData && businessKycData?.data?.[0];
   const nationData = nationalityData && nationalityData?.data;
   const stateData = allStatesData && allStatesData?.data;
   const occuData = allOccupationsData && allOccupationsData?.data;
+  const countryId = stateData && stateData?.[0]?.country?.id;
+
+  const { formik } = useKycBusinessDetailsForm({ data, userId, countryId });
+
+  const handleFormSubmit = () => {
+   formik.handleSubmit();
+  };
+
   const GET_NATIONALITY =
     nationData &&
     nationData?.map((item) => ({
@@ -60,6 +66,18 @@ const KycBusinessProfile = () => {
       xs: 12,
     },
     {
+      name: "state",
+      label: "State",
+      required: true,
+      type: "dropDown",
+      options: GET_ALL_STATES,
+      iconStart: <LocationOnIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+    {
       name: "houseNo",
       label: "House No & Street Name",
       required: true,
@@ -74,7 +92,7 @@ const KycBusinessProfile = () => {
       name: "city",
       label: "Subarb / City",
       required: true,
-      type: "text",
+      type: "AsyncDropDownSearchCity",
       iconStart: <LocationOnIcon />,
       id: nanoid(),
       md: 6,
@@ -92,18 +110,7 @@ const KycBusinessProfile = () => {
       sm: 6,
       xs: 12,
     },
-    {
-      name: "state",
-      label: "State",
-      required: true,
-      type: "dropDown",
-      options: GET_ALL_STATES,
-      iconStart: <LocationOnIcon />,
-      id: nanoid(),
-      md: 6,
-      sm: 6,
-      xs: 12,
-    },
+   
     {
       name: "occupation",
       label: "Occupation",

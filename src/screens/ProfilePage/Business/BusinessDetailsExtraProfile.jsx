@@ -5,7 +5,6 @@ import PersonIcon from "@mui/icons-material/Person";
 import SmartphoneIcon from "@mui/icons-material/Smartphone";
 import EmailIcon from "@mui/icons-material/Email";
 import FlagIcon from "@mui/icons-material/Flag";
-
 import {
   Button,
   Grid,
@@ -15,16 +14,18 @@ import {
   useTheme,
 } from "@mui/material";
 import { CButton } from "../../../components/UIElements/CButton";
-import {
-  useBusinessDirectiveForm,
-  useBusinessShareForm,
-  usePersonalBusinessProfileExtraForm,
-} from "../../../hooks/profile/Business/useProfileDetailsBusinessForm";
 import FormModal from "../../../components/formModal/FormModal";
-import { FieldArray, FormikProvider } from "formik";
-import { useGetAllCountries, useGetAllOccupations, useGetUserAllStates, useGetUserNationality } from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
-import { useGetBusinessDetails, useGetBusinessDirectorDetails, useGetBusinessIndustryType, useGetBusinessTypeDetails, useGetCompanyTypeDetails } from "../../../hooks/profile/Business/useProfileBusinessDetails";
+import { FormikProvider } from "formik";
 import CustomTable from "../../../components/CustomTable/CustomTable";
+import { useGetBusinessTypeDetails } from "../../../hooks/profile/Business/businessType/useBusinessTypeDetails";
+import { useGetCompanyTypeDetails } from "../../../hooks/companyType/useCompanyTypeDetails";
+import { useGetBusinessDetails } from "../../../hooks/profile/Business/business/useBasicBusinessDetails";
+import { useGetUserNationality } from "../../../hooks/nationality/useNationalityDetails";
+import { useGetUserAllStates } from "../../../hooks/state/useStateDetails";
+import { useGetAllOccupations } from "../../../hooks/occupation/useOccupationDetails";
+import { useGetIndustryTypeDetails } from "../../../hooks/industryType/useIndustryTypeDetails";
+import { useBusinessExtraDetailsForm, useDirectorDetailsForm, useShareHolderDetailsForm } from "../../../forms/profile/business/businessBasicDetailsForm";
+import { useGetDirectorDetails } from "../../../hooks/profile/Business/director/useDirectorDetails";
 
 const directiveCloumns = [
   {
@@ -142,12 +143,12 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
   const { data: nationalityData } = useGetUserNationality();
   const { data: allStatesData } = useGetUserAllStates();
   const { data: allOccupationsData } = useGetAllOccupations();
-  const { data: industryTypeData } = useGetBusinessIndustryType();
+  const { data: industryTypeData } = useGetIndustryTypeDetails();
 
-  const { formikD } = useBusinessDirectiveForm({ userId, setDirectiveModal });
-  const { formikS } = useBusinessShareForm({ userId, setShareModal });
+  const { formikD } = useDirectorDetailsForm({ userId, setDirectiveModal });
+  const { formikS } = useShareHolderDetailsForm({ userId, setShareModal });
 
-  const { data: directorData } = useGetBusinessDirectorDetails();
+  const { data: directorData } = useGetDirectorDetails();
   const handleFormDirectiveSubmit = () => {
     formikD.handleSubmit();
   };
@@ -247,7 +248,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       iconStart: <EmailIcon />,
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "targetBusiness",
@@ -257,7 +259,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       type: "text",
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "businessAddress",
@@ -267,50 +270,30 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       type: "text",
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "expectedRemittance",
       label: "Expected remittance volume (AUD)/sending currency per year",
       required: true,
       iconStart: <SmartphoneIcon />,
-      type: "onlyNumber",
-      
+      type: "onlyNumber",      
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
-    // {
-    //   name: "percentageOfShareHolding",
-    //   label: "Percentage of Shareholding",
-    //   required: true,
-    //   iconStart: <SmartphoneIcon />,
-    //   type: "text",      
-    //   id: nanoid(),
-    //   md: 6,
-    //   sm: 12,
-    // },
     {
       name: "noOfTransaction",
       label: "Expected No of transaction per year",
       required: true,
       iconStart: <SmartphoneIcon />,
-      type: "onlyNumber",
-      
+      type: "onlyNumber",      
       id: nanoid(),
       md: 6,
-      sm: 12,
-    },
-    {
-      name: "website",
-      label: "Website",
-      required: true,
-      iconStart: <SmartphoneIcon />,
-      type: "text",
-      
-      id: nanoid(),
-      md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "noOfDirectors",
@@ -338,10 +321,21 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       sm: 6,
       xs: 12,
     },
+    {
+      name: "website",
+      label: "Website",
+      required: true,
+      iconStart: <SmartphoneIcon />,
+      type: "text",
+      
+      id: nanoid(),
+      md: 6,
+      sm: 12,
+    },
   ];
 
   const businessDetailsData = businessAllData && businessAllData?.data;
-  const { formik } = usePersonalBusinessProfileExtraForm({ userId, totalDirector, totalshareholder, businessDetailsData });
+  const { formik } = useBusinessExtraDetailsForm({ userId, totalDirector, totalshareholder, businessDetailsData });
   const iconCode = data && data?.find((d) => d?.id === formik.values.countryId);
 
   const handleFormSubmit = () => {
@@ -366,7 +360,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       responseId: "id",
       responseCode: "phoneCode",
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "name",
@@ -377,7 +372,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "email",
@@ -387,7 +383,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       type: "text",
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "phone",
@@ -399,7 +396,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "percentageOfShareHolding",
@@ -409,7 +407,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       type: "text",
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "streetName",
@@ -420,7 +419,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "suburb",
@@ -432,7 +432,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "zipCode",
@@ -443,7 +444,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "idNumber",
@@ -454,7 +456,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "cardNumber",
@@ -465,7 +468,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "dob",
@@ -476,7 +480,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "documentValidity",
@@ -487,7 +492,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "businessDetailId",
@@ -499,7 +505,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "occupationId",
@@ -511,7 +518,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
     {
       name: "nationalityId",
@@ -523,7 +531,8 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       
       id: nanoid(),
       md: 6,
-      sm: 12,
+      sm: 6,
+      xs: 12,
     },
   ];
 

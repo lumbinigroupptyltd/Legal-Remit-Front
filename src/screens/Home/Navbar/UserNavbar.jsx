@@ -19,10 +19,10 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 // import { styled } from '@mui/material/styles';
 
-
-import  Box  from "@mui/material/Box";
+import Box from "@mui/material/Box";
 import { CButton } from "../../../components/UIElements/CButton";
 import { isAuthenticated } from "../../../utils/useHelper";
+import { logout } from "../../../utils/logout";
 
 export const FlexBetween = styled(Box)({
   display: "flex",
@@ -118,6 +118,11 @@ const UserNavbar = () => {
     return scrollPosition > window.innerHeight * 0.05
       ? theme.palette.surface.light
       : "#f1f5f8";
+  };
+
+  const handleLogout = () => {
+    navigate("/");
+    logout();
   };
 
   return (
@@ -233,16 +238,18 @@ const UserNavbar = () => {
               </List>
             ))}
 
-            <CButton
-              buttonName={"Sign Up"}
-              variant={"contained"}
-              fullWidth={"fullWidth"}
-              Width={"fit-content"}
-              BorderRadius={"24px"}
-              BGColor={theme.palette.button.primary}
-              BGHover={`${theme.palette.hover.primary}`}
-              OnClick={() => navigate("/signup")}
-            />
+            <Button
+              variant="outlined"
+              onClick={handleLogout}
+              sx={{
+                ":hover": {
+                  backgroundColor: theme.palette.hover.primary,
+                  color: "#fff",
+                },
+              }}
+            >
+              Logout
+            </Button>
           </FlexBetween>
 
           <FlexBetween gap="12px">

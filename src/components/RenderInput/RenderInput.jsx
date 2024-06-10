@@ -18,19 +18,13 @@ import {
   FormControl,
 } from "@mui/material";
 import { getIn } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import OptionalRender from "./OptionalRender";
 import CustomizedSwitches from "./SwitchInput";
 import AsyncDropDownOption from "./AsyncDropDownOption";
-import switchWithModalField from "./switchWithModalField";
-import { AsyncDropDownCustom, AsyncDropDown } from "./AsyncDropDown";
+import { AsyncDropDownCustom, AsyncDropDown, AsyncDropDownSearchCity } from "./AsyncDropDown";
 import { PickDate } from "./DatePicker";
-import DropZoneUploadFile from "./DropZoneUploadFile";
 import NewDropZone from "./NewDropZone";
-import SwitchWithModalField from "./switchWithModalField";
-import { useGetVerifyEmail } from "../../hooks/profile/User/useProfileDetails";
-import { getVerifyEmail } from "../../api/profile/profile-api";
-import { toast } from "react-toastify";
 
 const RenderInput = ({
   inputField,
@@ -51,14 +45,10 @@ const RenderInput = ({
     if (formik.values.documentType && inputField.length) {
       const isSingleFile = inputField[0].singleFile;
       const onlyDocument = inputField[0].onlyDocument;
-      const isCorporate = inputField[0].isCorporate;
       formik.setFieldValue("isSingleFile", isSingleFile);
       formik.setFieldValue("onlyDocument", onlyDocument);
-      formik.setFieldValue("isCorporate", isCorporate);
     }
   }, [formik.values.documentType]);
-
-
 
   const getComponentToRender = (element, disableField, index) => {
     if (!element) return null;
@@ -717,17 +707,6 @@ const RenderInput = ({
             )}
           </div>
         );
-      case "switchWithModalField":
-        return (
-          <div>
-            <switchWithModalField
-              element={element}
-              formik={formik}
-              isFieldArray={isFieldArray}
-            />
-          </div>
-        );
-
       case "radio":
         return (
           <>
@@ -834,6 +813,14 @@ const RenderInput = ({
             formValues={formValues}
           />
         );
+        case "AsyncDropDownSearchCity":
+          return (
+            <AsyncDropDownSearchCity
+              element={element}
+              formik={formik}
+              formValues={formValues}
+            />
+          );
       case "datePicker":
         return <PickDate element={element} formik={formik} />;
       // case "documentUpload":

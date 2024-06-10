@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Typography, useMediaQuery, useTheme } from "@mui/material";
 import Dropzone from "react-dropzone";
 import Picture from "../../assets/images/doc/Picture.png";
-import { useDeleteDocField } from "../../hooks/profile/User/useProfileDetails";
-import { DOC_URL } from "../../utils/getBaseUrl";
+import { useDeleteUserDocumentsDetails } from "../../hooks/profile/User/userDocument/useUserDocumentDetails";
 
 const NewDropZone = ({ element, formik }) => {
   const { deleteKycDocMutation, isSuccess: isDeleteSuccess } =
-    useDeleteDocField({});
+  useDeleteUserDocumentsDetails({});
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.down("sm"));
   const isMd = useMediaQuery(theme.breakpoints.down("md"));
@@ -64,7 +63,7 @@ const NewDropZone = ({ element, formik }) => {
       setFile(null);
     }
   }, [isDeleteSuccess]);
-console.log(file, "file")
+
   return (
     <div style={{ width: isSm || isMd ? "300px" : "360px" }}>
       {title && (
