@@ -26,7 +26,7 @@ import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import OtpInput from "react-otp-input";
-import userContext from "../Auth/Signup/Signupdata/Usecontext";
+import userContext from "../Auth/SignupNew/Usecontext";
 import { CommonConstants } from "../../Constants/common.constants";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
