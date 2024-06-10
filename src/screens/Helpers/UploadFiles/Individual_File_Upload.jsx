@@ -7,7 +7,7 @@ import uploadVector from '../../../assets/images/dropzoneVector.svg'
 import closeVector from '../../../assets/images/close.svg'
 import previewVector from '../../../assets/images/preview.svg'
 import { Business } from "@mui/icons-material";
-import userContext from "../../Auth/Signup/Signupdata/Usecontext";
+import userContext from "../../Auth/SignupNew/Usecontext";
 import ModalComponent from "../../Dashbord/ModalComponent";
 
 
