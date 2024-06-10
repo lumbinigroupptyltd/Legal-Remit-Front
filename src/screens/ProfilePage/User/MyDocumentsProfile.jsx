@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import RenderInput from "../../../components/RenderInput/RenderInput";
-import { Grid, useTheme } from "@mui/material";
+import { Grid, IconButton, useTheme } from "@mui/material";
 import { CButton } from "../../../components/UIElements/CButton";
 import {
   USER_CITIZENSHIP_FIELD,
@@ -8,13 +8,20 @@ import {
   USER_LICENSE_FIELD,
   USER_PASSPORT_FIELD,
 } from "./docField";
-import { useGetUserAllDocuments, useGetUserDocumentsTypeDetails } from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
-import { useGetUserIdDetailsById, useGetUserIdDetailsByUserId } from "../../../hooks/profile/User/userId/useUserIdDetails";
+import { useDeleteUserDocumentsDetails, useGetUserDocumentsTypeDetails } from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
+import {
+  useGetUserIdDetailsById,
+  useGetUserIdDetailsByUserId,
+} from "../../../hooks/profile/User/userId/useUserIdDetails";
 import { useUserDocumentsDetailsForm } from "../../../forms/profile/user/userBasicDetailsForm";
 import CustomTable from "../../../components/CustomTable/CustomTable";
-import { DOC_URL } from "../../../utils/getBaseUrl";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const MyDocumentsProfile = ({ userId }) => {
+  const [file, setFile] = useState("");
+  const { deleteKycBankMutation, isSuccess: isDeleteSuccess } =
+  useDeleteUserDocumentsDetails({});
   const theme = useTheme();
   const { data: docTypeData } = useGetUserDocumentsTypeDetails();
   const getDocData = docTypeData && docTypeData?.data;
@@ -22,7 +29,7 @@ const MyDocumentsProfile = ({ userId }) => {
   const doTypeId = userIdDetails && userIdDetails?.data?.[0]?.id;
   const { data: userIdData } = useGetUserIdDetailsById(doTypeId);
   const documentData = userIdData && userIdData?.data?.document;
-console.log(userIdDetails, "do")
+console.log(documentData);
   const newDocData = getDocData
     ?.filter((item) => item?.documentTypes?.length > 0) // Filter items with non-empty documentTypes
     ?.flatMap((item) =>
@@ -38,6 +45,20 @@ console.log(userIdDetails, "do")
     formik.handleSubmit();
   };
 
+  const handleEditRow = (fileName) => {
+    if (fileName) {
+        deleteKycBankMutation({
+          row: fileName,
+        });
+    }
+  };
+
+  useEffect(() => {
+    if (isDeleteSuccess) {
+      setFile(null);
+    }
+  }, [isDeleteSuccess]);
+
   const columns = useMemo(
     () => [
       {
@@ -50,7 +71,7 @@ console.log(userIdDetails, "do")
         sortable: false,
       },
       {
-        id: 1,
+        id: 2,
         accessorKey: "docTypeName",
         header: "New Data",
         size: 250,
@@ -63,7 +84,7 @@ console.log(userIdDetails, "do")
         Cell: (cell) => {
           const fileName = cell?.row?.original?.fileName;
           const image = fileName ? fileName : "";
-      
+
           const renderImage = (src) => {
             if (src) {
               return (
@@ -77,7 +98,7 @@ console.log(userIdDetails, "do")
             }
             return null;
           };
-      
+
           return (
             <div style={{ display: "flex", gap: "8px" }}>
               {renderImage(image)}
@@ -85,6 +106,23 @@ console.log(userIdDetails, "do")
           );
         },
         sortable: false,
+      },
+      {
+        id: 4,
+        accessorKey: "action",
+        header: "Action",
+        size: 100,
+        sortable: false,
+        Cell: (cell) => (
+          <>
+            <IconButton
+              color="primary"
+              onClick={() => handleEditRow(cell.row.original)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </>
+        ),
       },
     ],
     []
@@ -103,7 +141,7 @@ console.log(userIdDetails, "do")
       {formik.values.documentType === "Driving License" && (
         <RenderInput inputField={USER_LICENSE_FIELD} formik={formik} />
       )}
-      
+
       {formik.values.documentType === "Citizenship" && (
         <RenderInput inputField={USER_CITIZENSHIP_FIELD} formik={formik} />
       )}
@@ -143,16 +181,16 @@ console.log(userIdDetails, "do")
       </Grid>
 
       <Grid item xs={12} md={12} lg={12}>
-          <CustomTable
-            title={"Documents"}
-            columns={columns}
-            data={documentData}
-            headerBackgroundColor={theme.palette.background.main}
-            overFlow={"scroll"}
-            width={"100%"}
-          />
-        </Grid>
-
+        <CustomTable
+          title={"Documents"}
+          columns={columns}
+          data={documentData}
+          headerBackgroundColor={theme.palette.background.main}
+          overFlow={"scroll"}
+          width={"100%"}
+          handleEditRow={handleEditRow}
+        />
+      </Grid>
     </Grid>
   );
 };

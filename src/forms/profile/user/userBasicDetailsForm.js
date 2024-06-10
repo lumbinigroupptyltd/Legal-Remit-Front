@@ -4,6 +4,7 @@ import { useAddUserDocumentsDetails } from "../../../hooks/profile/User/userDocu
 import { useAddUserIdDetails, useEditUserIdDetails } from "../../../hooks/profile/User/userId/useUserIdDetails";
 import { useAddUserBasicUserDetails, useEditUserBasicUserDetails } from "../../../hooks/profile/User/user/useBasicUserDetails";
 import { IdDetailsProfileSchema, documentsProfileSchema, kycDetailsProfileSchema, personalDetailsSchema } from "../validation/userValidationSchema";
+import { useQueryClient } from "react-query";
 
 export const useBasicUserDetailsDetailsForm = ({ data, userId }) => { 
   const {mutate: addMutate } = useAddUserBasicUserDetails({});
@@ -27,9 +28,7 @@ export const useBasicUserDetailsDetailsForm = ({ data, userId }) => {
     validationSchema: personalDetailsSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log(values, "values")
       if (values?.email) {
-        console.log(values)
         handledEditRequest(values);
       } else {
         handledAddRequest(values);
@@ -59,7 +58,7 @@ export const useBasicUserDetailsDetailsForm = ({ data, userId }) => {
 export const useUserKycDetailsForm = ({data, userId, countryId }) => {
   const {mutate: addMutate } = useAddUserKycDetails({});
   const {mutate: editMutate } = useEditUserKycDetails({});
-console.log(data, "data")
+
   const formik = useFormik({
     initialValues: {
       id: data?.id || "",
@@ -185,5 +184,31 @@ export const useUserIdDetailsForm = ({userData, userId}) => {
 
   return {
     formik,
+  };
+};
+
+/*________________________DELETE Doc DETAIL_____________________________________*/
+export const useDeleteDocField = ({ onSuccess }) => {
+  const queryClient = useQueryClient();
+  const kycBankDelete = useMutation(
+    ["deleteDoc"],
+    (row) => {
+      deleteDocField(row);
+    },
+    {
+      onSuccess: (data, variables, context) => {
+        onSuccess && onSuccess(data, variables, context);
+        toast.success("Successfully deleted document.");
+        queryClient.invalidateQueries("getDocAll");
+        queryClient.invalidateQueries("getDocument");        
+      },
+      onError: (err, _variables, _context) => {
+        toast.error(`${err.response.data.message}`);
+      },
+    }
+  );
+  return {
+    isSuccess: kycBankDelete.isSuccess,
+    deleteKycBankMutation: kycBankDelete.mutate,
   };
 };

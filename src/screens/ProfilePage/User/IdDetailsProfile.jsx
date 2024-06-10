@@ -109,37 +109,6 @@ const IdDetailsProfile = ({ userId }) => {
       sm: 6,
       xs: 12,
     },
-    // {
-    //   name: "verification",
-    //   label: "Choose ID Verification",
-    //   type: "switch",
-    //   col: 12,
-    //   id: nanoid(),
-    //   required: true,
-    //   display: "flex",
-    //   direction: "column",
-    //   justify: "start",
-    //   hasRadio: true,
-    //   radioName: "verification",
-    //   radioLabel:
-    //     "It is recommended to choose Digital Verification for faster process",
-    //   // radioDisplay: "flex",
-    //   // radioDirection: "row",
-    //   // radioAlign: "center",
-    //   // radioGap: "16px",
-    //   radio: [
-    //     {
-    //       value: "digital",
-    //       label: "Digital Verification",
-    //       id: nanoid(),
-    //     },
-    //     {
-    //       value: "manual",
-    //       label: "Manual Verification (Slower Method)",
-    //       id: nanoid(),
-    //     },
-    //   ],
-    // },
   ];
 
   return (

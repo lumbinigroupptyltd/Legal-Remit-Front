@@ -252,10 +252,7 @@ const NewProfilePage = () => {
                     ID Details
                   </AccordionSummary>
                   <AccordionDetails>
-                      <IdDetailsProfile data={newData} userId={userId} />
-                    
-                      {/* <IdBusinessProfile data={newData} userId={userId} /> */}
-                   
+                      <IdDetailsProfile data={newData} userId={userId} />                   
                   </AccordionDetails>
                 </Accordion>
 
@@ -272,12 +269,8 @@ const NewProfilePage = () => {
                   >
                     My Documents
                   </AccordionSummary>
-                  <AccordionDetails>
-                    
-                      <MyDocumentsProfile userId={userId} />
-                  
-                      {/* <MyDocumentsBusinessProfile userId={userId} /> */}
-                   
+                  <AccordionDetails>                    
+                      <MyDocumentsProfile userId={userId} />                   
                   </AccordionDetails>
                 </Accordion>
               </>

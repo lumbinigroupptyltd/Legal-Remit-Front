@@ -12,7 +12,6 @@ import { useUserKycDetailsForm } from "../../forms/profile/user/userBasicDetails
 const ConfirmationModal = ({ handleCloseModal, message, data, userId, countryId }) => {
   const navigate = useNavigate();
   const theme = useTheme();
-  console.log(data, "data here")
   const { formik } = useUserKycDetailsForm({ data, userId, countryId });
   const handleFormSubmit = async() => {
     await formik.setFieldValue("kycStatus", "PENDING");
