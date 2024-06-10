@@ -1,7 +1,7 @@
 on: 
     push:
       branches:
-       - DEVELOPMENT
+       - DEVELOP
 
 env:
   BUCKET_NAME: "new-dev.legalremit.com"
