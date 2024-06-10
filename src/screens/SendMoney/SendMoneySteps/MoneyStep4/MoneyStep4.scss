@@ -1,0 +1,125 @@
+.editIcon{
+    border-bottom: 1px solid #d494ef !important;
+}
+.mainS4{
+    background: #F7EAFC !important;
+    border: 0 !important; 
+}
+.mainS4select {
+    background: #F7EAFC !important;
+    border: 0 !important;
+    // color: #6c757d !important;
+    opacity: 1;
+    font-size: 14px !important;
+    padding: 15px 10px 15px 42px !important;
+}
+
+.non_Select{
+  pointer-events: none !important;
+}
+
+.jaia{
+    border-radius: 20px !important;
+}
+
+.mycardbtn{
+  font-size: 11px;
+}
+
+////////////////////////////////////////////////
+
+
+
+.editIcon{
+    border-bottom: 1px solid #d494ef !important;
+}
+.mainS4{
+    background: #F7EAFC !important;
+    border: 0 !important; 
+}
+// .mainS4select {
+//     background: #F7EAFC !important;
+//     border: 0 !important;
+//     color: #6c757d !important;
+//     opacity: 1;
+//     font-size: 14px !important;
+//     padding: 15px 10px 15px 42px !important;
+// }
+.jaia{
+    border-radius: 20px !important;
+}
+.aaa{
+    position: absolute;
+    left: 18px;
+    top: 6px;
+    z-index: 10;
+}
+
+.bbb{
+    position: absolute;
+    right: 18px;
+    top: 6px;
+}
+
+.left-inner-addons input {
+    padding-left: 107px !important;
+}
+
+.right-inner-addons input{
+    padding-right: 26px !important;
+    padding-left: 36px !important;
+    
+
+}
+
+.olMain ol {
+    list-style: none;
+    counter-reset: my-awesome-counter;
+  }
+  .liMain  {
+    counter-increment: my-awesome-counter;
+    margin: 0.25rem;
+    text-align: left;
+  }
+//   li::marker {
+//     content: '';
+//     font-size: 1.2em;
+// }
+  .liMain::before {
+    content: counter(my-awesome-counter);
+    background: #AA2AE1;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: inline-block;
+    line-height: 2rem;
+    color: white;
+    text-align: center;
+    margin-right: 0.5rem;
+  }
+  .olMain .olMain   .liMain .liMain::before {
+    background: #AA2AE1;
+  }
+  .olMain .olMain .olMain .liMain::before {
+    background: #AA2AE1;
+  }
+  
+ .inin{
+  background:#EFEFEF;
+ }
+
+ .form-control:disabled {
+  background-color: #e9ecef !important;
+  opacity: 1;
+}
+
+.hh{
+  background: #F7EAFC !important;
+  
+}
+.nextBtn11{
+  background: transparent !important;
+  border: 2px solid #AA2AE1 !important;
+  color: #AA2AE1 !important;
+  border-radius: 19px !important;
+}

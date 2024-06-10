@@ -190,7 +190,7 @@ const PersonalDetailsProfile = ({ data, userId }) => {
               </Typography>
             </Box>
           )}
-          {data && data?.isPhoneVerified && (
+          {data && !data?.isPhoneVerified && (
             <Box sx={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
               <Typography variant="p" color={"error"}>
                 Verify Phone{" "}

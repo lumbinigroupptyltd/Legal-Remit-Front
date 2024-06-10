@@ -1,0 +1,36 @@
+#tsparticles {
+    background-image: url(http://localhost:5000/static/media/bg-banner.14b038e….svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 100vh !important;
+    max-height: 100vh !important;
+}
+
+.swingVector1 {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+.swingMain {
+    position: relative;
+    top: 260px;
+    left: -53px;
+}
+
+@media (max-width: 1400px) and (orientation: landscape) {
+    .moneyCard {
+      top: 12%;
+  }
+    #tsparticles {
+      height: 200vh !important;
+      max-height: 115vh !important;
+  }
+  .cookieMain {
+    position: fixed;
+    left: 0;
+    right: 3%;
+    top: 60%;
+    z-index: 99999;
+}
+  }

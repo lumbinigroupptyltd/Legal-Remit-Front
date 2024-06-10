@@ -125,7 +125,7 @@ const NewProfilePage = () => {
             </AccordionSummary>
             <AccordionDetails>
               <BusinessDetailsExtraProfile
-                data={businessDetailsData}
+                // data={businessDetailsData}
                 userId={userId}
               />
             </AccordionDetails>

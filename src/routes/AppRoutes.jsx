@@ -49,7 +49,8 @@ const AppRoutes = () => {
   const { role, verified } = useSelector((state) => state.auth);
 const kycStatus = "REJECTED";
 // const kycStatus = "PENDING";
-// const kycStatus = "REJECTED";
+// const kycStatus = "VERIFIED";
+
   return (
     <HashRouter hashType="slash">
       <ScrollToTop>

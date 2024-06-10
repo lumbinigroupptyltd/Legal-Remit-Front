@@ -1,0 +1,25 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table td {
+    padding: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // max-width: 150px; /* Adjust this value as needed */
+  }
+
+  .table td:hover {
+    background: transparent !important;
+    white-space: none !important;
+    overflow: visible;
+    box-shadow:none !important;
+    // background-color: #f1f1f1; /* Adjust the background color for hover effect */
+  }
+  .table-hover tbody tr:hover{
+    // background-color: transparent !important;
+  }
+
+  

@@ -1,0 +1,52 @@
+.commonSiteMap{
+    font-size: 14px !important; 
+}
+
+ul.round11 li {
+    list-style: none;
+    position: relative;
+    padding: 0 0 0 20px;
+}
+
+
+.round11{
+    position: relative;
+}
+
+ul.round11 li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 7px;
+    height: 7px;
+    background-color: #1860a6;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+}
+
+
+.bluecolor{
+    color: #1860a6 !important;
+    font-weight: 500 !important;
+}
+
+ul.roundBorder11 li {
+    list-style: none;
+    position: relative;
+    padding: 0 0 0 20px;
+  }
+
+  ul.roundBorder11 li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 7px;
+    height: 7px;
+    border: 1px solid #1860a6;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+  }
