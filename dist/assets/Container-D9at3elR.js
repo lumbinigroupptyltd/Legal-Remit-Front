@@ -1,1 +1,0 @@
-import{u as f,a as p}from"./ThemeProvider-BovkV_tw.js";import{r as m,j as x}from"./index-CZLZpOaH.js";const c=m.forwardRef(({bsPrefix:a,fluid:s=!1,as:t="div",className:e,...o},n)=>{const r=f(a,"container"),i=typeof s=="string"?`-${s}`:"-fluid";return x.jsx(t,{ref:n,...o,className:p(e,s?`${r}${i}`:r)})});c.displayName="Container";export{c as C};
