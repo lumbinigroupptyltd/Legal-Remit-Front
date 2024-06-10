@@ -27,6 +27,6 @@ import { axiosInstance } from "../../../utils/axiosIntercepters";
     /*________________________PATCH_____________________________________*/
   }
   export const editUserIdDetails= async (formData) => {
-    const data = await axiosInstance.patch(`/useriddetails/update`, formData);
+    const data = await axiosInstance.patch(`/iddetails/update`, formData);
     return data;
   };

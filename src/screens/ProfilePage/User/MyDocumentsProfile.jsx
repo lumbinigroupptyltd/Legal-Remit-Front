@@ -64,8 +64,6 @@ console.log(userIdDetails, "do")
           const fileName = cell?.row?.original?.fileName;
           const image = fileName ? fileName : "";
       
-          console.log(image, "image");
-      
           const renderImage = (src) => {
             if (src) {
               return (
