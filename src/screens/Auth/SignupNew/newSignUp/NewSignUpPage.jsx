@@ -10,7 +10,6 @@ import { nanoid } from "nanoid";
 import OtpVerification from "./OTP/OtpVerification";
 import RenderInput from "../../../../components/RenderInput/RenderInput";
 import FormModal from "../../../../components/formModal/FormModal";
-import useSignUpForm from "../../../../hooks/auth/signup/useSignUpForm";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import PersonIcon from "@mui/icons-material/Person";
 import SmartphoneIcon from "@mui/icons-material/Smartphone";
@@ -20,7 +19,8 @@ import LinkIcon from "@mui/icons-material/Link";
 import { CButton } from "../../../../components/UIElements/CButton";
 import FlagIcon from "@mui/icons-material/Flag";
 import { useNavigate } from "react-router-dom";
-import { useGetAllCountries } from "../../../../hooks/apiStartGetAll/useGetAllUserInfo";
+import useSignUpForm from "../../../../forms/auth/signup/signUpForm";
+import { useGetAllCountries } from "../../../../hooks/country/useCountryDetails";
 
 const ROLE_SELECTED = [
   { id: nanoid(), label: "Individual", value: "4b0fa25e-6dd9-480f-bdd7-59247705c132" },
@@ -34,9 +34,6 @@ const NewSignUpPage = () => {
   const { data: countryData } = useGetAllCountries();
   const data = countryData && countryData?.data;
 
-
-  // const { data: roleData } = useGetRoles();
-  // const role = roleData && roleData?.data;
   const {
     formik,
     showPassword,
@@ -57,7 +54,7 @@ const NewSignUpPage = () => {
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
-console.log(formik, "formik")
+
   const generateInputFields = (roleId) => {
     const iconCode = data && data?.find((d) => d?.id === formik.values.countryId)
     let inputFields = [

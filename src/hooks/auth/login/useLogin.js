@@ -11,32 +11,6 @@ import { login } from "../../../redux/actions/authAction";
 {
   /*________________________POST_____________________________________*/
 }
-// export const useLogin = ({ onSuccess }) => {
-//   const navigate = useNavigate();
-//   const queryClient = useQueryClient();
-//   return useMutation(["addsignup"], (formData) => addLogin(formData), {
-//     onSuccess: (data, variables, context) => {
-//       toast.success("Login successful");
-//       onSuccess && onSuccess(data, variables, context);
-//       const token = data?.data?.token;
-//       const refreshToken = data?.data?.refreshToken;
-//       setUser(token);
-//       setRefreshToken(refreshToken);
-//       if (token) {
-//         const decodedInfo = jwtDecode(token);
-//         if(decodedInfo?.isSignupCompleted){
-//           navigate("/dashboard");
-//         }else {
-//           navigate("/profile");
-//         }
-//       }
-//       queryClient.invalidateQueries("");
-//     },
-//     onError: (err, _variables, _context) => {
-//       toast.error(getErrorMessage(err));
-//     },
-//   });
-// };
 
 export const useLogin = ({ onSuccess }) => {
   const queryClient = useQueryClient();
@@ -50,11 +24,13 @@ export const useLogin = ({ onSuccess }) => {
       const refreshToken = data?.data?.refreshToken;
       dispatch(login(token, refreshToken));
       const decodedInfo = jwtDecode(token);
-      console.log(decodedInfo, "decodedInfo")
+      console.log(decodedInfo, "decoded")
       if (decodedInfo?.role === "ADMIN") {
         navigate("/dashboard");
-      } else if (decodedInfo?.role === "USER" || decodedInfo?.role === "BUSINESS"){
+      } else if ((decodedInfo?.role === "USER" || decodedInfo?.role === "BUSINESS") && decodedInfo?.kycStatus === "REJECTED") {
         navigate("/profile");
+      } else if ((decodedInfo?.role === "USER" || decodedInfo?.role === "BUSINESS") && (decodedInfo?.kycStatus === "PENDING" || decodedInfo?.kycStatus === "VERIFIED")) {
+        navigate("/home");
       }
       queryClient.invalidateQueries("");
     },

@@ -6,15 +6,13 @@ import SmartphoneIcon from "@mui/icons-material/Smartphone";
 import EmailIcon from "@mui/icons-material/Email";
 import { Box, Grid, Typography, useTheme } from "@mui/material";
 import { CButton } from "../../../components/UIElements/CButton";
-import { usePersonalBusinessProfileForm } from "../../../hooks/profile/Business/useProfileDetailsBusinessForm";
 import { toast } from "react-toastify";
-import { getVerifyEmail } from "../../../api/profile/profile-api";
+import { useBasicBusinessDetailsForm } from "../../../forms/profile/business/businessBasicDetailsForm";
+import { getVerifyEmail } from "../../../api/userInfo/user-api";
 
 const BusinessDetailsProfile = ({ data, userId }) => {
-  console.log(data, "data");
-
   const theme = useTheme();
-  const { formik } = usePersonalBusinessProfileForm({ data, userId });
+  const { formik } = useBasicBusinessDetailsForm({ data, userId });
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };

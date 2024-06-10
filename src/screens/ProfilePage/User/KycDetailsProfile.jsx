@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import RenderInput from "../../../components/RenderInput/RenderInput";
 import { nanoid } from "nanoid";
-import { useKycDetailsProfileForm } from "../../../hooks/profile/User/useProfileDetailsForm";
 import FlagIcon from "@mui/icons-material/Flag";
 import HouseIcon from "@mui/icons-material/House";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -9,36 +8,36 @@ import EmailIcon from "@mui/icons-material/Email";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import { CButton } from "../../../components/UIElements/CButton";
 import { Grid, useTheme } from "@mui/material";
-import {
-  useGetAllOccupations,
-  useGetUserAllStates,
-  useGetUserNationality,
-} from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
-import { useGetUserKycDetails } from "../../../hooks/profile/User/useProfileDetails";
+import { useGetUserAllStates } from "../../../hooks/state/useStateDetails";
+import { useGetAllOccupations } from "../../../hooks/occupation/useOccupationDetails";
+import { useGetUserKycDetailsByUserId } from "../../../hooks/profile/User/userKyc/useUserKycDetails";
+import { useUserKycDetailsForm } from "../../../forms/profile/user/userBasicDetailsForm";
+import { useGetUserNationality } from "../../../hooks/nationality/useNationalityDetails";
 
 const RESIDANCE_OPTIONS = [
   { id: nanoid(), value: "true", label: "Yes" },
   { id: nanoid(), value: "false", label: "No" },
 ];
 
-const KycDetailsProfile = ({ userId}) => {
+const KycDetailsProfile = ({ userId }) => {
   const theme = useTheme();
   const { data: nationalityData } = useGetUserNationality();
   const { data: allStatesData } = useGetUserAllStates();
   const { data: allOccupationsData } = useGetAllOccupations();
-  const { data: userKycData } = useGetUserKycDetails(userId);
-  const data = userKycData && userKycData?.data?.[0];
+  const { data: userKycData } = useGetUserKycDetailsByUserId(userId);
 
+  const data = userKycData && userKycData?.data?.[0];
+  const nationData = nationalityData && nationalityData?.data; 
+  const occuData = allOccupationsData && allOccupationsData?.data;
   const stateData = allStatesData && allStatesData?.data;
-  const countryId = stateData && stateData?.[0]?.country?.id
-  const { formik } = useKycDetailsProfileForm({ data, userId, countryId});
-  
+  const countryId = stateData && stateData?.[0]?.country?.id;
+
+  const { formik } = useUserKycDetailsForm({ data, userId, countryId });
+
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
-  const nationData = nationalityData && nationalityData?.data;
- 
-  const occuData = allOccupationsData && allOccupationsData?.data;
+
   const GET_NATIONALITY =
     nationData &&
     nationData?.map((item) => ({
@@ -72,6 +71,18 @@ const KycDetailsProfile = ({ userId}) => {
       xs: 12,
     },
     {
+      name: "stateId",
+      label: "State",
+      required: true,
+      type: "dropDown",
+      options: GET_ALL_STATES,
+      iconStart: <LocationOnIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+    {
       name: "streetName",
       label: "House No & Street Name",
       required: true,
@@ -86,7 +97,8 @@ const KycDetailsProfile = ({ userId}) => {
       name: "suburb",
       label: "Subarb / City",
       required: true,
-      type: "text",
+      type: "AsyncDropDownSearchCity",
+      // options: GET_CITY_DATA,
       iconStart: <LocationOnIcon />,
       id: nanoid(),
       md: 6,
@@ -104,18 +116,7 @@ const KycDetailsProfile = ({ userId}) => {
       sm: 6,
       xs: 12,
     },
-    {
-      name: "stateId",
-      label: "State",
-      required: true,
-      type: "dropDown",
-      options: GET_ALL_STATES,
-      iconStart: <LocationOnIcon />,
-      id: nanoid(),
-      md: 6,
-      sm: 6,
-      xs: 12,
-    },
+   
     {
       name: "occupationId",
       label: "Occupation",
@@ -142,27 +143,7 @@ const KycDetailsProfile = ({ userId}) => {
     // },
   ];
 
-  async function fetchCity() {
-    const latitude = -35.2809;
-    const longitude = 149.1300;
-    const apiKey = 'AIzaSyCNJRR1zkMpq2RLpT6bM2BLAO2kEDZ8qtA';
-  
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
-  
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-  
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  }
-  
-  fetchCity();
-  
+
   return (
     <Grid container mt={2}>
       <RenderInput inputField={basicInputData} formik={formik} />

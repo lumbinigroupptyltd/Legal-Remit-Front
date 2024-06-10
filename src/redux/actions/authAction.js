@@ -13,6 +13,7 @@ export const login = (token, refreshToken) => (dispatch) => {
       refreshToken,
       role: decodedInfo.role,
       signupCompleted: decodedInfo.isSignupCompleted,
+      kycStatus: decodedInfo.kycStatus,
       blacklisted: decodedInfo.isBlacklisted,
       duplicate: decodedInfo.isDuplicate,
       userId: decodedInfo.userId,

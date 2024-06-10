@@ -234,7 +234,7 @@ export default function ChangePassword({ children, props }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // // console.log(ShowNameZone,"this is comment")
+  
   }, []);
 
   const handleSignUp = () => {
@@ -309,7 +309,7 @@ export default function ChangePassword({ children, props }) {
   const [verfied, setverfied] = useState(false);
 
   const onChange = (value) => {
-    // console.log("Captcha value:", value);
+   
     setverfied(true);
   };
 
@@ -330,7 +330,7 @@ export default function ChangePassword({ children, props }) {
       (navigator.userAgent.match(/Android/i) ||
         navigator.userAgent.match(/iPhone|iPad|iPod/i))
     ) {
-      // console.log("In if")
+      
       toast.success("Mobile/Tablet detected");
       window.location.href = link; // redirect to custom link if mobile app is installed
     } else {

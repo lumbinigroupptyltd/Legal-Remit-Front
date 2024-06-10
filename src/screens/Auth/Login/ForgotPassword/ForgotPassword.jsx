@@ -66,9 +66,8 @@ export default function ForgotPassword({ children, props }) {
         CommonConstants.BASE_URL + "/forgotpassword",
         values
       );
-      // console.log(response,"email")/////login na responce ma email mangavo padse localstorage ma save karava mate /////
+    
       if (response.data.status === true) {
-        // console.log(response.data.message)
         setSuccesshandle(response.data.message);
         // setuserId(response.data.data.id)
         localStorage.setItem("userid", response.data.data.id);
@@ -76,7 +75,6 @@ export default function ForgotPassword({ children, props }) {
         handleSuccessShow();
         setLoader(false);
       } else if (response.data.status === false) {
-        // console.log(response.data.message)
         // setErrorhandle(response.data.message)
         setSuccesshandle(response.data.message);
         handleSuccessShow();
@@ -84,10 +82,10 @@ export default function ForgotPassword({ children, props }) {
         setLoader(false);
       }
     } catch (err) {
-      // console.log(err)
+    
     }
   };
-  // // console.log(UserId)
+ 
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -114,7 +112,6 @@ export default function ForgotPassword({ children, props }) {
   const [verfied, setverfied] = useState(false);
 
   const onChange = (value) => {
-    // console.log("Captcha value:", value);
     setverfied(true);
   };
 

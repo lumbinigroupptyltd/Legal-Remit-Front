@@ -1,6 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "../../../../utils/axiosIntercepters";
-import { resendOtp } from "../../../../redux/actions/authAction";
 
 {
   /*________________________POST_____________________________________*/
@@ -17,9 +15,7 @@ export const addOtpVerNum = async ({formData}) => {
   /*________________________GET_____________________________________*/
 }
 export const getOTPVerify = async (formData) => {
-  // const dispatch = useDispatch(formData);
-  // dispatch(resendOtp(formData));
-  const { data } = await axiosInstance.get(`/otp/getbyotp/${formData?.otp}`);
+  const { data } = await axiosInstance.get(`/otp/verify/${formData?.otp}`);
   return data;
 };
 

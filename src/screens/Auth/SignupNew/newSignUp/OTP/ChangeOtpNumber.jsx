@@ -6,9 +6,9 @@ import {
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import React from "react";
-import { useChangeOtpNumberForm } from "../../../../../hooks/auth/signup/OTP/useVerifyOtpNumber";
 import SmartphoneIcon from "@mui/icons-material/Smartphone";
 import RenderInput from "../../../../../components/RenderInput/RenderInput";
+import { useChangeOtpNumberForm } from "../../../../../forms/auth/otp/otpVerificationForm";
 
 const otpInputData = [
   {

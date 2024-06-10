@@ -1,26 +1,21 @@
 import React from "react";
 import {
   Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Button,
-  CircularProgress,
   Typography,
   useTheme,
 } from "@mui/material";
 import { CButton } from "../UIElements/CButton";
-import { usePersonalDetailsProfileForm } from "../../hooks/profile/User/useProfileDetailsForm";
 import { logout } from "../../utils/logout";
 import { useNavigate } from "react-router-dom";
+import { useUserKycDetailsForm } from "../../forms/profile/user/userBasicDetailsForm";
 
-const ConfirmationModal = ({ handleCloseModal, message, data, userId }) => {
+const ConfirmationModal = ({ handleCloseModal, message, data, userId, countryId }) => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const { formik } = usePersonalDetailsProfileForm({ data, userId });
+  console.log(data, "data here")
+  const { formik } = useUserKycDetailsForm({ data, userId, countryId });
   const handleFormSubmit = async() => {
-    await formik.setFieldValue("signupCompleted", true);
+    await formik.setFieldValue("kycStatus", "PENDING");
     await formik.handleSubmit();
     handleCloseModal();
     logout();
@@ -33,7 +28,7 @@ const ConfirmationModal = ({ handleCloseModal, message, data, userId }) => {
       </Typography>
       <Box sx={{ display: "flex", justifyContent: "end", gap: "1rem" }}>
         <CButton
-          buttonName={"Cancel"}
+          buttonName={"NO"}
           OnClick={handleCloseModal}
           variant={"error"}
           Width={"fit-content"}
@@ -44,7 +39,7 @@ const ConfirmationModal = ({ handleCloseModal, message, data, userId }) => {
           BGHover={`${theme.palette.hover.error}`}
         />
         <CButton
-          buttonName={"ADD"}
+          buttonName={"YES"}
           OnClick={handleFormSubmit}
           variant={"contained"}
           Width={"fit-content"}

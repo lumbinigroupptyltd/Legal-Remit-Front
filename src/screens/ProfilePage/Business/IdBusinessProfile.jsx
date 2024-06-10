@@ -5,9 +5,9 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import { Grid, useTheme } from "@mui/material";
-import { useGetIdIssuingAuthority } from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
 import { CButton } from "../../../components/UIElements/CButton";
-import { useIdBusinessProfileForm } from "../../../hooks/profile/Business/useProfileDetailsBusinessForm";
+import { useGetIdIssuingAuthority } from "../../../hooks/issueAuthority/useIssueAuthorityDetails";
+import { useBusinessIdDetailsForm } from "../../../forms/profile/business/businessBasicDetailsForm";
 
 const ID_TYPE = [
   {
@@ -25,7 +25,7 @@ const ID_TYPE = [
 const IdBusinessProfile = () => {
   const theme = useTheme();
   const { data: authorityData } = useGetIdIssuingAuthority();
-  const { formik } = useIdBusinessProfileForm();
+  const { formik } = useBusinessIdDetailsForm();
 
   const auData = authorityData && authorityData?.data;
 
@@ -37,7 +37,7 @@ const IdBusinessProfile = () => {
     }));
 
   const handleFormSubmit = () => {
-    // console.log("success");
+  
   };
 
   const basicInputData = [

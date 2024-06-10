@@ -2,10 +2,8 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Routes, Route, HashRouter, Navigate } from "react-router-dom";
 import ScrollToTop from "../utils/ScrollToTop";
 import Spinner from "../components/spinner/Spinner";
-// import NewSignUpPage from "../screens/Auth/SignupNew/newSignUp/NewSignUpPage";
-// import NewProfilePage from "../screens/ProfilePage/NewProfilePage";
-// import DashboardLayout from "";
 import { useSelector } from "react-redux";
+
 // Lazy-loaded components
 const Dashboard = React.lazy(() => import("../screens/Dashbord/Dashbord"));
 const AppLayout = React.lazy(() => import("../Layout/AppLayout"));
@@ -40,13 +38,16 @@ const AboutUsPage = React.lazy(() =>
 const ContactUsPage = React.lazy(() =>
   import("../screens/ContactUsPage/ContactUsPage")
 );
+const UserDashboard = React.lazy(() =>
+  import("../screens/Dashbord/UserDashboard")
+);
 import { DashboardRoutes } from "./DashboardRoutes";
 import { UserRoutes } from "./UserRoutes";
-import UserDashboard from "../screens/Dashbord/UserDashboard";
+import UserLayout from "../Layout/UserLayout";
 
 const AppRoutes = () => {
   const { role, verified } = useSelector((state) => state.auth);
-
+const kycStatus = "REJECTED";
   return (
     <HashRouter hashType="slash">
       <ScrollToTop>
@@ -86,7 +87,7 @@ const AppRoutes = () => {
               <Route exact path="registration" element={<Registration />} />
               <Route exact path="lockscreen" element={<Lockscreen />} />
             </Route>
-            {verified && role === "ADMIN" && (
+            {role === "ADMIN" && (
               <Route exact path="/dashboard" element={<DashboardLayout />}>
                 <Route exact index element={<Dashboard />} />
                 {DashboardRoutes?.map((route) => {
@@ -102,10 +103,10 @@ const AppRoutes = () => {
                 })}
               </Route>
             )}
-            {!verified && (role === "USER" || role === "BUSINESS") && (
+            {(kycStatus === "REJECTED") && (role === "USER" || role === "BUSINESS") && (
               <Route exact path="/profile" element={<NewProfilePage />} />
             )}
-            {verified && (role === "USER" || role === "BUSINESS") && (
+            {(kycStatus === "PENDING" || kycStatus === "VERIFIED") && (role === "USER" || role === "BUSINESS") && (
               <Route exact path="/home" element={<UserLayout />}>
                 <Route exact index element={<UserDashboard />} />
                  {UserRoutes?.map((route) => {

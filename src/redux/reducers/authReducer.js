@@ -9,6 +9,7 @@ const initialState = {
   role: null,
   otpData: null,
   verified: false,
+  kycStatus: null,
 };
 
 if (initialState.token) {
@@ -16,6 +17,7 @@ if (initialState.token) {
   initialState.role = decodedInfo.role;
   initialState.verified = decodedInfo.isSignupCompleted;
   initialState.isSignupCompleted = decodedInfo.isSignupCompleted;
+  initialState.kycStatus = decodedInfo.kycStatus;
   initialState.isBlacklisted = decodedInfo.isBlacklisted;
   initialState.userId = decodedInfo.userId;
 }
@@ -29,6 +31,7 @@ const authReducer = (state = initialState, action) => {
         validToken: true,
         role: action.payload.role,
         userId: action.payload.userId,
+        kycStatus: action.payload.kycStatus,
       };
     case LOGOUT:
       return {
@@ -37,6 +40,7 @@ const authReducer = (state = initialState, action) => {
         validToken: false,
         role: null,
         verified: false,
+        kycStatus: null,
       };
       case OTP_SUCCESS:
         return {

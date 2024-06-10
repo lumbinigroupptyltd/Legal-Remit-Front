@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
   Autocomplete,
+  Box,
   InputAdornment,
   TextField,
   useTheme,
 } from "@mui/material";
 import { axiosInstance } from "../../utils/axiosIntercepters";
+import { LoadScript, StandaloneSearchBox } from '@react-google-maps/api';
 
 export const AsyncDropDown = ({ element, formik, formValues }) => {
   const theme = useTheme();
@@ -172,5 +174,94 @@ export const AsyncDropDownCustom = ({ element, formik }) => {
            
               `}</style>
     </>
+  );
+};
+
+export const AsyncDropDownSearchCity = ({ element, formik, formValues }) => {
+    const theme = useTheme();
+  const [selectedPlace, setSelectedPlace] = useState("");
+
+  const handlePlaceSelect = (place) => {
+    setSelectedPlace(place);
+    formik.setFieldValue(element.name, place?.formatted_address || "");
+  };
+
+  return (
+    <LoadScript
+      googleMapsApiKey="AIzaSyCNJRR1zkMpq2RLpT6bM2BLAO2kEDZ8qtA"
+      libraries={['places']}
+    >
+      <div>
+        <Box sx={{ display: "none" }}>
+          <Autocomplete
+            freeSolo
+            fullWidth
+            // variant="outlined"
+            disableClearable
+            id={element.name}
+            name={element.name}
+            options={selectedPlace ? [selectedPlace] : []}
+            value={selectedPlace}
+            onChange={(event, newValue) => {
+              setSelectedPlace(newValue)
+              formik.setFieldValue(element.name, newValue?.formatted_address || "");
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label={element.label}
+                error={formik.touched[element.name] && Boolean(formik.errors[element.name])}
+                required={element.required}
+                helperText={formik.touched[element.name] && formik.errors[element.name]}
+                // variant="outlined"
+                InputLabelProps={{ shrink: Boolean(selectedPlace) }}
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <div style={{ color: theme.palette.button.primary }}>
+                        {element?.iconStart}
+                      </div>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+          />
+        </Box>
+
+        <StandaloneSearchBox
+          onLoad={(searchBox) => {
+            searchBox.addListener('places_changed', () => {
+              const places = searchBox.getPlaces();
+              if (places.length > 0) {
+                handlePlaceSelect(places[0]);
+              }
+            });
+          }}
+        >
+          <TextField
+            fullWidth
+            label={element.label}
+            error={formik.touched[element.name] && Boolean(formik.errors[element.name])}
+            required={element.required}
+            value={formValues}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            helperText={formik.touched[element.name] && formik.errors[element.name]}
+            // variant="outlined"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <div style={{ color: theme.palette.button.primary }}>
+                    {element?.iconStart}
+                  </div>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </StandaloneSearchBox>
+      </div>
+    </LoadScript>
   );
 };

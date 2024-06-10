@@ -10,7 +10,7 @@ import OtpInput from "react-otp-input";
 import { LoadingButton } from "@mui/lab";
 import ChangeOtpNumber from "./ChangeOtpNumber";
 import FormModal from "../../../../../components/formModal/FormModal";
-import { useFinalOtpVerNumForm, useOtpVerNumForm, useResendOtpVerNumForm } from "../../../../../hooks/auth/signup/OTP/useVerifyOtpNumber";
+import { useFinalOtpVerNumForm, useResendOtpVerNumForm } from "../../../../../forms/auth/otp/otpVerificationForm";
 
 const OtpVerification = ({ open, onClose }) => {
   const [required, setRequired] = useState(false);

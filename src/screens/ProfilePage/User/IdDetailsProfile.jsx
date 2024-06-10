@@ -6,36 +6,21 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import { CButton } from "../../../components/UIElements/CButton";
 import { Grid, useTheme } from "@mui/material";
-import { useGetIdIssuingAuthority } from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
-import { useIdDetailsProfileForm } from "../../../hooks/profile/User/useProfileDetailsForm";
-import {
-  useGetDocTypeDetails,
-  useGetUserIdDetails,
-} from "../../../hooks/profile/User/useProfileDetails";
-
-const ID_TYPE = [
-  {
-    id: nanoid(),
-    label: "Passport",
-    value: "passport",
-  },
-  {
-    id: nanoid(),
-    label: "Driving License",
-    value: "drivinglicense",
-  },
-];
+import { useGetUserIdDetailsByUserId } from "../../../hooks/profile/User/userId/useUserIdDetails";
+import { useGetUserDocumentsTypeDetails } from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
+import { useUserIdDetailsForm } from "../../../forms/profile/user/userBasicDetailsForm";
+import { useGetIdIssuingAuthority } from "../../../hooks/issueAuthority/useIssueAuthorityDetails";
 
 const IdDetailsProfile = ({ userId }) => {
   const theme = useTheme();
   const { data: authorityData } = useGetIdIssuingAuthority();
-  const { data: userIdDetails } = useGetUserIdDetails(userId);
+  const { data: userIdDetails } = useGetUserIdDetailsByUserId(userId);
   const userData = userIdDetails && userIdDetails?.data?.[0];
-  const { data: docTypeData } = useGetDocTypeDetails();
-  const { formik } = useIdDetailsProfileForm({ userId, userData });
+  const { data: docTypeData } = useGetUserDocumentsTypeDetails();
+  const { formik } = useUserIdDetailsForm({ userId, userData });
   const auData = authorityData && authorityData?.data;
   const ID_TYPE = docTypeData?.data
-  ?.filter((doc) => doc.name === "Passport" || doc.name === "Driving License")
+  ?.filter((doc) => doc.name === "Passport" || doc.name === "Driving License" || doc.name === "Citizenship")
   ?.map((item) => ({
     value: item.id,
     label: item.name,

@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { nanoid } from "nanoid";
 import RenderInput from "../../../components/RenderInput/RenderInput";
 import PersonIcon from "@mui/icons-material/Person";
 import SmartphoneIcon from "@mui/icons-material/Smartphone";
 import EmailIcon from "@mui/icons-material/Email";
-import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
+import { Box, Grid, Typography, useTheme } from "@mui/material";
 import { CButton } from "../../../components/UIElements/CButton";
-import { usePersonalDetailsProfileForm } from "../../../hooks/profile/User/useProfileDetailsForm";
-import FlagIcon from "@mui/icons-material/Flag";
+import { useBasicUserDetailsDetailsForm } from "../../../forms/profile/user/userBasicDetailsForm";
+import { useGetAllCountries } from "../../../hooks/country/useCountryDetails";
 import {
-  useGetAllCountries,
-  useGetUserInfo,
-} from "../../../hooks/apiStartGetAll/useGetAllUserInfo";
+  getVerifyEmail,
+  getVerifyPhoneByUserId,
+} from "../../../api/userInfo/user-api";
+import FormModal from "../../../components/formModal/FormModal";
+import ChangeOtpNumber from "../../Auth/SignupNew/newSignUp/OTP/ChangeOtpNumber";
+import { toast } from "react-toastify";
+import OtpVerification from "../../Auth/SignupNew/newSignUp/OTP/OtpVerification";
 
 const COUNTRY_SELECTED = [
   {
@@ -38,8 +42,9 @@ const COUNTRY_SELECTED = [
 ];
 
 const PersonalDetailsProfile = ({ data, userId }) => {
+  const [phoneModal, setPhoneModal] = useState(false);
   const theme = useTheme();
-  const { formik } = usePersonalDetailsProfileForm({ data, userId });
+  const { formik } = useBasicUserDetailsDetailsForm({ data, userId });
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
@@ -140,7 +145,17 @@ const PersonalDetailsProfile = ({ data, userId }) => {
       toast.error("Failed to send verification email.");
     }
   };
-
+  const handlePhone = async () => {
+    try {
+      setPhoneModal(true);
+      await getVerifyPhoneByUserId(data);
+      toast.success("Check your phone & verify!");
+    } catch (error) {
+      setPhoneModal(false);
+      toast.error("Failed to send verification otp.");
+    }
+  };
+  console.log(data, "data");
   return (
     <Grid container mt={2}>
       <RenderInput inputField={basicInputData} formik={formik} />
@@ -153,43 +168,87 @@ const PersonalDetailsProfile = ({ data, userId }) => {
           justifyContent: "space-between",
         }}
       >
-        {data && !data?.isEmailverified && (
-          <Box sx={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
-            <Typography variant="p" color={"error"}>Verify Email </Typography>
-            <Typography
-              OnClick={handleEmail}
-              variant="p"
-              sx={{ textDecoration: "underline", cursor: "pointer" }}
-            >
-              Click here
-            </Typography>
-          </Box>
-        )}
-        <Box sx={{display: "flex", alignItems: "center", gap: "1rem"}}>
-        <CButton
-          buttonName={"Cancel"}
-          // OnClick={handleCancel}
-          variant={"error"}
-          Width={"fit-content"}
-          TextColor={`${theme.palette.text.error}`}
-          TextColorHover={"#fff"}
-          Border={`1px solid ${theme.palette.button.error}`}
-          BGColor={`${theme.palette.background.default}`}
-          BGHover={`${theme.palette.hover.error}`}
-        />
-        <CButton
-          buttonName={data ? "UPDATE" : "ADD"}
-          OnClick={handleFormSubmit}
-          variant={"contained"}
-          Width={"fit-content"}
-          TextColor={"#000"}
-          TextColorHover={"#fff"}
-          Border={`1px solid ${theme.palette.button.primary}`}
-          BGColor={`${theme.palette.background.default}`}
-          BGHover={`${theme.palette.hover.primary}`}
-        />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "0.6rem",
+          }}
+        >
+          {data && !data?.isEmailverified && (
+            <Box sx={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
+              <Typography variant="p" color={"error"}>
+                Verify Email{" "}
+              </Typography>
+              <Typography
+                onClick={handleEmail}
+                variant="p"
+                sx={{ textDecoration: "underline", cursor: "pointer" }}
+              >
+                Click here
+              </Typography>
+            </Box>
+          )}
+          {data && data?.isPhoneVerified && (
+            <Box sx={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
+              <Typography variant="p" color={"error"}>
+                Verify Phone{" "}
+              </Typography>
+              <Typography
+                onClick={handlePhone}
+                variant="p"
+                sx={{ textDecoration: "underline", cursor: "pointer" }}
+              >
+                Click here
+              </Typography>
+            </Box>
+          )}
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <CButton
+            buttonName={"Cancel"}
+            // OnClick={handleCancel}
+            variant={"error"}
+            Width={"fit-content"}
+            TextColor={`${theme.palette.text.error}`}
+            TextColorHover={"#fff"}
+            Border={`1px solid ${theme.palette.button.error}`}
+            BGColor={`${theme.palette.background.default}`}
+            BGHover={`${theme.palette.hover.error}`}
+          />
+          <CButton
+            buttonName={data ? "UPDATE" : "ADD"}
+            OnClick={handleFormSubmit}
+            variant={"contained"}
+            Width={"fit-content"}
+            TextColor={"#000"}
+            TextColorHover={"#fff"}
+            Border={`1px solid ${theme.palette.button.primary}`}
+            BGColor={`${theme.palette.background.default}`}
+            BGHover={`${theme.palette.hover.primary}`}
+          />
         </Box>
       </Grid>
+
+      {phoneModal && (
+        <FormModal
+          open={phoneModal}
+          onClose={() => setPhoneModal(false)}
+          width={700}
+          height={"auto"}
+          maxHeight={"80vh"}
+          header={"SMS Verification"}
+          formComponent={
+            <>
+              <OtpVerification
+                open={phoneModal}
+                onClose={() => setPhoneModal(false)}
+              />
+            </>
+          }
+        />
+      )}
     </Grid>
   );
 };

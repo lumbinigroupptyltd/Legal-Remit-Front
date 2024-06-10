@@ -23,7 +23,7 @@ export default function ForgotPassword({ children, props }) {
   // const validator = require("../../../../../assets/js/validator");
 
   useEffect(() => {
-    // // console.log(ShowNameZone,"this is comment")
+   
   }, [])
 
   const handleSignUp = () => {
@@ -85,7 +85,7 @@ export default function ForgotPassword({ children, props }) {
   const [verfied, setverfied] = useState(false)
 
   const onChange = (value) => {
-    // console.log("Captcha value:", value);
+  
     setverfied(true)
   }
 
@@ -103,7 +103,7 @@ export default function ForgotPassword({ children, props }) {
     // if ((isMobile || isTablet) &&(navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPhone|iPad|iPod/i)) && window.navigator.standalone) { //have to check as window.navigator.standalone works for ios only
     // if ((isMobile || isTablet) && window.navigator.standalone) { //It is for ios only
     if ((isMobile || isTablet) && (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPhone|iPad|iPod/i))) {
-      // console.log("In if")
+      
       toast.success("Mobile/Tablet detected")
       window.location.href = link; // redirect to custom link if mobile app is installed
     } else {
