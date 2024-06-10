@@ -50,10 +50,6 @@ const AppRoutes = () => {
   const { role, verified, userId } = useSelector((state) => state.auth);
   const { data: userKycData } = useGetUserKycDetailsByUserId(userId);
   const kycData = userKycData && userKycData?.data;
-  console.log(!kycData, "kycData")
-// const kycStatus = "REJECTED";
-// const kycStatus = "PENDING";
-// const kycStatus = "VERIFIED";
 
   return (
     <HashRouter hashType="slash">
