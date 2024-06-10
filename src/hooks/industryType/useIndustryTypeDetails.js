@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+import { getIndustryTypeDetails } from "../../api/industry/industry-type-api";
 
 {
     /*________________________GET_____________________________________*/

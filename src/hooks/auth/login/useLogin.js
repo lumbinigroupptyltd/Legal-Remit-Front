@@ -24,12 +24,11 @@ export const useLogin = ({ onSuccess }) => {
       const refreshToken = data?.data?.refreshToken;
       dispatch(login(token, refreshToken));
       const decodedInfo = jwtDecode(token);
-      console.log(decodedInfo, "decoded")
       if (decodedInfo?.role === "ADMIN") {
         navigate("/dashboard");
-      } else if ((decodedInfo?.role === "USER" || decodedInfo?.role === "BUSINESS") && decodedInfo?.kycStatus === "REJECTED") {
+      } else if ((decodedInfo?.role === "USER" || decodedInfo?.role === "BUSINESS") && !decodedInfo?.isSignupCompleted) {
         navigate("/profile");
-      } else if ((decodedInfo?.role === "USER" || decodedInfo?.role === "BUSINESS") && (decodedInfo?.kycStatus === "PENDING" || decodedInfo?.kycStatus === "VERIFIED")) {
+      } else if ((decodedInfo?.role === "USER" || decodedInfo?.isSignupCompleted)) {
         navigate("/home");
       }
       queryClient.invalidateQueries("");

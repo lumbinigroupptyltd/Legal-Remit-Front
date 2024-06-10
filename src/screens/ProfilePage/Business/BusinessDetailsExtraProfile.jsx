@@ -27,6 +27,7 @@ import { useGetIndustryTypeDetails } from "../../../hooks/industryType/useIndust
 import { useBusinessExtraDetailsForm, useDirectorDetailsForm, useShareHolderDetailsForm } from "../../../forms/profile/business/businessBasicDetailsForm";
 import { useGetDirectorDetails } from "../../../hooks/profile/Business/director/useDirectorDetails";
 import { useGetAllCountries } from "../../../hooks/country/useCountryDetails";
+import { useGetShareDetails } from "../../../hooks/profile/Business/shareHolder/useShareHolderDetails";
 
 const directiveCloumns = [
   {
@@ -150,6 +151,7 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
   const { formikS } = useShareHolderDetailsForm({ userId, setShareModal });
 
   const { data: directorData } = useGetDirectorDetails();
+  const { data: shareData } = useGetShareDetails();
   const handleFormDirectiveSubmit = () => {
     formikD.handleSubmit();
   };
@@ -194,7 +196,7 @@ const GET_ALL_OCCUPATIONS =
   businessAllData &&
   businessAllData?.data?.map((item) => ({
     value: item.id,
-    label: item.abn,
+    label: item.id,
   }));
   
   const DIRECTOR_DATA = directorData && directorData?.data?.filter((f) => f?.isShareHolder === false);
@@ -334,7 +336,7 @@ const totalshareholder = SHAREHOLDER_DATA && SHAREHOLDER_DATA.length ? SHAREHOLD
       sm: 12,
     },
   ];
-
+console.log(SHAREHOLDER_DATA, "SHAREHOLDER_DATA")
   const businessDetailsData = businessAllData && businessAllData?.data;
   const { formik } = useBusinessExtraDetailsForm({ userId, totalDirector, totalshareholder, businessDetailsData });
   const iconCode = data && data?.find((d) => d?.id === formik.values.countryId);

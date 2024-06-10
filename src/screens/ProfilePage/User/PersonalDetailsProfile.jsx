@@ -155,7 +155,7 @@ const PersonalDetailsProfile = ({ data, userId }) => {
       toast.error("Failed to send verification otp.");
     }
   };
-  console.log(data, "data");
+
   return (
     <Grid container mt={2}>
       <RenderInput inputField={basicInputData} formik={formik} />

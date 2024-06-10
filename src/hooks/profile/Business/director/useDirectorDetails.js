@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { addDirectorDetails, editDirectorDetails } from "../../../../api/profile/business/business-director-api";
+import { addDirectorDetails, editDirectorDetails, getBusinessDirectorDetails } from "../../../../api/profile/business/business-director-api";
 
 {
     /*________________________GET_____________________________________*/
   }
   export const useGetDirectorDetails = () => {
-    return useQuery(["getDirectorDetails"], () => getDirectorDetails(), {
+    return useQuery(["getDirectorDetails"], () => getBusinessDirectorDetails(), {
       cacheTime: 10000,
       refetchInterval: false,
       refetchOnWindowFocus: false,
@@ -24,7 +24,7 @@ import { addDirectorDetails, editDirectorDetails } from "../../../../api/profile
         onSuccess: (data, variables, context) => {
           toast.success("Directors added successfully");
           onSuccess && onSuccess(data, variables, context);
-          queryClient.invalidateQueries("");
+          queryClient.invalidateQueries("getDirectorDetails");
         },
         onError: (err, _variables, _context) => {
           toast.error(getErrorMessage(err));

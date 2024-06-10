@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { addBasicBusinessDetails, editBasicBusinessDetails } from "../../../../api/profile/business/business-basic-api";
+import { addBasicBusinessDetails, editBasicBusinessDetails, getBasicBusinessDetails } from "../../../../api/profile/business/business-basic-api";
 
 {
     /*________________________GET_____________________________________*/
   }
   export const useGetBusinessDetails = () => {
-    return useQuery(["getBusinessDetails"], () => getBusinessDetails(), {
+    return useQuery(["getBusinessDetails"], () => getBasicBusinessDetails(), {
       cacheTime: 10000,
       refetchInterval: false,
       refetchOnWindowFocus: false,

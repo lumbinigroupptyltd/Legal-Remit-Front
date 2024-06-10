@@ -197,7 +197,7 @@ export const AsyncDropDownSearchCity = ({ element, formik, formValues }) => {
             freeSolo
             fullWidth
             // variant="outlined"
-            disableClearable
+            // disableClearable
             id={element.name}
             name={element.name}
             options={selectedPlace ? [selectedPlace] : []}

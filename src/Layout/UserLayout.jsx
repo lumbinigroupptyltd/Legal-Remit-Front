@@ -10,60 +10,19 @@ import { useSelector } from "react-redux";
 import PendingStatusComp from "./PendingStatusComp";
 
 const UserLayout = () => {
-  // const { kycStatus } = useSelector((state) => state.auth);
-// const kycStatus = "REJECTED";
-const kycStatus = "PENDING";
-// const kycStatus = "VERIFIED";
-
-  const handleLogout = () => {
-    navigate("/");
-    logout();
-  };
-
   return (
     <>
-      {kycStatus === "PENDING" && (
-        <>
-          <Grid
-            container
-            mt={2}
-            mb={5}
-            sx={{
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
-            }}
-          >
-            <Grid>
-              <img width={120} src={logo} alt="logo" />
-            </Grid>
-            <Grid></Grid>
-            <Grid>
-              <Button variant="outlined" onClick={handleLogout}>
-                Logout
-              </Button>
-            </Grid>
-          </Grid>
-          <Grid sx={{margin: {lg: "6rem", md: "5rem", sm: "4rem", xs: "3rem"}}}>
-            <PendingStatusComp />
-          </Grid>
-        </>
-      )}
-      {kycStatus === "VERIFIED" && (
-        <>
-          <ErrorBoundary>
-            <div
-              style={{ position: "relative", height: "100vh" }}
-              className="mainLoginSection2"
-            >
-              <UserNavbar />
-              <section>
-                <Outlet />
-              </section>
-            </div>
-          </ErrorBoundary>
-        </>
-      )}
+      <ErrorBoundary>
+        <div
+          style={{ position: "relative", height: "100vh" }}
+          className="mainLoginSection2"
+        >
+          <UserNavbar />
+          <section>
+            <Outlet />
+          </section>
+        </div>
+      </ErrorBoundary>
     </>
   );
 };

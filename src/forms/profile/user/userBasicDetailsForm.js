@@ -59,7 +59,7 @@ export const useBasicUserDetailsDetailsForm = ({ data, userId }) => {
 export const useUserKycDetailsForm = ({data, userId, countryId }) => {
   const {mutate: addMutate } = useAddUserKycDetails({});
   const {mutate: editMutate } = useEditUserKycDetails({});
-
+console.log(data, "data")
   const formik = useFormik({
     initialValues: {
       id: data?.id || "",
@@ -68,12 +68,11 @@ export const useUserKycDetailsForm = ({data, userId, countryId }) => {
       stateId: data?.stateId || "",
       nationalityId: data?.nationalityId || "",
       occupationId: data?.occupationId || "",
-      kycStatus: data?.kycStatus || true,
+      kycStatus: data?.kycStatus || "REJECTED",
       streetName: data?.streetName || "",
       suburb: data?.suburb || "",
       postalCode: data?.postalCode || "",
       occupationName: data?.occupationName || "",
-      kycStatus: data?.kycStatus || "",
       // verifiedBy: data?.verifiedBy || "",
       // kycCase: data?.kycCase || "",
       isResidence: data?.isResidence || "",

@@ -97,7 +97,7 @@ const KycDetailsProfile = ({ userId }) => {
       name: "suburb",
       label: "Subarb / City",
       required: true,
-      type: "AsyncDropDownSearchCity",
+      type: "text",
       // options: GET_CITY_DATA,
       iconStart: <LocationOnIcon />,
       id: nanoid(),
