@@ -12,7 +12,7 @@ import Modal from "react-bootstrap/Modal";
 import Tooltip from "@mui/material/Tooltip";
 import card from "../../../../assets/images/debitCard.svg";
 import tickIcon from "../../../../assets/images/mdi_tick-circle-outline.svg";
-import userContext from "../../../Auth/Signup/Signupdata/Usecontext";
+import userContext from "../../../Auth/SignupNew/Usecontext";
 import axios from "axios";
 import InputGroup from "react-bootstrap/InputGroup";
 import { CommonConstants } from "../../../../Constants/common.constants";
