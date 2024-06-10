@@ -14,7 +14,7 @@ import { useGetAllOccupations } from "../../../hooks/occupation/useOccupationDet
 import { useKycBusinessDetailsForm } from "../../../forms/profile/business/businessBasicDetailsForm";
 import { useGetBusinessKycDetailsByUserId } from "../../../hooks/profile/Business/businessKyc/useBusinessKycDetails";
 
-const KycBusinessProfile = () => {
+const KycBusinessProfile = ({ userId }) => {
   const theme = useTheme();
   const { data: nationalityData } = useGetUserNationality();
   const { data: allStatesData } = useGetUserAllStates();

@@ -1,0 +1,42 @@
+.cardShadePurple{
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 259.18px !important;
+    max-height: 251.08px !important;
+    background: #F7EAFC !important;
+    border-radius: 32px !important;
+    transform: rotate(-45deg);
+}
+
+.cardOneBlock{
+    margin-right: 6% !important;
+}
+
+.cardTwoBlock{
+    margin-left: 15% !important;
+}
+.h4Service{
+    font-size: 18px ;
+    padding-bottom: 10px !important;
+}
+
+.smallService{
+    font-size: 15px !important;
+}
+
+
+.slide-in-right-element {
+    animation: slideInRight 0.5s ease forwards;
+  }
+  
+@keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  

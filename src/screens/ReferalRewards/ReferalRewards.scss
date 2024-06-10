@@ -1,0 +1,92 @@
+.abtPage{
+    background-image: url("../../assets/images/bg-banner.svg");
+    /* center and scale the image */
+    background-repeat: no-repeat;
+    background-size: cover;
+    // padding-bottom: 12vh;
+}
+
+.purpleBox{
+    background: #F7EAFC;
+    border-radius: 20px;
+}
+
+.rhombus {
+    padding:30px 50px 30px 30px;
+    background-color: #AA2AE1;
+    clip-path: polygon(0 0, 100% 0%, 75% 100%, 0% 100%);
+    border-top-right-radius: 0 !important;
+    border-radius: 20px;
+  }
+
+  
+  .liList{
+    font-weight: 400 !important;
+    font-size: 20px;
+    line-height: 28px !important;
+  }
+  
+  .contactD{
+    font-size: 16px;
+  }
+
+  .nested-ordered-list,
+.nested-ordered-list ol {
+  counter-reset: decimal;
+  list-style: none;
+  margin: 0;
+  color: #000;
+  font-size: 1rem;
+  padding: 0;
+}
+.nested-ordered-list ol {
+  margin-top: 10px;
+}
+.nested-ordered-list ol[type=a] {
+  counter-reset: alpha;
+}
+.nested-ordered-list ol[type=i] {
+  counter-reset: roman;
+}
+.nested-ordered-list li {
+  display: table;
+}
+.nested-ordered-list li:before {
+  display: table-cell;
+  content: counters(decimal, ".") ".";
+  counter-increment: decimal;
+  width: 14px;
+  position: relative;
+  left: -4px;
+  
+}
+.nested-ordered-list li + li {
+  margin-top: 10px;
+}
+.nested-ordered-list ol[type=a] li:before {
+  content: counter(alpha, lower-alpha) ".";
+  counter-increment: alpha;
+}
+.nested-ordered-list ol[type=i] li:before {
+  content: counter(roman, lower-roman) ".";
+  counter-increment: roman;
+}
+
+
+
+
+
+
+
+
+.options {
+  list-style: none;
+  padding-left: 0;
+}
+.options li {
+  margin-top: 4px;
+}
+
+
+
+

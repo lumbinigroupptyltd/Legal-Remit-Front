@@ -1,0 +1,76 @@
+.abtPage{
+    background-image: url("../../assets/images/bg-banner.svg");
+    /* center and scale the image */
+    background-repeat: no-repeat;
+    background-size: cover;
+    // padding-bottom: 12vh;
+}
+
+.purpleBox{
+    background: #F7EAFC;
+    border-radius: 20px;
+}
+
+.rhombus {
+    padding:30px 50px 30px 30px;
+    background-color: #AA2AE1;
+    clip-path: polygon(0 0, 100% 0%, 75% 100%, 0% 100%);
+    border-top-right-radius: 0 !important;
+    border-radius: 20px;
+  }
+
+  .liCustom{
+    margin: 10px 0px 10px 0px;
+    color: #000;
+    font-size: 1rem;
+
+  }
+  
+  .liList{
+    font-weight: 400 !important;
+    font-size: 20px;
+    line-height: 28px !important;
+  }
+  
+  .contactD{
+    font-size: 18px;
+  }
+
+  ul.round li {
+    list-style: none;
+    position: relative;
+    padding: 0 0 0 20px;
+  }
+
+  ul.round li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 7px;
+    height: 7px;
+    background-color: #000;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+  }
+
+
+  ul.roundBorder li {
+    list-style: none;
+    position: relative;
+    padding: 0 0 0 20px;
+  }
+
+  ul.roundBorder li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 7px;
+    height: 7px;
+    border: 1px solid #000;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+  }

@@ -1,0 +1,45 @@
+
+.news {
+    /* background:  #eef4ff  !important; */
+    cursor: pointer;
+    /* padding: 4% 5% 4% 5%; */
+    /* color: rgb(20,82,184); */
+    border: none;
+    margin: 40px 0px;
+}
+
+.newshead1 {
+    color: black !important;
+}
+
+.NewsDate {
+    margin: 20px 0px !important;
+    border-left: 2px solid #aa2ae1 !important;
+}
+
+.card-spacing {
+    margin-right: 10px; /* Adjust the margin value to set the desired spacing */
+}
+
+.slick-prev:before {
+    color: #aa2ae1 !important;
+    font-size: 20px;
+}
+
+.slick-arrow:before {
+    color: #aa2ae1 !important;
+    font-size: 20px;
+}
+
+.slick-track {
+    width: 80%;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 1000px) {
+    .card-spacing {
+        margin-right: 20px; /* Reset margin for smaller screens */
+        margin-bottom: 10px; /* Add margin-bottom to create spacing between cards */
+    }
+}
+

@@ -1,0 +1,67 @@
+.dropdown {
+  display: inline-block;
+}
+
+.dropdown-text {
+  margin-right: 8px;
+}
+
+.selectall {
+  margin-right: 8px;
+}
+
+.select-text {
+  vertical-align: middle;
+}
+
+/* Adjust the styling of the button and menu according to your design */
+.MuiButton-root {
+  text-transform: none;
+}
+
+.MuiMenu-paper {
+  width: 200px;
+}
+
+.MuiMenuItem-root {
+  padding: 8px 16px;
+}
+
+.MuiFormControlLabel-root {
+  margin-right: 0;
+}
+
+.MuiSvgIcon-root {
+  font-size: 1rem;
+}
+
+/* Styling for the badges */
+.MuiBadge-root {
+  margin-left: 8px;
+}
+
+.MuiBadge-badge {
+  padding: 2px 6px;
+}
+
+/* Styling for the selected options */
+.option.justone {
+  display: none;
+}
+
+.option.justone:checked + .MuiFormControlLabel-label {
+  font-weight: bold;
+}
+
+
+.selOp{
+    color: #989ea4 !important;
+}
+
+.dropdown-status1{
+    color: #dddd !important;
+}
+
+.labelCard{
+    color: #012b72 !important;
+}

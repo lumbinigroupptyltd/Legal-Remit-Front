@@ -44,10 +44,17 @@ const UserDashboard = React.lazy(() =>
 import { DashboardRoutes } from "./DashboardRoutes";
 import { UserRoutes } from "./UserRoutes";
 import UserLayout from "../Layout/UserLayout";
+import { useGetUserKycDetailsByUserId } from "../hooks/profile/User/userKyc/useUserKycDetails";
 
 const AppRoutes = () => {
-  const { role, verified } = useSelector((state) => state.auth);
-const kycStatus = "REJECTED";
+  const { role, verified, userId } = useSelector((state) => state.auth);
+  const { data: userKycData } = useGetUserKycDetailsByUserId(userId);
+  const kycData = userKycData && userKycData?.data;
+  console.log(!kycData, "kycData")
+// const kycStatus = "REJECTED";
+// const kycStatus = "PENDING";
+// const kycStatus = "VERIFIED";
+
   return (
     <HashRouter hashType="slash">
       <ScrollToTop>
@@ -103,10 +110,10 @@ const kycStatus = "REJECTED";
                 })}
               </Route>
             )}
-            {(kycStatus === "REJECTED") && (role === "USER" || role === "BUSINESS") && (
+            {!verified && (role === "USER" || role === "BUSINESS") && (
               <Route exact path="/profile" element={<NewProfilePage />} />
             )}
-            {(kycStatus === "PENDING" || kycStatus === "VERIFIED") && (role === "USER" || role === "BUSINESS") && (
+            {(kycData?.[0]?.Kycstatus === "VERIFIED") && (role === "USER" || role === "BUSINESS") && (
               <Route exact path="/home" element={<UserLayout />}>
                 <Route exact index element={<UserDashboard />} />
                  {UserRoutes?.map((route) => {

@@ -1,0 +1,28 @@
+.notifSec {
+    height: 100vh;
+}
+
+.notify-box {
+    border: 1px solid #EEEAF5;
+    border-radius: 8px;
+}
+
+.css-1to7aaw-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+    background: #F7EAFC !important;
+    border-radius: 50% !important;
+}
+
+.alert-text {
+    color: red;
+    /* Set your desired color for 'alert' notifications */
+}
+
+.warning-text {
+    color: orange;
+    /* Set your desired color for 'warning' notifications */
+}
+
+.default-text {
+    color: black;
+    /* Set the default text color */
+}

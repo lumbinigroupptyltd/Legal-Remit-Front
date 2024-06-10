@@ -1,0 +1,15 @@
+.aboutMain{
+    margin-top: 100px ;
+}
+
+.abtBefore::before{
+    display: inline-block;
+    content: '';
+    -webkit-border-radius: 0.375rem;
+    border-radius: 0.375rem;
+    height: 0.65rem;
+    width: 0.65rem;
+    margin-right: 0.5rem;
+    background-color: #AA2AE1;
+    margin-bottom: 4px;
+}
