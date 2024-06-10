@@ -48,6 +48,8 @@ import UserLayout from "../Layout/UserLayout";
 const AppRoutes = () => {
   const { role, verified } = useSelector((state) => state.auth);
 const kycStatus = "REJECTED";
+// const kycStatus = "PENDING";
+// const kycStatus = "REJECTED";
   return (
     <HashRouter hashType="slash">
       <ScrollToTop>

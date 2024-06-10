@@ -11,7 +11,10 @@ import PendingStatusComp from "./PendingStatusComp";
 
 const UserLayout = () => {
   // const { kycStatus } = useSelector((state) => state.auth);
+
 const kycStatus = "REJECTED";
+// const kycStatus = "PENDING";
+// const kycStatus = "REJECTED";
 
   const handleLogout = () => {
     navigate("/");
