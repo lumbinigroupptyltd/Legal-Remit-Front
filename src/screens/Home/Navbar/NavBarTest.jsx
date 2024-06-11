@@ -34,7 +34,7 @@ const navItems = [
   {
     id: 1,
     item: "Send Money",
-    path: "/sendmoney",
+    path: "/send-money",
   },
   {
     id: 2,
@@ -54,7 +54,7 @@ const navItems = [
   {
     id: 5,
     item: "Chat",
-    path: "/chats",
+    path: "/chat-with-us",
   },
   {
     id: 6,
@@ -98,7 +98,7 @@ const NavBarTest = () => {
       setIsNavigating(true);
       if (path && path.startsWith("http" || "https")) {
         window.open(path, "_blank");
-      } else if ((path === "/sendmoney" || path === "/chats") && !isAuthTrue) {
+      } else if ((path === "/send-money" || path === "/chat-with-us") && !isAuthTrue) {
         navigate("/login");
       } else {
         navigate(path);

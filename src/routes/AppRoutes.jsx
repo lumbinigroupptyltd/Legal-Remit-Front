@@ -29,7 +29,9 @@ const Page404 = React.lazy(() => import("../screens/Auth/Page404"));
 const Page403 = React.lazy(() => import("../screens/Auth/Page403"));
 const Page500 = React.lazy(() => import("../screens/Auth/Page500"));
 const Page503 = React.lazy(() => import("../screens/Auth/Page503"));
-const DynamicCMSPage = React.lazy(() => import("../screens/DynamicCMSPage/DynamicCMSPage"));
+const DynamicCMSPage = React.lazy(() =>
+  import("../screens/DynamicCMSPage/DynamicCMSPage")
+);
 const Registration = React.lazy(() => import("../screens/Auth/Registration"));
 const Lockscreen = React.lazy(() => import("../screens/Auth/Lockscreen"));
 const AboutUsPage = React.lazy(() =>
@@ -50,7 +52,7 @@ const AppRoutes = () => {
   const { role, verified, userId } = useSelector((state) => state.auth);
   const { data: userKycData } = useGetUserKycDetailsByUserId(userId);
   const kycData = userKycData && userKycData?.data;
-
+  console.log(kycData, "kyc");
   return (
     <HashRouter hashType="slash">
       <ScrollToTop>
@@ -69,22 +71,8 @@ const AppRoutes = () => {
               <Route exact path="page503" element={<Page503 />} />
               <Route exact path="/:id" element={<DynamicCMSPage />} />
 
-              <Route
-                path="/sendmoney"
-                element={
-                  verified ? (
-                    <Navigate to="/sendmoney" />
-                  ) : (
-                    <Navigate to="/login" />
-                  )
-                }
-              />
-              <Route
-                path="/chat"
-                element={
-                  verified ? <Navigate to="/chat" /> : <Navigate to="/login" />
-                }
-              />
+              <Route path="/send-money" element={<Navigate to="/login" />} />
+              <Route path="/chat-with-us" element={<Navigate to="/login" />} />
               <Route exact path="about-us" element={<AboutUsPage />} />
               <Route exact path="contact-us" element={<ContactUsPage />} />
               <Route exact path="registration" element={<Registration />} />
@@ -109,22 +97,23 @@ const AppRoutes = () => {
             {!verified && (role === "USER" || role === "BUSINESS") && (
               <Route exact path="/profile" element={<NewProfilePage />} />
             )}
-            {(kycData?.[0]?.Kycstatus === "VERIFIED") && (role === "USER" || role === "BUSINESS") && (
-              <Route exact path="/home" element={<UserLayout />}>
-                <Route exact index element={<UserDashboard />} />
-                 {UserRoutes?.map((route) => {
-                  return (
-                    <Route
-                      index
-                      key={route?.id}
-                      path={route?.path}
-                      exact
-                      element={route?.component}
-                    />
-                  );
-                })}
-              </Route>
-            )}
+            {kycData && kycData?.[0]?.kycStatus === "VERIFIED" &&
+              (role === "USER" || role === "BUSINESS") && (
+                <Route exact path="/home" element={<UserLayout />}>
+                  <Route exact index element={<UserDashboard />} />
+                  {UserRoutes?.map((route) => {
+                    return (
+                      <Route
+                        index
+                        key={route?.id}
+                        path={route?.path}
+                        exact
+                        element={route?.component}
+                      />
+                    );
+                  })}
+                </Route>
+              )}
           </Routes>
         </Suspense>
       </ScrollToTop>

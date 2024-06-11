@@ -380,62 +380,6 @@ export default function SendMoney() {
             return x;
           })
         );
-
-        // if(location.state?.TransactionData?.deliveryMethodName != "" && location.state?.TransactionData?.paymentMethod != ""){
-
-        //   const formData = new FormData();
-        //   formData.append("countryId", location.state?.TransactionData?.sendingCountryId);
-        //   formData.append("userId", localStorage.getItem("Id"));
-        //   formData.append("isForTransaction", true);
-        //   formData.append("isForCompleteSignup", false);
-
-        //   const config = {
-        //     method: "POST",
-        //     url: CommonConstants.BASE_URL + "/getpromocodes",
-        //     headers: { "Content-Type": "multipart/form-data" },
-        //     data: formData,
-        //   };
-
-        //   axios(config)
-        //     .then(function (response) {
-        //       const VerifyPromoCodes = response.data.data.find(promo => promo.promoCode == location.state?.TransactionData?.promoCode)
-        //       setPromoCodeVerify(VerifyPromoCodes)
-        //       // console.log(,"PromocodeDetails")
-        //     })
-        //     .catch(function (error) {
-        //       console.log(error);
-        //     });
-
-        // }
-
-        // console.log("SubmitData: ",location.state?.TransactionData)
-
-        // if(location.state?.TransactionData?.promoCode != 0){
-
-        //   const formData = new FormData();
-        //   formData.append("countryId", location.state?.TransactionData?.sendingCountryId);
-        //   formData.append("userId", localStorage.getItem("Id"));
-        //   formData.append("isForTransaction", true);
-        //   formData.append("isForCompleteSignup", false);
-
-        //   const config = {
-        //     method: "POST",
-        //     url: CommonConstants.BASE_URL + "/getpromocodes",
-        //     headers: { "Content-Type": "multipart/form-data" },
-        //     data: formData,
-        //   };
-
-        //   axios(config)
-        //     .then(function (response) {
-        //       const VerifyPromoCodes = response.data.data.find(promo => promo.promoCode == location.state?.TransactionData?.promoCode)
-        //       setPromoCodeVerify(VerifyPromoCodes)
-        //       // console.log(,"PromocodeDetails")
-        //     })
-        //     .catch(function (error) {
-        //       console.log(error);
-        //     });
-
-        // }
         return handleCountinueTransaction(Countinue_Transaction?.TransactionData?.stepNo)
       }
     }
@@ -444,7 +388,7 @@ export default function SendMoney() {
   return (
     <>
       <section className="mainLoginSection1">
-        <NavBar></NavBar>
+        {/* <NavBar></NavBar> */}
         <Container>
           {/* <p>Hi there {props.name}</p> */}
           <div className="mainLoginBox mt-5 mb-5">
@@ -651,7 +595,7 @@ export default function SendMoney() {
         </Container>
 
       </section>
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
 
       <Modal size='lg' show={show1} onHide={handleCloseVerify} centered>
         <Modal.Header closeButton className="border-bottom">

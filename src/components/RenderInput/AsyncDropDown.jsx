@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Autocomplete,
   Box,
@@ -7,7 +7,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { axiosInstance } from "../../utils/axiosIntercepters";
-import { LoadScript, StandaloneSearchBox } from '@react-google-maps/api';
+import { LoadScript, StandaloneSearchBox } from "@react-google-maps/api";
 
 export const AsyncDropDown = ({ element, formik, formValues }) => {
   const theme = useTheme();
@@ -177,91 +177,357 @@ export const AsyncDropDownCustom = ({ element, formik }) => {
   );
 };
 
-export const AsyncDropDownSearchCity = ({ element, formik, formValues }) => {
-    const theme = useTheme();
-  const [selectedPlace, setSelectedPlace] = useState("");
+// export const AsyncDropDownSearchCity = ({ element, formik, formValues }) => {
+//   const theme = useTheme();
+//   const libraries = "places";
+//   const [inputValue, setInputValue] = useState("");
+//   const [options, setOptions] = useState([]);
+//   const key = "AIzaSyCNJRR1zkMpq2RLpT6bM2BLAO2kEDZ8qtA";
 
-  const handlePlaceSelect = (place) => {
-    setSelectedPlace(place);
-    formik.setFieldValue(element.name, place?.formatted_address || "");
+//   useEffect(() => {
+//     const loadGoogleMapsScript = () => {
+//       if (!window.google) {
+//         const script = document.createElement("script");
+//         script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=${libraries}`;
+//         script.async = true;
+//         script.onload = () => {
+//           console.log("Google Maps script loaded successfully");
+//         };
+//         script.onerror = () => {
+//           console.error("Error loading Google Maps script");
+//         };
+//         document.head.appendChild(script);
+//       }
+//     };
+
+//     loadGoogleMapsScript();
+//   }, [options, inputValue]);
+
+//   const handleInputChange = (event, value) => {
+//     setInputValue(value);
+//     if (value && window.google) {
+//       const service = new window.google.maps.places.AutocompleteService();
+//       service.getPlacePredictions(
+//         {
+//           input: value,
+//           componentRestrictions: { country: "AU" },
+//           types: ["geocode"],
+//         },
+//         (predictions, status) => {
+//           if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+//             setOptions(
+//               predictions.map((prediction) => ({
+//                 description: prediction.description,
+//                 label: prediction.description,
+//                 value: prediction.description,
+//                 placeId: prediction.place_id,
+//               }))
+//             );
+//           } else {
+//             setOptions([]);
+//           }
+//         }
+//       );
+//     } else {
+//       setOptions([]);
+//     }
+//   };
+ 
+//   return (
+//     <>
+//       <Autocomplete
+//         id={element.name}
+//         // key={formValues}
+//         name={element.name}
+//         fullWidth
+//         inputValue={inputValue}
+//         value={options && options?.find((option) => option?.description === formValues)}
+//         onInputChange={handleInputChange}
+//         onChange={(value, newValue) => {
+//           if (inputValue) {
+//             formik.setFieldValue(element?.name, newValue);
+//           }
+//         }}
+//         options={options && options?.map((option) => option.description)}
+//         renderInput={(params) => (
+//           <TextField
+//             {...params}
+//             label={element.label}
+//           InputLabelProps={{ shrink: Boolean(formValues) }}
+//             variant="outlined"
+//             className="textfield-icon-input"
+//             disabled={element?.isDisabled}
+//             error={
+//               formik.touched[element.name] &&
+//               Boolean(formik.errors[element.name])
+//             }
+//             required={element.required}
+//             helperText={
+//               formik.touched[element.name] && formik.errors[element.name]
+//             }
+//             InputProps={{
+//               ...params.InputProps,
+//               startAdornment: (
+//                 <InputAdornment position="start">
+//                   <div
+//                     style={{
+//                       color: theme.palette.button.primary,
+//                     }}
+//                   >
+//                     {element?.iconStart}
+//                   </div>
+//                 </InputAdornment>
+//               ),
+//             }}
+//           />
+//         )}
+//       />
+//       <style>{`
+//             .css-1xbz73f {
+//               margin-top: 0px; !important;
+//             }
+           
+//               `}</style>
+//     </>
+//   );
+// };
+
+
+
+export const AsyncDropDownSearchCity = ({ element, formik, formValues }) => {
+  const theme = useTheme();
+  const libraries = "places";
+  const [inputValue, setInputValue] = useState(formValues || "");
+  const [options, setOptions] = useState([]);
+  const key = "AIzaSyCNJRR1zkMpq2RLpT6bM2BLAO2kEDZ8qtA";
+
+  useEffect(() => {
+    const loadGoogleMapsScript = () => {
+      if (!window.google) {
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=${libraries}`;
+        script.async = true;
+        script.onload = () => {
+          console.log("Google Maps script loaded successfully");
+        };
+        script.onerror = () => {
+          console.error("Error loading Google Maps script");
+        };
+        document.head.appendChild(script);
+      }
+    };
+
+    loadGoogleMapsScript();
+  }, []);
+
+  const handleInputChange = (event, newInputValue) => {
+    setInputValue(newInputValue);
+
+    if (newInputValue && window.google) {
+      const service = new window.google.maps.places.AutocompleteService();
+      service.getPlacePredictions(
+        {
+          input: newInputValue,
+          componentRestrictions: { country: "AU" },
+          types: ["address"],
+        },
+        (predictions, status) => {
+          console.log(predictions, "pre")
+          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+            setOptions(
+              predictions.map((prediction) => ({
+                description: prediction.description,
+                placeId: prediction.place_id,
+                street: prediction?.terms,
+              }))
+            );
+          } else {
+            setOptions([]);
+          }
+        }
+      );
+    } else {
+      setOptions([]);
+    }
+  };
+
+  const handleOptionChange = (event, newValue) => {
+    console.log(newValue, "new")
+    console.log(newValue.street?.[0]?.value, "street")
+    if (newValue) {
+      setInputValue(newValue.description);
+      formik.setFieldValue(element.name, newValue.description);
+      formik.setFieldValue(element.name1, newValue.street?.[0]?.value);
+    } else {
+      setInputValue("");
+      formik.setFieldValue(element.name, "");
+      formik.setFieldValue(element.name1, "");
+    }
   };
 
   return (
-    <LoadScript
-      googleMapsApiKey="AIzaSyCNJRR1zkMpq2RLpT6bM2BLAO2kEDZ8qtA"
-      libraries={['places']}
-    >
-      <div>
-        <Box sx={{ display: "none" }}>
-          <Autocomplete
-            freeSolo
-            fullWidth
-            // variant="outlined"
-            // disableClearable
-            id={element.name}
-            name={element.name}
-            options={selectedPlace ? [selectedPlace] : []}
-            value={selectedPlace}
-            onChange={(event, newValue) => {
-              setSelectedPlace(newValue)
-              formik.setFieldValue(element.name, newValue?.formatted_address || "");
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label={element.label}
-                error={formik.touched[element.name] && Boolean(formik.errors[element.name])}
-                required={element.required}
-                helperText={formik.touched[element.name] && formik.errors[element.name]}
-                // variant="outlined"
-                InputLabelProps={{ shrink: Boolean(selectedPlace) }}
-                InputProps={{
-                  ...params.InputProps,
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <div style={{ color: theme.palette.button.primary }}>
-                        {element?.iconStart}
-                      </div>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
-          />
-        </Box>
-
-        <StandaloneSearchBox
-          onLoad={(searchBox) => {
-            searchBox.addListener('places_changed', () => {
-              const places = searchBox.getPlaces();
-              if (places.length > 0) {
-                handlePlaceSelect(places[0]);
-              }
-            });
+    <Autocomplete
+      id={element.name}
+      name={element.name}
+      fullWidth
+      inputValue={inputValue}
+      value={
+        options.find((option) => option.description === inputValue) || { description: inputValue }
+      }
+      onInputChange={handleInputChange}
+      onChange={handleOptionChange}
+      options={options}
+      getOptionLabel={(option) => option.description || ""}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={element.label}
+          InputLabelProps={{ shrink: Boolean(inputValue) }}
+          variant="outlined"
+          className="textfield-icon-input"
+          disabled={element?.isDisabled}
+          error={
+            formik.touched[element.name] &&
+            Boolean(formik.errors[element.name])
+          }
+          required={element.required}
+          helperText={
+            formik.touched[element.name] && formik.errors[element.name]
+          }
+          InputProps={{
+            ...params.InputProps,
+            startAdornment: (
+              <InputAdornment position="start">
+                <div
+                  style={{
+                    color: theme.palette.button.primary,
+                  }}
+                >
+                  {element?.iconStart}
+                </div>
+              </InputAdornment>
+            ),
           }}
-        >
-          <TextField
-            fullWidth
-            label={element.label}
-            error={formik.touched[element.name] && Boolean(formik.errors[element.name])}
-            required={element.required}
-            value={formValues}
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-            helperText={formik.touched[element.name] && formik.errors[element.name]}
-            // variant="outlined"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <div style={{ color: theme.palette.button.primary }}>
-                    {element?.iconStart}
-                  </div>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </StandaloneSearchBox>
-      </div>
-    </LoadScript>
+        />
+      )}
+    />    
+  );
+};
+
+export const AsyncDropDownSearchStreet = ({ element, formik, formValues }) => {
+  const theme = useTheme();
+  const libraries = "places";
+  const [inputValue, setInputValue] = useState(formValues || "");
+  const [options, setOptions] = useState([]);
+  const key = "AIzaSyCNJRR1zkMpq2RLpT6bM2BLAO2kEDZ8qtA";
+
+  useEffect(() => {
+    const loadGoogleMapsScript = () => {
+      if (!window.google) {
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=${libraries}`;
+        script.async = true;
+        script.onload = () => {
+          console.log("Google Maps script loaded successfully");
+        };
+        script.onerror = () => {
+          console.error("Error loading Google Maps script");
+        };
+        document.head.appendChild(script);
+      }
+    };
+
+    loadGoogleMapsScript();
+  }, []);
+
+  const handleInputChange = (event, newInputValue) => {
+    setInputValue(newInputValue);
+
+    if (newInputValue && window.google) {
+      const service = new window.google.maps.places.AutocompleteService();
+      service.getPlacePredictions(
+        {
+          input: newInputValue,
+          componentRestrictions: { country: "AU" },
+          types: ["address"],
+        },
+        (predictions, status) => {
+          console.log(predictions, "pre")
+          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+            setOptions(
+              predictions.map((prediction) => ({
+                description: prediction.description,
+                placeId: prediction.place_id,
+                street: prediction?.terms,
+              }))
+            );
+          } else {
+            setOptions([]);
+          }
+        }
+      );
+    } else {
+      setOptions([]);
+    }
+  };
+
+  const handleOptionChange = (event, newValue) => {
+    console.log(newValue, "new")
+    if (newValue) {
+      setInputValue(newValue.description);
+      formik.setFieldValue(element.name, newValue.description);
+      formik.setFieldValue(element.name, newValue.street);
+    } else {
+      setInputValue("");
+      formik.setFieldValue(element.name, "");
+    }
+  };
+
+  return (
+    <Autocomplete
+      id={element.name}
+      name={element.name}
+      fullWidth
+      inputValue={inputValue}
+      value={
+        options.find((option) => option.description === inputValue) || { description: inputValue }
+      }
+      onInputChange={handleInputChange}
+      onChange={handleOptionChange}
+      options={options}
+      getOptionLabel={(option) => option.description || ""}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={element.label}
+          InputLabelProps={{ shrink: Boolean(inputValue) }}
+          variant="outlined"
+          className="textfield-icon-input"
+          disabled={element?.isDisabled}
+          error={
+            formik.touched[element.name] &&
+            Boolean(formik.errors[element.name])
+          }
+          required={element.required}
+          helperText={
+            formik.touched[element.name] && formik.errors[element.name]
+          }
+          InputProps={{
+            ...params.InputProps,
+            startAdornment: (
+              <InputAdornment position="start">
+                <div
+                  style={{
+                    color: theme.palette.button.primary,
+                  }}
+                >
+                  {element?.iconStart}
+                </div>
+              </InputAdornment>
+            ),
+          }}
+        />
+      )}
+    />
   );
 };
