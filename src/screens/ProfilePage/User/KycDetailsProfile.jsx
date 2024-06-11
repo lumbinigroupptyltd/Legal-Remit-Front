@@ -27,7 +27,7 @@ const KycDetailsProfile = ({ userId }) => {
   const { data: userKycData } = useGetUserKycDetailsByUserId(userId);
 
   const data = userKycData && userKycData?.data?.[0];
-  const nationData = nationalityData && nationalityData?.data; 
+  const nationData = nationalityData && nationalityData?.data;
   const occuData = allOccupationsData && allOccupationsData?.data;
   const stateData = allStatesData && allStatesData?.data;
   const countryId = stateData && stateData?.[0]?.country?.id;
@@ -71,11 +71,12 @@ const KycDetailsProfile = ({ userId }) => {
       xs: 12,
     },
     {
-      name: "stateId",
-      label: "State",
+      name: "suburb",
+      name1: "streetName",
+      label: "Subarb / City",
       required: true,
-      type: "dropDown",
-      options: GET_ALL_STATES,
+      type: "AsyncDropDownSearchCity",
+      // options: GET_CITY_DATA,
       iconStart: <LocationOnIcon />,
       id: nanoid(),
       md: 6,
@@ -93,18 +94,7 @@ const KycDetailsProfile = ({ userId }) => {
       sm: 6,
       xs: 12,
     },
-    {
-      name: "suburb",
-      label: "Subarb / City",
-      required: true,
-      type: "text",
-      // options: GET_CITY_DATA,
-      iconStart: <LocationOnIcon />,
-      id: nanoid(),
-      md: 6,
-      sm: 6,
-      xs: 12,
-    },
+
     {
       name: "postalCode",
       label: "Postal / Zip Code",
@@ -116,7 +106,18 @@ const KycDetailsProfile = ({ userId }) => {
       sm: 6,
       xs: 12,
     },
-   
+    {
+      name: "stateId",
+      label: "State",
+      required: true,
+      type: "dropDown",
+      options: GET_ALL_STATES,
+      iconStart: <LocationOnIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
     {
       name: "occupationId",
       label: "Occupation",
@@ -142,7 +143,6 @@ const KycDetailsProfile = ({ userId }) => {
     //   xs: 12,
     // },
   ];
-
 
   return (
     <Grid container mt={2}>
