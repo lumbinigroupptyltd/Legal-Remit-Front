@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { useAddUserKycDetails, useEditUserKycDetails } from "../../../hooks/profile/User/userKyc/useUserKycDetails";
-import { useAddUserDocumentsDetails } from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
+import { useAddUserDocumentsDetails, useDeleteUserDocumentsDetails } from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
 import { useAddUserIdDetails, useEditUserIdDetails } from "../../../hooks/profile/User/userId/useUserIdDetails";
 import { useAddUserBasicUserDetails, useEditUserBasicUserDetails } from "../../../hooks/profile/User/user/useBasicUserDetails";
 import { IdDetailsProfileSchema, documentsProfileSchema, kycDetailsProfileSchema, personalDetailsSchema } from "../validation/userValidationSchema";
@@ -112,12 +112,12 @@ const filterDocTypeData = (docTypeData, values) => {
     relevantDocNames.includes(doc.docTypeName) && values[doc.docTypeName]
   );
 };
-export const useUserDocumentsDetailsForm = ({newDocData}) => {
+export const useUserDocumentsDetailsForm = ({newDocData, documentTypeId}) => {
   const {mutate: addMutate } = useAddUserDocumentsDetails({});
 
   const formik = useFormik({
     initialValues: {
-      documentType: "",
+      documentType: documentTypeId?.data?.name,
       Front: "",
       Back: "",
     },
@@ -184,31 +184,5 @@ export const useUserIdDetailsForm = ({userData, userId}) => {
 
   return {
     formik,
-  };
-};
-
-/*________________________DELETE Doc DETAIL_____________________________________*/
-export const useDeleteDocField = ({ onSuccess }) => {
-  const queryClient = useQueryClient();
-  const kycBankDelete = useMutation(
-    ["deleteDoc"],
-    (row) => {
-      deleteDocField(row);
-    },
-    {
-      onSuccess: (data, variables, context) => {
-        onSuccess && onSuccess(data, variables, context);
-        toast.success("Successfully deleted document.");
-        queryClient.invalidateQueries("getDocAll");
-        queryClient.invalidateQueries("getDocument");        
-      },
-      onError: (err, _variables, _context) => {
-        toast.error(`${err.response.data.message}`);
-      },
-    }
-  );
-  return {
-    isSuccess: kycBankDelete.isSuccess,
-    deleteKycBankMutation: kycBankDelete.mutate,
   };
 };

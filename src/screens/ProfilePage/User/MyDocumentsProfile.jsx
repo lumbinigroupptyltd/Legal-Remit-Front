@@ -8,7 +8,7 @@ import {
   USER_LICENSE_FIELD,
   USER_PASSPORT_FIELD,
 } from "./docField";
-import { useDeleteUserDocumentsDetails, useGetUserDocumentsTypeDetails } from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
+import { useDeleteUserDocumentsDetails, useGetUserAllDocuments, useGetUserDocumentsTypeDetails } from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
 import {
   useGetUserIdDetailsById,
   useGetUserIdDetailsByUserId,
@@ -17,9 +17,13 @@ import { useUserDocumentsDetailsForm } from "../../../forms/profile/user/userBas
 import CustomTable from "../../../components/CustomTable/CustomTable";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from '@mui/icons-material/Delete';
+import FormModal from "../../../components/formModal/FormModal";
+import UpdateDocument from "./UpdateDocument";
+import { useGetDocTypeById } from "../../../hooks/documenType/useDocumentTypeDetails";
 
 const MyDocumentsProfile = ({ userId }) => {
   const [file, setFile] = useState("");
+  const [openModal, setOpenModal] = useState(false);
   const { deleteKycBankMutation, isSuccess: isDeleteSuccess } =
   useDeleteUserDocumentsDetails({});
   const theme = useTheme();
@@ -29,7 +33,8 @@ const MyDocumentsProfile = ({ userId }) => {
   const doTypeId = userIdDetails && userIdDetails?.data?.[0]?.id;
   const { data: userIdData } = useGetUserIdDetailsById(doTypeId);
   const documentData = userIdData && userIdData?.data?.document;
-console.log(documentData);
+  const { data: documentTypeId } = useGetDocTypeById(userIdData?.data?.documentTypeId);
+console.log(documentTypeId, "doc data")
   const newDocData = getDocData
     ?.filter((item) => item?.documentTypes?.length > 0) // Filter items with non-empty documentTypes
     ?.flatMap((item) =>
@@ -40,17 +45,20 @@ console.log(documentData);
       }))
     );
 
-  const { formik } = useUserDocumentsDetailsForm({ newDocData });
+  const { formik } = useUserDocumentsDetailsForm({ newDocData, documentTypeId });
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
 
+
   const handleEditRow = (fileName) => {
-    if (fileName) {
-        deleteKycBankMutation({
-          row: fileName,
-        });
-    }
+    setOpenModal(true);
+    setFile(fileName);
+    // if (fileName) {
+    //     deleteKycBankMutation({
+    //       row: fileName,
+    //     });
+    // }
   };
 
   useEffect(() => {
@@ -119,7 +127,7 @@ console.log(documentData);
               color="primary"
               onClick={() => handleEditRow(cell.row.original)}
             >
-              <DeleteIcon />
+              <VisibilityIcon />
             </IconButton>
           </>
         ),
@@ -130,7 +138,7 @@ console.log(documentData);
 
   return (
     <Grid container mt={2}>
-      {formik.values.documentType === "" && (
+      {formik.values.documentType === "Select Document" && (
         <RenderInput inputField={USER_DOC_FIELD} formik={formik} />
       )}
 
@@ -191,6 +199,26 @@ console.log(documentData);
           handleEditRow={handleEditRow}
         />
       </Grid>
+
+      {openModal && (
+        <>
+        <FormModal
+         open={openModal}
+         onClose={() => setOpenModal(false)}
+         width={700}
+         height={"auto"}
+         maxHeight={"80vh"}
+         header={"Document Update"}
+         formComponent={
+             <UpdateDocument
+               open={openModal}
+               onClose={() => setOpenModal(false)}
+               data={file}
+             />
+         }
+       />
+       </>
+      )}
     </Grid>
   );
 };

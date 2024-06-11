@@ -163,12 +163,8 @@ const NewProfilePage = () => {
               >
                 KYC Details
               </AccordionSummary>
-              <AccordionDetails>
-               
-                  <KycDetailsProfile userId={userId} />
-               
-                  {/* <KycBusinessProfile userId={userId} /> */}
-               
+              <AccordionDetails>               
+                  <KycDetailsProfile userId={userId} />               
               </AccordionDetails>
             </Accordion>
             <Accordion defaultExpanded>

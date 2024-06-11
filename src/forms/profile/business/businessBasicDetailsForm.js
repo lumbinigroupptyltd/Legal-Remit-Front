@@ -67,13 +67,13 @@ export const useBusinessExtraDetailsForm = ({
   const { mutate: addMutate } = useAddBusinessExtraDetails({});
   const { mutate: editMutate } = useEditBusinessExtraDetails({});
   const data = businessDetailsData && businessDetailsData?.[0];
-
+console.log(data, "data")
   const formik = useFormik({
     initialValues: {
       id: data?.id || "",
       userId: userId || "",
       companyTypeId: data?.companyTypeId || "",
-      businessTypeId: data?.businessTypeId || "",
+      businessTypeId: data?.businessType?.id || "",
       noOfEmployee: data?.noOfEmployee || "",
       industryTypeId: data?.industryTypeId || "",
       targetBusiness: data?.targetBusiness || "",

@@ -415,8 +415,10 @@ const RenderInput = ({
           <Autocomplete
             id={element.name}
             key={formValues}
+            fullWidth
             sx={{
               marginBottom: element?.marginBottom,
+              
             }}
             name={element.name}
             disabled={
@@ -446,7 +448,6 @@ const RenderInput = ({
                 }
               }
             }}
-            fullWidth
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -454,6 +455,7 @@ const RenderInput = ({
                 variant="outlined"
                 className="textfield-icon-input"
                 disabled={element?.isDisabled}
+                
                 error={formTouched && Boolean(formError)}
                 required={element.required}
                 helperText={formTouched && formError}

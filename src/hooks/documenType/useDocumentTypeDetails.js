@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+import { getDocTypeById } from "../../api/documentType/document-type-api";
 
 {
     /*________________________GET_____________________________________*/
@@ -14,8 +15,9 @@ import { useQuery } from "react-query";
   {
     /*________________________GET_____________________________________*/
   }
-  export const useGetDocTypeById = (docTypeId) => {
-    return useQuery(["getDocTypeById"], () => getDocTypeById(docTypeId), {
+  export const useGetDocTypeById = (id) => {
+    return useQuery(["getDocTypeById"], () => getDocTypeById(id), {
+      enabled: !!id,
       cacheTime: 10000,
       refetchInterval: false,
       refetchOnWindowFocus: false,

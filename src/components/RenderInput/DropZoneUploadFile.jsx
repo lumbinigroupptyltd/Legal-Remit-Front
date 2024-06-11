@@ -3,19 +3,22 @@ import { Typography } from "@mui/material";
 import Dropzone from "react-dropzone";
 import Picture from "../../assets/images/doc/Picture.png";
 import { fileResize } from "../../utils/image";
-import { useAddDocument, useDeleteDocField } from "../../hooks/profile/User/useProfileDetails";
+import {
+  useAddUserDocumentsDetails,
+  useDeleteUserDocumentsDetails,
+} from "../../hooks/profile/User/userDocument/useUserDocumentDetails";
 
 const DOC_URL = "https://doc-url";
 
 const DropZoneUploadFile = ({ element, formik }) => {
   const { deleteKycBankMutation, isSuccess: isDeleteSuccess } =
-    useDeleteDocField({});
+    useDeleteUserDocumentsDetails({});
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState(null);
   const [showDelete, setShowDelete] = useState(false);
   const title = element?.title;
   const documentName = element?.name;
-  const { mutate } = useAddDocument({});
+  const { mutate } = useAddUserDocumentsDetails({});
 
   useEffect(() => {
     if (formik.values?.pathArray?.length > 0) {

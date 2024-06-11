@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { addUserDocDetails, deleteUserDocDetailsById, editUserDocDetails, getUserAllDocuments, getUserDocumentsTypeDetails } from "../../../../api/profile/user/user-doc-api";
+import { getErrorMessage } from "../../../../utils/getErrorMessage";
 
 
 {
@@ -48,7 +49,7 @@ export const useGetUserDocumentsTypeDetails = () => {
 }
 export const useEditUserDocumentDetails = ({ onSuccess }) => {
   const queryClient = useQueryClient();
-  return useMutation(["editUserDocDetails"], () => editUserDocDetails(), {
+  return useMutation(["editUserDocDetails"], (formData) => editUserDocDetails(formData), {
     onSuccess: (data, variables, context) => {
       toast.success("code re-send Successfully");
       onSuccess && onSuccess(data, variables, context);
