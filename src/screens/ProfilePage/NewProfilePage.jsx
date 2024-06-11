@@ -38,7 +38,6 @@ const NewProfilePage = () => {
   const handleDigitalVerification = () => {
     setVerificationMethod("digital");
     window.open("https://sandbox.sctk.au/s-93ta-s2qp-ii8h", "_blank");
-
   };
 
   const handleManualVerification = () => {
@@ -223,8 +222,7 @@ const NewProfilePage = () => {
                   <>
                     <Grid align="center">
                       <Typography variant="h6" color={"error"}>
-                        Please first fill ID Details form above to upload
-                        documents.
+                        Please first fill KYC Details form above to proceed verification method.
                       </Typography>
                     </Grid>
                   </>

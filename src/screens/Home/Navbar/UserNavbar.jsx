@@ -36,30 +36,29 @@ const navItems = [
     item: "Send Money",
     path: "/sendmoney",
   },
-  {
-    id: 2,
-    item: "About Us",
-    path: "/about-us",
-  },
-  {
-    id: 3,
-    item: "Contact Us",
-    path: "/contact-us",
-  },
-  {
-    id: 4,
-    item: "Chat",
-    path: "/chats",
-  },
+  // {
+  //   id: 2,
+  //   item: "About Us",
+  //   path: "/about-us",
+  // },
+  // {
+  //   id: 3,
+  //   item: "Contact Us",
+  //   path: "/contact-us",
+  // },
+  // {
+  //   id: 4,
+  //   item: "Chat",
+  //   path: "/chats",
+  // },
 ];
 
 const UserNavbar = () => {
   const theme = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scriptValue, setScriptValue] = useState({ companyInfo: "" });
   const navigate = useNavigate();
   const isAuthTrue = isAuthenticated();
-
+console.log(isAuthTrue, "auth")
   const themeMode = useSelector((state) => state.theme?.mode);
   const { pathname = "" } = useLocation();
   const [submenuAnchors, setSubmenuAnchors] = useState({});
@@ -279,8 +278,6 @@ const UserNavbar = () => {
         handleActiveClick={(id, path) => handleActiveClick(id, path)}
         handleToggle={(val) => setIsMenuOpen(val)}
         symbols={symbols}
-        scriptValue={scriptValue}
-        handelScriptChange={(val) => setScriptValue(val)}
       />
     </AppBar>
   );
