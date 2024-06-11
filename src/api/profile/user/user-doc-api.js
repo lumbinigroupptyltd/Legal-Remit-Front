@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { axiosInstance } from "../../../utils/axiosIntercepters";
+import { getErrorMessage } from "../../../utils/getErrorMessage";
 
 {
   /*________________________GET_____________________________________*/
@@ -57,22 +58,45 @@ export const addUserDocDetails = async (formData) => {
 {
   /*________________________PATCH_____________________________________*/
 }
+// export const editUserDocDetails = async (formData) => {
+//   try {
+//     const imgData = new FormData();
+//     imgData.append("file", formData?.Front);
+//     {
+//       formData?.Back && imgData.append("file", formData?.Back);
+//     }
+//     imgData.append("requests", JSON.stringify(formData?.getDocData));
+//     const data = await axiosInstance.post(`/documents/save`, imgData, {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//       },
+//     });
+//     if (data) {
+//       return data;
+//     }
+//   } catch (error) {
+//     toast.error(getErrorMessage(error));
+//     return false;
+//   }
+// };
+// import axios from 'axios';
+// import { toast } from 'react-toastify';
+
 export const editUserDocDetails = async (formData) => {
+  console.log(formData, "form data")
   try {
     const imgData = new FormData();
     imgData.append("file", formData?.Front);
-    {
-      formData?.Back && imgData.append("file", formData?.Back);
-    }
+    if (formData?.Back) imgData.append("file", formData?.Back);
     imgData.append("requests", JSON.stringify(formData?.getDocData));
-    const data = await axiosInstance.post(`/documents/save`, imgData, {
+
+    const response = await axios.post(`/documents/save`, imgData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    if (data) {
-      return data;
-    }
+
+    return response.data;
   } catch (error) {
     toast.error(getErrorMessage(error));
     return false;
