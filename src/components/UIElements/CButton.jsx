@@ -14,6 +14,7 @@ export const CButton = ({
   Width,
   margin,
   BorderRadius,
+  Padding,
 }) => {
   return (
     <>
@@ -26,6 +27,7 @@ export const CButton = ({
           background: BGColor ? BGColor : "",
           color: TextColor ? TextColor : "#fff",
           border: Border ? Border : "",
+          padding: Padding ? Padding : "",
           borderRadius: BorderRadius ? BorderRadius : "",
           margin: margin ? margin : "",
           width: Width? Width : "",

@@ -7,9 +7,11 @@ import ioTReducer from "./ioTReducer";
 import mailInboxReducer from "./mailInboxReducer";
 import UIElementsReducer from "./UIElementsReducer";
 import authReducer from "./authReducer";
+import sendMoneyReducer from "./sendMoneyReducer";
 
 export default combineReducers({
   auth: authReducer,
+  sendMoney: sendMoneyReducer,
   loginReducer,
   navigationReducer: navigationReducer,
   analyticalReducer: analyticalReducer,
