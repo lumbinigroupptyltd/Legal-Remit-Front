@@ -15,7 +15,7 @@ const getPalette = (mode) => {
   const palette = {
     primary: {
       main: "#aa2ae1",
-      light: "#6DAB23",
+      light: "#F7EAFC",
       dark: "#7bb338",
       holiday: "#FF8A7B",
     },

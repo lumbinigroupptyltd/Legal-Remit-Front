@@ -34,7 +34,7 @@ const navItems = [
   {
     id: 1,
     item: "Send Money",
-    path: "/sendmoney",
+    path: "/home/sendmoney",
   },
   // {
   //   id: 2,
@@ -58,12 +58,14 @@ const UserNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const isAuthTrue = isAuthenticated();
-console.log(isAuthTrue, "auth")
   const themeMode = useSelector((state) => state.theme?.mode);
   const { pathname = "" } = useLocation();
   const [submenuAnchors, setSubmenuAnchors] = useState({});
   const [isNavigating, setIsNavigating] = useState(false);
 
+  useEffect(() => {
+
+  }, [isAuthTrue]);
   useEffect(() => {
     if (isNavigating) {
       setSubmenuAnchors({});
@@ -87,8 +89,6 @@ console.log(isAuthTrue, "auth")
       setIsNavigating(true);
       if (path && path.startsWith("http" || "https")) {
         window.open(path, "_blank");
-      } else if ((path === "/sendmoney" || path === "/chats") && !isAuthTrue) {
-        navigate("/login");
       } else {
         navigate(path);
       }

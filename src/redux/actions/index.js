@@ -5,3 +5,5 @@ export * from "./DemographicAction";
 export * from "./IoTAction";
 export * from "./MailInboxAction";
 export * from "./UIElementsAction";
+export * from "./authAction";
+export * from "./SendMoney";
