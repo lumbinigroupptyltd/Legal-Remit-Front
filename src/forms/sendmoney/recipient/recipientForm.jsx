@@ -3,8 +3,11 @@ import {
   useAddRecipientBankDetails,
   useAddRecipientContactDetails,
 } from "../../../hooks/sendMoney/useRecipient";
+import { useDispatch } from "react-redux";
+import { addRecipientBank } from "../../../redux/actions";
 
 export const recipientBankDetailsForm = (onFormValidate) => {
+  const dispatch = useDispatch();
   const { mutate: addMutate } = useAddRecipientBankDetails({});
 
   const formik = useFormik({
@@ -28,6 +31,7 @@ export const recipientBankDetailsForm = (onFormValidate) => {
 
   const handledAddRequest = (values) => {
     values = { ...values };
+    dispatch(addRecipientBank(values));
     addMutate(values, {
       onSuccess: () => {
         onFormValidate(true);

@@ -82,15 +82,34 @@ export const addUserDocDetails = async (formData) => {
 // import axios from 'axios';
 // import { toast } from 'react-toastify';
 
+// export const editUserDocDetails = async (formData) => {
+//   console.log(formData?.getDocData?.id, "form data")
+//   try {
+//     const imgData = new FormData();
+//     imgData.append("file", formData?.Front);
+//     if (formData?.Back) imgData.append("file", formData?.Back);
+//     // imgData.append("requests", JSON.stringify(formData?.getDocData));
+
+//     const response = await axios.post(`/documents/save/${formData?.getDocData?.id}`, imgData, {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//       },
+//     });
+
+//     return response.data;
+//   } catch (error) {
+//     toast.error(getErrorMessage(error));
+//     return false;
+//   }
+// };
+
 export const editUserDocDetails = async (formData) => {
-  console.log(formData, "form data")
   try {
     const imgData = new FormData();
     imgData.append("file", formData?.Front);
     if (formData?.Back) imgData.append("file", formData?.Back);
-    imgData.append("requests", JSON.stringify(formData?.getDocData));
 
-    const response = await axios.post(`/documents/save`, imgData, {
+    const response = await axiosInstance.patch(`/documents/update/${formData?.getDocData?.id}`, imgData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -99,10 +118,9 @@ export const editUserDocDetails = async (formData) => {
     return response.data;
   } catch (error) {
     toast.error(getErrorMessage(error));
-    return false;
+    throw error; // Re-throw the error to ensure it is caught by onError in the mutation
   }
 };
-
 {
   /*________________________Delete_____________________________________*/
 }

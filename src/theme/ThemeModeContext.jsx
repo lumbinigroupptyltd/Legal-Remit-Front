@@ -43,7 +43,8 @@ const getPalette = (mode) => {
       header: "#4aa191", // title modal
     },
     text: {
-      primary: "#000",
+      primary: "#000000",
+      dark: "#222222",
       secondary: "#616161",
       white: "#000",
       tableHead: "#25262E",

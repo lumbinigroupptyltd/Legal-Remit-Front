@@ -11,10 +11,10 @@ import { jwtDecode } from "jwt-decode";
 import { CommonConstants } from "../../../../Constants/common.constants";
 import Loader from "../../../Loader/Loader";
 import { nanoid } from "nanoid";
-import { CButton } from "../../../../components/UIElements/CButton";
 import RenderInput from "../../../../components/RenderInput/RenderInput";
 import { checkIfExpired } from "../../../../utils/axiosIntercepters";
 import { useLoginForm } from "../../../../forms/auth/login/loginForm";
+import { CButton } from "../../../../components/MaterialUI/CButton";
 
 const basicInputData = [
   {

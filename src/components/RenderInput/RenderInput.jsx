@@ -101,7 +101,7 @@ const RenderInput = ({
                     }}
                   >
                     {element?.isImage ? (
-                      <img src={element?.iconStart} />
+                      <img width={element?.iconWidth ? element?.iconWidth : 20} src={element?.iconStart} />
                     ) : (
                       <Tooltip>{element?.iconStart}</Tooltip>
                     )}

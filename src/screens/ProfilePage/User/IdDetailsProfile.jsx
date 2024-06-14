@@ -4,12 +4,12 @@ import { nanoid } from "nanoid";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import DateRangeIcon from "@mui/icons-material/DateRange";
-import { CButton } from "../../../components/UIElements/CButton";
 import { Grid, useTheme } from "@mui/material";
 import { useGetUserIdDetailsByUserId } from "../../../hooks/profile/User/userId/useUserIdDetails";
 import { useGetUserDocumentsTypeDetails } from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
 import { useUserIdDetailsForm } from "../../../forms/profile/user/userBasicDetailsForm";
 import { useGetIdIssuingAuthority } from "../../../hooks/issueAuthority/useIssueAuthorityDetails";
+import { CButton } from "../../../components/MaterialUI/CButton";
 
 const IdDetailsProfile = ({ userId }) => {
   const theme = useTheme();

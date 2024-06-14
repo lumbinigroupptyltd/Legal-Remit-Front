@@ -5,7 +5,6 @@ import PersonIcon from "@mui/icons-material/Person";
 import SmartphoneIcon from "@mui/icons-material/Smartphone";
 import EmailIcon from "@mui/icons-material/Email";
 import { Box, Grid, Typography, useTheme } from "@mui/material";
-import { CButton } from "../../../components/UIElements/CButton";
 import { useBasicUserDetailsDetailsForm } from "../../../forms/profile/user/userBasicDetailsForm";
 import { useGetAllCountries } from "../../../hooks/country/useCountryDetails";
 import {
@@ -16,6 +15,7 @@ import FormModal from "../../../components/formModal/FormModal";
 import ChangeOtpNumber from "../../Auth/SignupNew/newSignUp/OTP/ChangeOtpNumber";
 import { toast } from "react-toastify";
 import OtpVerification from "../../Auth/SignupNew/newSignUp/OTP/OtpVerification";
+import { CButton } from "../../../components/MaterialUI/CButton";
 
 const COUNTRY_SELECTED = [
   {

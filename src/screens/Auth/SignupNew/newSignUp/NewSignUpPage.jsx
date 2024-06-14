@@ -16,11 +16,11 @@ import SmartphoneIcon from "@mui/icons-material/Smartphone";
 import LockIcon from "@mui/icons-material/Lock";
 import EmailIcon from "@mui/icons-material/Email";
 import LinkIcon from "@mui/icons-material/Link";
-import { CButton } from "../../../../components/UIElements/CButton";
 import FlagIcon from "@mui/icons-material/Flag";
 import { useNavigate } from "react-router-dom";
 import useSignUpForm from "../../../../forms/auth/signup/signUpForm";
 import { useGetAllCountries } from "../../../../hooks/country/useCountryDetails";
+import { CButton } from "../../../../components/MaterialUI/CButton";
 
 const ROLE_SELECTED = [
   { id: nanoid(), label: "Individual", value: "4b0fa25e-6dd9-480f-bdd7-59247705c132" },

@@ -11,7 +11,6 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { CButton } from "../../../components/UIElements/CButton";
 import FormModal from "../../../components/formModal/FormModal";
 import { FormikProvider } from "formik";
 import CustomTable from "../../../components/CustomTable/CustomTable";
@@ -34,6 +33,7 @@ import {
   useGetDirectorDetailsByBussId,
 } from "../../../hooks/profile/Business/director/useDirectorDetails";
 import { useGetAllCountries } from "../../../hooks/country/useCountryDetails";
+import { CButton } from "../../../components/MaterialUI/CButton";
 
 const directiveCloumns = [
   {

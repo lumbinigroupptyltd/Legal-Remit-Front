@@ -21,8 +21,8 @@ import { useSelector } from "react-redux";
 
 
 import  Box  from "@mui/material/Box";
-import { CButton } from "../../../components/UIElements/CButton";
 import { isAuthenticated } from "../../../utils/useHelper";
+import { CButton } from "../../../components/MaterialUI/CButton";
 
 export const FlexBetween = styled(Box)({
   display: "flex",

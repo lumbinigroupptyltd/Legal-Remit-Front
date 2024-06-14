@@ -4,17 +4,18 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { CButton } from "../UIElements/CButton";
 import { logout } from "../../utils/logout";
 import { useNavigate } from "react-router-dom";
 import { useUserKycDetailsForm } from "../../forms/profile/user/userBasicDetailsForm";
+import { CButton } from "../MaterialUI/CButton";
+
 
 const ConfirmationModal = ({ handleCloseModal, message, data, userId, countryId }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const { formik } = useUserKycDetailsForm({ data, userId, countryId });
   const handleFormSubmit = async() => {
-    await formik.setFieldValue("kycStatus", "VERIFIED");
+    await formik.setFieldValue(kycStatus, "VERIFIED");
     await formik.handleSubmit();
     handleCloseModal();
     logout();

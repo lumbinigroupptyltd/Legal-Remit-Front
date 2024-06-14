@@ -18,7 +18,7 @@ const UserLayout = () => {
           className="mainLoginSection2"
         >
           <UserNavbar />
-          <section style={{overflow: "scroll"}}>
+          <section>
             <Outlet />
           </section>
         </div>

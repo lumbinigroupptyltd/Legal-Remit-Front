@@ -36,6 +36,7 @@ export const useGetUserDocumentsTypeDetails = () => {
         toast.success("Photo uploaded successfully");
         onSuccess && onSuccess(data, variables, context);
         queryClient.invalidateQueries("getDocument");
+        queryClient.invalidateQueries("getUserIdDetailsById");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -51,9 +52,9 @@ export const useEditUserDocumentDetails = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(["editUserDocDetails"], (formData) => editUserDocDetails(formData), {
     onSuccess: (data, variables, context) => {
-      toast.success("code re-send Successfully");
+      toast.success("Image updated Successfully");
       onSuccess && onSuccess(data, variables, context);
-      queryClient.invalidateQueries("");
+      queryClient.invalidateQueries("getUserIdDetailsById");
     },
     onError: (err, _variables, _context) => {
       toast.error(getErrorMessage(err));
