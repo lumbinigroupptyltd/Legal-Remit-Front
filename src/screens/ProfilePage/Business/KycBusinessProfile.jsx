@@ -5,7 +5,6 @@ import HouseIcon from "@mui/icons-material/House";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EmailIcon from "@mui/icons-material/Email";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
-import { CButton } from "../../../components/UIElements/CButton";
 import { Grid, useTheme } from "@mui/material";
 import RenderInput from "../../../components/RenderInput/RenderInput";
 import { useGetUserNationality } from "../../../hooks/nationality/useNationalityDetails";
@@ -13,6 +12,7 @@ import { useGetUserAllStates } from "../../../hooks/state/useStateDetails";
 import { useGetAllOccupations } from "../../../hooks/occupation/useOccupationDetails";
 import { useKycBusinessDetailsForm } from "../../../forms/profile/business/businessBasicDetailsForm";
 import { useGetBusinessKycDetailsByUserId } from "../../../hooks/profile/Business/businessKyc/useBusinessKycDetails";
+import { CButton } from "../../../components/MaterialUI/CButton";
 
 const KycBusinessProfile = ({ userId }) => {
   const theme = useTheme();

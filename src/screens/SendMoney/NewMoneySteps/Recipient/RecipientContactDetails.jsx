@@ -2,10 +2,10 @@ import { Grid, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { nanoid } from "nanoid";
 import RenderInput from "../../../../components/RenderInput/RenderInput";
-import { CButton } from "../../../../components/UIElements/CButton";
 import { recipientContactDetailsForm } from "../../../../forms/sendmoney/recipient/recipientForm";
 import PersonIcon from "@mui/icons-material/Person";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import { CButton } from "../../../../components/MaterialUI/CButton";
 
 const inputField = [
   {

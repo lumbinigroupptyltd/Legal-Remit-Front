@@ -20,7 +20,6 @@ import { useSelector } from "react-redux";
 // import { styled } from '@mui/material/styles';
 
 import Box from "@mui/material/Box";
-import { CButton } from "../../../components/UIElements/CButton";
 import { isAuthenticated } from "../../../utils/useHelper";
 import { logout } from "../../../utils/logout";
 

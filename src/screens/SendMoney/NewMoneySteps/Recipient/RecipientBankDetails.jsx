@@ -5,8 +5,8 @@ import { nanoid } from "nanoid";
 import PersonIcon from "@mui/icons-material/Person";
 import RenderInput from "../../../../components/RenderInput/RenderInput";
 import { recipientBankDetailsForm } from "../../../../forms/sendmoney/recipient/recipientForm";
-import { CButton } from "../../../../components/UIElements/CButton";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { CButton } from "../../../../components/MaterialUI/CButton";
 
 const RecipientBankDetails = ({ onFormValidate }) => {
   const theme = useTheme();

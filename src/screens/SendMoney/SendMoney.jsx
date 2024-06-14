@@ -15,24 +15,18 @@ import Step1 from "./SendMoneySteps/MoneyStep1/MoneyStep1";
 import Step2 from "./SendMoneySteps/MoneyStep2/MoneyStep2";
 import Step3 from "./SendMoneySteps/MoneyStep3/MoneyStep3";
 import Step4 from "./SendMoneySteps/MoneyStep4/MoneyStep4";
-import Step5 from "./SendMoneySteps/MoneyStep5/MoneyStep5";
-
-import Footer from "../Home/Footer/Footer";
-import NavBar from "../Home/Navbar/Navbar";
-
 import UploadFiles from "../Helpers/ReVerifyIDDocument/ReverifyIdDocument";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import OtpInput from "react-otp-input";
 import userContext from "../Auth/SignupNew/Usecontext";
 import { CommonConstants } from "../../Constants/common.constants";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode'
 
-const validator = require("../../assets/js/validator");
+// const validator = require("../../assets/js/validator");
 
 // import validator from "../../../assets/js/validator"
 
@@ -112,8 +106,9 @@ export default function SendMoney() {
 
   const handleShowVerify = () => {
     HandleFormId();
-    validator.error_input_validation(handleId);
-    if (validator.error_input_validation(handleId)) {
+    // validator.error_input_validation(handleId);
+    // if (validator.error_input_validation(handleId)) {
+      if (handleId) {
       if (Reciver_CountryId == 154) {
         visitNextStep();
       } else {
@@ -229,9 +224,10 @@ export default function SendMoney() {
     handleCloseVerify()
     handleCloseIDVerify()
     HandleFormId();
-    validator.error_input_validation(handleId);
+    // validator.error_input_validation(handleId);
 
-    if (validator.error_input_validation(handleId)) {
+    // if (validator.error_input_validation(handleId)) {
+    if (handleId) {
       window.scrollTo(0, 0);
 
       document.getElementById(activeStep.key).style.display = "none";

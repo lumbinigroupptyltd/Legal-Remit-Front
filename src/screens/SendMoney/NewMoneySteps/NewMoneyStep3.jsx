@@ -3,7 +3,7 @@ import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import RenderInput from "../../../components/RenderInput/RenderInput";
 import FlagIcon from "@mui/icons-material/Flag";
 import { nanoid } from "nanoid";
-import { useSendMoneyStep1Form } from "../../../forms/sendmoney/useSendMoneyForm";
+import { useSendMoneyStep3Form } from "../../../forms/sendmoney/useSendMoneyForm";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FormModal from "../../../components/formModal/FormModal";
 import Recipient from "./Recipient/Recipient";
@@ -11,7 +11,7 @@ import Recipient from "./Recipient/Recipient";
 const NewMoneyStep3 = ({ handleNext }) => {
   const theme = useTheme();
   const [openModal, setOpenModal] = useState();
-  const { formik } = useSendMoneyStep1Form(handleNext);
+  const { formik } = useSendMoneyStep3Form(handleNext);
 
   const inputData = [
     {

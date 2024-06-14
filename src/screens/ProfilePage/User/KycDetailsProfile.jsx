@@ -6,13 +6,13 @@ import HouseIcon from "@mui/icons-material/House";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EmailIcon from "@mui/icons-material/Email";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
-import { CButton } from "../../../components/UIElements/CButton";
 import { Grid, useTheme } from "@mui/material";
 import { useGetUserAllStates } from "../../../hooks/state/useStateDetails";
 import { useGetAllOccupations } from "../../../hooks/occupation/useOccupationDetails";
 import { useGetUserKycDetailsByUserId } from "../../../hooks/profile/User/userKyc/useUserKycDetails";
 import { useUserKycDetailsForm } from "../../../forms/profile/user/userBasicDetailsForm";
 import { useGetUserNationality } from "../../../hooks/nationality/useNationalityDetails";
+import { CButton } from "../../../components/MaterialUI/CButton";
 
 const RESIDANCE_OPTIONS = [
   { id: nanoid(), value: "true", label: "Yes" },

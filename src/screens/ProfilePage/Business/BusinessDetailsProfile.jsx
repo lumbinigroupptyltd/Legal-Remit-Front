@@ -5,10 +5,10 @@ import PersonIcon from "@mui/icons-material/Person";
 import SmartphoneIcon from "@mui/icons-material/Smartphone";
 import EmailIcon from "@mui/icons-material/Email";
 import { Box, Grid, Typography, useTheme } from "@mui/material";
-import { CButton } from "../../../components/UIElements/CButton";
 import { toast } from "react-toastify";
 import { useBasicBusinessDetailsForm } from "../../../forms/profile/business/businessBasicDetailsForm";
 import { getVerifyEmail } from "../../../api/userInfo/user-api";
+import { CButton } from "../../../components/MaterialUI/CButton";
 
 const BusinessDetailsProfile = ({ data, userId }) => {
   const theme = useTheme();

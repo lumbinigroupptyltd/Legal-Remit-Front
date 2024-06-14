@@ -130,7 +130,7 @@ const NewDropZone = ({ element, formik }) => {
       ) : (
         <Dropzone
           onDrop={handleUpload}
-          accept={element.accept}
+          accept={element?.accept}
           // maxSize={200 * 1024}
         >
           {({ getRootProps, getInputProps }) => {

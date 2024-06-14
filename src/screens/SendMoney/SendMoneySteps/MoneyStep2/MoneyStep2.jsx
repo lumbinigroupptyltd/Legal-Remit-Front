@@ -42,7 +42,6 @@ const bankIcon1 = bankIcon; // Provide the path to your bank icon image
 export default function MoneyStep2({
   backDisplay,
   Displaynext,
-  messageDialogshow,
   RecieverCountryId,
   SummurryDetails,
   TransactionIDSet,
@@ -1440,7 +1439,7 @@ export default function MoneyStep2({
   }, [FirstStepData]);
 
   useEffect(() => {
-    messageDialogshow(messageDialog);
+    // messageDialogshow(messageDialog);
     if (backDisplay == true) {
       setmessageDialog(false);
     }

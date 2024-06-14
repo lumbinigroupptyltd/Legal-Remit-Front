@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../Home/Footer/Footer";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -20,20 +20,22 @@ import MyDocumentsProfile from "./User/MyDocumentsProfile";
 import { useGetUserInfoByUserId } from "../../hooks/userInfo/useUserInfo";
 import { useGetUserKycDetailsByUserId } from "../../hooks/profile/User/userKyc/useUserKycDetails";
 import PendingStatusComp from "../../Layout/PendingStatusComp";
+import { useGetScantekDetailsByUserId } from "../../hooks/scanteck/useScantek";
 
 const NewProfilePage = () => {
+  const [submitForm, setSubmitForm] = useState(false);
   const { role, userId, isSignupCompleted } = useSelector(
     (state) => state.auth
   );
   const theme = useTheme();
   const navigate = useNavigate();
   const [submitModal, setSubmitModal] = useState(false);
-  const [verificationMethod, setVerificationMethod] = useState(null);
+  const [verificationMethod, setVerificationMethod] = useState("");
   const { data: userData } = useGetUserInfoByUserId(userId);
   const newData = userData && userData?.data;
   const { data: userKycData } = useGetUserKycDetailsByUserId(userId);
   const kycData = userKycData && userKycData?.data?.[0];
-  console.log(isSignupCompleted, "isgn", kycData, "kyc")
+  const { data: scantekData } = useGetScantekDetailsByUserId(userId);
 
   const handleDigitalVerification = () => {
     setVerificationMethod("digital");
@@ -52,6 +54,14 @@ const NewProfilePage = () => {
   const handleSubmitForm = () => {
     setSubmitModal(true);
   };
+console.log(newData, kycData)
+  useEffect(() => {
+    if (newData && kycData) {
+      setSubmitForm(true);
+    } else {
+      setSubmitForm(false);
+    }
+  }, [newData, kycData]);
 
   return (
     <>
@@ -84,44 +94,17 @@ const NewProfilePage = () => {
           </Grid>
         </>
       )}
-      {!isSignupCompleted && (kycData?.kycStatus === "REJECTED" || !userKycData?.data?.length) && (
-        <>
-          <Grid
-            sx={{
-              margin: "3rem auto",
-              padding: "12px",
-              width: "90%",
-              boxShadow: theme.palette.boxShadow.default,
-            }}
-          >
-            <Accordion
-              defaultExpanded
+      {!isSignupCompleted &&
+        (kycData?.kycStatus === "REJECTED" || !userKycData?.data?.length) && (
+          <>
+            <Grid
               sx={{
-                background: theme.palette.background.default,
-                marginBottom: "1rem",
+                margin: "3rem auto",
+                padding: "12px",
+                width: "90%",
+                boxShadow: theme.palette.boxShadow.default,
               }}
             >
-              <AccordionSummary
-                sx={{
-                  background: theme.palette.background.main,
-                  color: "white",
-                }}
-                expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-              >
-                User Details
-              </AccordionSummary>
-              <AccordionDetails>
-                {role === "USER" ? (
-                  <PersonalDetailsProfile data={newData} userId={userId} />
-                ) : (
-                  <BusinessDetailsProfile data={newData} userId={userId} />
-                )}
-              </AccordionDetails>
-            </Accordion>
-
-            {role === "BUSINESS" && (
               <Accordion
                 defaultExpanded
                 sx={{
@@ -138,189 +121,220 @@ const NewProfilePage = () => {
                   aria-controls="panel1-content"
                   id="panel1-header"
                 >
-                  Business Details
+                  User Details
                 </AccordionSummary>
                 <AccordionDetails>
-                  <BusinessDetailsExtraProfile
-                    // data={businessDetailsData}
-                    userId={userId}
-                  />
+                  {role === "USER" ? (
+                    <PersonalDetailsProfile data={newData} userId={userId} />
+                  ) : (
+                    <BusinessDetailsProfile data={newData} userId={userId} />
+                  )}
                 </AccordionDetails>
               </Accordion>
-            )}
 
-            <Accordion defaultExpanded>
-              <AccordionSummary
-                sx={{
-                  background: theme.palette.background.main,
-                  color: "white",
-                  marginBottom: "1rem",
-                }}
-                expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-              >
-                KYC Details
-              </AccordionSummary>
-              <AccordionDetails>               
-                  <KycDetailsProfile userId={userId} />               
-              </AccordionDetails>
-            </Accordion>
-            <Accordion defaultExpanded>
-              <AccordionSummary
-                sx={{
-                  background: theme.palette.background.main,
-                  color: "white",
-                  marginBottom: "1rem",
-                }}
-                expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-              >
-                Verification Method
-              </AccordionSummary>
-              <AccordionDetails>
-                {kycData ? (
-                  <Box sx={{ display: "flex" }}>
-                    <Grid sx={{ display: "flex", flexDirection: "column" }}>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={handleDigitalVerification}
-                        sx={{ marginRight: "1rem" }}
-                      >
-                        <Typography variant="h6" align="center">
-                          Digital Verification (Recommended)
-                        </Typography>
-                      </Button>
-                      <div style={{ padding: "0 2rem" }}>
-                        <Typography variant="p">
-                          It is recommended to use Digital verification for
-                          faster process. Click on Button to proceed.
-                        </Typography>
-                      </div>
-                    </Grid>
-                    <Grid sx={{ display: "flex", flexDirection: "column" }}>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={handleManualVerification}
-                      >
-                        <Typography variant="h6" align="center">
-                          Manual Verification (Slower Method)
-                        </Typography>
-                      </Button>
-                      <div style={{ padding: "0 2rem" }}>
-                        <Typography variant="p">
-                          It is slower method of verification process. Click on
-                          Button to proceed.
-                        </Typography>
-                      </div>
-                    </Grid>
-                  </Box>
-                ) : (
-                  <>
-                    <Grid align="center">
-                      <Typography variant="h6" color={"error"}>
-                        Please first fill KYC Details form above to proceed verification method.
-                      </Typography>
-                    </Grid>
-                  </>
-                )}
-              </AccordionDetails>
-            </Accordion>
-
-            {verificationMethod && (
-              <>
-                <Accordion disabled={!verificationMethod}>
+              {role === "BUSINESS" && (
+                <Accordion
+                  defaultExpanded
+                  sx={{
+                    background: theme.palette.background.default,
+                    marginBottom: "1rem",
+                  }}
+                >
                   <AccordionSummary
                     sx={{
                       background: theme.palette.background.main,
-                      color: verificationMethod ? "white" : "#000",
-                      marginBottom: "1rem",
+                      color: "white",
                     }}
                     expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
                     aria-controls="panel1-content"
                     id="panel1-header"
                   >
-                    ID Details
+                    Business Details
                   </AccordionSummary>
                   <AccordionDetails>
-                      <IdDetailsProfile data={newData} userId={userId} />                   
+                    <BusinessDetailsExtraProfile
+                      // data={businessDetailsData}
+                      userId={userId}
+                    />
                   </AccordionDetails>
                 </Accordion>
+              )}
 
-                <Accordion disabled={!verificationMethod}>
-                  <AccordionSummary
-                    sx={{
-                      background: theme.palette.background.main,
-                      color: verificationMethod ? "white" : "#000",
-                      marginBottom: "1rem",
-                    }}
-                    expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                  >
-                    My Documents
-                  </AccordionSummary>
-                  <AccordionDetails>                    
-                      <MyDocumentsProfile userId={userId} />                   
-                  </AccordionDetails>
-                </Accordion>
-              </>
-            )}
-          </Grid>
+              <Accordion defaultExpanded>
+                <AccordionSummary
+                  sx={{
+                    background: theme.palette.background.main,
+                    color: "white",
+                    marginBottom: "1rem",
+                  }}
+                  expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+                  aria-controls="panel1-content"
+                  id="panel1-header"
+                >
+                  KYC Details
+                </AccordionSummary>
+                <AccordionDetails>
+                  <KycDetailsProfile userId={userId} />
+                </AccordionDetails>
+              </Accordion>
+              <Accordion defaultExpanded>
+                <AccordionSummary
+                  sx={{
+                    background: theme.palette.background.main,
+                    color: "white",
+                    marginBottom: "1rem",
+                  }}
+                  expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+                  aria-controls="panel1-content"
+                  id="panel1-header"
+                >
+                  Verification Method
+                </AccordionSummary>
+                <AccordionDetails>
+                  {kycData ? (
+                    <Box sx={{ display: "flex" }}>
+                      <Grid sx={{ display: "flex", flexDirection: "column" }}>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={handleDigitalVerification}
+                          sx={{ marginRight: "1rem" }}
+                        >
+                          <Typography variant="h6" align="center">
+                            Digital Verification (Recommended)
+                          </Typography>
+                        </Button>
+                        <div style={{ padding: "0 2rem" }}>
+                          <Typography variant="p">
+                            It is recommended to use Digital verification for
+                            faster process. Click on Button to proceed.
+                          </Typography>
+                        </div>
+                      </Grid>
+                      <Grid sx={{ display: "flex", flexDirection: "column" }}>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          onClick={handleManualVerification}
+                        >
+                          <Typography variant="h6" align="center">
+                            Manual Verification (Slower Method)
+                          </Typography>
+                        </Button>
+                        <div style={{ padding: "0 2rem" }}>
+                          <Typography variant="p">
+                            It is slower method of verification process. Click
+                            on Button to proceed.
+                          </Typography>
+                        </div>
+                      </Grid>
+                    </Box>
+                  ) : (
+                    <>
+                      <Grid align="center">
+                        <Typography variant="h6" color={"error"}>
+                          Please first fill KYC Details form above to proceed
+                          verification method.
+                        </Typography>
+                      </Grid>
+                    </>
+                  )}
+                </AccordionDetails>
+              </Accordion>
 
-          <Grid container mt={2}>
-            <Grid
-              item
-              sx={{
-                width: "100%",
-                background: theme.palette.background.main,
-                color: "#fff",
-                textAlign: "center",
-                margin: "auto 4rem",
-                cursor: "pointer",
-              }}
-            >
-              <Typography
-                variant="p"
-                sx={{
-                  fontSize: "1.5rem",
-                  fontWeight: "500",
-                  letterSpacing: "0.15rem",
-                }}
-                onClick={handleSubmitForm}
-              >
-                Submit Form
-              </Typography>
+              {verificationMethod === "manual" && (
+                <>
+                  <Accordion disabled={!verificationMethod}>
+                    <AccordionSummary
+                      sx={{
+                        background: theme.palette.background.main,
+                        color: verificationMethod ? "white" : "#000",
+                        marginBottom: "1rem",
+                      }}
+                      expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                    >
+                      ID Details
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <IdDetailsProfile data={newData} userId={userId} />
+                    </AccordionDetails>
+                  </Accordion>
+
+                  <Accordion disabled={!verificationMethod}>
+                    <AccordionSummary
+                      sx={{
+                        background: theme.palette.background.main,
+                        color: verificationMethod ? "white" : "#000",
+                        marginBottom: "1rem",
+                      }}
+                      expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                    >
+                      My Documents
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <MyDocumentsProfile userId={userId} />
+                    </AccordionDetails>
+                  </Accordion>
+                </>
+              )}
             </Grid>
-            {submitModal && (
-              <FormModal
-                open={submitModal}
-                onClose={() => setSubmitModal(false)}
-                width={700}
-                height={"auto"}
-                maxHeight={"80vh"}
-                header={"Submit Application"}
-                formComponent={
-                  <ConfirmationModal
-                    title={"Submit Application"}
-                    message={
-                      "Are you sure you have filled all the required fields & want to submit form?"
-                    }
-                    data={kycData}
-                    userId={userId}
-                    countryId={kycData?.countryId}
-                    buttonName={"Submit"}
-                    handleCloseModal={() => setSubmitModal(false)}
-                  />
-                }
-              />
-            )}
-          </Grid>
-        </>
-      )}
+
+            <Grid container mt={2}>
+              {submitForm && (
+                <Grid
+                  item
+                  sx={{
+                    width: "100%",
+                    background: theme.palette.background.main,
+                    color: "#fff",
+                    textAlign: "center",
+                    margin: "auto 4rem",
+                    cursor: "pointer",
+                  }}
+                >
+                  <Typography
+                    variant="p"
+                    sx={{
+                      fontSize: "1.5rem",
+                      fontWeight: "500",
+                      letterSpacing: "0.15rem",
+                    }}
+                    onClick={handleSubmitForm}
+                  >
+                    Submit Form
+                  </Typography>
+                </Grid>
+              )}
+              {submitModal && (
+                <FormModal
+                  open={submitModal}
+                  onClose={() => setSubmitModal(false)}
+                  width={700}
+                  height={"auto"}
+                  maxHeight={"80vh"}
+                  header={"Submit Application"}
+                  formComponent={
+                    <ConfirmationModal
+                      title={"Submit Application"}
+                      message={
+                        "Are you sure you have filled all the required fields & want to submit form?"
+                      }
+                      data={kycData}
+                      userId={userId}
+                      countryId={kycData?.countryId}
+                      buttonName={"Submit"}
+                      handleCloseModal={() => setSubmitModal(false)}
+                    />
+                  }
+                />
+              )}
+            </Grid>
+          </>
+        )}
 
       <Footer />
     </>

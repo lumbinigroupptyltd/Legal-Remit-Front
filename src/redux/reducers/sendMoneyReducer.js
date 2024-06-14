@@ -1,20 +1,28 @@
-import { SEND_MONEY } from "../types/types";
+import { ADD_RECIPIENT_BANK, ADD_RECIPIENT_TYPE, RECIPIENT_COUNTRY } from "../types/types";
 
 const initialState = {
-    values: null,
-  };
-
-  if (initialState.values) {
-    initialState.values = values;
+    country: null,
+    recipientType: null,
+    recipientBank: null,
   };
 
   const sendMoneyReducer = (state = initialState, action) => {
     switch (action.type) {
-      case SEND_MONEY:
+      case RECIPIENT_COUNTRY:
         return {
           ...state,
-          values: action.payload.values,
+          country: action.payload,
         };
+        case ADD_RECIPIENT_TYPE:
+          return {
+            ...state,
+            recipientType: action.payload,
+          }
+          case ADD_RECIPIENT_BANK:
+            return {
+              ...state,
+              recipientBank: action.payload,
+            }
       default:
         return state;
     }

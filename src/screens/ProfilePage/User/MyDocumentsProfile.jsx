@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import RenderInput from "../../../components/RenderInput/RenderInput";
 import { Grid, IconButton, useTheme } from "@mui/material";
-import { CButton } from "../../../components/UIElements/CButton";
 import {
   USER_CITIZENSHIP_FIELD,
   USER_DOC_FIELD,
@@ -20,6 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FormModal from "../../../components/formModal/FormModal";
 import UpdateDocument from "./UpdateDocument";
 import { useGetDocTypeById } from "../../../hooks/documenType/useDocumentTypeDetails";
+import { CButton } from "../../../components/MaterialUI/CButton";
 
 const MyDocumentsProfile = ({ userId }) => {
   const [file, setFile] = useState("");
@@ -34,7 +34,7 @@ const MyDocumentsProfile = ({ userId }) => {
   const { data: userIdData } = useGetUserIdDetailsById(doTypeId);
   const documentData = userIdData && userIdData?.data?.document;
   const { data: documentTypeId } = useGetDocTypeById(userIdData?.data?.documentTypeId);
-console.log(documentTypeId, "doc data")
+
   const newDocData = getDocData
     ?.filter((item) => item?.documentTypes?.length > 0) // Filter items with non-empty documentTypes
     ?.flatMap((item) =>
@@ -66,7 +66,7 @@ console.log(documentTypeId, "doc data")
       setFile(null);
     }
   }, [isDeleteSuccess]);
-
+console.log(userIdDetails, "documentData")
   const columns = useMemo(
     () => [
       {

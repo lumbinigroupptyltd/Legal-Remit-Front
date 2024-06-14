@@ -1,13 +1,13 @@
 import React from "react";
 import { Button, Grid, Typography, useTheme } from "@mui/material";
-import { useSendMoneyStep1Form } from "../../../forms/sendmoney/useSendMoneyForm";
+import { useSendMoneyStep4Form } from "../../../forms/sendmoney/useSendMoneyForm";
 import BankSummary from "./summary/BankSummary";
 import ContactSummary from "./summary/ContactSummary";
 import PaymentSummary from "./summary/PaymentSummary";
 
 const NewMoneyStep4 = ({ handleNext }) => {
   const theme = useTheme();
-  const { formik } = useSendMoneyStep1Form(handleNext);
+  const { formik } = useSendMoneyStep4Form(handleNext);
 
   const handleFormSubmit = () => {
     formik.handleSubmit();
