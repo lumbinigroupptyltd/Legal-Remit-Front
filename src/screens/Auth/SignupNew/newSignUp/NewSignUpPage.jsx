@@ -159,7 +159,7 @@ const NewSignUpPage = () => {
               label: "Address Of Business",
               required: true,
               iconStart: <PersonIcon />,
-              type: "text",
+              type: "AsyncDropDownSearchStreet",
               id: nanoid(),
               md: 6,
               sm: 12,

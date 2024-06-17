@@ -25,6 +25,7 @@ export const useOtpVerNum = ({ onSuccess }) => {
       //   toast.success("OTP send successfully");
       // }
       onSuccess && onSuccess(data, variables, context);
+      console.log(data?.data, "data")
       dispatch(resendOtp(data?.data));
       queryClient.invalidateQueries("");
     },
@@ -78,7 +79,7 @@ export const useChangeOtpNumber = ({ onSuccess }) => {
     (formData) => addChangeOtpNumber(formData),
     {
       onSuccess: (data, variables, context) => {
-        toast.success("");
+        toast.success("Verify your otp");
         onSuccess && onSuccess(data, variables, context);
         queryClient.invalidateQueries("");
       },

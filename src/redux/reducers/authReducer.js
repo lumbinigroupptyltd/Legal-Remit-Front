@@ -12,6 +12,7 @@ const initialState = {
   validToken: getUserToken() ? true : false,
   role: null,
   otpData: null,
+  userIdData: null,
   verified: false,
   kycStatus: null,
 };

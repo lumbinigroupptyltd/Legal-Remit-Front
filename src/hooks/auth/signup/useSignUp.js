@@ -18,7 +18,6 @@ import { storeUserId } from '../../../redux/actions/authAction';
         onSuccess: (data, variables, context) => {
           toast.success('Sign up successful! Verify your OTP');
           onSuccess && onSuccess(data, variables, context);
-          console.log(data, "sign")
           dispatch(storeUserId(data?.data));
           queryClient.invalidateQueries('');
         },

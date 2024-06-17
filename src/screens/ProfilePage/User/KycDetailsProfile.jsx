@@ -37,7 +37,7 @@ const KycDetailsProfile = ({ userId }) => {
     nationData &&
     nationData?.map((item) => ({
       value: item.id,
-      label: item.nationality,
+      label: item.name,
     }));
   const GET_ALL_STATES =
     stateData &&
@@ -68,6 +68,8 @@ const KycDetailsProfile = ({ userId }) => {
     },
     {
       name: "streetName",
+      name1: "suburb",
+      name2: "postalCode",
       label: "House No & Street Name",
       required: true,
       isStreet: true,
@@ -84,7 +86,7 @@ const KycDetailsProfile = ({ userId }) => {
       // name1: "streetName",
       label: "Subarb / City",
       required: true,
-      type: "AsyncDropDownSearchStreet",
+      type: "text",
       // options: GET_CITY_DATA,
       iconStart: <LocationOnIcon />,
       id: nanoid(),
@@ -143,7 +145,7 @@ const KycDetailsProfile = ({ userId }) => {
           display: "flex",
           width: "100%",
           justifyContent: "end",
-          // gap: "1rem",
+          gap: "1rem",
         }}
       >
         <CButton

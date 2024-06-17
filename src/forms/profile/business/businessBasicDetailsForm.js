@@ -20,6 +20,7 @@ export const useBasicBusinessDetailsForm = ({ data, userId }) => {
 
   const formik = useFormik({
     initialValues: {
+      id: data?.id || "",
       userId: userId || "",
       firstName: data?.firstName || "",
       businessName: data?.businessName || "",

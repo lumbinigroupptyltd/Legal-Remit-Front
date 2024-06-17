@@ -123,12 +123,15 @@ export const useResendOtpVerNumForm = () => {
 };
 
 export const useChangeOtpNumberForm = (onClose) => {
+  const { userIdData } = useSelector((state) => state.auth);
+
   const { mutate: addSignUpPage } = useChangeOtpNumber({});
 
   const formik = useFormik({
     initialValues: {
       phone: "",
-      phoneCode: "04",
+      phoneCode: "61",
+      userIdData: userIdData || "",
     },
     validationSchema: otpSchema,
     enableReinitialize: true,
@@ -141,9 +144,25 @@ export const useChangeOtpNumberForm = (onClose) => {
     values = { ...values };
     addSignUpPage(values, {
       onSuccess: () => {
+        handleOtpSend(values);
         onClose();
       },
     });
   };
+
+  const { mutate: sendOtp } = useOtpVerNum({
+    onSuccess: (variables) => {
+      // toast.success("OTP verified successfully");
+    },
+  });
+
+  const handleOtpSend = (formData) => {
+    const updatedFormData = {
+      ...formData,
+      phoneNumber: formData.phone
+    };
+    sendOtp({ formData: updatedFormData });
+  };
+
   return { formik };
 };

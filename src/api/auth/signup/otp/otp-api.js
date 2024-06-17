@@ -31,9 +31,11 @@ export const addResendVerification = async ({otpData}) => {
   /*________________________POST_____________________________________*/
 }
 export const addChangeOtpNumber = async (formData) => {
-    const {data} = await axiosInstance.patch('/otp/updatebyphone', {
-    phone: formData.phoneNumber,
-    phoneCode: formData.phoneCode
+  console.log(formData, "formdata")
+    const {data} = await axiosInstance.patch('/user/update', {
+    phone: formData.phone,
+    phoneCode: formData.phoneCode,
+    id: formData?.userIdData?.data,
   });
   return data;
   };
