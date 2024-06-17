@@ -61,6 +61,7 @@ const KycDetailsProfile = ({ userId }) => {
       options: GET_NATIONALITY,
       iconStart: <FlagIcon />,
       id: nanoid(),
+      lg: 6,
       md: 6,
       sm: 6,
       xs: 12,
@@ -72,6 +73,7 @@ const KycDetailsProfile = ({ userId }) => {
       type: "AsyncDropDownSearchCity",
       iconStart: <HouseIcon />,
       id: nanoid(),
+      lg: 6,
       md: 6,
       sm: 6,
       xs: 12,
@@ -85,6 +87,7 @@ const KycDetailsProfile = ({ userId }) => {
       // options: GET_CITY_DATA,
       iconStart: <LocationOnIcon />,
       id: nanoid(),
+      lg: 6,
       md: 6,
       sm: 6,
       xs: 12,
@@ -96,6 +99,7 @@ const KycDetailsProfile = ({ userId }) => {
       type: "text",
       iconStart: <EmailIcon />,
       id: nanoid(),
+      lg: 6,
       md: 6,
       sm: 6,
       xs: 12,
@@ -108,6 +112,7 @@ const KycDetailsProfile = ({ userId }) => {
       options: GET_ALL_STATES,
       iconStart: <LocationOnIcon />,
       id: nanoid(),
+      lg: 6,
       md: 6,
       sm: 6,
       xs: 12,
@@ -120,6 +125,7 @@ const KycDetailsProfile = ({ userId }) => {
       options: GET_ALL_OCCUPATIONS,
       iconStart: <BusinessCenterIcon />,
       id: nanoid(),
+      lg: 6,
       md: 6,
       sm: 6,
       xs: 12,
@@ -127,7 +133,7 @@ const KycDetailsProfile = ({ userId }) => {
   ];
 
   return (
-    <Grid container mt={2} sx={{position: "relative"}}>
+    <Grid container mt={2}>
       <RenderInput inputField={basicInputData} formik={formik} />
       <Grid
         item
@@ -136,7 +142,7 @@ const KycDetailsProfile = ({ userId }) => {
           display: "flex",
           width: "100%",
           justifyContent: "end",
-          gap: "1rem",
+          // gap: "1rem",
         }}
       >
         <CButton
