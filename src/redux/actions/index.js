@@ -7,3 +7,4 @@ export * from "./MailInboxAction";
 export * from "./UIElementsAction";
 export * from "./authAction";
 export * from "./SendMoney";
+export * from "./modalAction";

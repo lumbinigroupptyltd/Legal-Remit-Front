@@ -7,9 +7,9 @@ export const useSendMoneyStep1Form = (handleNext) => {
   // const { mutate: addSignUpPage } = useSignUp({});
   const formik = useFormik({
     initialValues: {
-      countryId: "",
-      countryName: "Australia",
-      phoneCode: "",
+      countryId: "1",
+      countryName: "Nepal",
+      phoneCode: "977",
     },
     //   validationSchema: signupSchema,
     enableReinitialize: true,

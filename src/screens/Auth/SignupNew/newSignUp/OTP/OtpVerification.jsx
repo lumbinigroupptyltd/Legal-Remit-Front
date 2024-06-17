@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Grid,
-  Button,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Grid, Button, Typography, useTheme } from "@mui/material";
 import OtpInput from "react-otp-input";
 import { LoadingButton } from "@mui/lab";
 import ChangeOtpNumber from "./ChangeOtpNumber";
 import FormModal from "../../../../../components/formModal/FormModal";
-import { useFinalOtpVerNumForm, useResendOtpVerNumForm } from "../../../../../forms/auth/otp/otpVerificationForm";
+import {
+  useFinalOtpVerNumForm,
+  useResendOtpVerNumForm,
+} from "../../../../../forms/auth/otp/otpVerificationForm";
 
 const OtpVerification = ({ open, onClose }) => {
   const [required, setRequired] = useState(false);
@@ -60,15 +57,16 @@ const OtpVerification = ({ open, onClose }) => {
   const handleNumberChange = () => {
     setChangeNumModal(true);
   };
-const sendNewOtp = () => {
-  handleResendVerification({});
-};
+  const sendNewOtp = () => {
+    handleResendVerification({});
+  };
 
   return (
     <Box>
-
       <Grid>
-        <Grid mb={2} sx={{textAlign: "center"}}>Please Enter 6 digit OTP sent to your registered phone number</Grid>
+        <Grid mb={2} sx={{ textAlign: "center" }}>
+          Please Enter 6 digit OTP sent to your registered phone number
+        </Grid>
         <OtpInput
           value={otp}
           onChange={handleOtpInput}
@@ -89,7 +87,6 @@ const sendNewOtp = () => {
           }}
           renderSeparator={<span>&nbsp; &nbsp; &nbsp;</span>}
           containerStyle={{ justifyContent: "center", gap: "1rem" }}
-         
           inputStyle={{
             border: "1px solid transparent",
             borderRadius: "8px",
@@ -110,7 +107,7 @@ const sendNewOtp = () => {
           <div className="text-danger">{otpErrorMessage}</div>
         )}
       </Grid>
-      <Grid mt={2} sx={{textAlign: "center"}}>
+      <Grid mt={2} sx={{ textAlign: "center" }}>
         <small>
           {seconds > 0
             ? `Wait for ${seconds} seconds before retry.`
@@ -119,14 +116,15 @@ const sendNewOtp = () => {
         <Button onClick={sendNewOtp} disabled={seconds > 0}>
           Resend OTP
         </Button>
-        {/* <Grid>
-          <Typography onClick={handleNumberChange} variant="p">Change Number</Typography>
-        </Grid> */}
+        <Grid>
+          <Typography onClick={handleNumberChange} variant="p" sx={{cursor: "pointer"}}>
+            Change Number
+          </Typography>
+        </Grid>
         <LoadingButton
           fullWidth
           onClick={handleSubmit}
           variant="contained"
-          
           sx={{
             mt: 2,
             mb: 2,
@@ -134,9 +132,9 @@ const sendNewOtp = () => {
             fontWeight: 600,
             background: theme.palette.button.primary,
             color: "#fff",
-            '&:hover': {
+            "&:hover": {
               background: theme.palette.hover.primary,
-            }
+            },
           }}
         >
           <div className="titleMedium " style={{ margin: ".25rem 0" }}>
@@ -146,7 +144,7 @@ const sendNewOtp = () => {
       </Grid>
 
       {changeNumModal && (
-          <FormModal
+        <FormModal
           open={changeNumModal}
           onClose={() => setChangeNumModal(false)}
           width={700}
@@ -155,7 +153,10 @@ const sendNewOtp = () => {
           header={"SMS Verification"}
           formComponent={
             <>
-              <ChangeOtpNumber open={changeNumModal} onClose={() => setChangeNumModal(false)} />
+              <ChangeOtpNumber
+                open={changeNumModal}
+                onClose={() => setChangeNumModal(false)}
+              />
             </>
           }
         />

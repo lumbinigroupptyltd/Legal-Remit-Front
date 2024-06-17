@@ -3,9 +3,16 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import { useChangeOtpNumber, useGetOtpVerify, useOtpVerNum, useResendOtpVerNum } from "../../../hooks/auth/OTP/useOtpVerification";
+import { ausMobileNumber } from "../../../Constants/RegExp";
 
 export const otpSchema = Yup.object().shape({
-  change_phone_verify_number: Yup.string().required("Number is required"),
+  phone: Yup.string()
+  .required("Mobile Number is required")
+  .matches(
+    ausMobileNumber,
+    "Mobile Number must start with 0 or 4 & must have 10 or 9 digits respectively"
+  )
+  .max(10, "Mobile Number must be at most 10 digits"),
 });
 
 export const useOtpVerNumForm = (onClose) => {
@@ -120,7 +127,8 @@ export const useChangeOtpNumberForm = (onClose) => {
 
   const formik = useFormik({
     initialValues: {
-      change_phone_verify_number: "",
+      phone: "",
+      phoneCode: "04",
     },
     validationSchema: otpSchema,
     enableReinitialize: true,

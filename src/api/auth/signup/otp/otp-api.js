@@ -23,7 +23,7 @@ export const getOTPVerify = async (formData) => {
   /*________________________POST_____________________________________*/
 }
 export const addResendVerification = async ({otpData}) => {
-  const data = await axiosInstance.patch("/otp/updateByPhone", {id: otpData?.id, phone: otpData?.phone, phoneCode: otpData?.phoneCode});
+  const data = await axiosInstance.post("/otp/send", {phone: otpData?.phone, phoneCode: otpData?.phoneCode});
   return data;
 };
  
@@ -31,6 +31,9 @@ export const addResendVerification = async ({otpData}) => {
   /*________________________POST_____________________________________*/
 }
 export const addChangeOtpNumber = async (formData) => {
-    const data = await axiosInstance.get(`/otp/getbyphone/${formData?.change_phone_verify_number}`);
-    return data;
+    const {data} = await axiosInstance.patch('/otp/updatebyphone', {
+    phone: formData.phoneNumber,
+    phoneCode: formData.phoneCode
+  });
+  return data;
   };

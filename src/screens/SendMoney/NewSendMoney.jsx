@@ -1,23 +1,29 @@
 import React, { useState } from "react";
 import {
   Box,
-  Button,
   Grid,
   Stack,
   Step,
   StepButton,
   Stepper,
-  Typography,
   useTheme,
 } from "@mui/material";
 import sendMoneyLogo from "../../assets/images/doc/sendMoneyLogo.png";
-import NewMoneyStep1 from "./NewMoneySteps/NewMoneyStep1";
+// import NewMoneyStep1 from "./NewMoneySteps/NewMoneyStep1";
 import NewMoneyStep2 from "./NewMoneySteps/NewMoneyStep2";
 import NewMoneyStep3 from "./NewMoneySteps/NewMoneyStep3";
 import NewMoneyStep4 from "./NewMoneySteps/NewMoneyStep4";
 import NewMoneyStep5 from "./NewMoneySteps/NewMoneyStep5";
+import NewMoneyStep6 from "./NewMoneySteps/NewMoneyStep6";
 
-const steps = ["Country", "Calculate", "Recipient", "Summary", "Payment"];
+const steps = [
+  "Country",
+  "Calculate",
+  "Recipient",
+  "Purpose",
+  "Summary",
+  "Payment",
+];
 
 const NewSendMoney = () => {
   const theme = useTheme();
@@ -35,16 +41,18 @@ const NewSendMoney = () => {
 
   const renderStepContent = (step) => {
     switch (step) {
+      // case 0:
+      //   return <NewMoneyStep1 handleNext={handleNext} />;
       case 0:
-        return <NewMoneyStep1 handleNext={handleNext} />;
-      case 1:
         return <NewMoneyStep2 handleNext={handleNext} />;
-      case 2:
+      case 1:
         return <NewMoneyStep3 handleNext={handleNext} />;
-        case 3:
+      case 2:
         return <NewMoneyStep4 handleNext={handleNext} />;
-        case 4:
+      case 3:
         return <NewMoneyStep5 handleNext={handleNext} />;
+      case 4:
+        return <NewMoneyStep6 handleNext={handleNext} />;
       default:
         return null;
     }
@@ -67,15 +75,22 @@ const NewSendMoney = () => {
           borderRight: `2px solid ${theme.palette.divider}`,
         }}
       >
-        <Stepper nonLinear activeStep={activeStep}>
-          {steps.map((label, index) => (
-            <Step key={label} completed={activeStep > index}>
-              <StepButton color="inherit" onClick={handleStep(index)}>
-                {label}
-              </StepButton>
-            </Step>
-          ))}
-        </Stepper>
+        <Box sx={{ width: "fit-content" }}>
+          <Stepper
+            nonLinear
+            activeStep={activeStep}
+            sx={{ textWrap: "no-wrap" }}
+          >
+            {steps.map((label, index) => (
+              <Step key={label} completed={activeStep > index}>
+                <StepButton color="inherit" onClick={handleStep(index)}>
+                  {label}
+                </StepButton>
+              </Step>
+            ))}
+          </Stepper>
+        </Box>
+
         <Stack>
           <img width={320} src={sendMoneyLogo} alt="send-money-logo" />
         </Stack>

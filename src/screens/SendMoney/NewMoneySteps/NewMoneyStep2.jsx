@@ -5,8 +5,9 @@ import FlagIcon from "@mui/icons-material/Flag";
 import { nanoid } from "nanoid";
 import { useSendMoneyStep2Form } from "../../../forms/sendmoney/useSendMoneyForm";
 import { useSelector } from "react-redux";
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
+import CardTotalPayable from "../../../components/MaterialUI/CardTotalPayable";
 
 const DELIVERY_OPTIONS = [
   {
@@ -49,13 +50,13 @@ const PAYMENT_OPTIONS = [
 ];
 
 const NewMoneyStep2 = ({ handleNext }) => {
-    const values = useSelector((state) => state.sendMoney.values);
+  const values = useSelector((state) => state.sendMoney.values);
   const theme = useTheme();
   const { formik } = useSendMoneyStep2Form(handleNext, values);
 
   const image = `https://flagcdn.com/16x12/au.png`;
   const image1 = `https://flagcdn.com/16x12/np.png`;
-  
+
   const inputData = [
     {
       name: "sendMoney",
@@ -175,11 +176,24 @@ const NewMoneyStep2 = ({ handleNext }) => {
             justifyContent: "center",
           }}
         >
-          <Typography variant="p">
+          <Typography
+            variant="p"
+            sx={{ fontWeight: "500", textAlign: "center" }}
+          >
             Calculate amount of money to be transfered
           </Typography>
 
           <RenderInput inputField={inputData} formik={formik} />
+          <Grid>
+            <CardTotalPayable
+              serviceChargeTitle={"Service Charge"}
+              serviceCharge={"12"}
+              discountTitle={"Promocode Discount"}
+              discount={"- 2"}
+              totalTitle={"Total Payable"}
+              total={"10"}
+            />
+          </Grid>
           <Button
             onClick={handleFormSubmit}
             variant={"contained"}

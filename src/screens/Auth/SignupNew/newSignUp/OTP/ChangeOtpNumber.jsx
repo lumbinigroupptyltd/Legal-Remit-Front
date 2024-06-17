@@ -12,10 +12,11 @@ import { useChangeOtpNumberForm } from "../../../../../forms/auth/otp/otpVerific
 
 const otpInputData = [
   {
-    name: "change_phone_verify_number",
+    name: "phone",
     label: "Mobile",
     type: "onlyNumber",
     id: nanoid(),
+    max: 10,
     iconStart: <SmartphoneIcon />,
     required: true,
     md: 12,
@@ -24,11 +25,11 @@ const otpInputData = [
 ];
 
 const ChangeOtpNumber = ({ open, onClose }) => {
+  const theme = useTheme();
   const { formik } = useChangeOtpNumberForm(onClose);
   const handleSubmit = () => {
     formik.handleSubmit();
   };
-  const theme = useTheme();
 
   return (
     <Box>

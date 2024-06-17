@@ -29,6 +29,15 @@ import {
 } from "./AsyncDropDown";
 import { PickDate } from "./DatePicker";
 import NewDropZone from "./NewDropZone";
+import { styled } from '@mui/system';
+
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  margin: theme.spacing(1),
+  width: '100%',
+  '& .MuiInputBase-root': {
+    fontSize: '1rem', // Ensure consistent font size
+  },
+}));
 
 const RenderInput = ({
   inputField,
@@ -70,7 +79,7 @@ const RenderInput = ({
       case "text":
         return (
           <>
-            <TextField
+            <StyledTextField
               name={element?.name}
               label={element?.label}
               value={formValues}
@@ -101,7 +110,10 @@ const RenderInput = ({
                     }}
                   >
                     {element?.isImage ? (
-                      <img width={element?.iconWidth ? element?.iconWidth : 20} src={element?.iconStart} />
+                      <img
+                        width={element?.iconWidth ? element?.iconWidth : 20}
+                        src={element?.iconStart}
+                      />
                     ) : (
                       <Tooltip>{element?.iconStart}</Tooltip>
                     )}
@@ -116,7 +128,7 @@ const RenderInput = ({
       case "password":
         const isConfirmPassword = element.name === "confirmPassword";
         return (
-          <TextField
+          <StyledTextField
             name={element?.name}
             label={element?.label}
             value={formValues}
@@ -190,7 +202,7 @@ const RenderInput = ({
       case "onlyNumber":
         return (
           <>
-            <TextField
+            <StyledTextField
               name={element?.name}
               label={element?.label}
               value={element?.defaultValue ? element?.defaultValue : formValues}
@@ -230,7 +242,7 @@ const RenderInput = ({
         );
       case "numWithCode":
         return (
-          <TextField
+          <StyledTextField
             name={element?.name}
             label={element?.label}
             value={formValues}
@@ -270,7 +282,7 @@ const RenderInput = ({
         );
       case "numberWithDash":
         return (
-          <TextField
+          <StyledTextField
             name={element?.name}
             label={element?.label}
             value={formValues}
@@ -358,7 +370,7 @@ const RenderInput = ({
             fullWidth
             renderInput={(params) => {
               return (
-                <TextField
+                <StyledTextField
                   {...params}
                   label={element.label}
                   error={formTouched && Boolean(formError)}
@@ -456,7 +468,7 @@ const RenderInput = ({
               }
             }}
             renderInput={(params) => (
-              <TextField
+              <StyledTextField
                 {...params}
                 label={element.label}
                 variant="outlined"
@@ -474,7 +486,14 @@ const RenderInput = ({
                           color: theme.palette.button.primary,
                         }}
                       >
-                        {element?.iconStart}
+                        {element?.isImage ? (
+                          <img
+                            width={element?.iconWidth ? element?.iconWidth : 20}
+                            src={element?.iconStart}
+                          />
+                        ) : (
+                          <Tooltip>{element?.iconStart}</Tooltip>
+                        )}
                       </div>
                     </InputAdornment>
                   ),
@@ -485,7 +504,7 @@ const RenderInput = ({
         );
       case "number":
         return (
-          <TextField
+          <StyledTextField
             name={element?.name}
             label={element?.label}
             value={formValues}
@@ -850,7 +869,7 @@ const RenderInput = ({
       case "optionalRender":
         return <OptionalRender element={element} formik={formik} />;
       default:
-        return <TextField name={element?.name} label={element?.label} />;
+        return <StyledTextField name={element?.name} label={element?.label} />;
     }
   };
 

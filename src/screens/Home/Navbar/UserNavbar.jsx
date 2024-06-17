@@ -11,6 +11,7 @@ import {
   Button,
   styled,
 } from "@mui/material";
+import { nanoid } from "nanoid";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import logo from "../../../assets/images/Logo-LR.png";
 import { useNavigate } from "react-router";
@@ -31,25 +32,40 @@ export const FlexBetween = styled(Box)({
 
 const navItems = [
   {
-    id: 1,
+    id: nanoid(),
+    item: "Home",
+    path: "/home/dashboard",
+  },
+  {
+    id: nanoid(),
     item: "Send Money",
     path: "/home/sendmoney",
   },
-  // {
-  //   id: 2,
-  //   item: "About Us",
-  //   path: "/about-us",
-  // },
-  // {
-  //   id: 3,
-  //   item: "Contact Us",
-  //   path: "/contact-us",
-  // },
-  // {
-  //   id: 4,
-  //   item: "Chat",
-  //   path: "/chats",
-  // },
+  {
+    id: nanoid(),
+    item: "Book a Flight",
+    path: "https://flylumbini.com",
+  },
+  {
+    id: nanoid(),
+    item: "About Us",
+    path: "/home/about-us",
+  },
+  {
+    id: nanoid(),
+    item: "Contact Us",
+    path: "/home/contact-us",
+  },
+  {
+    id: nanoid(),
+    item: "Transactions",
+    path: "/home/transaction",
+  },
+  {
+    id: nanoid(),
+    item: "Chat",
+    path: "/home/chats",
+  },
 ];
 
 const UserNavbar = () => {
@@ -150,7 +166,7 @@ const UserNavbar = () => {
           src={logo}
           alt="Logo"
           style={{ cursor: "pointer" }}
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
         />
 
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>

@@ -6,7 +6,6 @@ import PeopleIcon from "@mui/icons-material/People";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import RecipientBankDetails from "./RecipientBankDetails";
 import RecipientContactDetails from "./RecipientContactDetails";
-import RecipientMessageDetails from "./RecipientMessageDetails";
 
 const recipientData = [
   {
@@ -209,39 +208,6 @@ const Recipient = ({ onClose }) => {
       <Slide direction="left" in={step === 3} mountOnEnter unmountOnExit>
         <Box sx={{ width: "100%" }}>
           <RecipientContactDetails
-            onFormValidate={handleFormValidation}
-            onClose={onClose}
-          />
-          <Button
-            onClick={handleBackClick}
-            variant={"contained"}
-            sx={{
-              marginTop: "1.6rem",
-              padding: "0.5rem 3rem",
-              borderRadius: "24px",
-              fontSize: "1rem",
-            }}
-          >
-            Back
-          </Button>
-          <Button
-            onClick={handleNextClick}
-            variant={"contained"}
-            disabled={!formValid}
-            sx={{
-              marginTop: "1.6rem",
-              padding: "0.5rem 3rem",
-              borderRadius: "24px",
-              fontSize: "1rem",
-            }}
-          >
-            Submit
-          </Button>
-        </Box>
-      </Slide>
-      <Slide direction="left" in={step === 4} mountOnEnter unmountOnExit>
-        <Box sx={{ width: "100%" }}>
-          <RecipientMessageDetails
             onFormValidate={handleFormValidation}
             onClose={onClose}
           />

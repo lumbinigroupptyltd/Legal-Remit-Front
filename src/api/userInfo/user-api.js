@@ -11,8 +11,9 @@ import { axiosInstance } from "../../utils/axiosIntercepters";
   {
     /*________________________GET_____________________________________*/
   }
-  export const getVerifyEmail = async () => {
-    const data = await axiosInstance.post("/user/sendVerificationEmail");
+  export const getVerifyEmail = async (userId) => {
+    console.log(userId, "user")
+    const data = await axiosInstance.post(`/user/sendVerificationEmail/${userId}`);
     return data;
   };
 

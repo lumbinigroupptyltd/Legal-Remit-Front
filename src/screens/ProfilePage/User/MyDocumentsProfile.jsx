@@ -1,13 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react";
 import RenderInput from "../../../components/RenderInput/RenderInput";
-import { Grid, IconButton, useTheme } from "@mui/material";
+import { Grid, IconButton, Typography, useTheme } from "@mui/material";
 import {
   USER_CITIZENSHIP_FIELD,
   USER_DOC_FIELD,
   USER_LICENSE_FIELD,
   USER_PASSPORT_FIELD,
 } from "./docField";
-import { useDeleteUserDocumentsDetails, useGetUserAllDocuments, useGetUserDocumentsTypeDetails } from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
+import {
+  useDeleteUserDocumentsDetails,
+  useGetUserAllDocuments,
+  useGetUserDocumentsTypeDetails,
+} from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
 import {
   useGetUserIdDetailsById,
   useGetUserIdDetailsByUserId,
@@ -15,7 +19,7 @@ import {
 import { useUserDocumentsDetailsForm } from "../../../forms/profile/user/userBasicDetailsForm";
 import CustomTable from "../../../components/CustomTable/CustomTable";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import FormModal from "../../../components/formModal/FormModal";
 import UpdateDocument from "./UpdateDocument";
 import { useGetDocTypeById } from "../../../hooks/documenType/useDocumentTypeDetails";
@@ -25,7 +29,7 @@ const MyDocumentsProfile = ({ userId }) => {
   const [file, setFile] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const { deleteKycBankMutation, isSuccess: isDeleteSuccess } =
-  useDeleteUserDocumentsDetails({});
+    useDeleteUserDocumentsDetails({});
   const theme = useTheme();
   const { data: docTypeData } = useGetUserDocumentsTypeDetails();
   const getDocData = docTypeData && docTypeData?.data;
@@ -33,7 +37,9 @@ const MyDocumentsProfile = ({ userId }) => {
   const doTypeId = userIdDetails && userIdDetails?.data?.[0]?.id;
   const { data: userIdData } = useGetUserIdDetailsById(doTypeId);
   const documentData = userIdData && userIdData?.data?.document;
-  const { data: documentTypeId } = useGetDocTypeById(userIdData?.data?.documentTypeId);
+  const { data: documentTypeId } = useGetDocTypeById(
+    userIdData?.data?.documentTypeId
+  );
 
   const newDocData = getDocData
     ?.filter((item) => item?.documentTypes?.length > 0) // Filter items with non-empty documentTypes
@@ -45,11 +51,13 @@ const MyDocumentsProfile = ({ userId }) => {
       }))
     );
 
-  const { formik } = useUserDocumentsDetailsForm({ newDocData, documentTypeId });
+  const { formik } = useUserDocumentsDetailsForm({
+    newDocData,
+    documentTypeId,
+  });
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
-
 
   const handleEditRow = (fileName) => {
     setOpenModal(true);
@@ -66,7 +74,7 @@ const MyDocumentsProfile = ({ userId }) => {
       setFile(null);
     }
   }, [isDeleteSuccess]);
-console.log(userIdDetails, "documentData")
+  console.log(userIdDetails?.data, "documentData");
   const columns = useMemo(
     () => [
       {
@@ -154,70 +162,76 @@ console.log(userIdDetails, "documentData")
         <RenderInput inputField={USER_CITIZENSHIP_FIELD} formik={formik} />
       )}
 
-      <Grid
-        item
-        mt={2}
-        sx={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "end",
-          gap: "1rem",
-        }}
-      >
-        <CButton
-          buttonName={"Cancel"}
-          // OnClick={handleCancel}
-          variant={"error"}
-          Width={"fit-content"}
-          TextColor={`${theme.palette.text.error}`}
-          TextColorHover={"#fff"}
-          Border={`1px solid ${theme.palette.button.error}`}
-          BGColor={`${theme.palette.background.default}`}
-          BGHover={`${theme.palette.hover.error}`}
-        />
-        <CButton
-          buttonName={"ADD"}
-          OnClick={handleFormSubmit}
-          variant={"contained"}
-          Width={"fit-content"}
-          TextColor={"#000"}
-          TextColorHover={"#fff"}
-          Border={`1px solid ${theme.palette.button.primary}`}
-          BGColor={`${theme.palette.background.default}`}
-          BGHover={`${theme.palette.hover.primary}`}
-        />
-      </Grid>
+      {userIdDetails && userIdDetails?.data.length>0 ? (
+        <>
+          <Grid
+            item
+            mt={2}
+            sx={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "end",
+              gap: "1rem",
+            }}
+          >
+            <CButton
+              buttonName={"Cancel"}
+              // OnClick={handleCancel}
+              variant={"error"}
+              Width={"fit-content"}
+              TextColor={`${theme.palette.text.error}`}
+              TextColorHover={"#fff"}
+              Border={`1px solid ${theme.palette.button.error}`}
+              BGColor={`${theme.palette.background.default}`}
+              BGHover={`${theme.palette.hover.error}`}
+            />
+            <CButton
+              buttonName={"ADD"}
+              OnClick={handleFormSubmit}
+              variant={"contained"}
+              Width={"fit-content"}
+              TextColor={"#000"}
+              TextColorHover={"#fff"}
+              Border={`1px solid ${theme.palette.button.primary}`}
+              BGColor={`${theme.palette.background.default}`}
+              BGHover={`${theme.palette.hover.primary}`}
+            />
+          </Grid>
 
-      <Grid item xs={12} md={12} lg={12}>
-        <CustomTable
-          title={"Documents"}
-          columns={columns}
-          data={documentData}
-          headerBackgroundColor={theme.palette.background.main}
-          overFlow={"scroll"}
-          width={"100%"}
-          handleEditRow={handleEditRow}
-        />
-      </Grid>
+          <Grid item xs={12} md={12} lg={12}>
+            <CustomTable
+              title={"Documents"}
+              columns={columns}
+              data={documentData}
+              headerBackgroundColor={theme.palette.background.main}
+              overFlow={"scroll"}
+              width={"100%"}
+              handleEditRow={handleEditRow}
+            />
+          </Grid>
+        </>
+      ) : (
+        <Typography variant="p" sx={{alignItems: "center", fontSize: "1.2rem", fontWeight: "500", color: theme.palette.background.main}}>Please first fill ID details to upload documents...</Typography>
+      )}
 
       {openModal && (
         <>
-        <FormModal
-         open={openModal}
-         onClose={() => setOpenModal(false)}
-         width={700}
-         height={"auto"}
-         maxHeight={"80vh"}
-         header={"Document Update"}
-         formComponent={
-             <UpdateDocument
-               open={openModal}
-               onClose={() => setOpenModal(false)}
-               data={file}
-             />
-         }
-       />
-       </>
+          <FormModal
+            open={openModal}
+            onClose={() => setOpenModal(false)}
+            width={700}
+            height={"auto"}
+            maxHeight={"80vh"}
+            header={"Document Update"}
+            formComponent={
+              <UpdateDocument
+                open={openModal}
+                onClose={() => setOpenModal(false)}
+                data={file}
+              />
+            }
+          />
+        </>
       )}
     </Grid>
   );
