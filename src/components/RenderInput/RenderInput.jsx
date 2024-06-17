@@ -25,7 +25,8 @@ import AsyncDropDownOption from "./AsyncDropDownOption";
 import {
   AsyncDropDownCustom,
   AsyncDropDown,
-  AsyncDropDownSearchCity,
+  // AsyncDropDownSearchCity,
+  AsyncDropDownSearchStreet,
 } from "./AsyncDropDown";
 import { PickDate } from "./DatePicker";
 import NewDropZone from "./NewDropZone";
@@ -831,14 +832,22 @@ const RenderInput = ({
             formValues={formValues}
           />
         );
-      case "AsyncDropDownSearchCity":
-        return (
-          <AsyncDropDownSearchCity
-            element={element}
-            formik={formik}
-            formValues={formValues}
-          />
-        );
+      // case "AsyncDropDownSearchCity":
+      //   return (
+      //     <AsyncDropDownSearchCity
+      //       element={element}
+      //       formik={formik}
+      //       formValues={formValues}
+      //     />
+      //   );
+        case "AsyncDropDownSearchStreet":
+          return (
+            <AsyncDropDownSearchStreet
+              element={element}
+              formik={formik}
+              formValues={formValues}
+            />
+          );
       case "datePicker":
         return <PickDate element={element} formik={formik} />;
       // case "documentUpload":
