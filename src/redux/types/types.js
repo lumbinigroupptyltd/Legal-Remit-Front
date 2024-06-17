@@ -7,3 +7,4 @@ export const ADD_RECIPIENT_TYPE = 'ADD_RECIPIENT_TYPE';
 export const ADD_RECIPIENT_BANK = 'ADD_RECIPIENT_BANK';
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
+export const STORE_USER_ID = 'STORE_USER_ID';
