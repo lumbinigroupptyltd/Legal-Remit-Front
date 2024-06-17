@@ -38,13 +38,10 @@ const NewMoneyStep4 = ({ handleNext }) => {
           Send Money
         </Typography>
         <Typography variant="p">
-          Glance at the summary and submit your data for transaction
+          Select Purpose of money transfer and message you want to send to
+          recipient.
         </Typography>
       </Grid>
-
-      <BankSummary />
-      <ContactSummary />
-      <PaymentSummary />
 
       <Grid
         item

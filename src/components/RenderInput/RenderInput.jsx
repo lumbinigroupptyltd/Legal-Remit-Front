@@ -101,7 +101,10 @@ const RenderInput = ({
                     }}
                   >
                     {element?.isImage ? (
-                      <img width={element?.iconWidth ? element?.iconWidth : 20} src={element?.iconStart} />
+                      <img
+                        width={element?.iconWidth ? element?.iconWidth : 20}
+                        src={element?.iconStart}
+                      />
                     ) : (
                       <Tooltip>{element?.iconStart}</Tooltip>
                     )}
@@ -474,7 +477,14 @@ const RenderInput = ({
                           color: theme.palette.button.primary,
                         }}
                       >
-                        {element?.iconStart}
+                        {element?.isImage ? (
+                          <img
+                            width={element?.iconWidth ? element?.iconWidth : 20}
+                            src={element?.iconStart}
+                          />
+                        ) : (
+                          <Tooltip>{element?.iconStart}</Tooltip>
+                        )}
                       </div>
                     </InputAdornment>
                   ),

@@ -8,9 +8,11 @@ import mailInboxReducer from "./mailInboxReducer";
 import UIElementsReducer from "./UIElementsReducer";
 import authReducer from "./authReducer";
 import sendMoneyReducer from "./sendMoneyReducer";
+import modalReducer from "./modalReducer";
 
 export default combineReducers({
   auth: authReducer,
+  modal: modalReducer,
   sendMoney: sendMoneyReducer,
   loginReducer,
   navigationReducer: navigationReducer,

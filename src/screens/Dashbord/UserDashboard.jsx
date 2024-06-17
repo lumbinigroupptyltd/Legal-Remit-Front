@@ -1,10 +1,21 @@
 import { Grid, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormModal from "../../components/formModal/FormModal";
 import OtpVerification from "../Auth/SignupNew/newSignUp/OTP/OtpVerification";
+import { useDispatch, useSelector } from "react-redux";
+import { closeModal, openModal } from "../../redux/actions";
 
 const UserDashboard = () => {
-  const [open, setOpen] = useState(true);
+  const dispatch = useDispatch();
+  const isModalOpen = useSelector((state) => state.modal.isOpen);
+
+  useEffect(() => {
+    const modalShown = sessionStorage.getItem('modalShown');
+    if (!modalShown) {
+      dispatch(openModal());
+      sessionStorage.setItem('modalShown', 'true');
+    }
+  }, [dispatch]);
 
   return (
     <>
@@ -19,8 +30,8 @@ const UserDashboard = () => {
         </Grid>
       </Grid>
       <FormModal
-        open={open}
-        onClose={() => setOpen(false)}
+        open={isModalOpen}
+        onClose={() => dispatch(closeModal())}
         width={700}
         height={"auto"}
         maxHeight={"80vh"}

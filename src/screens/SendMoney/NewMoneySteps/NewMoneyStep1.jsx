@@ -9,22 +9,22 @@ const NewMoneyStep1 = ({ handleNext }) => {
   const theme = useTheme();
   const { formik } = useSendMoneyStep1Form(handleNext);
 
+  const image = `https://flagcdn.com/16x12/np.png`;
+
   const inputData = [
     {
       name: "countryId",
-      name1: "countryName",
-      name2: "phoneCode",
-      label: "Select Country",
-      type: "asyncDropDown",
-      path: "/country/getall",
-      iconStart: <FlagIcon />,
+      type: "dropDown",
+      options: [
+        {id: nanoid(), name: "countryName", label: "Nepal", value: "1"},
+      ],
+      // path: "/country/getall",
+      iconStart: image,
       id: nanoid(),
-      isFLag: true,
-      hasDoubleValue: true,
+      isImage: true,
+      iconWidth: 20,
+      // isFLag: true,
       required: true,
-      responseLabel: "name",
-      responseId: "id",
-      responseCode: "phoneCode",
       md: 12,
       sm: 12,
     },
@@ -73,7 +73,7 @@ const NewMoneyStep1 = ({ handleNext }) => {
             justifyContent: "center",
           }}
         >
-          <Typography variant="p">Enter Country of Recipient</Typography>
+          <Typography variant="p" sx={{fontWeight: "500", textAlign: "center"}}>Enter Country of Recipient</Typography>
          
           <RenderInput inputField={inputData} formik={formik} />
           <Button

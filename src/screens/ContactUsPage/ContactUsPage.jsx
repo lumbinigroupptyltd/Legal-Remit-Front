@@ -150,7 +150,7 @@ const ContactUsPage = () => {
       .then((response) => {
         // Update the state with the fetched data
         setContactData(response.data.data);
-        console.log("object,r", response.data.data);
+      
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
