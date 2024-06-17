@@ -139,7 +139,7 @@ const PersonalDetailsProfile = ({ data, userId }) => {
 
   const handleEmail = async () => {
     try {
-      await getVerifyEmail();
+      await getVerifyEmail(userId);
       toast.success("Check your email & verify!");
     } catch (error) {
       toast.error("Failed to send verification email.");

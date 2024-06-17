@@ -14,11 +14,6 @@ import { useUserKycDetailsForm } from "../../../forms/profile/user/userBasicDeta
 import { useGetUserNationality } from "../../../hooks/nationality/useNationalityDetails";
 import { CButton } from "../../../components/MaterialUI/CButton";
 
-const RESIDANCE_OPTIONS = [
-  { id: nanoid(), value: "true", label: "Yes" },
-  { id: nanoid(), value: "false", label: "No" },
-];
-
 const KycDetailsProfile = ({ userId }) => {
   const theme = useTheme();
   const { data: nationalityData } = useGetUserNationality();
@@ -71,6 +66,17 @@ const KycDetailsProfile = ({ userId }) => {
       xs: 12,
     },
     {
+      name: "streetName",
+      label: "House No & Street Name",
+      required: true,
+      type: "AsyncDropDownSearchCity",
+      iconStart: <HouseIcon />,
+      id: nanoid(),
+      md: 6,
+      sm: 6,
+      xs: 12,
+    },
+    {
       name: "suburb",
       name1: "streetName",
       label: "Subarb / City",
@@ -83,18 +89,6 @@ const KycDetailsProfile = ({ userId }) => {
       sm: 6,
       xs: 12,
     },
-    {
-      name: "streetName",
-      label: "House No & Street Name",
-      required: true,
-      type: "text",
-      iconStart: <HouseIcon />,
-      id: nanoid(),
-      md: 6,
-      sm: 6,
-      xs: 12,
-    },
-
     {
       name: "postalCode",
       label: "Postal / Zip Code",
@@ -130,22 +124,10 @@ const KycDetailsProfile = ({ userId }) => {
       sm: 6,
       xs: 12,
     },
-    // {
-    //   name: "isResidence",
-    //   label: "Is Residance of Australia",
-    //   required: true,
-    //   type: "dropDown",
-    //   options: RESIDANCE_OPTIONS,
-    //   iconStart: <BusinessCenterIcon />,
-    //   id: nanoid(),
-    //   md: 6,
-    //   sm: 6,
-    //   xs: 12,
-    // },
   ];
 
   return (
-    <Grid container mt={2}>
+    <Grid container mt={2} sx={{position: "relative"}}>
       <RenderInput inputField={basicInputData} formik={formik} />
       <Grid
         item

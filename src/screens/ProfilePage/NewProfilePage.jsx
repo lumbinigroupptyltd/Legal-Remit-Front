@@ -54,7 +54,7 @@ const NewProfilePage = () => {
   const handleSubmitForm = () => {
     setSubmitModal(true);
   };
-console.log(newData, kycData)
+
   useEffect(() => {
     if (newData && kycData) {
       setSubmitForm(true);

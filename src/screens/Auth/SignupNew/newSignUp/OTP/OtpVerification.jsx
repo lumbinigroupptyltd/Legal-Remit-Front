@@ -117,7 +117,7 @@ const OtpVerification = ({ open, onClose }) => {
           Resend OTP
         </Button>
         <Grid>
-          <Typography onClick={handleNumberChange} variant="p">
+          <Typography onClick={handleNumberChange} variant="p" sx={{cursor: "pointer"}}>
             Change Number
           </Typography>
         </Grid>

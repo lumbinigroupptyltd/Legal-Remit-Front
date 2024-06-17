@@ -19,6 +19,7 @@ const IdDetailsProfile = ({ userId }) => {
   const { data: docTypeData } = useGetUserDocumentsTypeDetails();
   const { formik } = useUserIdDetailsForm({ userId, userData });
   const auData = authorityData && authorityData?.data;
+
   const ID_TYPE = docTypeData?.data
   ?.filter((doc) => doc.name === "Passport" || doc.name === "Driving License" || doc.name === "Citizenship")
   ?.map((item) => ({
@@ -26,7 +27,6 @@ const IdDetailsProfile = ({ userId }) => {
     label: item.name,
   }));
   
- 
   const GET_AUTHORITY =
     auData &&
     auData?.map((item) => ({
