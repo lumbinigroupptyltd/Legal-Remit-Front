@@ -29,15 +29,6 @@ import {
 } from "./AsyncDropDown";
 import { PickDate } from "./DatePicker";
 import NewDropZone from "./NewDropZone";
-import { styled } from "@mui/system";
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  margin: theme.spacing(1),
-  width: "100%",
-  "& .MuiInputBase-root": {
-    fontSize: "1rem", // Ensure consistent font size
-  },
-}));
 
 const RenderInput = ({
   inputField,
@@ -79,7 +70,7 @@ const RenderInput = ({
       case "text":
         return (
           <>
-            <StyledTextField
+            <TextField
               name={element?.name}
               label={element?.label}
               value={formValues}
@@ -128,7 +119,7 @@ const RenderInput = ({
       case "password":
         const isConfirmPassword = element.name === "confirmPassword";
         return (
-          <StyledTextField
+          <TextField
             name={element?.name}
             label={element?.label}
             value={formValues}
@@ -202,7 +193,7 @@ const RenderInput = ({
       case "onlyNumber":
         return (
           <>
-            <StyledTextField
+            <TextField
               name={element?.name}
               label={element?.label}
               value={element?.defaultValue ? element?.defaultValue : formValues}
@@ -242,7 +233,7 @@ const RenderInput = ({
         );
       case "numWithCode":
         return (
-          <StyledTextField
+          <TextField
             name={element?.name}
             label={element?.label}
             value={formValues}
@@ -282,7 +273,7 @@ const RenderInput = ({
         );
       case "numberWithDash":
         return (
-          <StyledTextField
+          <TextField
             name={element?.name}
             label={element?.label}
             value={formValues}
@@ -370,7 +361,7 @@ const RenderInput = ({
             fullWidth
             renderInput={(params) => {
               return (
-                <StyledTextField
+                <TextField
                   {...params}
                   label={element.label}
                   error={formTouched && Boolean(formError)}
@@ -468,7 +459,7 @@ const RenderInput = ({
               }
             }}
             renderInput={(params) => (
-              <StyledTextField
+              <TextField
                 {...params}
                 label={element.label}
                 variant="outlined"
@@ -504,7 +495,7 @@ const RenderInput = ({
         );
       case "number":
         return (
-          <StyledTextField
+          <TextField
             name={element?.name}
             label={element?.label}
             value={formValues}
@@ -869,7 +860,7 @@ const RenderInput = ({
       case "optionalRender":
         return <OptionalRender element={element} formik={formik} />;
       default:
-        return <StyledTextField name={element?.name} label={element?.label} />;
+        return <TextField name={element?.name} label={element?.label} />;
     }
   };
 
@@ -897,12 +888,7 @@ const RenderInput = ({
               </Grid>
               {element?.iconStart && (
                 <style>{`
-            .textfield-icon-input .css-185ye3j {
-              left: 24px; !important;
-            }
-            .mobile-number-input .css-185ye3j {
-              margin-left: 54px; !important;
-            }
+           
              .css-j2iasn {
               border-color: purple !important;
             }

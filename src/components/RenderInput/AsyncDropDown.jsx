@@ -1,22 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Autocomplete,
-  Box,
   InputAdornment,
   TextField,
   useTheme,
 } from "@mui/material";
 import { axiosInstance } from "../../utils/axiosIntercepters";
-import { LoadScript, StandaloneSearchBox } from "@react-google-maps/api";
-import { styled } from '@mui/system';
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  margin: theme.spacing(1),
-  width: '100%',
-  '& .MuiInputBase-root': {
-    fontSize: '1rem', // Ensure consistent font size
-  },
-}));
 
 
 export const AsyncDropDown = ({ element, formik, formValues }) => {
@@ -274,7 +263,7 @@ export const AsyncDropDownSearchCity = ({ element, formik, formValues }) => {
       options={options}
       getOptionLabel={(option) => option.description || ""}
       renderInput={(params) => (
-        <StyledTextField
+        <TextField
           {...params}
           label={element.label}
           InputLabelProps={{ shrink: Boolean(inputValue) }}
