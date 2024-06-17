@@ -29,13 +29,13 @@ import {
 } from "./AsyncDropDown";
 import { PickDate } from "./DatePicker";
 import NewDropZone from "./NewDropZone";
-import { styled } from '@mui/system';
+import { styled } from "@mui/system";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   margin: theme.spacing(1),
-  width: '100%',
-  '& .MuiInputBase-root': {
-    fontSize: '1rem', // Ensure consistent font size
+  width: "100%",
+  "& .MuiInputBase-root": {
+    fontSize: "1rem", // Ensure consistent font size
   },
 }));
 
@@ -909,6 +909,9 @@ const RenderInput = ({
              .css-igs3ac{
               border-color: purple !important;
              }
+              .css-1svrpdw {
+              margin: 0px !important
+              }
               `}</style>
               )}
             </>
