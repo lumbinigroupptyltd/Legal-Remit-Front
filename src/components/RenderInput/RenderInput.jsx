@@ -888,7 +888,12 @@ const RenderInput = ({
               </Grid>
               {element?.iconStart && (
                 <style>{`
-           
+            .textfield-icon-input .css-185ye3j {
+              left: 24px; !important;
+            }
+            .mobile-number-input .css-185ye3j {
+              margin-left: 54px; !important;
+            }           
              .css-j2iasn {
               border-color: purple !important;
             }
