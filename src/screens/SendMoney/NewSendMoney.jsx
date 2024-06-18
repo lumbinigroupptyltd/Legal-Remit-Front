@@ -17,7 +17,7 @@ import NewMoneyStep5 from "./NewMoneySteps/NewMoneyStep5";
 import NewMoneyStep6 from "./NewMoneySteps/NewMoneyStep6";
 
 const steps = [
-  "Country",
+  // "Country",
   "Calculate",
   "Recipient",
   "Purpose",
@@ -27,7 +27,7 @@ const steps = [
 
 const NewSendMoney = () => {
   const theme = useTheme();
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(1);
   const [formData, setFormData] = useState({});
 
   const handleNext = (values) => {
@@ -43,15 +43,15 @@ const NewSendMoney = () => {
     switch (step) {
       // case 0:
       //   return <NewMoneyStep1 handleNext={handleNext} />;
-      case 0:
-        return <NewMoneyStep2 handleNext={handleNext} />;
       case 1:
-        return <NewMoneyStep3 handleNext={handleNext} />;
+        return <NewMoneyStep2 handleNext={handleNext} />;
       case 2:
-        return <NewMoneyStep4 handleNext={handleNext} />;
+        return <NewMoneyStep3 handleNext={handleNext} />;
       case 3:
-        return <NewMoneyStep5 handleNext={handleNext} />;
+        return <NewMoneyStep4 handleNext={handleNext} />;
       case 4:
+        return <NewMoneyStep5 handleNext={handleNext} />;
+      case 5:
         return <NewMoneyStep6 handleNext={handleNext} />;
       default:
         return null;

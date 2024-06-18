@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import RenderInput from "../../../components/RenderInput/RenderInput";
 import PersonIcon from "@mui/icons-material/Person";
@@ -16,6 +16,8 @@ import ChangeOtpNumber from "../../Auth/SignupNew/newSignUp/OTP/ChangeOtpNumber"
 import { toast } from "react-toastify";
 import OtpVerification from "../../Auth/SignupNew/newSignUp/OTP/OtpVerification";
 import { CButton } from "../../../components/MaterialUI/CButton";
+import { debounce } from "lodash";
+import { axiosInstance } from "../../../utils/axiosIntercepters";
 
 const COUNTRY_SELECTED = [
   {
@@ -42,9 +44,11 @@ const COUNTRY_SELECTED = [
 ];
 
 const PersonalDetailsProfile = ({ data, userId }) => {
-  const [phoneModal, setPhoneModal] = useState(false);
   const theme = useTheme();
-  const { formik } = useBasicUserDetailsDetailsForm({ data, userId });
+  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const { formik, phoneChanged, setPhoneChanged} = useBasicUserDetailsDetailsForm({ data, userId });
+  
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
@@ -116,6 +120,7 @@ const PersonalDetailsProfile = ({ data, userId }) => {
       label: "Email",
       required: true,
       type: "text",
+      err: emailError,
       iconStart: <EmailIcon />,
       id: nanoid(),
       md: 6,
@@ -126,6 +131,7 @@ const PersonalDetailsProfile = ({ data, userId }) => {
       name: "phoneNumber",
       label: "Mobile Number",
       required: true,
+      err: phoneError,
       iconStart: <SmartphoneIcon />,
       iconCode: iconCode?.phoneCode,
       type: "numWithCode",
@@ -145,16 +151,64 @@ const PersonalDetailsProfile = ({ data, userId }) => {
       toast.error("Failed to send verification email.");
     }
   };
-  const handlePhone = async () => {
-    try {
-      setPhoneModal(true);
-      await getVerifyPhoneByUserId(data);
-      toast.success("Check your phone & verify!");
-    } catch (error) {
-      setPhoneModal(false);
-      toast.error("Failed to send verification otp.");
+  // const handlePhone = async () => {
+  //   try {
+  //     setPhoneModal(true);
+  //     await getVerifyPhoneByUserId(data);
+  //     toast.success("Check your phone & verify!");
+  //   } catch (error) {
+  //     setPhoneModal(false);
+  //     toast.error("Failed to send verification otp.");
+  //   }
+  // };
+
+  const checkPhoneNumber = useCallback(
+    debounce(async (phoneNumber) => {
+      try {
+        const response = await axiosInstance.post("/user/existornot", {
+          phoneNumber,
+        });
+        const exists = response.data;
+        if (exists) {
+          setPhoneError("");
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          setPhoneError("Phone already exists");
+        }
+      }
+    }, 100),
+    []
+  );
+
+  const checkEmail = useCallback(
+    debounce(async (email) => {
+      try {
+        const response = await axiosInstance.post("/user/existornot", {
+          email,
+        });
+        const exists = response.data;
+        if (exists) {
+          setEmailError("");
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          setEmailError("Email already exists");
+        }
+      }
+    }, 100),
+    []
+  );
+
+  useEffect(() => {
+    if (formik.initialValues?.phoneNumber !== formik.values?.phoneNumber) {
+      checkPhoneNumber(formik.values.phoneNumber);
     }
-  };
+    if (formik.initialValues?.email !== formik.values?.email) {
+      checkEmail(formik.values.email);
+    }
+  }, [formik.values.phoneNumber, formik.values.email, checkPhoneNumber]);
+
 
   return (
     <Grid container mt={2}>
@@ -190,7 +244,7 @@ const PersonalDetailsProfile = ({ data, userId }) => {
               </Typography>
             </Box>
           )}
-          {data && !data?.isPhoneVerified && (
+          {/* {data && !data?.isPhoneVerified && (
             <Box sx={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
               <Typography variant="p" color={"error"}>
                 Verify Phone{" "}
@@ -203,7 +257,7 @@ const PersonalDetailsProfile = ({ data, userId }) => {
                 Click here
               </Typography>
             </Box>
-          )}
+          )} */}
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <CButton
@@ -231,23 +285,23 @@ const PersonalDetailsProfile = ({ data, userId }) => {
         </Box>
       </Grid>
 
-      {phoneModal && (
-        <FormModal
-          open={phoneModal}
-          onClose={() => setPhoneModal(false)}
-          width={700}
-          height={"auto"}
-          maxHeight={"80vh"}
-          header={"SMS Verification"}
-          formComponent={
-            <>
-              <OtpVerification
-                open={phoneModal}
-                onClose={() => setPhoneModal(false)}
-              />
-            </>
-          }
-        />
+      {phoneChanged && (
+         <FormModal
+         open={phoneChanged}
+         onClose={() => setPhoneChanged(false)}
+         width={700}
+         height={"auto"}
+         maxHeight={"80vh"}
+         header={"SMS Verification"}
+         formComponent={
+           <>
+             <OtpVerification
+               open={phoneChanged}
+               onClose={() => setPhoneChanged(false)}
+             />
+           </>
+         }
+       />
       )}
     </Grid>
   );

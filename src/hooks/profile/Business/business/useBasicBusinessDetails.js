@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { addBasicBusinessDetails, editBasicBusinessDetails, getBasicBusinessDetails, getBusinessDetailsByUserId } from "../../../../api/profile/business/business-basic-api";
+import { toast } from "react-toastify";
 
 {
     /*________________________GET_____________________________________*/
@@ -35,7 +36,7 @@ import { addBasicBusinessDetails, editBasicBusinessDetails, getBasicBusinessDeta
         onSuccess: (data, variables, context) => {
           toast.success("");
           onSuccess && onSuccess(data, variables, context);
-          queryClient.invalidateQueries("getBasicBusinessDetails");
+          queryClient.invalidateQueries("getUserInfoByUserId");
         },
         onError: (err, _variables, _context) => {
           toast.error(getErrorMessage(err));
@@ -59,7 +60,7 @@ import { addBasicBusinessDetails, editBasicBusinessDetails, getBasicBusinessDeta
         onSuccess: (data, variable, context) => {
           toast.success('User edited successfully');
           onSuccess && onSuccess(data, variable, context);
-          queryClient.invalidateQueries('getBasicBusinessDetails');
+          queryClient.invalidateQueries('getUserInfoByUserId');
         },
         onError: (err, _variables, _context) => {
           toast.error(getErrorMessage(err));

@@ -66,7 +66,7 @@ const RenderInput = ({
     const formTouched = isFieldArray
       ? getIn(formik.touched, element.name)
       : formik.touched[element.name];
-
+  
     switch (element.type) {
       case "text":
         return (
@@ -82,7 +82,10 @@ const RenderInput = ({
               variant="outlined"
               className="textfield-icon-input"
               disabled={element.isDisabled}
-              error={formTouched && Boolean(formError)}
+              error={
+                Boolean(element?.err) || (formTouched && Boolean(formError))
+              }
+              helperText={element?.err || (formTouched && formError)}
               onKeyPress={(ev) => {
                 if (ev.key === "Enter") {
                   formik.handleSubmit();
@@ -112,7 +115,6 @@ const RenderInput = ({
                   </InputAdornment>
                 ),
               }}
-              helperText={formTouched && formError}
               InputLabelProps={{ shrink: Boolean(formValues) }}
             />
           </>
@@ -250,8 +252,8 @@ const RenderInput = ({
             required={element.required}
             variant="outlined"
             disabled={element.isDisabled}
-            error={formTouched && Boolean(formError)}
-            helperText={formTouched && formError}
+            error={Boolean(element?.err) || (formTouched && Boolean(formError))}
+            helperText={element?.err || (formTouched && formError)}
             inputProps={{
               minLength: element?.min,
               maxLength: element?.max,
@@ -840,14 +842,14 @@ const RenderInput = ({
       //       formValues={formValues}
       //     />
       //   );
-        case "AsyncDropDownSearchStreet":
-          return (
-            <AsyncDropDownSearchStreet
-              element={element}
-              formik={formik}
-              formValues={formValues}
-            />
-          );
+      case "AsyncDropDownSearchStreet":
+        return (
+          <AsyncDropDownSearchStreet
+            element={element}
+            formik={formik}
+            formValues={formValues}
+          />
+        );
       case "datePicker":
         return <PickDate element={element} formik={formik} />;
       // case "documentUpload":

@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 import { addUserBasicUserDetails, editUserBasicUserDetails } from "../../../../api/profile/user/user-basic-api";
+import { toast } from "react-toastify";
 
 {
     /*________________________POST_____________________________________*/

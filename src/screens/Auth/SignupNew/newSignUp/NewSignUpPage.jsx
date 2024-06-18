@@ -1,11 +1,6 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import first1 from "../../../../assets/images/purpleVector.svg";
-import {
-  Grid,
-  Typography,
-  Box,
-  useTheme,
-} from "@mui/material";
+import { Grid, Typography, Box, useTheme } from "@mui/material";
 import { nanoid } from "nanoid";
 import OtpVerification from "./OTP/OtpVerification";
 import RenderInput from "../../../../components/RenderInput/RenderInput";
@@ -21,15 +16,27 @@ import { useNavigate } from "react-router-dom";
 import useSignUpForm from "../../../../forms/auth/signup/signUpForm";
 import { useGetAllCountries } from "../../../../hooks/country/useCountryDetails";
 import { CButton } from "../../../../components/MaterialUI/CButton";
+import { axiosInstance } from "../../../../utils/axiosIntercepters";
+import { debounce } from "lodash";
 
 const ROLE_SELECTED = [
-  { id: nanoid(), label: "Individual", value: "4b0fa25e-6dd9-480f-bdd7-59247705c132" },
-  { id: nanoid(), label: "Business", value: "3221eca8-3f8e-40ab-b046-3fb56af938fd" },
+  {
+    id: nanoid(),
+    label: "Individual",
+    value: "4b0fa25e-6dd9-480f-bdd7-59247705c132",
+  },
+  {
+    id: nanoid(),
+    label: "Business",
+    value: "3221eca8-3f8e-40ab-b046-3fb56af938fd",
+  },
 ];
 
 const NewSignUpPage = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const { data: countryData } = useGetAllCountries();
   const data = countryData && countryData?.data;
@@ -42,7 +49,8 @@ const NewSignUpPage = () => {
     handleClickShowConfirmPassword,
     handleMouseDownPassword,
   } = useSignUpForm({ setOpenModal });
- 
+  console.log(phoneError, "phone err");
+  console.log(emailError, "Email err");
   const props = {
     showPassword,
     showConfirmPassword,
@@ -55,8 +63,56 @@ const NewSignUpPage = () => {
     formik.handleSubmit();
   };
 
+  const checkPhoneNumber = useCallback(
+    debounce(async (phoneNumber) => {
+      try {
+        const response = await axiosInstance.post("/user/existornot", {
+          phoneNumber,
+        });
+        const exists = response.data;
+        if (exists) {
+          setPhoneError("");
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          setPhoneError("Phone already exists");
+        }
+      }
+    }, 100),
+    []
+  );
+
+  const checkEmail = useCallback(
+    debounce(async (email) => {
+      try {
+        const response = await axiosInstance.post("/user/existornot", {
+          email,
+        });
+        const exists = response.data;
+        if (exists) {
+          setEmailError("");
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          setEmailError("Email already exists");
+        }
+      }
+    }, 100),
+    []
+  );
+
+  useEffect(() => {
+    if (formik.values.phoneNumber) {
+      checkPhoneNumber(formik.values.phoneNumber);
+    }
+    if (formik.values.email) {
+      checkEmail(formik.values.email);
+    }
+  }, [formik.values.phoneNumber, formik.values.email, checkPhoneNumber]);
+
   const generateInputFields = (roleId) => {
-    const iconCode = data && data?.find((d) => d?.id === formik.values.countryId)
+    const iconCode =
+      data && data?.find((d) => d?.id === formik.values.countryId);
     let inputFields = [
       {
         name: "countryId",
@@ -81,7 +137,15 @@ const NewSignUpPage = () => {
         name: "roleId",
         label: "Select User Type",
         type: "dropDown",
-        clearField: ["firstName", "middleName", "lastName", "fullName", "businessName", "registrationNumber", "address" ],
+        clearField: [
+          "firstName",
+          "middleName",
+          "lastName",
+          "fullName",
+          "businessName",
+          "registrationNumber",
+          "address",
+        ],
         required: true,
         options: ROLE_SELECTED,
         iconStart: <PersonIcon />,
@@ -180,6 +244,7 @@ const NewSignUpPage = () => {
         label: "Email",
         required: true,
         type: "text",
+        err: emailError,
         iconStart: <EmailIcon />,
         id: nanoid(),
         md: 6,
@@ -189,6 +254,8 @@ const NewSignUpPage = () => {
         name: "phoneNumber",
         label: "Mobile Number",
         required: true,
+        isPhoneCheck: true,
+        err: phoneError,
         iconStart: <SmartphoneIcon />,
         iconCode: iconCode?.phoneCode,
         type: "numWithCode",
@@ -241,7 +308,7 @@ const NewSignUpPage = () => {
           },
           justifyContent: "center",
           boxShadow: theme.palette.boxShadow.default,
-          margin: {lg: "2rem auto", sm: "1rem auto"},
+          margin: { lg: "2rem auto", sm: "1rem auto" },
           alignItems: "center",
         }}
         padding={"2rem 0.6rem"}
