@@ -11,12 +11,24 @@ import {
   useAddShareHolderDetails,
   useEditShareHolderDetails,
 } from "../../../hooks/profile/Business/shareHolder/useShareHolderDetails";
-import { useAddDirectorDetails, useEditDirectorDetails } from "../../../hooks/profile/Business/director/useDirectorDetails";
-import { directorBusinessSchema, personalBusinessExtraSchema, personalBusinessSchema, shareholderBusinessSchema } from "../validation/businessValidationSchema";
+import {
+  useAddDirectorDetails,
+  useEditDirectorDetails,
+} from "../../../hooks/profile/Business/director/useDirectorDetails";
+import {
+  directorBusinessSchema,
+  personalBusinessExtraSchema,
+  personalBusinessSchema,
+  shareholderBusinessSchema,
+} from "../validation/businessValidationSchema";
+import { useState } from "react";
+import { useOtpVerNum } from "../../../hooks/auth/OTP/useOtpVerification";
 
 export const useBasicBusinessDetailsForm = ({ data, userId }) => {
   const { mutate: addMutate } = useAddBasicBusinessDetails({});
   const { mutate: editMutate } = useEditBasicBusinessDetails({});
+
+  const [phoneChanged, setPhoneChanged] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -28,8 +40,10 @@ export const useBasicBusinessDetailsForm = ({ data, userId }) => {
       email: data?.email || "",
       phoneNumber: data?.phoneNumber || "",
       phoneCode: data?.phoneCode || "",
+      signupCompleted: data?.signupCompleted || false,
       regNo: data?.regNo || "",
     },
+
     validationSchema: personalBusinessSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
@@ -50,12 +64,42 @@ export const useBasicBusinessDetailsForm = ({ data, userId }) => {
   const handledEditRequest = (values) => {
     values = { ...values };
     editMutate(values, {
-      onSuccess: () => {},
+      onSuccess: () => {
+        handlePhoneChange(values);
+        handleEmailChange(values);
+      },
     });
+  };
+
+  const handleEmailChange = async (values) => {
+    const emailChanged = values?.email !== data?.email;
+    if (emailChanged) {
+      toast.success("Check your email & verify");
+      navigate("/login");
+      logout();
+    }
+  };
+
+  const handlePhoneChange = (values) => {
+    const phoneChanged = values?.phoneNumber !== data?.phoneNumber;
+    if (phoneChanged) {
+      handleOtpVerification(values);
+      setPhoneChanged(phoneChanged);
+    }
+  };
+  const { mutate: verifyOtp } = useOtpVerNum({
+    onSuccess: (variables) => {
+      // toast.success("OTP verified successfully");
+    },
+  });
+  const handleOtpVerification = (formData) => {
+    verifyOtp({ formData });
   };
 
   return {
     formik,
+    phoneChanged,
+    setPhoneChanged,
   };
 };
 
@@ -68,7 +112,7 @@ export const useBusinessExtraDetailsForm = ({
   const { mutate: addMutate } = useAddBusinessExtraDetails({});
   const { mutate: editMutate } = useEditBusinessExtraDetails({});
   const data = businessDetailsData && businessDetailsData?.[0];
-console.log(data, "data")
+
   const formik = useFormik({
     initialValues: {
       id: data?.id || "",
@@ -114,7 +158,12 @@ console.log(data, "data")
   };
 };
 
-export const useDirectorDetailsForm = ({ bussId, data, userId, setDirectiveModal }) => {
+export const useDirectorDetailsForm = ({
+  bussId,
+  data,
+  userId,
+  setDirectiveModal,
+}) => {
   const { mutate: addMutate } = useAddDirectorDetails({});
   const { mutate: editMutate } = useEditDirectorDetails({});
 
@@ -169,7 +218,12 @@ export const useDirectorDetailsForm = ({ bussId, data, userId, setDirectiveModal
   return { formikD };
 };
 
-export const useShareHolderDetailsForm = ({bussId,  data, userId, setShareModal }) => {
+export const useShareHolderDetailsForm = ({
+  bussId,
+  data,
+  userId,
+  setShareModal,
+}) => {
   const { mutate: addMutate } = useAddShareHolderDetails({});
   const { mutate: editMutate } = useEditShareHolderDetails({});
 

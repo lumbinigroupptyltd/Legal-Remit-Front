@@ -1,14 +1,39 @@
 import { useFormik } from "formik";
-import { useAddUserKycDetails, useEditUserKycDetails } from "../../../hooks/profile/User/userKyc/useUserKycDetails";
-import { useAddUserDocumentsDetails, useDeleteUserDocumentsDetails } from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
-import { useAddUserIdDetails, useEditUserIdDetails } from "../../../hooks/profile/User/userId/useUserIdDetails";
-import { useAddUserBasicUserDetails, useEditUserBasicUserDetails } from "../../../hooks/profile/User/user/useBasicUserDetails";
-import { IdDetailsProfileSchema, documentsProfileSchema, kycDetailsProfileSchema, personalDetailsSchema } from "../validation/userValidationSchema";
+import {
+  useAddUserKycDetails,
+  useEditUserKycDetails,
+} from "../../../hooks/profile/User/userKyc/useUserKycDetails";
+import {
+  useAddUserDocumentsDetails,
+  useDeleteUserDocumentsDetails,
+} from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
+import {
+  useAddUserIdDetails,
+  useEditUserIdDetails,
+} from "../../../hooks/profile/User/userId/useUserIdDetails";
+import {
+  useAddUserBasicUserDetails,
+  useEditUserBasicUserDetails,
+} from "../../../hooks/profile/User/user/useBasicUserDetails";
+import {
+  IdDetailsProfileSchema,
+  documentsProfileSchema,
+  kycDetailsProfileSchema,
+  personalDetailsSchema,
+} from "../validation/userValidationSchema";
 import { useQueryClient } from "react-query";
+import { useState } from "react";
+import { useOtpVerNum } from "../../../hooks/auth/OTP/useOtpVerification";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../../utils/logout";
 
-export const useBasicUserDetailsDetailsForm = ({ data, userId }) => { 
-  const {mutate: addMutate } = useAddUserBasicUserDetails({});
-  const {mutate: editMutate } = useEditUserBasicUserDetails({});
+export const useBasicUserDetailsDetailsForm = ({ data, userId }) => {
+  const navigate = useNavigate();
+  const { mutate: addMutate } = useAddUserBasicUserDetails({});
+  const { mutate: editMutate } = useEditUserBasicUserDetails({});
+
+  const [phoneChanged, setPhoneChanged] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -22,7 +47,7 @@ export const useBasicUserDetailsDetailsForm = ({ data, userId }) => {
       phoneCode: data?.phoneCode || "+61",
       countryId: data?.countryID || "14",
       signupCompleted: data?.signupCompleted || false,
-     
+
       countryName: data?.countryName || "Australia",
     },
     validationSchema: personalDetailsSchema,
@@ -37,27 +62,56 @@ export const useBasicUserDetailsDetailsForm = ({ data, userId }) => {
   });
 
   const handledAddRequest = async (values) => {
-    values = { ...values };   
+    values = { ...values };
     addMutate(values, {
-      onSuccess: async() => {
-      }
+      onSuccess: async () => {},
     });
   };
   const handledEditRequest = (values) => {
     values = { ...values };
     editMutate(values, {
-      onSuccess: () => {},
+      onSuccess: () => {
+        handlePhoneChange(values);
+        handleEmailChange(values);
+      },
     });
+  };
+
+  const handleEmailChange = async (values) => {
+    const emailChanged = values?.email !== data?.email;
+    if (emailChanged) {
+      toast.success("Check your email & verify");
+      navigate("/login");
+      logout();
+    }
+  };
+
+  const handlePhoneChange = (values) => {
+    const phoneChanged = values?.phoneNumber !== data?.phoneNumber;
+    if (phoneChanged) {
+      handleOtpVerification(values);
+      setPhoneChanged(phoneChanged);
+    }
+  };
+  const { mutate: verifyOtp } = useOtpVerNum({
+    onSuccess: (variables) => {
+      // toast.success("OTP verified successfully");
+    },
+  });
+  const handleOtpVerification = (formData) => {
+    verifyOtp({ formData });
   };
 
   return {
     formik,
+    phoneChanged,
+    setPhoneChanged,
   };
 };
 
-export const useUserKycDetailsForm = ({data, userId, countryId }) => {
-  const {mutate: addMutate } = useAddUserKycDetails({});
-  const {mutate: editMutate } = useEditUserKycDetails({});
+export const useUserKycDetailsForm = ({ data, userId, countryId }) => {
+  const { mutate: addMutate } = useAddUserKycDetails({});
+  const { mutate: editMutate } = useEditUserKycDetails({});
 
   const formik = useFormik({
     initialValues: {
@@ -84,10 +138,9 @@ export const useUserKycDetailsForm = ({data, userId, countryId }) => {
   });
 
   const handledAddRequest = async (values) => {
-    values = { ...values };   
+    values = { ...values };
     addMutate(values, {
-      onSuccess: async() => {
-      }
+      onSuccess: async () => {},
     });
   };
   const handledEditRequest = (values) => {
@@ -101,15 +154,15 @@ export const useUserKycDetailsForm = ({data, userId, countryId }) => {
   };
 };
 
-
 const filterDocTypeData = (docTypeData, values) => {
-  const relevantDocNames = ['Front', 'Back', 'Driving License', 'Passport'];
-  return docTypeData.filter(doc => 
-    relevantDocNames.includes(doc.docTypeName) && values[doc.docTypeName]
+  const relevantDocNames = ["Front", "Back", "Driving License", "Passport"];
+  return docTypeData.filter(
+    (doc) =>
+      relevantDocNames.includes(doc.docTypeName) && values[doc.docTypeName]
   );
 };
-export const useUserDocumentsDetailsForm = ({newDocData, documentTypeId}) => {
-  const {mutate: addMutate } = useAddUserDocumentsDetails({});
+export const useUserDocumentsDetailsForm = ({ newDocData, documentTypeId }) => {
+  const { mutate: addMutate } = useAddUserDocumentsDetails({});
 
   const formik = useFormik({
     initialValues: {
@@ -122,7 +175,6 @@ export const useUserDocumentsDetailsForm = ({newDocData, documentTypeId}) => {
     onSubmit: handleSubmit,
   });
 
-   
   async function handleSubmit(values) {
     const filteredDocData = filterDocTypeData(newDocData, values);
     try {
@@ -138,9 +190,9 @@ export const useUserDocumentsDetailsForm = ({newDocData, documentTypeId}) => {
   };
 };
 
-export const useUserIdDetailsForm = ({userData, userId}) => {
-  const {mutate: addMutate } = useAddUserIdDetails({});
-  const {mutate: editMutate } = useEditUserIdDetails({});
+export const useUserIdDetailsForm = ({ userData, userId }) => {
+  const { mutate: addMutate } = useAddUserIdDetails({});
+  const { mutate: editMutate } = useEditUserIdDetails({});
 
   const formik = useFormik({
     initialValues: {
@@ -165,10 +217,9 @@ export const useUserIdDetailsForm = ({userData, userId}) => {
   });
 
   const handledAddRequest = async (values) => {
-    values = { ...values };   
+    values = { ...values };
     addMutate(values, {
-      onSuccess: async() => {
-      }
+      onSuccess: async () => {},
     });
   };
   const handledEditRequest = (values) => {

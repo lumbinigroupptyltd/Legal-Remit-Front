@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import RenderInput from "../../../components/RenderInput/RenderInput";
 import PersonIcon from "@mui/icons-material/Person";
@@ -9,10 +9,17 @@ import { toast } from "react-toastify";
 import { useBasicBusinessDetailsForm } from "../../../forms/profile/business/businessBasicDetailsForm";
 import { getVerifyEmail } from "../../../api/userInfo/user-api";
 import { CButton } from "../../../components/MaterialUI/CButton";
+import FormModal from "../../../components/formModal/FormModal";
+import OtpVerification from "../../Auth/SignupNew/newSignUp/OTP/OtpVerification";
+import { axiosInstance } from "../../../utils/axiosIntercepters";
+import { debounce } from "lodash";
 
 const BusinessDetailsProfile = ({ data, userId }) => {
   const theme = useTheme();
-  const { formik } = useBasicBusinessDetailsForm({ data, userId });
+  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const { formik, phoneChanged, setPhoneChanged } = useBasicBusinessDetailsForm({ data, userId });
+
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
@@ -68,6 +75,7 @@ const BusinessDetailsProfile = ({ data, userId }) => {
       label: "Email",
       required: true,
       type: "text",
+      err: emailError,
       isVerified: data?.isEmailVerified,
       isEmailCheck: true,
       iconStart: <EmailIcon />,
@@ -80,6 +88,7 @@ const BusinessDetailsProfile = ({ data, userId }) => {
       name: "phoneNumber",
       label: "Mobile Number",
       required: true,
+      err: phoneError,
       iconStart: <SmartphoneIcon />,
       type: "onlyNumber",
       isVerified: data?.isPhoneVerified,
@@ -94,12 +103,62 @@ const BusinessDetailsProfile = ({ data, userId }) => {
 
   const handleEmail = async () => {
     try {
-      await getVerifyEmail();
+      await getVerifyEmail(userId);
       toast.success("Check your email & verify!");
     } catch (error) {
       toast.error("Failed to send verification email.");
     }
   };
+
+  const checkPhoneNumber = useCallback(
+    debounce(async (phoneNumber) => {
+      try {
+        const response = await axiosInstance.post("/user/existornot", {
+          phoneNumber,
+        });
+        const exists = response.data;
+        if (exists) {
+          setPhoneError("");
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          setPhoneError("Phone already exists");
+        }
+      }
+    }, 100),
+    []
+  );
+
+  const checkEmail = useCallback(
+    debounce(async (email) => {
+      try {
+        const response = await axiosInstance.post("/user/existornot", {
+          email,
+        });
+        const exists = response.data;
+        if (exists) {
+          setEmailError("");
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          setEmailError("Email already exists");
+        }
+      }
+    }, 100),
+    []
+  );
+
+  useEffect(() => {
+    if (formik.initialValues?.phoneNumber !== formik.values?.phoneNumber) {
+      checkPhoneNumber(formik.values.phoneNumber);
+    }
+    if (formik.initialValues?.email !== formik.values?.email) {
+      checkEmail(formik.values.email);
+    }
+  }, [formik.values.phoneNumber, formik.values.email, checkPhoneNumber]);
+
+
+
   return (
     <Grid container mt={2}>
       <RenderInput inputField={basicInputData} formik={formik} />
@@ -149,6 +208,24 @@ const BusinessDetailsProfile = ({ data, userId }) => {
           />
         </Box>
       </Grid>
+      {phoneChanged && (
+         <FormModal
+         open={phoneChanged}
+         onClose={() => setPhoneChanged(false)}
+         width={700}
+         height={"auto"}
+         maxHeight={"80vh"}
+         header={"SMS Verification"}
+         formComponent={
+           <>
+             <OtpVerification
+               open={phoneChanged}
+               onClose={() => setPhoneChanged(false)}
+             />
+           </>
+         }
+       />
+      )}
     </Grid>
   );
 };
