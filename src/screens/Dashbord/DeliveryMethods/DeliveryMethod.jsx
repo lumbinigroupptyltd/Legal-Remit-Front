@@ -15,7 +15,7 @@ function DeliveryMethod() {
     const navigate = useNavigate()
 
     const token = localStorage.getItem('token');
-    // console.log(token)
+  
 
     const [elements, setElements] = useState([])
     const [elements2, setElements2] = useState([])

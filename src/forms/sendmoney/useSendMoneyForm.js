@@ -46,6 +46,7 @@ export const useSendMoneyStep2Form = (handleNext, values) => {
       resMoney: "0",
       deliveryMethod: "",
       paymentMoethod: "",
+      currency: "NPR",
       countryId: values?.countryId || "",
       countryName: values?.countryName || "",
       phoneCode: values?.phoneCode || "",
@@ -54,8 +55,7 @@ export const useSendMoneyStep2Form = (handleNext, values) => {
     enableReinitialize: true,
     onSubmit: (values) => {
       handleNext(values);
-      console.log(handleNext, "handle");
-      console.log(values, "values");
+     localStorage.setItem("sendMoneyCalculate", JSON.stringify(values));
       // handledAddRequest(values);
     },
   });
@@ -81,20 +81,13 @@ export const useSendMoneyStep3Form = (handleNext, values) => {
 
   const formik = useFormik({
     initialValues: {
-      sendMoney: "0",
-      resMoney: "0",
-      deliveryMethod: "",
-      paymentMoethod: "",
-      countryId: values?.countryId || "",
-      countryName: values?.countryName || "",
-      phoneCode: values?.phoneCode || "",
+      search: "",
     },
     //   validationSchema: signupSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
       handleNext(values);
-      console.log(handleNext, "handle");
-      console.log(values, "values");
+     
       // handledAddRequest(values);
     },
   });
@@ -132,8 +125,7 @@ export const useSendMoneyStep4Form = (handleNext, values) => {
     enableReinitialize: true,
     onSubmit: (values) => {
       handleNext(values);
-      console.log(handleNext, "handle");
-      console.log(values, "values");
+     
       // handledAddRequest(values);
     },
   });
@@ -168,8 +160,42 @@ export const useSendMoneyStep5Form = (handleNext, values) => {
     enableReinitialize: true,
     onSubmit: (values) => {
       handleNext(values);
-      console.log(handleNext, "handle");
-      console.log(values, "values");
+     
+      // handledAddRequest(values);
+    },
+  });
+
+  // const handledAddRequest = (values) => {
+  //   values = { ...values };
+  //   addSignUpPage(values, {
+  //     onSuccess: () => {
+  //       setOpenModal(true);
+  //       setLoading(false);
+  //       handleOtpVerification(values);
+  //     },
+  //   });
+  // };
+
+  return {
+    formik,
+  };
+};
+
+export const useSendMoneyStep6Form = (handleNext, values) => {
+  // const { mutate: addSignUpPage } = useSignUp({});
+
+  const formik = useFormik({
+    initialValues: {
+      paymentType: "payID",
+      payIdNum: "",
+      BSB: "",
+      accountNumber: "",
+    },
+    //   validationSchema: signupSchema,
+    enableReinitialize: true,
+    onSubmit: (values) => {
+      handleNext(values);
+     
       // handledAddRequest(values);
     },
   });

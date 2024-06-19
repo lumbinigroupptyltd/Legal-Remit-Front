@@ -237,7 +237,6 @@ export const AsyncDropDownSearchStreet = ({ element, formik, formValues }) => {
   const handleOptionChange = (event, newValue) => {
     if (newValue) {
       const { placeId, place } = newValue;
-console.log(place, "place")
       const fetchPlaceDetails = (placeId) => {
         const service = new window.google.maps.places.PlacesService(document.createElement('div'));
         service.getDetails({ placeId }, (placeResult, status) => {

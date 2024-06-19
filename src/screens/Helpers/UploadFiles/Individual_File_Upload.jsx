@@ -24,7 +24,7 @@ const Individual_File_Upload = ({ RunningStep, ImagessArray, imageData ,I_UserId
   const [ImagetypeValidation, setImagetypeValidation] = useState(false);
   const [ImagesizeValidation, setImagesizeValidation] = useState(false);
 
-  // // console.log(step5value,"hh")
+
   // const { setDataImage } = useContext(userContext);
   // const { setDataImageBack } = useContext(userContext);
 
@@ -118,7 +118,7 @@ const Individual_File_Upload = ({ RunningStep, ImagessArray, imageData ,I_UserId
 
   function deleteHandlerFront(image,index) {
     setSelectedImagesFront(selectedImagesFront.filter((e) => e !== image));
-    console.log(index,"Deleteindex")
+   
     selectedFileImagesFront.splice(index, 1)
     URL.revokeObjectURL(image);
   }

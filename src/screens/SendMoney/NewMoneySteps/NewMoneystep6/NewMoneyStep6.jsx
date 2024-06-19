@@ -1,34 +1,31 @@
 import React from "react";
 import { Button, Grid, Typography, useTheme } from "@mui/material";
-import { useSendMoneyStep5Form } from "../../../forms/sendmoney/useSendMoneyForm";
-import CardMoney from "../../../components/MaterialUI/CardMoney";
-import PayToIcon from "../../../assets/images/doc/Payto_Icon.png";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import PayToIcon from "../../../../assets/images/doc/Payto_Icon.png";
 import { nanoid } from "nanoid";
-import RenderInput from "../../../components/RenderInput/RenderInput";
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import BusinessIcon from '@mui/icons-material/Business';
 import PersonIcon from '@mui/icons-material/Person';
-import { Person } from "@mui/icons-material";
+import { useSendMoneyStep6Form } from "../../../../forms/sendmoney/useSendMoneyForm";
+import CardMoney from "../../../../components/MaterialUI/CardMoney";
+import RenderInput from "../../../../components/RenderInput/RenderInput";
 
 const NewMoneyStep6 = ({ handleNext }) => {
   const theme = useTheme();
-  const { formik } = useSendMoneyStep5Form(handleNext);
+  const { formik } = useSendMoneyStep6Form(handleNext);
 
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
 
   const generateInputFields = (type) => {
-    console.log(type, "type");
-    console.log(formik.values.paymentType, "pay type");
     let inputFields = [
       {
         id: nanoid(),
         name: "paymentType",
         label: "Select Payment Type",
         type: "dropDown",
-        iconStart: <Person />,
+        iconStart: <PersonIcon />,
         options: [
           { id: nanoid(), name: "payID", label: "I have PayID Number", value: "payID" },
           { id: nanoid(), name: "BSB", label: "I have BSB Number", value: "BSB"},

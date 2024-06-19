@@ -1,11 +1,11 @@
 import { Grid, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { nanoid } from "nanoid";
-import RenderInput from "../../../../components/RenderInput/RenderInput";
-import { recipientContactDetailsForm } from "../../../../forms/sendmoney/recipient/recipientForm";
+import RenderInput from "../../../../../components/RenderInput/RenderInput";
+import { recipientContactDetailsForm } from "../../../../../forms/sendmoney/recipient/recipientForm";
 import PersonIcon from "@mui/icons-material/Person";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import { CButton } from "../../../../components/MaterialUI/CButton";
+import { CButton } from "../../../../../components/MaterialUI/CButton";
 
 const inputField = [
   {
@@ -67,21 +67,51 @@ const inputField = [
     id: nanoid(),
     name: "relation",
     label: "Relation",
-    type: "text",
+    type: "dropDown",
+    options: [
+      {
+        id: nanoid(),
+        label: "Father",
+        value: "Father",
+      },
+      {
+        id: nanoid(),
+        label: "Mother",
+        value: "Mother",
+      },
+      {
+        id: nanoid(),
+        label: "Brother",
+        value: "Brother",
+      },
+      {
+        id: nanoid(),
+        label: "Sister",
+        value: "Sister",
+      },
+      {
+        id: nanoid(),
+        label: "Friend",
+        value: "Friend",
+      },
+    ],
     required: true,
-    iconStart: <AccountBalanceIcon />,
+    iconStart: <PersonIcon />,
     md: 6,
     sm: 12,
     xs: 12,
   },
 ];
 
-const RecipientContactDetails = ({ onFormValidate, onClose }) => {
-    const theme = useTheme();
-  const { formik } = recipientContactDetailsForm(onFormValidate, onClose);
+const RecipientContactDetails = ({ onFormValidate }) => {
+  const theme = useTheme();
+
+  const { formik } = recipientContactDetailsForm(onFormValidate);
+
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
+
   return (
     <>
       <Grid
@@ -122,8 +152,8 @@ const RecipientContactDetails = ({ onFormValidate, onClose }) => {
           </Typography>
         </Grid>
 
-        <RenderInput inputField={inputField} formik={formik} />
       </Grid>
+        <RenderInput inputField={inputField} formik={formik} />
       <Grid
         item
         xs={12}

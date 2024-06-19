@@ -18,7 +18,7 @@ const handleNavigation = (decodedInfo, navigate) => {
     case "ADMIN":
       navigate("/dashboard");
       break;
-    case "USER":
+    case "INDIVIDUAL":
     case "BUSINESS":
       if (!decodedInfo?.isSignupCompleted) {
         navigate("/profile");

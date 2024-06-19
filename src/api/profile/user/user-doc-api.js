@@ -83,7 +83,6 @@ export const addUserDocDetails = async (formData) => {
 // import { toast } from 'react-toastify';
 
 // export const editUserDocDetails = async (formData) => {
-//   console.log(formData?.getDocData?.id, "form data")
 //   try {
 //     const imgData = new FormData();
 //     imgData.append("file", formData?.Front);

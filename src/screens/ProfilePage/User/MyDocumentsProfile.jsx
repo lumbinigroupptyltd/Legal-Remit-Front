@@ -74,7 +74,7 @@ const MyDocumentsProfile = ({ userId }) => {
       setFile(null);
     }
   }, [isDeleteSuccess]);
-  console.log(userIdDetails?.data, "documentData");
+ 
   const columns = useMemo(
     () => [
       {

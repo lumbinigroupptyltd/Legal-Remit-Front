@@ -5,6 +5,8 @@ import "./index.css";
 import { HMSRoomProvider } from "@100mslive/react-sdk";
 import { Provider } from "react-redux";
 import store from './redux/store';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ThemeContextProvider } from "./theme/ThemeModeContext";
 import { ToastContainer } from "react-toastify";
@@ -20,6 +22,10 @@ const queryClient = new QueryClient({
       retry: false,
     },
   },
+});
+
+AOS.init({
+  once: false,
 });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
