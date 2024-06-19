@@ -25,7 +25,6 @@ export const useOtpVerNum = ({ onSuccess }) => {
       //   toast.success("OTP send successfully");
       // }
       onSuccess && onSuccess(data, variables, context);
-      console.log(data?.data, "data")
       dispatch(resendOtp(data?.data));
       queryClient.invalidateQueries("");
     },

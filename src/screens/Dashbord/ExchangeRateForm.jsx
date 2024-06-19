@@ -19,7 +19,6 @@ import { CommonConstants } from "../../Constants/common.constants";
 import { Alert } from "react-bootstrap";
 
 export default function ExchangeRateForm(props) {
-  // console.log(props.location.state, "props");
   const [id, setId] = useState(props.location.state);
   const [modalShowAdd, setModalShowAdd] = useState(false);
   const [modalShowEdit, setModalShowEdit] = useState(false);
@@ -52,7 +51,7 @@ export default function ExchangeRateForm(props) {
       from: exchangeFromCurrency,
       to: exchangeToCurrency,
     };
-    // console.log(payload, "payload");
+   
     await axios
       .post(`${CommonConstants.BASE_URL}/getexchangeratebycurrency`, payload)
       .then((res) => {
@@ -67,7 +66,6 @@ export default function ExchangeRateForm(props) {
       });
   };
   const showDealRate = async (liveRateAPI) => {
-    // console.log(payload, "payload");
     await axios
       .get(`${CommonConstants.BASE_URL}/getlastexchangerate`)
       .then((res) => {
@@ -102,11 +100,11 @@ export default function ExchangeRateForm(props) {
     // const dealMin = dealRate - minMarkup;
 
     // if (dealMin < PR) {
-    //   // console.log(dealMin, "PR");
+  
     //   setpublishRate(dealMin.toFixed(4));
     //   setManualpublishRate(dealMin.toFixed(4));
     // } else if (PR < dealMin) {
-    //   // console.log(PR, "PR");
+   
     //   setpublishRate(PR.toFixed(4));
     //   setManualpublishRate(PR.toFixed(4));
     // }
@@ -131,7 +129,7 @@ export default function ExchangeRateForm(props) {
     await axios
       .post(`${CommonConstants.BASE_URL}/saveexchangerate`, payload)
       .then((res) => {
-        // console.log("res", res);
+       
         if (res.data.statuscode == 200) {
           // setModalShowAdd(true)
           setpublishRate(false);
@@ -186,7 +184,7 @@ export default function ExchangeRateForm(props) {
           if (res.data.statuscode == 200) {
             setModalShowEdit(true);
           }
-          // console.log("res", res);
+        
           setexchangeFromID(res.data.data.fromCountryId);
           setexchangeToID(res.data.data.toCountryId);
           setvalidFrom(res.data.data.validFrom);

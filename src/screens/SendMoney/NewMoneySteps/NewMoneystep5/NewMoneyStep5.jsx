@@ -1,13 +1,13 @@
 import React from "react";
 import { Button, Grid, Typography, useTheme } from "@mui/material";
-import { useSendMoneyStep4Form } from "../../../forms/sendmoney/useSendMoneyForm";
+import { useSendMoneyStep5Form } from "../../../../forms/sendmoney/useSendMoneyForm";
 import BankSummary from "./summary/BankSummary";
 import ContactSummary from "./summary/ContactSummary";
 import PaymentSummary from "./summary/PaymentSummary";
 
-const NewMoneyStep4 = ({ handleNext }) => {
+const NewMoneyStep5 = ({ handleNext }) => {
   const theme = useTheme();
-  const { formik } = useSendMoneyStep4Form(handleNext);
+  const { formik } = useSendMoneyStep5Form(handleNext);
 
   const handleFormSubmit = () => {
     formik.handleSubmit();
@@ -38,10 +38,13 @@ const NewMoneyStep4 = ({ handleNext }) => {
           Send Money
         </Typography>
         <Typography variant="p">
-          Select Purpose of money transfer and message you want to send to
-          recipient.
+          Glance at the summary and submit your data for transaction
         </Typography>
       </Grid>
+
+      <BankSummary />
+      <ContactSummary />
+      <PaymentSummary />
 
       <Grid
         item
@@ -70,4 +73,4 @@ const NewMoneyStep4 = ({ handleNext }) => {
   );
 };
 
-export default NewMoneyStep4;
+export default NewMoneyStep5;

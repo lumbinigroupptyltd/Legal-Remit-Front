@@ -9,12 +9,12 @@ import {
   useTheme,
 } from "@mui/material";
 import sendMoneyLogo from "../../assets/images/doc/sendMoneyLogo.png";
-// import NewMoneyStep1 from "./NewMoneySteps/NewMoneyStep1";
-import NewMoneyStep2 from "./NewMoneySteps/NewMoneyStep2";
-import NewMoneyStep3 from "./NewMoneySteps/NewMoneyStep3";
-import NewMoneyStep4 from "./NewMoneySteps/NewMoneyStep4";
-import NewMoneyStep5 from "./NewMoneySteps/NewMoneyStep5";
-import NewMoneyStep6 from "./NewMoneySteps/NewMoneyStep6";
+// import NewMoneyStep1 from "./NewMoneySteps/NewMoneyStep1/NewMoneyStep1";
+import NewMoneyStep2 from "./NewMoneySteps/NewMoneystep2/NewMoneyStep2";
+import NewMoneyStep3 from "./NewMoneySteps/NewMoneystep3/NewMoneyStep3";
+import NewMoneyStep4 from "./NewMoneySteps/NewMoneystep4/NewMoneyStep4";
+import NewMoneyStep5 from "./NewMoneySteps/NewMoneystep5/NewMoneyStep5";
+import NewMoneyStep6 from "./NewMoneySteps/NewMoneystep6/NewMoneyStep6";
 
 const steps = [
   // "Country",
@@ -27,9 +27,9 @@ const steps = [
 
 const NewSendMoney = () => {
   const theme = useTheme();
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({});
-
+console.log(activeStep, "active")
   const handleNext = (values) => {
     setFormData({ ...formData, ...values });
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -43,15 +43,15 @@ const NewSendMoney = () => {
     switch (step) {
       // case 0:
       //   return <NewMoneyStep1 handleNext={handleNext} />;
-      case 1:
+      case 0:
         return <NewMoneyStep2 handleNext={handleNext} />;
-      case 2:
+      case 1:
         return <NewMoneyStep3 handleNext={handleNext} />;
-      case 3:
+      case 2:
         return <NewMoneyStep4 handleNext={handleNext} />;
-      case 4:
+      case 3:
         return <NewMoneyStep5 handleNext={handleNext} />;
-      case 5:
+      case 4:
         return <NewMoneyStep6 handleNext={handleNext} />;
       default:
         return null;

@@ -49,8 +49,7 @@ const NewSignUpPage = () => {
     handleClickShowConfirmPassword,
     handleMouseDownPassword,
   } = useSignUpForm({ setOpenModal });
-  console.log(phoneError, "phone err");
-  console.log(emailError, "Email err");
+
   const props = {
     showPassword,
     showConfirmPassword,

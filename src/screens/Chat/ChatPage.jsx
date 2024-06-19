@@ -226,7 +226,7 @@ export default function ChatPage() {
     const updatedMessages = receiveMessages?.filter(
       (chat) => {return !deleteMdgIds?.includes(chat.id)}
     );
-    // console.log(updatedMessages, deleteMdgIds, receiveMessages, "updatedMessages");
+
     setReceiveMessages(updatedMessages);
   }
 

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
-import RenderInput from "../../../components/RenderInput/RenderInput";
 import FlagIcon from "@mui/icons-material/Flag";
 import { nanoid } from "nanoid";
-import { useSendMoneyStep3Form } from "../../../forms/sendmoney/useSendMoneyForm";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import FormModal from "../../../components/formModal/FormModal";
 import Recipient from "./Recipient/Recipient";
+import { useSendMoneyStep3Form } from "../../../../forms/sendmoney/useSendMoneyForm";
+import RenderInput from "../../../../components/RenderInput/RenderInput";
+import FormModal from "../../../../components/formModal/FormModal";
 
 const NewMoneyStep3 = ({ handleNext }) => {
   const theme = useTheme();
@@ -15,20 +15,11 @@ const NewMoneyStep3 = ({ handleNext }) => {
 
   const inputData = [
     {
-      name: "countryId",
-      name1: "countryName",
-      name2: "phoneCode",
-      label: "Select Country",
-      type: "asyncDropDown",
-      path: "/country/getall",
-      iconStart: <FlagIcon />,
       id: nanoid(),
-      isFLag: true,
-      hasDoubleValue: true,
+      name: "search",
+      label: "Search Recipient",
+      type: "dropDown",
       required: true,
-      responseLabel: "name",
-      responseId: "id",
-      responseCode: "phoneCode",
       md: 12,
       sm: 12,
     },
@@ -57,10 +48,11 @@ const NewMoneyStep3 = ({ handleNext }) => {
       >
         <Typography
           variant="p"
+          mt={3}
           sx={{
             color: theme.palette.background.main,
-            fontSize: "1.8rem",
-            fontWeight: "600",
+            fontSize: "2.2rem",
+            fontWeight: "700",
           }}
         >
           Send Money

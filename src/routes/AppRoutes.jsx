@@ -94,11 +94,11 @@ const AppRoutes = () => {
                 })}
               </Route>
             )}
-            {!verified && (role === "USER" || role === "BUSINESS") && (
+            {!verified && (role === "INDIVIDUAL" || role === "BUSINESS") && (
               <Route exact path="/profile" element={<NewProfilePage />} />
             )}
             {kycData && kycData?.[0]?.kycStatus === "VERIFIED" &&
-              (role === "USER" || role === "BUSINESS") && (
+              (role === "INDIVIDUAL" || role === "BUSINESS") && (
                 <Route exact path="/home" element={<UserLayout />}>
                   <Route exact index element={<UserDashboard />} />
                   {UserRoutes?.map((route) => {

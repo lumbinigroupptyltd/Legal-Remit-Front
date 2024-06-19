@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, Grid, Typography, useTheme } from "@mui/material";
-import RenderInput from "../../../components/RenderInput/RenderInput";
+import RenderInput from "../../../../components/RenderInput/RenderInput";
 import FlagIcon from "@mui/icons-material/Flag";
 import { nanoid } from "nanoid";
-import { useSendMoneyStep1Form } from "../../../forms/sendmoney/useSendMoneyForm";
+import { useSendMoneyStep1Form } from "../../../../forms/sendmoney/useSendMoneyForm";
 
 const NewMoneyStep1 = ({ handleNext }) => {
   const theme = useTheme();

@@ -70,7 +70,18 @@ const RenderInput = ({
     switch (element.type) {
       case "text":
         return (
-          <>
+          <div style={{
+            textAlign: element?.extraInfo && element?.extraLabel ? "center" : null,
+            fontSize: element?.extraInfo && element?.extraLabel ? "1.2rem" : null,
+            fontWeight: element?.extraInfo && element?.extraLabel ? "500" : null,
+            margin: element?.extraInfo && element?.extraLabel ? "1rem 0" : null,
+            display: element?.extraInfo && element?.extraLabel ? "flex" : null,
+            flexDirection: element?.extraInfo && element?.extraLabel ? "column" : null,
+            gap: element?.extraInfo && element?.extraLabel ? "1rem 0" : null,
+          }}>
+          {element?.extraInfo && (
+            <Typography variant="p" sx={{textAlign: "center"}}>{element?.extraLabel}</Typography>
+          )}
             <TextField
               name={element?.name}
               label={element?.label}
@@ -82,6 +93,8 @@ const RenderInput = ({
               variant="outlined"
               className="textfield-icon-input"
               disabled={element.isDisabled}
+              multiline={element?.multiline || false}
+              rows={element?.rows || false}
               error={
                 Boolean(element?.err) || (formTouched && Boolean(formError))
               }
@@ -117,7 +130,7 @@ const RenderInput = ({
               }}
               InputLabelProps={{ shrink: Boolean(formValues) }}
             />
-          </>
+          </div>
         );
       case "password":
         const isConfirmPassword = element.name === "confirmPassword";

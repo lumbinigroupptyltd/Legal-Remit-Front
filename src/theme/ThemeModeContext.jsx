@@ -20,7 +20,8 @@ const getPalette = (mode) => {
       holiday: "#FF8A7B",
     },
     border: {
-      main: "#aa2ae1"
+      main: "#aa2ae1",
+      light: "#dcbde9"
     },
     secondary: {
       main: "#98D8F1",
