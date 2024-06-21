@@ -33,7 +33,7 @@ const NewMoneyStep2 = ({ handleNext }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { data: allCountriesData } = useGetAllCountries();
   const { formik } = useSendMoneyStep2Form(handleNext, sendMoneyDeliveryMethod, sendMoneyPaymentMethod);
-  console.log(formik?.errors, "formik");
+ 
   const image = `https://flagcdn.com/16x12/au.png`;
   const image2 = selectedCountry?.flag
     ? `https://flagcdn.com/16x12/${selectedCountry?.flag?.toLowerCase()}.png`

@@ -8,18 +8,21 @@ import { useSelector } from "react-redux";
 
 const Recipient = ({ onClose }) => {
   const theme = useTheme();
-  const { sendMoneyDeliveryMethod, sendMoneyPaymentMethod } = useSelector(
-    (state) => state.sendMoney
-  );
+  const {
+    sendMoneyDeliveryMethod,
+    sendMoneyPaymentMethod,
+    recipientBank,
+    recipientContact,
+  } = useSelector((state) => state.sendMoney);
 
   const [step, setStep] = useState(1);
   const [formValid, setFormValid] = useState(false);
 
   const handleNextClick = () => {
-    if (step === 4) {
-      // onClose();
-      return;
-    }
+    // if (step === 4) {
+    //   // onClose();
+    //   // return;
+    // }
     if (formValid) {
       setStep((prevStep) => prevStep + 1);
       setFormValid(false);
@@ -43,11 +46,15 @@ const Recipient = ({ onClose }) => {
           <RecipientBankDetails
             onFormValidate={handleFormValidation}
             method={sendMoneyDeliveryMethod}
+            data={recipientBank}
           />
         );
       case 3:
         return (
-          <RecipientContactDetails onFormValidate={handleFormValidation} />
+          <RecipientContactDetails
+            onFormValidate={handleFormValidation}
+            data={recipientContact}
+          />
         );
       case 4:
         return (

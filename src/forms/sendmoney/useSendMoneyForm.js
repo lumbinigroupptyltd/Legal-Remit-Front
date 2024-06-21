@@ -40,7 +40,7 @@ export const useSendMoneyStep1Form = (handleNext) => {
 
 export const useSendMoneyStep2Form = (handleNext, sendMoneyDeliveryMethod, sendMoneyPaymentMethod) => {
   // const { mutate: addSignUpPage } = useSignUp({});
-console.log(sendMoneyDeliveryMethod, "fgf")
+
   const formik = useFormik({
     initialValues: {
       fromCountryId: "7b167666-1f1a-11ef-8765-06acd635b761",
@@ -54,7 +54,6 @@ console.log(sendMoneyDeliveryMethod, "fgf")
     validationSchema: sendMoneyCalculateSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log(values, "val")
       handleNext(values);
       // handledAddRequest(values);
     },

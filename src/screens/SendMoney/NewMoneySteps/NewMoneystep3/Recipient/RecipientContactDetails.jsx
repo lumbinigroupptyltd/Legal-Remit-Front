@@ -32,8 +32,8 @@ const inputField = [
   },
   {
     id: nanoid(),
-    name: "state",
-    label: "State",
+    name: "stateId",
+    label: "State/Province",
     type: "text",
     required: true,
     iconStart: <PersonIcon />,
@@ -65,7 +65,7 @@ const inputField = [
   },
   {
     id: nanoid(),
-    name: "relation",
+    name: "relationId",
     label: "Relation",
     type: "dropDown",
     options: [
