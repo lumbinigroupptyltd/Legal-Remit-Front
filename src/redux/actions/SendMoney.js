@@ -1,4 +1,23 @@
-import { ADD_RECIPIENT_BANK, ADD_RECIPIENT_CONTACT, ADD_RECIPIENT_TYPE, RECIPIENT_COUNTRY, SEND_MONEY_DELIVERY_METHOD, SEND_MONEY_PAYMENT_METHOD } from "../types/types";
+import {
+  ADD_RECIPIENT_BANK,
+  ADD_RECIPIENT_CONTACT,
+  ADD_RECIPIENT_TYPE,
+  RECIPIENT_COUNTRY,
+  SEND_MONEY_DELIVERY_METHOD,
+  SEND_MONEY_PAYMENT_METHOD,
+  SET_ACTIVE_STEP,
+  SET_RECIPIENT_STEP,
+} from "../types/types";
+
+export const setActiveStep = (step) => ({
+  type: SET_ACTIVE_STEP,
+  payload: step,
+});
+
+export const setRecipientStep = (step) => ({
+  type: SET_RECIPIENT_STEP,
+  payload: step,
+});
 
 export const recipientCountry = (values) => ({
   type: RECIPIENT_COUNTRY,

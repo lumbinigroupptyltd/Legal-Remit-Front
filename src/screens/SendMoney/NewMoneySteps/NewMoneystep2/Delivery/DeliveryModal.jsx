@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import WalletIcon from "@mui/icons-material/Wallet";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import { CButton } from "../../../../../components/MaterialUI/CButton";
 import { useGetDeliveryMethodDetails } from "../../../../../hooks/sendMoney/delivery/useDeliveryMethod";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
-const DeliveryModal = ({ onSelectDeliveryMethod, onClose }) => {
+const DeliveryModal = ({ onSelectDeliveryMethod, onClose, data }) => {
   const theme = useTheme();
   const [selectedItem, setSelectedItem] = useState(null);
   const { data: deliveryMethodData } = useGetDeliveryMethodDetails();
@@ -38,6 +39,22 @@ const DeliveryModal = ({ onSelectDeliveryMethod, onClose }) => {
     ),
   };
 
+  useEffect(() => {
+    if (data) {
+      setSelectedItem(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    const isDataMatching = () => {
+      if (data) {
+        return selectedItem?.id === data.id;
+      }
+      return false;
+    };
+    isDataMatching();
+  }, [selectedItem, data]);
+
   const handleItemClick = (item) => {
     setSelectedItem(item);
   };
@@ -66,6 +83,7 @@ const DeliveryModal = ({ onSelectDeliveryMethod, onClose }) => {
                   : theme.palette.background.light,
               cursor: "pointer",
               transition: "background-color 0.3s ease",
+              position: "relative",
             }}
             onClick={() => handleItemClick(item)}
           >
@@ -102,6 +120,17 @@ const DeliveryModal = ({ onSelectDeliveryMethod, onClose }) => {
                 Estimated Days : {item?.estimatedDelivery} Days
               </Typography>
             </Box>
+            {selectedItem?.id === item.id && (
+              <CheckCircleOutlineIcon
+                sx={{
+                  position: "absolute",
+                  top: "10px",
+                  right: "10px",
+                  fontSize: "2.2rem",
+                  color: theme.palette.background.main,
+                }}
+              />
+            )}
           </Stack>
         ))}
 

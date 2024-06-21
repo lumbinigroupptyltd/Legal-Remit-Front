@@ -78,6 +78,7 @@ const DeliveryMethod = ({ method }) => {
               open={deliveryMethod}
               onClose={() => setDeliveryMethod(false)}
               onSelectDeliveryMethod={handleDeliverySelectMethod}
+              data={method}
             />
           }
         />

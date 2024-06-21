@@ -5,9 +5,13 @@ import {
   RECIPIENT_COUNTRY,
   SEND_MONEY_DELIVERY_METHOD,
   SEND_MONEY_PAYMENT_METHOD,
+  SET_ACTIVE_STEP,
+  SET_RECIPIENT_STEP,
 } from "../types/types";
 
 const initialState = {
+  activeStep: 0,
+  recipientStep: 0,
   country: null,
   recipientType: null,
   recipientBank: null,
@@ -18,6 +22,16 @@ const initialState = {
 
 const sendMoneyReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_ACTIVE_STEP:
+      return {
+        ...state,
+        activeStep: action.payload,
+      };
+      case SET_RECIPIENT_STEP:
+      return {
+        ...state,
+        recipientStep: action.payload,
+      };
     case RECIPIENT_COUNTRY:
       return {
         ...state,
@@ -33,7 +47,7 @@ const sendMoneyReducer = (state = initialState, action) => {
         ...state,
         recipientBank: action.payload,
       };
-      case ADD_RECIPIENT_CONTACT:
+    case ADD_RECIPIENT_CONTACT:
       return {
         ...state,
         recipientContact: action.payload,
