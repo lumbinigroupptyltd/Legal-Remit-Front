@@ -1,5 +1,6 @@
 import React from "react";
 import { nanoid } from "nanoid";
+import SendMoney from "../screens/SendMoney/SendMoney";
 const UserDashboard = React.lazy(() => import("../screens/Dashbord/UserDashboard"));
 const NewSendMoney = React.lazy(() => import("../screens/SendMoney/NewSendMoney"));
 const AboutUsPage = React.lazy(() => import("../screens/AboutUsPage/AboutUsPage"));
@@ -17,7 +18,7 @@ const UserRoutes = [
     id: nanoid(),
     path: "sendmoney",
     name: "Send Money",
-    component: <NewSendMoney />,
+    component: <SendMoney />,
   },
   {
     id: nanoid(),

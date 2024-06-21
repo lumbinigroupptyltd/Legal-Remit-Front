@@ -1,16 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { addShareDetails, getShareDetails } from "../../../../api/profile/business/business-share-holder-api";
-
-{
-  /*________________________GET_____________________________________*/
-}
-export const useGetShareDetails = () => {
-  return useQuery(["getShareDetails"], () => getShareDetails(), {
-    cacheTime: 10000,
-    refetchInterval: false,
-    refetchOnWindowFocus: false,
-  });
-};
+import { toast } from "react-toastify";
+import { addDirectorDetails, editDirectorDetails } from "../../../../api/profile/business/business-director-api";
 
 {
     /*________________________POST_____________________________________*/
@@ -19,12 +9,13 @@ export const useGetShareDetails = () => {
     const queryClient = useQueryClient();
     return useMutation(
       ["addShareHolderDetails"],
-      (formData) => addShareDetails(formData),
+      (formData) => addDirectorDetails(formData),
       {
         onSuccess: (data, variables, context) => {
           toast.success("share holder details added successfully");
           onSuccess && onSuccess(data, variables, context);
-          queryClient.invalidateQueries("getShareDetails");
+          queryClient.invalidateQueries("getBusinessDetailsByUserId");
+          queryClient.invalidateQueries("getDirectorDetailsByBussId");
         },
         onError: (err, _variables, _context) => {
           toast.error(getErrorMessage(err));
@@ -40,12 +31,13 @@ export const useGetShareDetails = () => {
     const queryClient = useQueryClient();
     return useMutation(
       ["editShareHolderDetails"],
-      (formData) => editShareHolderDetails(formData),
+      (formData) => editDirectorDetails(formData),
       {
         onSuccess: (data, variables, context) => {
           toast.success("");
           onSuccess && onSuccess(data, variables, context);
-          queryClient.invalidateQueries("getShareDetails");
+          queryClient.invalidateQueries("getBusinessDetailsByUserId");
+          queryClient.invalidateQueries("getDirectorDetailsByBussId");
         },
         onError: (err, _variables, _context) => {
           toast.error(getErrorMessage(err));

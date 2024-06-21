@@ -2,6 +2,7 @@ import { Box, Stack, Typography, useTheme } from "@mui/material";
 import React from "react";
 
 const CardTotalPayable = (props) => {
+  
   const theme = useTheme();
 
   return (

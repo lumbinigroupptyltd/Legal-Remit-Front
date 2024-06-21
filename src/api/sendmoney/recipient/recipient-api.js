@@ -4,47 +4,40 @@ import { axiosInstance } from "../../../utils/axiosIntercepters";
 {
   /*________________________GET_____________________________________*/
 }
-export const getRecipientContactDetails = async () => {
-  const { data } = await axiosInstance.get(`/getall`);
+export const getRecipientDetails = async () => {
+  const { data } = await axiosInstance.get(`/recipientuser/getall`);
+  return data;
+};
+
+{
+  /*________________________GET_BY_ID_____________________________________*/
+}
+export const getRecipientDetailsById = async (id) => {
+  const { data } = await axiosInstance.get(`/recipientuser/getbyid/${id}`);
   return data;
 };
 
 {
   /*________________________POST_____________________________________*/
 }
-export const addRecipientContactDetails = async (formData) => {
-  const data = await axiosInstance.post(`/post`, formData);
+export const addRecipientDetails = async (formData) => {
+  const data = await axiosInstance.post(`/recipientuser/create`, formData);
+  return data;
+};
+
+{
+  /*________________________DELETE_____________________________________*/
+}
+export const deleteRecipientDetails = async (id) => {
+  const data = await axiosInstance.delete(`/recipientuser/delete/${id}`);
   return data;
 };
 
 {
   /*________________________PATCH_____________________________________*/
 }
-export const editRecipientContactDetails = async (formData) => {
-  const data = await axiosInstance.post(`/update`, formData);
-  return data;
-};
-
-/*________________________RECIPIENT_BANK_DETAILS_____________________________________*/
-
-export const getRecipientBankDetails = async () => {
-  const { data } = await axiosInstance.get(`/getall`);
-  return data;
-};
-
-{
-  /*________________________POST_____________________________________*/
-}
-export const addRecipientBankDetails = async (formData) => {
-  const data = await axiosInstance.post(`/post`, formData);
-  return data;
-};
-
-{
-  /*________________________PATCH_____________________________________*/
-}
-export const editRecipientBankDetails = async (formData) => {
-  const data = await axiosInstance.post(`/update`, formData);
+export const editRecipientDetails = async (formData) => {
+  const data = await axiosInstance.patch(`/recipientuser/update`, formData);
   return data;
 };
 

@@ -4,20 +4,25 @@ import RecipientContactDetails from "./RecipientContactDetails";
 import RecipientType from "./RecipientType";
 import { Button, Grid, useTheme } from "@mui/material";
 import RecipientSummary from "./RecipientSummary";
+import { useSelector } from "react-redux";
 
 const Recipient = ({ onClose }) => {
   const theme = useTheme();
+  const { sendMoneyDeliveryMethod, sendMoneyPaymentMethod } = useSelector(
+    (state) => state.sendMoney
+  );
+
   const [step, setStep] = useState(1);
   const [formValid, setFormValid] = useState(false);
 
   const handleNextClick = () => {
     if (step === 4) {
-      onClose(); // Close the modal directly when step is 4
+      // onClose();
       return;
     }
     if (formValid) {
       setStep((prevStep) => prevStep + 1);
-      setFormValid(false); // Reset formValid for the next step
+      setFormValid(false);
     }
   };
 
@@ -26,7 +31,6 @@ const Recipient = ({ onClose }) => {
   };
 
   const handleFormValidation = (isValid) => {
-    console.log(isValid, "ahjsf");
     setFormValid(isValid);
   };
 
@@ -35,7 +39,12 @@ const Recipient = ({ onClose }) => {
       case 1:
         return <RecipientType onFormValidate={handleFormValidation} />;
       case 2:
-        return <RecipientBankDetails onFormValidate={handleFormValidation} />;
+        return (
+          <RecipientBankDetails
+            onFormValidate={handleFormValidation}
+            method={sendMoneyDeliveryMethod}
+          />
+        );
       case 3:
         return (
           <RecipientContactDetails onFormValidate={handleFormValidation} />
@@ -46,6 +55,7 @@ const Recipient = ({ onClose }) => {
             <RecipientSummary
               onFormValidate={handleFormValidation}
               onClose={onClose}
+              method={sendMoneyDeliveryMethod}
             />
           </>
         );
@@ -59,42 +69,47 @@ const Recipient = ({ onClose }) => {
       <Grid item md={12} xs={12}>
         {renderStepContent(step)}
       </Grid>
-      <Grid
-        item
-        xs={12}
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "1rem",
-        }}
-      >
-        <Button
-          onClick={handleBackClick}
-          variant={"contained"}
-          disabled={step === 1}
+
+      {step === 4 ? (
+        <></>
+      ) : (
+        <Grid
+          item
+          xs={12}
           sx={{
-            marginTop: "1.6rem",
-            padding: "0.5rem 3rem",
-            borderRadius: "24px",
-            fontSize: "1rem",
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "1rem",
           }}
         >
-          Back
-        </Button>
-        <Button
-          onClick={handleNextClick}
-          variant={"contained"}
-          disabled={step === 4 ? formValid : !formValid}
-          sx={{
-            marginTop: "1.6rem",
-            padding: "0.5rem 3rem",
-            borderRadius: "24px",
-            fontSize: "1rem",
-          }}
-        >
-          {step === 4 ? "Submit" : "Next"}
-        </Button>
-      </Grid>
+          <Button
+            onClick={handleBackClick}
+            variant={"contained"}
+            disabled={step === 1}
+            sx={{
+              marginTop: "1.6rem",
+              padding: "0.5rem 3rem",
+              borderRadius: "24px",
+              fontSize: "1rem",
+            }}
+          >
+            Back
+          </Button>
+          <Button
+            onClick={handleNextClick}
+            variant={"contained"}
+            disabled={step === 4 ? formValid : !formValid}
+            sx={{
+              marginTop: "1.6rem",
+              padding: "0.5rem 3rem",
+              borderRadius: "24px",
+              fontSize: "1rem",
+            }}
+          >
+            Next
+          </Button>
+        </Grid>
+      )}
     </Grid>
   );
 };

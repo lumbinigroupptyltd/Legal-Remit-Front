@@ -11,104 +11,40 @@ const PaymentModal = ({ onSelectPaymentMethod, onClose }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const { data: paymentMethodData } = useGetPaymentMethodDetails();
 
-  const data = [
-    {
-      id: 1,
-      icon: (
-        <AccountBalanceIcon
-          sx={{
-            fontSize: "2.2rem",
-            color: theme.palette.background.main,
-          }}
-        />
-      ),
-      title: "PayTo",
-      rate: "Exchange rate : ",
-      receivable: "Total Receivable : ",
-      charge: "Total Service Charge : ",
-      payable: "Total Payable : ",
-    },
-    {
-      id: 2,
-      icon: (
-        <WalletIcon
-          sx={{
-            fontSize: "2.2rem",
-            color: theme.palette.background.main,
-          }}
-        />
-      ),
-      title: "Debit Card",
-      rate: "Exchange rate : ",
-      receivable: "Total Receivable : ",
-      charge: "Total Service Charge : ",
-      payable: "Total Payable : ",
-    },
-    {
-      id: 3,
-      icon: (
-        <PaymentsIcon
-          sx={{
-            fontSize: "2.2rem",
-            color: theme.palette.background.main,
-          }}
-        />
-      ),
-      title: "PayID",
-      rate: "Exchange rate : ",
-      receivable: "Total Receivable : ",
-      charge: "Total Service Charge : ",
-      payable: "Total Payable : ",
-    },
-    {
-        id: 4,
-        icon: (
-          <PaymentsIcon
-            sx={{
-              fontSize: "2.2rem",
-              color: theme.palette.background.main,
-            }}
-          />
-        ),
-        title: "Bank Transfer",
-        rate: "Exchange rate : ",
-        receivable: "Total Receivable : ",
-        charge: "Total Service Charge : ",
-        payable: "Total Payable : ",
-      },
-      {
-        id: 5,
-        icon: (
-          <PaymentsIcon
-            sx={{
-              fontSize: "2.2rem",
-              color: theme.palette.background.main,
-            }}
-          />
-        ),
-        title: "POLI",
-        rate: "Exchange rate : ",
-        receivable: "Total Receivable : ",
-        charge: "Total Service Charge : ",
-        payable: "Total Payable : ",
-      },
-      {
-        id: 6,
-        icon: (
-          <PaymentsIcon
-            sx={{
-              fontSize: "2.2rem",
-              color: theme.palette.background.main,
-            }}
-          />
-        ),
-        title: "CreditCard",
-        rate: "Exchange rate : ",
-        receivable: "Total Receivable : ",
-        charge: "Total Service Charge : ",
-        payable: "Total Payable : ",
-      },
-  ];
+  const paymentTypeIcons = {
+    PayTo: (
+      <AccountBalanceIcon
+        sx={{
+          fontSize: "2.2rem",
+          color: theme.palette.background.main,
+        }}
+      />
+    ),
+    "Bank Transfer": (
+      <AccountBalanceIcon
+        sx={{
+          fontSize: "2.2rem",
+          color: theme.palette.background.main,
+        }}
+      />
+    ),
+    "Debit Card": (
+      <WalletIcon
+        sx={{
+          fontSize: "2.2rem",
+          color: theme.palette.background.main,
+        }}
+      />
+    ),
+    "Credit Card": (
+      <WalletIcon
+        sx={{
+          fontSize: "2.2rem",
+          color: theme.palette.background.main,
+        }}
+      />
+    ),
+  };
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
@@ -121,57 +57,58 @@ const PaymentModal = ({ onSelectPaymentMethod, onClose }) => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-      {data.map((item) => (
-        <Stack
-          key={item.id}
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: "2rem",
-            borderRadius: "2rem",
-            padding: "2rem",
-            backgroundColor:
-              selectedItem?.id === item.id
-                ? theme.palette.primary.light
-                : theme.palette.background.light,
-            cursor: "pointer",
-            transition: "background-color 0.3s ease",
-          }}
-          onClick={() => handleItemClick(item)}
-        >
-          {item.icon}
-          <Box
+      {paymentMethodData &&
+        paymentMethodData?.data?.map((item) => (
+          <Stack
+            key={item.id}
             sx={{
               display: "flex",
-              flexDirection: "column",
-              alignItems: "start",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: "2rem",
+              borderRadius: "2rem",
+              padding: "2rem",
+              backgroundColor:
+                selectedItem?.id === item.id
+                  ? theme.palette.primary.light
+                  : theme.palette.background.light,
+              cursor: "pointer",
+              transition: "background-color 0.3s ease",
             }}
+            onClick={() => handleItemClick(item)}
           >
-            <Typography sx={{ fontSize: "1.2rem", fontWeight: "500" }}>
-              {item.title}
-            </Typography>
-            <Typography
+            {paymentTypeIcons[item?.paymentType?.name]}
+            <Box
               sx={{
-                fontSize: "1.2rem",
-                fontWeight: "400",
-                color: theme.palette.text.secondary,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "start",
               }}
             >
-              {item.rate} 1AUD = 0.87 NPR
-            </Typography>
-            <Typography sx={{ fontSize: "1.2rem", fontWeight: "500" }}>
-              {item.receivable} 0.87 NPR
-            </Typography>
-            <Typography sx={{ fontSize: "1.2rem", fontWeight: "500" }}>
-              {item.charge} 0.87 NPR
-            </Typography>
-            <Typography sx={{ fontSize: "1.2rem", fontWeight: "500" }}>
-              {item.payable} 0.87 NPR
-            </Typography>
-          </Box>
-        </Stack>
-      ))}
+              <Typography sx={{ fontSize: "1.4rem", fontWeight: "600" }}>
+                {item?.paymentType?.name}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "1.2rem",
+                  fontWeight: "400",
+                  color: theme.palette.text.secondary,
+                }}
+              >
+                {item?.rate} 1AUD = 0.87 NPR
+              </Typography>
+              <Typography sx={{ fontSize: "1rem", fontWeight: "400" }}>
+                {item?.receivable} 0.87 NPR
+              </Typography>
+              <Typography sx={{ fontSize: "1rem", fontWeight: "400" }}>
+                {item?.charge} 0.87 NPR
+              </Typography>
+              <Typography sx={{ fontSize: "1rem", fontWeight: "400" }}>
+                {item?.payable} 0.87 NPR
+              </Typography>
+            </Box>
+          </Stack>
+        ))}
 
       <CButton
         buttonName={"SELECT"}

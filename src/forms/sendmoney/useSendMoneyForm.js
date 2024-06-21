@@ -37,25 +37,23 @@ export const useSendMoneyStep1Form = (handleNext) => {
   };
 };
 
-export const useSendMoneyStep2Form = (handleNext, values) => {
+export const useSendMoneyStep2Form = (handleNext) => {
   // const { mutate: addSignUpPage } = useSignUp({});
 
   const formik = useFormik({
     initialValues: {
-      sendMoney: "0",
+      fromCountryId: "7b167666-1f1a-11ef-8765-06acd635b761",
+      toCountryId: "d6e8f618-7046-4682-a2d6-cd99df745d12",
+      amount: "100",
       resMoney: "0",
       deliveryMethod: "",
       paymentMoethod: "",
       currency: "NPR",
-      countryId: values?.countryId || "",
-      countryName: values?.countryName || "",
-      phoneCode: values?.phoneCode || "",
     },
     //   validationSchema: signupSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
       handleNext(values);
-     localStorage.setItem("sendMoneyCalculate", JSON.stringify(values));
       // handledAddRequest(values);
     },
   });

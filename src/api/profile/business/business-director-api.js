@@ -29,6 +29,6 @@ export const getDirectorDetailsByBussId = async (bussId) => {
     /*________________________PATCH_____________________________________*/
   }
   export const editDirectorDetails = async (formData) => {
-    const data = await axiosInstance.post(`/business/create`, formData);
+    const data = await axiosInstance.patch(`/director/update`, formData);
     return data;
   };

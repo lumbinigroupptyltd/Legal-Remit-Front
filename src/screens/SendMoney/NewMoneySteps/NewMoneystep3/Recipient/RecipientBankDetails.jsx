@@ -7,19 +7,27 @@ import RenderInput from "../../../../../components/RenderInput/RenderInput";
 import { recipientBankDetailsForm } from "../../../../../forms/sendmoney/recipient/recipientForm";
 import { CButton } from "../../../../../components/MaterialUI/CButton";
 import DeliveryMethod from "../../NewMoneystep2/Delivery/DeliveryMethod";
+import { useGetBankDetails } from "../../../../../hooks/bank/useBankDetails";
 
-const RecipientBankDetails = ({ onFormValidate }) => {
+const RecipientBankDetails = ({ onFormValidate, method, data }) => {
   const theme = useTheme();
+  const { data : getAllBankData } = useGetBankDetails();
   const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState("");
 
-  const { formik } = recipientBankDetailsForm(onFormValidate);
+  const { formik } = recipientBankDetailsForm(onFormValidate, data);
+console.log(getAllBankData, "getAllBankData")
+const GET_BANK_DATA = getAllBankData && getAllBankData.data.map((item) => ({
+  label: item.bankName,
+  value: item.bankId  // Assuming there is a property 'bankId' in the item
+}));
+
 
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
 
   const inputField = [
-    ...(selectedDeliveryMethod?.title === "Bank Deposit"
+    ...(method?.deliveryType?.name === "Bank Deposit"
       ? [
           {
             id: nanoid(),
@@ -67,7 +75,7 @@ const RecipientBankDetails = ({ onFormValidate }) => {
           },
           {
             id: nanoid(),
-            name: "bankNumber",
+            name: "bankAccNo",
             label: "Bank Account Number",
             type: "text",
             required: true,
@@ -78,102 +86,102 @@ const RecipientBankDetails = ({ onFormValidate }) => {
           },
         ]
       : []),
-      ...(selectedDeliveryMethod?.title === "Wallet Deposit"
-        ? [
-            {
-              id: nanoid(),
-              name: "firstName",
-              label: "First Name",
-              type: "text",
-              required: true,
-              iconStart: <PersonIcon />,
-              md: 6,
-              sm: 12,
-              xs: 12,
-            },
-            {
-              id: nanoid(),
-              name: "middleName",
-              label: "Middle Name",
-              type: "text",
-              required: true,
-              iconStart: <PersonIcon />,
-              md: 6,
-              sm: 12,
-              xs: 12,
-            },
-            {
-              id: nanoid(),
-              name: "lastName",
-              label: "Last Name",
-              type: "text",
-              required: true,
-              iconStart: <PersonIcon />,
-              md: 6,
-              sm: 12,
-              xs: 12,
-            },
-            {
-              id: nanoid(),
-              name: "walletName",
-              label: "Wallet Name",
-              type: "text",
-              required: true,
-              iconStart: <AccountBalanceIcon />,
-              md: 6,
-              sm: 12,
-              xs: 12,
-            },
-            {
-              id: nanoid(),
-              name: "walletNo",
-              label: "Wallet Account Number",
-              type: "text",
-              required: true,
-              iconStart: <AccountBalanceIcon />,
-              md: 6,
-              sm: 12,
-              xs: 12,
-            },
-          ]
-        : []),
-        ...(selectedDeliveryMethod?.title === "Cash Pickup"
-          ? [
-              {
-                id: nanoid(),
-                name: "firstName",
-                label: "First Name",
-                type: "text",
-                required: true,
-                iconStart: <PersonIcon />,
-                md: 6,
-                sm: 12,
-                xs: 12,
-              },
-              {
-                id: nanoid(),
-                name: "middleName",
-                label: "Middle Name",
-                type: "text",
-                required: true,
-                iconStart: <PersonIcon />,
-                md: 6,
-                sm: 12,
-                xs: 12,
-              },
-              {
-                id: nanoid(),
-                name: "lastName",
-                label: "Last Name",
-                type: "text",
-                required: true,
-                iconStart: <PersonIcon />,
-                md: 6,
-                sm: 12,
-                xs: 12,
-              },
-            ]
-          : []),
+    ...(method?.deliveryType?.name === "Wallet Deposit"
+      ? [
+          {
+            id: nanoid(),
+            name: "firstName",
+            label: "First Name",
+            type: "text",
+            required: true,
+            iconStart: <PersonIcon />,
+            md: 6,
+            sm: 12,
+            xs: 12,
+          },
+          {
+            id: nanoid(),
+            name: "middleName",
+            label: "Middle Name",
+            type: "text",
+            required: true,
+            iconStart: <PersonIcon />,
+            md: 6,
+            sm: 12,
+            xs: 12,
+          },
+          {
+            id: nanoid(),
+            name: "lastName",
+            label: "Last Name",
+            type: "text",
+            required: true,
+            iconStart: <PersonIcon />,
+            md: 6,
+            sm: 12,
+            xs: 12,
+          },
+          {
+            id: nanoid(),
+            name: "walletName",
+            label: "Wallet Name",
+            type: "text",
+            required: true,
+            iconStart: <AccountBalanceIcon />,
+            md: 6,
+            sm: 12,
+            xs: 12,
+          },
+          {
+            id: nanoid(),
+            name: "walletNo",
+            label: "Wallet Account Number",
+            type: "text",
+            required: true,
+            iconStart: <AccountBalanceIcon />,
+            md: 6,
+            sm: 12,
+            xs: 12,
+          },
+        ]
+      : []),
+    ...(method?.deliveryType?.name === "Cash Pickup"
+      ? [
+          {
+            id: nanoid(),
+            name: "firstName",
+            label: "First Name",
+            type: "text",
+            required: true,
+            iconStart: <PersonIcon />,
+            md: 6,
+            sm: 12,
+            xs: 12,
+          },
+          {
+            id: nanoid(),
+            name: "middleName",
+            label: "Middle Name",
+            type: "text",
+            required: true,
+            iconStart: <PersonIcon />,
+            md: 6,
+            sm: 12,
+            xs: 12,
+          },
+          {
+            id: nanoid(),
+            name: "lastName",
+            label: "Last Name",
+            type: "text",
+            required: true,
+            iconStart: <PersonIcon />,
+            md: 6,
+            sm: 12,
+            xs: 12,
+          },
+        ]
+      : []),
   ];
 
   const handleSelectedDeliveryMethodChange = (method) => {
@@ -227,6 +235,7 @@ const RecipientBankDetails = ({ onFormValidate }) => {
         >
           <DeliveryMethod
             onDeliveryMethodChange={handleSelectedDeliveryMethodChange}
+            method={method}
           />
         </Box>
 

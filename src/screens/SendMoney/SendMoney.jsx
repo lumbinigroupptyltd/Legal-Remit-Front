@@ -435,27 +435,7 @@ export default function SendMoney() {
                   >
                     <div className="step-component">
 
-                      <div id="firstStep" >
-                        <Step1
-                          FirstStepData={setreceiver}
-                          backDisplay={backDisplayfunction}
-                          handleid={HandleFormId}
-                          RecieverCountryId={RecieverCountryId}
-                          sendingMoney={sendingMoneyValue}
-                          DileveryCharge={DileveryCharge}
-                          PaymentmethodName={PaymentmethodName}
-                          handleShowVerifys={handleShowVerify}
-                          FirstStepdata={FirstStepDataTrans}
-                          TransactionIDUpdate={TrsnsactionId}
-                          Default_Delivery_id={DefaultDel_Name}
-                          setExchangerate={(value) => { setExchangerate(value) }}
-                          setServiceCharge={(value) => { setServiceCharge(value); }}
-                          PromoCodeVerify={PromoCodeVerify}
-                          HandleChangeDelivery={R_Deliverymethod}
-                          PremiumEXRateValue={(value) => { setPremiumExchangerate(value) }}
-                          Moneychange={(value)=>{moneychange(value)}}
-                        ></Step1>
-                      </div>
+                     
 
                       <div
                       // id={`secondStep`} style={{ display: "none" }}
@@ -479,30 +459,7 @@ export default function SendMoney() {
                         ></Step2>
                       </div>
 
-                      <div id="thirdStep" style={{ display: "none" }}>
-                        <Step3
-                          summaryData={SummuryId}
-                          DefaultSummuryId={DefRecId}
-                          RecieverCountryId={Reciver_CountryId}
-                          backDisplay={backDisplayfunction}
-                          sendingMoney={sendMoney}
-                          sendMoneyDCharge={sendMoneyDCharge}
-                          PaymentNamee={PAymentName}
-                          TransactionIDUpdate={TrsnsactionId}
-                          visitNextStep={visitNextStep}
-                          FirstStepData={FirstStepTransactionData}
-                          visitBackStep={handleGoFirstStep}
-                          SetExchangerate={Exchangerate}
-                          SetServiceCharge={ServiceCharge}
-                          PromoCodeVerify={PromoCodeVerify}
-                          PremiumEXRateValue={PremiumExchangerate}
-                          moneychange={ChangesenDMoney}
-                        ></Step3>
-                      </div>
-
-                      <div id="fourthStep" style={{ display: "none" }}>
-                        <Step4 TransactionID={TrsnsactionId} PromoCodeVerify={PromoCodeVerify} PremiumEXRateValue={PremiumExchangerate} FirstStepData={FirstStepTransactionData} SetServiceCharge={ServiceCharge} SetExchangerate={Exchangerate} TrsnsactionData={TrsnsactionData}></Step4>
-                      </div>
+                    
 
                     </div>
                   </userContext.Provider>
