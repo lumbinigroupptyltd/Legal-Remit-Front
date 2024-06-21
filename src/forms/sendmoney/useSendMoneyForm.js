@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { recipientCountry } from "../../redux/actions/SendMoney";
+import { sendMoneyCalculateSchema } from "./validation/sendMoneySchema";
 
 export const useSendMoneyStep1Form = (handleNext) => {
   const dispatch = useDispatch();
@@ -37,22 +38,23 @@ export const useSendMoneyStep1Form = (handleNext) => {
   };
 };
 
-export const useSendMoneyStep2Form = (handleNext) => {
+export const useSendMoneyStep2Form = (handleNext, sendMoneyDeliveryMethod, sendMoneyPaymentMethod) => {
   // const { mutate: addSignUpPage } = useSignUp({});
-
+console.log(sendMoneyDeliveryMethod, "fgf")
   const formik = useFormik({
     initialValues: {
       fromCountryId: "7b167666-1f1a-11ef-8765-06acd635b761",
       toCountryId: "d6e8f618-7046-4682-a2d6-cd99df745d12",
       amount: "100",
       resMoney: "0",
-      deliveryMethod: "",
-      paymentMoethod: "",
+      deliveryMethod: sendMoneyDeliveryMethod?.deliveryType?.name || "",
+      paymentMethod: sendMoneyPaymentMethod?.paymentType?.name || "",
       currency: "NPR",
     },
-    //   validationSchema: signupSchema,
+    validationSchema: sendMoneyCalculateSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
+      console.log(values, "val")
       handleNext(values);
       // handledAddRequest(values);
     },

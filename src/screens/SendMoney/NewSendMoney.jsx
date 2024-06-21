@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Grid,
   Stack,
   Step,
-  StepButton,
+  StepLabel,
   Stepper,
   useTheme,
+  Typography,
 } from "@mui/material";
 import sendMoneyLogo from "../../assets/images/doc/sendMoneyLogo.png";
 // import NewMoneyStep1 from "./NewMoneySteps/NewMoneyStep1/NewMoneyStep1";
@@ -15,6 +16,8 @@ import NewMoneyStep3 from "./NewMoneySteps/NewMoneystep3/NewMoneyStep3";
 import NewMoneyStep4 from "./NewMoneySteps/NewMoneystep4/NewMoneyStep4";
 import NewMoneyStep5 from "./NewMoneySteps/NewMoneystep5/NewMoneyStep5";
 import NewMoneyStep6 from "./NewMoneySteps/NewMoneystep6/NewMoneyStep6";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveStep } from "../../redux/actions";
 
 const steps = [
   // "Country",
@@ -27,16 +30,17 @@ const steps = [
 
 const NewSendMoney = () => {
   const theme = useTheme();
-  const [activeStep, setActiveStep] = useState(0);
-  const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
+  const { activeStep } = useSelector((state) => state.sendMoney);
 
   const handleNext = (values) => {
-    setFormData({ ...formData, ...values });
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    dispatch(setActiveStep(activeStep + 1));
   };
 
   const handleStep = (step) => () => {
-    setActiveStep(step);
+    if (step <= activeStep) {
+      dispatch(setActiveStep(step));
+    }
   };
 
   const renderStepContent = (step) => {
@@ -59,7 +63,14 @@ const NewSendMoney = () => {
   };
 
   return (
-    <Grid container sx={{ margin: "2rem 4rem", width: "90%", height: "80dvh" }}>
+    <Grid
+      container
+      sx={{
+        margin: "0 auto",
+        width: "90%",
+        height: "80dvh",
+      }}
+    >
       <Grid
         item
         xs={12}
@@ -75,17 +86,140 @@ const NewSendMoney = () => {
           borderRight: `2px solid ${theme.palette.divider}`,
         }}
       >
-        <Box sx={{ width: "fit-content" }}>
+        <Box sx={{ width: "-webkit-fill-available" }}>
           <Stepper
             nonLinear
             activeStep={activeStep}
-            sx={{ textWrap: "no-wrap" }}
+            sx={{
+              width: "100%",
+              overflowY: "auto",
+              "&::-webkit-scrollbar": {
+                width: "6px",
+                height: "6px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: theme.palette.primary.main,
+                borderRadius: "3px",
+              },
+              "&::-webkit-scrollbar-track": {
+                backgroundColor: theme.palette.background.default,
+                borderRadius: "3px",
+              },
+            }}
           >
             {steps.map((label, index) => (
               <Step key={label} completed={activeStep > index}>
-                <StepButton color="inherit" onClick={handleStep(index)}>
-                  {label}
-                </StepButton>
+                <StepLabel
+                  StepIconComponent={({ active, completed }) => {
+                    if (completed) {
+                      return (
+                        <Stack
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Box
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              width: "3rem",
+                              height: "3rem",
+                              fontSize: "1.3rem",
+                              border: `2px solid ${theme.palette.background.main}`,
+                              borderRadius: "50% 50% 50% 0",
+                              color: "#fff",
+                              background: theme.palette.background.main,
+                            }}
+                          >
+                            {index + 1}
+                          </Box>
+                          <Typography
+                            variant="p"
+                            sx={{
+                              fontSize: "1rem",
+                              fontWeight: "500",
+                              color: theme.palette.background.main,
+                            }}
+                          >
+                            {label}
+                          </Typography>
+                        </Stack>
+                      );
+                    } else if (active) {
+                      return (
+                        <Stack
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Box
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              width: "3rem",
+                              height: "3rem",
+                              fontSize: "1.3rem",
+                              border: `2px solid ${theme.palette.background.main}`,
+                              borderRadius: "50% 50% 50% 0",
+                              color: "#fff",
+                              background: theme.palette.background.main,
+                            }}
+                          >
+                            {index + 1}
+                          </Box>
+                          <Typography
+                            variant="p"
+                            sx={{
+                              fontSize: "1rem",
+                              fontWeight: "500",
+                              color: theme.palette.background.main,
+                            }}
+                          >
+                            {label}
+                          </Typography>
+                        </Stack>
+                      );
+                    } else {
+                      return (
+                        <Stack
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Box
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              width: "3rem",
+                              height: "3rem",
+                              fontSize: "1.3rem",
+                              border: `2px solid ${theme.palette.background.main}`,
+                              borderRadius: "50% 50% 50% 0",
+                              color: "purple",
+                            }}
+                          >
+                            {index + 1}
+                          </Box>
+                          <Typography
+                            variant="p"
+                            sx={{ fontSize: "1rem", fontWeight: "500" }}
+                          >
+                            {label}
+                          </Typography>
+                        </Stack>
+                      );
+                    }
+                  }}
+                ></StepLabel>
               </Step>
             ))}
           </Stepper>

@@ -32,8 +32,8 @@ const NewMoneyStep2 = ({ handleNext }) => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const { data: allCountriesData } = useGetAllCountries();
-  const { formik } = useSendMoneyStep2Form(handleNext);
-
+  const { formik } = useSendMoneyStep2Form(handleNext, sendMoneyDeliveryMethod, sendMoneyPaymentMethod);
+  console.log(formik?.errors, "formik");
   const image = `https://flagcdn.com/16x12/au.png`;
   const image2 = selectedCountry?.flag
     ? `https://flagcdn.com/16x12/${selectedCountry?.flag?.toLowerCase()}.png`
@@ -86,12 +86,13 @@ const NewMoneyStep2 = ({ handleNext }) => {
     },
   ];
 
-  const sendMoney = formik.values.sendMoney;
+  const sendMoney = formik.values.amount;
 
   useEffect(() => {
-    const receiveMoney = sendMoney ? sendMoney * 87.5 : 100;
+    const receiveMoney = sendMoney ? sendMoney * 87.5 : "";
     formik.setFieldValue("resMoney", receiveMoney);
   }, [sendMoney]);
+
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
@@ -113,7 +114,8 @@ const NewMoneyStep2 = ({ handleNext }) => {
   const props1 = { ...sendMoneyPaymentMethod, ...formik.values };
   const props2 = { ...sendMoneyDeliveryMethod, ...formik.values };
   const { data: getPaymentServiceCharge } = useGetPaymentServiceCharge(props1);
-  const { data: getDeliveryServiceCharge } = useGetDeliveryServiceCharge(props2);
+  const { data: getDeliveryServiceCharge } =
+    useGetDeliveryServiceCharge(props2);
 
   const serviceChargeController = () => {};
 
@@ -329,7 +331,20 @@ const NewMoneyStep2 = ({ handleNext }) => {
             }}
           >
             <DeliveryMethod method={sendMoneyDeliveryMethod} />
-            <PaymentMethod />
+            {formik.touched["deliveryMethod"] &&
+              formik.errors["deliveryMethod"] && (
+                <Typography variant="body2" color="error">
+                  {formik.errors["deliveryMethod"]}
+                </Typography>
+              )}
+
+            <PaymentMethod method={sendMoneyPaymentMethod} />
+            {formik.touched["paymentMethod"] &&
+              formik.errors["paymentMethod"] && (
+                <Typography variant="body2" color="error">
+                  {formik.errors["paymentMethod"]}
+                </Typography>
+              )}
           </Box>
 
           <PromoCode />

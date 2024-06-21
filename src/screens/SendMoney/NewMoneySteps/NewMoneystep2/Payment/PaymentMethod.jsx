@@ -6,7 +6,7 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { useDispatch } from "react-redux";
 import { sendMoneyPaymentMethod } from "../../../../../redux/actions";
 
-const PaymentMethod = () => {
+const PaymentMethod = ({ method }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const [paymentMethod, setPaymentMethod] = useState(false);
@@ -48,7 +48,7 @@ const PaymentMethod = () => {
             sx={{ fontSize: "1.4rem", fontWeight: "500", display: "flex", flexDirection: "column" }}
           >
             <span style={{fontSize: "0.9rem", fontWeight: "500", color: theme.palette.text.secondary}}>Choose Payment Method</span>
-            {selectedPaymentMethod?.paymentType?.name}
+            {selectedPaymentMethod?.paymentType?.name || method?.paymentType?.name}
           </Typography>
         </div>
 
@@ -77,6 +77,7 @@ const PaymentMethod = () => {
               open={paymentMethod}
               onClose={() => setPaymentMethod(false)}
               onSelectPaymentMethod={handlePaymentSelectMethod}
+              data={method}
             />
           }
         />
