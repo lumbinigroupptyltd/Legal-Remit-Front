@@ -215,7 +215,6 @@ export const AsyncDropDownSearchStreet = ({ element, formik, formValues }) => {
           types: [requestType],
         },
         (predictions, status) => {
-          console.log(predictions, 'pre');
           if (status === window.google.maps.places.PlacesServiceStatus.OK) {
             setOptions(
               predictions.map((prediction) => ({

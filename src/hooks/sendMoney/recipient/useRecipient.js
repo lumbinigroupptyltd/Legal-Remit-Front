@@ -1,10 +1,22 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { addRecipientDetails, deleteRecipientDetails, editRecipientDetails, getRecipientDetails, getRecipientDetailsById } from "../../../api/sendmoney/recipient/recipient-api"
+import { addRecipientDetails, deleteRecipientDetails, editRecipientDetails, getRecipientDetails, getRecipientDetailsById, getRecipientDetailsByUserId } from "../../../api/sendmoney/recipient/recipient-api"
+
 {
   /*________________________GET_____________________________________*/
 }
 export const useGetRecipientDetails = () => {
   return useQuery(["getRecipientDetails"], () => getRecipientDetails(), {
+    cacheTime: 10000,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+  });
+};
+
+{
+  /*________________________GET_____________________________________*/
+}
+export const useGetRecipientDetailsByUserId = (userId) => {
+  return useQuery(["getRecipientDetailsByUserId"], () => getRecipientDetailsByUserId(userId), {
     cacheTime: 10000,
     refetchInterval: false,
     refetchOnWindowFocus: false,
@@ -38,7 +50,7 @@ export const useAddRecipientDetails = ({ onSuccess }) => {
       onSuccess: (data, variables, context) => {
         toast.success("Recipient added successfully");
         onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("getRecipientDetails");
+        queryClient.invalidateQueries("getRecipientDetailsByUserId");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -61,7 +73,7 @@ export const useEditRecipientDetails = ({ onSuccess }) => {
       onSuccess: (data, variable, context) => {
         toast.success("Recipient updated successfully");
         onSuccess && onSuccess(data, variable, context);
-        queryClient.invalidateQueries("getRecipientDetails");
+        queryClient.invalidateQueries("getRecipientDetailsByUserId");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));

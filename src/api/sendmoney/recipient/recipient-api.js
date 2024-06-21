@@ -10,6 +10,14 @@ export const getRecipientDetails = async () => {
 };
 
 {
+  /*________________________GET_____________________________________*/
+}
+export const getRecipientDetailsByUserId = async (userId) => {
+  const { data } = await axiosInstance.get(`/recipientuser/${userId}`);
+  return data;
+};
+
+{
   /*________________________GET_BY_ID_____________________________________*/
 }
 export const getRecipientDetailsById = async (id) => {

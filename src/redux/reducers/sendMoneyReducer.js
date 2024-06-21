@@ -3,6 +3,7 @@ import {
   ADD_RECIPIENT_CONTACT,
   ADD_RECIPIENT_TYPE,
   RECIPIENT_COUNTRY,
+  RESET_RECIPIENT_STATE,
   SEND_MONEY_DELIVERY_METHOD,
   SEND_MONEY_PAYMENT_METHOD,
   SET_ACTIVE_STEP,
@@ -27,7 +28,7 @@ const sendMoneyReducer = (state = initialState, action) => {
         ...state,
         activeStep: action.payload,
       };
-      case SET_RECIPIENT_STEP:
+    case SET_RECIPIENT_STEP:
       return {
         ...state,
         recipientStep: action.payload,
@@ -61,6 +62,13 @@ const sendMoneyReducer = (state = initialState, action) => {
       return {
         ...state,
         sendMoneyPaymentMethod: action.payload,
+      };
+    case RESET_RECIPIENT_STATE:
+      return {
+        ...state,
+        recipientBank: null,
+        recipientContact: null,
+        recipientType: null,
       };
     default:
       return state;

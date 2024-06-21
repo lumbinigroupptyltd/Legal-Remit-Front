@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, useTheme } from "@mui/material";
+import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { nanoid } from "nanoid";
@@ -11,20 +11,17 @@ import { useGetBankDetails } from "../../../../../hooks/bank/useBankDetails";
 
 const RecipientBankDetails = ({ onFormValidate, method, data }) => {
   const theme = useTheme();
-  const { data : getAllBankData } = useGetBankDetails();
+  const { data: getAllBankData } = useGetBankDetails();
   const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState("");
 
   const { formik } = recipientBankDetailsForm(onFormValidate, data);
-console.log(getAllBankData, "getAllBankData")
-const GET_BANK_DATA = getAllBankData && getAllBankData.data.map((item) => ({
-  label: item.bankName,
-  value: item.bankId  // Assuming there is a property 'bankId' in the item
-}));
-
-
-  const handleFormSubmit = () => {
-    formik.handleSubmit();
-  };
+  
+  const GET_BANK_DATA =
+    getAllBankData &&
+    getAllBankData.data.map((item) => ({
+      label: item.bankName,
+      value: item.bankId,
+    }));
 
   const inputField = [
     ...(method?.deliveryType?.name === "Bank Deposit"
@@ -188,6 +185,10 @@ const GET_BANK_DATA = getAllBankData && getAllBankData.data.map((item) => ({
     setSelectedDeliveryMethod(method);
   };
 
+  const handleFormSubmit = () => {
+    formik.handleSubmit();
+  };
+
   return (
     <>
       <Grid
@@ -240,24 +241,20 @@ const GET_BANK_DATA = getAllBankData && getAllBankData.data.map((item) => ({
         </Box>
 
         <RenderInput inputField={inputField} formik={formik} />
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        mt={2}
-        sx={{ display: "flex", justifyContent: "end" }}
-      >
-        <CButton
-          buttonName={"Add"}
-          OnClick={handleFormSubmit}
-          variant={"contained"}
-          fullWidth={"fullWidth"}
-          Width={"fit-content"}
-          padding={"0 2rem"}
-          BGColor={theme.palette.button.primary}
-          BGHover={`${theme.palette.hover.primary}`}
-        />
+        <Grid item sx={{ width: "100%", display: "flex", justifyContent: "end"}}>
+          <Button
+            onClick={handleFormSubmit}
+            variant={"contained"}
+            sx={{
+              marginTop: "1.6rem",
+              padding: "0.5rem 3rem",
+              borderRadius: "24px",
+              fontSize: "1rem",
+            }}
+          >
+            ADD
+          </Button>
+        </Grid>
       </Grid>
     </>
   );
