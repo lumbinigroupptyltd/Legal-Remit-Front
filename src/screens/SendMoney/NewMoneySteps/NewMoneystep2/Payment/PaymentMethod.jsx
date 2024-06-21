@@ -3,13 +3,17 @@ import FormModal from "../../../../../components/formModal/FormModal";
 import PaymentModal from "./PaymentModal";
 import { Stack, Typography, useTheme } from "@mui/material";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import { useDispatch } from "react-redux";
+import { sendMoneyPaymentMethod } from "../../../../../redux/actions";
 
 const PaymentMethod = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const [paymentMethod, setPaymentMethod] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
 
   const handlePaymentSelectMethod = (i) => {
+    dispatch(sendMoneyPaymentMethod(i));
     setSelectedPaymentMethod(i);
   };
 
@@ -44,7 +48,7 @@ const PaymentMethod = () => {
             sx={{ fontSize: "1.4rem", fontWeight: "500", display: "flex", flexDirection: "column" }}
           >
             <span style={{fontSize: "0.9rem", fontWeight: "500", color: theme.palette.text.secondary}}>Choose Payment Method</span>
-            {selectedPaymentMethod?.title || "Bank Transfer"}
+            {selectedPaymentMethod?.paymentType?.name}
           </Typography>
         </div>
 

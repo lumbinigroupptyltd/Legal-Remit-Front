@@ -229,15 +229,15 @@ const NewSignUpPage = () => {
             },
           ]
         : []),
-      {
-        name: "referral",
-        label: "Referral link / Promocode",
-        type: "text",
-        id: nanoid(),
-        iconStart: <LinkIcon />,
-        md: 12,
-        sm: 12,
-      },
+      // {
+      //   name: "referral",
+      //   label: "Referral link / Promocode",
+      //   type: "text",
+      //   id: nanoid(),
+      //   iconStart: <LinkIcon />,
+      //   md: 12,
+      //   sm: 12,
+      // },
       {
         name: "email",
         label: "Email",

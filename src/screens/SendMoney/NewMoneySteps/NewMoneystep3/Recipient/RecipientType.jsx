@@ -151,9 +151,8 @@ const recipientData = [
 ];
 
 const RecipientType = ({ onFormValidate }) => {
+  const [selectedRecipient, setSelectedRecipient] = useState();
   const theme = useTheme();
-  const [selectedRecipient, setSelectedRecipient] = useState(null);
-
   const { formik } = recipientTypeForm();
 
   const handleRecipientSelect = (id) => {
@@ -247,41 +246,6 @@ const RecipientType = ({ onFormValidate }) => {
           </Box>
         ))}
       </Grid>
-      {/* <Grid
-        item
-        xs={12}
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "1rem",
-        }}
-      >
-        <Button
-          onClick={onBack}
-          variant={"contained"}
-          disabled={step === 1}
-          sx={{
-            marginTop: "1.6rem",
-            padding: "0.5rem 3rem",
-            borderRadius: "24px",
-            fontSize: "1rem",
-          }}
-        >
-          Back
-        </Button>
-        <Button
-          onClick={handleSubmit}
-          variant={"contained"}
-          sx={{
-            marginTop: "1.6rem",
-            padding: "0.5rem 3rem",
-            borderRadius: "24px",
-            fontSize: "1rem",
-          }}
-        >
-          Next
-        </Button>
-      </Grid> */}
     </Grid>
   );
 };

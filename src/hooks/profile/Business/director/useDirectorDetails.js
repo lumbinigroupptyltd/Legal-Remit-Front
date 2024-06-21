@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { addDirectorDetails, editDirectorDetails, getBusinessDirectorDetails, getDirectorDetailsByBussId } from "../../../../api/profile/business/business-director-api";
+import { toast } from "react-toastify";
 
 {
     /*________________________GET_____________________________________*/
@@ -31,11 +32,14 @@ import { addDirectorDetails, editDirectorDetails, getBusinessDirectorDetails, ge
     const queryClient = useQueryClient();
     return useMutation(
       ["addDirectorDetails"],
-      (formData) => addDirectorDetails(formData),
+      (formData) => {
+        addDirectorDetails(formData)
+      },
       {
         onSuccess: (data, variables, context) => {
           toast.success("Directors added successfully");
           onSuccess && onSuccess(data, variables, context);
+          queryClient.invalidateQueries("getBusinessDetailsByUserId");
           queryClient.invalidateQueries("getDirectorDetailsByBussId");
         },
         onError: (err, _variables, _context) => {
@@ -58,6 +62,7 @@ import { addDirectorDetails, editDirectorDetails, getBusinessDirectorDetails, ge
         onSuccess: (data, variables, context) => {
           toast.success("");
           onSuccess && onSuccess(data, variables, context);
+          queryClient.invalidateQueries("getBusinessDetailsByUserId");
           queryClient.invalidateQueries("getDirectorDetailsByBussId");
         },
         onError: (err, _variables, _context) => {

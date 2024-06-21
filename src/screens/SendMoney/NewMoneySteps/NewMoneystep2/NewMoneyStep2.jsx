@@ -19,14 +19,20 @@ import DeliveryMethod from "./Delivery/DeliveryMethod";
 import PaymentMethod from "./Payment/PaymentMethod";
 import PromoCode from "./PromoCode/PromoCode";
 import { useSendMoneyStep2Form } from "../../../../forms/sendmoney/useSendMoneyForm";
+import {
+  useGetDeliveryServiceCharge,
+  useGetPaymentServiceCharge,
+} from "../../../../hooks/sendMoney/serviceCharge/useServiceCharge";
 
 const NewMoneyStep2 = ({ handleNext }) => {
   const theme = useTheme();
+  const { sendMoneyDeliveryMethod, sendMoneyPaymentMethod } = useSelector(
+    (state) => state.sendMoney
+  );
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const values = useSelector((state) => state.sendMoney.values);
   const { data: allCountriesData } = useGetAllCountries();
-  const { formik } = useSendMoneyStep2Form(handleNext, values);
+  const { formik } = useSendMoneyStep2Form(handleNext);
 
   const image = `https://flagcdn.com/16x12/au.png`;
   const image2 = selectedCountry?.flag
@@ -43,7 +49,7 @@ const NewMoneyStep2 = ({ handleNext }) => {
 
   const sendMoneyInputData = [
     {
-      name: "sendMoney",
+      name: "amount",
       name1: "countryName",
       label: "You Send",
       type: "text",
@@ -81,8 +87,9 @@ const NewMoneyStep2 = ({ handleNext }) => {
   ];
 
   const sendMoney = formik.values.sendMoney;
+
   useEffect(() => {
-    const receiveMoney = sendMoney ? sendMoney * 87.5 : 0;
+    const receiveMoney = sendMoney ? sendMoney * 87.5 : 100;
     formik.setFieldValue("resMoney", receiveMoney);
   }, [sendMoney]);
   const handleFormSubmit = () => {
@@ -101,6 +108,14 @@ const NewMoneyStep2 = ({ handleNext }) => {
     setSelectedCountry(country);
     setAnchorEl(null);
   };
+
+  useEffect(() => {}, [sendMoneyPaymentMethod, sendMoneyDeliveryMethod]);
+  const props1 = { ...sendMoneyPaymentMethod, ...formik.values };
+  const props2 = { ...sendMoneyDeliveryMethod, ...formik.values };
+  const { data: getPaymentServiceCharge } = useGetPaymentServiceCharge(props1);
+  const { data: getDeliveryServiceCharge } = useGetDeliveryServiceCharge(props2);
+
+  const serviceChargeController = () => {};
 
   return (
     <Grid container spacing={2}>
@@ -219,7 +234,7 @@ const NewMoneyStep2 = ({ handleNext }) => {
                 variant="p"
                 sx={{ fontSize: "1.2rem", fontWeight: "400" }}
               >
-                Exchange rate : 10 AUD = 879 NPR (Locked for 7:00)
+                Exchange rate : 10 AUD = 879 NPR
               </Typography>
             </Stack>
             <Stack
@@ -313,7 +328,7 @@ const NewMoneyStep2 = ({ handleNext }) => {
               flexDirection: "column",
             }}
           >
-            <DeliveryMethod />
+            <DeliveryMethod method={sendMoneyDeliveryMethod} />
             <PaymentMethod />
           </Box>
 

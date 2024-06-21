@@ -199,7 +199,7 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
     nationalityData &&
     nationalityData?.data?.map((item) => ({
       value: item.id,
-      label: item.nationality,
+      label: item.name,
     }));
   const GET_ALL_STATES =
     allStatesData &&
@@ -291,7 +291,7 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
       label: "Address",
       required: true,
       iconStart: <SmartphoneIcon />,
-      type: "text",
+      type: "AsyncDropDownSearchStreet",
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -441,10 +441,13 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
     },
     {
       name: "streetName",
+      name1: "suburb",
+      name2: "zipCode",
       label: "Street Name",
       required: true,
+      isStreet: true,
       iconStart: <SmartphoneIcon />,
-      type: "text",
+      type: "AsyncDropDownSearchStreet",
 
       id: nanoid(),
       md: 6,
@@ -457,7 +460,7 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
       required: true,
       iconStart: <SmartphoneIcon />,
       type: "text",
-      options: GET_ALL_STATES,
+      // options: GET_ALL_STATES,
 
       id: nanoid(),
       md: 6,
@@ -466,7 +469,7 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
     },
     {
       name: "zipCode",
-      label: "zip code",
+      label: "Zip code",
       required: true,
       iconStart: <SmartphoneIcon />,
       type: "text",
@@ -746,7 +749,7 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
             BGHover={`${theme.palette.hover.error}`}
           />
           <CButton
-            buttonName={businessDetailsData ? "Update" : "ADD"}
+            buttonName={businessDetailsData && businessDetailsData?.length>0 ? "Update" : "ADD"}
             OnClick={handleFormSubmit}
             variant={"contained"}
             Width={"fit-content"}

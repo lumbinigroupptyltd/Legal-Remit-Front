@@ -3,16 +3,19 @@ import React, { useState } from "react";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import FormModal from "../../../../../components/formModal/FormModal";
 import DeliveryModal from "./DeliveryModal";
+import { useDispatch } from "react-redux";
+import { sendMoneyDeliveryMethod } from "../../../../../redux/actions";
 
 
-const DeliveryMethod = ({ onDeliveryMethodChange }) => {
+const DeliveryMethod = ({ method }) => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const [deliveryMethod, setDeliveryMethod] = useState(false);
   const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState("");
 
   const handleDeliverySelectMethod = (i) => {
+    dispatch(sendMoneyDeliveryMethod(i));
     setSelectedDeliveryMethod(i);
-    onDeliveryMethodChange(i);
   };
 
   const handleDeliveryClick = () => {
@@ -46,7 +49,7 @@ const DeliveryMethod = ({ onDeliveryMethodChange }) => {
             sx={{ fontSize: "1.4rem", fontWeight: "500", display: "flex", flexDirection: "column" }}
           >
             <span style={{fontSize: "0.9rem", fontWeight: "500", color: theme.palette.text.secondary}}>Choose Delivery Method</span>
-            {selectedDeliveryMethod?.title || "Bank Deposit"}
+            {selectedDeliveryMethod?.deliveryType?.name || method?.deliveryType?.name}
           </Typography>
         </div>
 

@@ -124,7 +124,7 @@ const NewProfilePage = () => {
                   User Details
                 </AccordionSummary>
                 <AccordionDetails>
-                  {role === "USER" ? (
+                  {role === "INDIVIDUAL" ? (
                     <PersonalDetailsProfile data={newData} userId={userId} />
                   ) : (
                     <BusinessDetailsProfile data={newData} userId={userId} />

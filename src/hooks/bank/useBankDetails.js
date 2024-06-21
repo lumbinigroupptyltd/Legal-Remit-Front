@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { addRecipientDetails, deleteRecipientDetails, editRecipientDetails, getRecipientDetails, getRecipientDetailsById } from "../../../api/sendmoney/recipient/recipient-api"
+import { addBANKDetails, deleteBANKDetails, editBANKDetails, getBANKDetailsById, getBankDetails } from "../../api/bank/bank-api";
 {
   /*________________________GET_____________________________________*/
 }
-export const useGetRecipientDetails = () => {
-  return useQuery(["getRecipientDetails"], () => getRecipientDetails(), {
+export const useGetBankDetails = () => {
+  return useQuery(["getBankDetails"], () => getBankDetails(), {
     cacheTime: 10000,
     refetchInterval: false,
     refetchOnWindowFocus: false,
@@ -14,10 +14,10 @@ export const useGetRecipientDetails = () => {
 {
   /*________________________GET_____________________________________*/
 }
-export const useGetRecipientDetailsById = (id) => {
+export const useGetBankDetailsById = (id) => {
   return useQuery(
-    ["getRecipientDetailsById"],
-    () => getRecipientDetailsById(id),
+    ["getBankDetailsById"],
+    () => getBANKDetailsById(id),
     {
       cacheTime: 10000,
       refetchInterval: false,
@@ -29,16 +29,16 @@ export const useGetRecipientDetailsById = (id) => {
 {
   /*________________________POST_____________________________________*/
 }
-export const useAddRecipientDetails = ({ onSuccess }) => {
+export const useAddBankDetails = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["addRecipientDetails"],
-    (formData) => addRecipientDetails(formData),
+    ["addBankDetails"],
+    (formData) => addBANKDetails(formData),
     {
       onSuccess: (data, variables, context) => {
-        toast.success("Recipient added successfully");
+        toast.success("Bank added successfully");
         onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("getRecipientDetails");
+        queryClient.invalidateQueries("getBankDetails");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -50,18 +50,18 @@ export const useAddRecipientDetails = ({ onSuccess }) => {
 {
   /*________________________PATCH_____________________________________*/
 }
-export const useEditRecipientDetails = ({ onSuccess }) => {
+export const useEditBankDetails = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["editRecipientDetails"],
+    ["editBankDetails"],
     (formData) => {
-      editRecipientDetails(formData);
+      editBANKDetails(formData);
     },
     {
       onSuccess: (data, variable, context) => {
-        toast.success("Recipient updated successfully");
+        toast.success("Bank updated successfully");
         onSuccess && onSuccess(data, variable, context);
-        queryClient.invalidateQueries("getRecipientDetails");
+        queryClient.invalidateQueries("getBankDetails");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -73,16 +73,16 @@ export const useEditRecipientDetails = ({ onSuccess }) => {
 {
   /*________________________DELETE_____________________________________*/
 }
-export const useDeleteRecipientDetails = ({ onSuccess }) => {
+export const useDeleteBankDetails = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["deleteRecipientDetails"],
-    (id) => deleteRecipientDetails(id),
+    ["deleteBankDetails"],
+    (id) => deleteBANKDetails(id),
     {
       onSuccess: (data, variables, context) => {
-        toast.success("Recipient deleted successfully");
+        toast.success("Bank deleted successfully");
         onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("getRecipientDetails");
+        queryClient.invalidateQueries("getBankDetails");
       },
     }
   );

@@ -103,10 +103,10 @@ const inputField = [
   },
 ];
 
-const RecipientContactDetails = ({ onFormValidate }) => {
+const RecipientContactDetails = ({ onFormValidate, data }) => {
   const theme = useTheme();
 
-  const { formik } = recipientContactDetailsForm(onFormValidate);
+  const { formik } = recipientContactDetailsForm(onFormValidate, data);
 
   const handleFormSubmit = () => {
     formik.handleSubmit();

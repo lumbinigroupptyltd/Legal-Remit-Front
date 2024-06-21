@@ -13,7 +13,7 @@ import { addBusinessExtraDetails, editBusinessExtraDetails } from "../../../../a
         onSuccess: (data, variables, context) => {
           toast.success("Business details added successfully");
           onSuccess && onSuccess(data, variables, context);
-          queryClient.invalidateQueries("getBusinessDetails");
+          queryClient.invalidateQueries("getBusinessDetailsByUserId");
         },
         onError: (err, _variables, _context) => {
           toast.error(getErrorMessage(err));
@@ -37,7 +37,7 @@ import { addBusinessExtraDetails, editBusinessExtraDetails } from "../../../../a
         onSuccess: (data, variable, context) => {
           toast.success('User edited successfully');
           onSuccess && onSuccess(data, variable, context);
-          queryClient.invalidateQueries('getPersonalDetails');
+          queryClient.invalidateQueries('getBusinessDetailsByUserId');
         },
         onError: (err, _variables, _context) => {
           toast.error(getErrorMessage(err));

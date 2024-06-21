@@ -29,7 +29,7 @@ const NewSendMoney = () => {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({});
-console.log(activeStep, "active")
+
   const handleNext = (values) => {
     setFormData({ ...formData, ...values });
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

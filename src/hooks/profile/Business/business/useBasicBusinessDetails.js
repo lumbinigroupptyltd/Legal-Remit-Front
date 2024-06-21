@@ -36,7 +36,7 @@ import { toast } from "react-toastify";
         onSuccess: (data, variables, context) => {
           toast.success("");
           onSuccess && onSuccess(data, variables, context);
-          queryClient.invalidateQueries("getUserInfoByUserId");
+          queryClient.invalidateQueries("getBusinessDetailsByUserId");
         },
         onError: (err, _variables, _context) => {
           toast.error(getErrorMessage(err));
@@ -60,7 +60,7 @@ import { toast } from "react-toastify";
         onSuccess: (data, variable, context) => {
           toast.success('User edited successfully');
           onSuccess && onSuccess(data, variable, context);
-          queryClient.invalidateQueries('getUserInfoByUserId');
+          queryClient.invalidateQueries('getBusinessDetailsByUserId');
         },
         onError: (err, _variables, _context) => {
           toast.error(getErrorMessage(err));
