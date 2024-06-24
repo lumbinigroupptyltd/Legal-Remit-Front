@@ -1,15 +1,24 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
-import {getUserIdDetailsByUserId, addUserIdDetails, editUserIdDetails, getUserIdDetailsById } from "../../../../api/profile/user/user-Id-api";
+import {
+  getUserIdDetailsByUserId,
+  addUserIdDetails,
+  editUserIdDetails,
+  getUserIdDetailsById,
+} from "../../../../api/profile/user/user-Id-api";
 {
   /*________________________GET_____________________________________*/
 }
 export const useGetUserIdDetailsByUserId = (userId) => {
-  return useQuery(["getUserIdDetailsByUserId"], () => getUserIdDetailsByUserId(userId), {
-    cacheTime: 10000,
-    refetchInterval: false,
-    refetchOnWindowFocus: false,
-  });
+  return useQuery(
+    ["getUserIdDetailsByUserId"],
+    () => getUserIdDetailsByUserId(userId),
+    {
+      cacheTime: 10000,
+      refetchInterval: false,
+      refetchOnWindowFocus: false,
+    }
+  );
 };
 
 {
@@ -37,6 +46,7 @@ export const useAddUserIdDetails = ({ onSuccess }) => {
         toast.success("Succesfully added");
         onSuccess && onSuccess(data, variables, context);
         queryClient.invalidateQueries("getUserIdDetailsByUserId");
+        queryClient.invalidateQueries("getUserInfoByUserId");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -60,6 +70,7 @@ export const useEditUserIdDetails = ({ onSuccess }) => {
         toast.success("User edited successfully");
         onSuccess && onSuccess(data, variable, context);
         queryClient.invalidateQueries("getUserIdDetailsByUserId");
+        queryClient.invalidateQueries("getUserInfoByUserId");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));

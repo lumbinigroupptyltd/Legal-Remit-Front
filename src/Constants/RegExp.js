@@ -6,6 +6,8 @@ export const numberRegExp = /^[0-9,\-]+$/;
 
 export const numberRegExp1 = /^(?:[0-9\-]+|null|NaN)?$/;
 
+export const alphaNumericRegExp = /^[A-Za-z0-9]+$/;
+
 export const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 export const websiteRegex = /^(?:(?:https?|ftp):\/\/)?[^\s/$?#]+\.[^\s/?#]+(?:\/[^\s/?#]+)*$/;

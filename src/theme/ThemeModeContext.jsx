@@ -50,7 +50,8 @@ const getPalette = (mode) => {
       white: "#000",
       tableHead: "#25262E",
       error: "#930a0a",
-      light: "#aa2ae1"
+      light: "#aa2ae1",
+      warning: "#FFCC00",
     },
     button: {
       primary: "#aa2ae1",

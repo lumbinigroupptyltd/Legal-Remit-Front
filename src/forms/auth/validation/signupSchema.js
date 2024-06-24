@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 import {
+  alphaNumericRegExp,
   ausMobileNumber,
   emailRegex,
   passwordRegExp,
@@ -34,9 +35,10 @@ const signupSchema = Yup.object().shape({
     then: Yup.string().required("Business Name is required"),
     otherwise: Yup.string(),
   }),
-  regNo: Yup.string().when("roleId", {
+  abn: Yup.string().when("roleId", {
     is: (val) => val === "3221eca8-3f8e-40ab-b046-3fb56af938fd",
-    then: Yup.string().required("Registration Number is required"),
+    then: Yup.string().required("ABN Number is required")
+    .matches(alphaNumericRegExp, "ABN Number cannot contain special characters"),
     otherwise: Yup.string(),
   }),
   businessAddress: Yup.string().when("roleId", {

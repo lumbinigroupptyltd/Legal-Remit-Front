@@ -10,7 +10,7 @@ import { axiosInstance } from "../../utils/axiosIntercepters";
 
 
   {
-    /*________________________GET_____________________________________*/
+    /*________________________POST_____________________________________*/
   }
   export const getUserStatesByCountry = async (formData) => {
     const { data } = await axiosInstance.post(`/getallstatebycountryid`, {formData});
