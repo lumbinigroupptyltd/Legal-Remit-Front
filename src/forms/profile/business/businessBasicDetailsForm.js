@@ -41,7 +41,7 @@ export const useBasicBusinessDetailsForm = ({ data, userId }) => {
       phoneNumber: data?.phoneNumber || "",
       phoneCode: data?.phoneCode || "",
       signupCompleted: data?.signupCompleted || false,
-      regNo: data?.regNo || "",
+      abn: data?.abn || "",
     },
 
     validationSchema: personalBusinessSchema,

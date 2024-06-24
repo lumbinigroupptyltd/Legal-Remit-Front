@@ -12,10 +12,45 @@ const PendingStatusComp = () => {
         alignItems: "center",
       }}
     >
-      <Typography variant="p" sx={{color: "green", textTransform: "uppercase", fontSize: "3rem", fontWeight: "600"}}>Application Pending!</Typography>
+      <Typography
+        variant="p"
+        sx={{
+          color: "green",
+          textTransform: "uppercase",
+          fontSize: "3rem",
+          fontWeight: "600",
+        }}
+      >
+        Application Pending!
+      </Typography>
+      <Typography
+        variant="p"
+        sx={{
+          color: "green",
+          textTransform: "uppercase",
+          fontSize: "2rem",
+          fontWeight: "600",
+        }}
+      >
+        <Typography
+          variant="p"
+          sx={{
+            color: "green",
+            textTransform: "uppercase",
+            fontSize: "3rem",
+            fontWeight: "600",
+          }}
+        >
+          Application Pending!
+        </Typography>
+      </Typography>
       <img width={500} src={pending} alt="img-pending" />
-      <Typography variant="p" sx={{color: "purple", fontSize: "1.2rem", fontWeight: "400"}}>
-        Please wait untill your application is verified.... Your application is in Pending form.
+      <Typography
+        variant="p"
+        sx={{ color: "purple", fontSize: "1.2rem", fontWeight: "400" }}
+      >
+        Please wait untill your application is verified.... Your application is
+        in Pending form.
       </Typography>
     </Grid>
   );

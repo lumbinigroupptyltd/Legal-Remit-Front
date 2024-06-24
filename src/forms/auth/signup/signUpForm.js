@@ -25,7 +25,7 @@ const useSignUpForm = ({ setOpenModal }) => {
           confirmPassword: "",
           roleId: "4b0fa25e-6dd9-480f-bdd7-59247705c132",
           businessName: "",
-          regNo: "",
+          abn: "",
           businessAddress: "",
     },
     validationSchema: signupSchema,

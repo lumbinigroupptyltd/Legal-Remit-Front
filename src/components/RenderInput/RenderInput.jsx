@@ -25,8 +25,8 @@ import AsyncDropDownOption from "./AsyncDropDownOption";
 import {
   AsyncDropDownCustom,
   AsyncDropDown,
-  // AsyncDropDownSearchCity,
   AsyncDropDownSearchStreet,
+  AsyncDropDownSearchPlace,
 } from "./AsyncDropDown";
 import { PickDate } from "./DatePicker";
 import NewDropZone from "./NewDropZone";
@@ -54,6 +54,17 @@ const RenderInput = ({
       formik.setFieldValue("onlyDocument", onlyDocument);
     }
   }, [formik.values.documentType]);
+
+  const handleChange = (event, element) => {
+    const { name, value } = event.target;
+    let updatedValue = value;
+
+    if (element?.isCapital) {
+      updatedValue = value.toUpperCase();
+    }
+
+    formik.setFieldValue(name, updatedValue);
+  };
 
   const getComponentToRender = (element, disableField, index) => {
     if (!element) return null;
@@ -87,7 +98,7 @@ const RenderInput = ({
               label={element?.label}
               value={formValues}
               onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
+              onChange={(event) => handleChange(event, element)}
               fullWidth
               required={element.required}
               variant="outlined"
@@ -847,14 +858,14 @@ const RenderInput = ({
             formValues={formValues}
           />
         );
-      // case "AsyncDropDownSearchCity":
-      //   return (
-      //     <AsyncDropDownSearchCity
-      //       element={element}
-      //       formik={formik}
-      //       formValues={formValues}
-      //     />
-      //   );
+      case "AsyncDropDownSearchPlace":
+        return (
+          <AsyncDropDownSearchPlace
+            element={element}
+            formik={formik}
+            formValues={formValues}
+          />
+        );
       case "AsyncDropDownSearchStreet":
         return (
           <AsyncDropDownSearchStreet

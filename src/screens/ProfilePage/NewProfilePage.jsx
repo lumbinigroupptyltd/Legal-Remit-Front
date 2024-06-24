@@ -20,7 +20,12 @@ import MyDocumentsProfile from "./User/MyDocumentsProfile";
 import { useGetUserInfoByUserId } from "../../hooks/userInfo/useUserInfo";
 import { useGetUserKycDetailsByUserId } from "../../hooks/profile/User/userKyc/useUserKycDetails";
 import PendingStatusComp from "../../Layout/PendingStatusComp";
-import { useGetScantekDetailsByUserId } from "../../hooks/scanteck/useScantek";
+import {
+  useGetScantekDetailsByUserId,
+  useGetScantekLinkByUserId,
+} from "../../hooks/scanteck/useScantek";
+import { useGetUserIdDetailsByUserId } from "../../hooks/profile/User/userId/useUserIdDetails";
+import { getScantekLinkByUserId } from "../../api/scantek/scantek-api";
 
 const NewProfilePage = () => {
   const [submitForm, setSubmitForm] = useState(false);
@@ -35,11 +40,31 @@ const NewProfilePage = () => {
   const newData = userData && userData?.data;
   const { data: userKycData } = useGetUserKycDetailsByUserId(userId);
   const kycData = userKycData && userKycData?.data?.[0];
+  const { data: userIdDetails } = useGetUserIdDetailsByUserId(userId);
+  const userIDData = userIdDetails && userIdDetails?.data?.[0];
   const { data: scantekData } = useGetScantekDetailsByUserId(userId);
+  // const { data: getScantekLinkData } = useGetScantekLinkByUserId(userId);
 
-  const handleDigitalVerification = () => {
-    setVerificationMethod("digital");
-    window.open("https://sandbox.sctk.au/s-93ta-s2qp-ii8h", "_blank");
+  // const handleDigitalVerification = () => {
+  //   setVerificationMethod("digital");
+  //   window.open("https://sandbox.sctk.au/s-93ta-s2qp-ii8h", "_blank");
+  // };
+
+  const { mutate: getScantekLinkByUserId, data: getScantekLinkData } =
+    useGetScantekLinkByUserId({
+      onSuccess: (data) => {
+        window.open(`${data?.data?.voiLink}`, "_blank");
+      },
+    });
+
+  const handleDigitalVerification = async () => {
+    try {
+      getScantekLinkByUserId(userId, {
+        onSuccess: () => {},
+      });
+    } catch (error) {
+      console.error("Error during digital verification:", error);
+    }
   };
 
   const handleManualVerification = () => {
@@ -56,12 +81,10 @@ const NewProfilePage = () => {
   };
 
   useEffect(() => {
-    if (newData && kycData) {
-      setSubmitForm(true);
-    } else {
-      setSubmitForm(false);
-    }
-  }, [newData, kycData]);
+    const hasAllRequiredData =
+      newData && kycData && (userIDData || scantekData);
+    setSubmitForm(hasAllRequiredData);
+  }, [newData, kycData, userIDData, scantekData]);
 
   return (
     <>
@@ -94,6 +117,7 @@ const NewProfilePage = () => {
           </Grid>
         </>
       )}
+
       {!isSignupCompleted &&
         (kycData?.kycStatus === "REJECTED" || !userKycData?.data?.length) && (
           <>
@@ -188,7 +212,7 @@ const NewProfilePage = () => {
                   aria-controls="panel1-content"
                   id="panel1-header"
                 >
-                  Verification Method
+                  ID Upload Method
                 </AccordionSummary>
                 <AccordionDetails>
                   {kycData ? (
@@ -201,7 +225,7 @@ const NewProfilePage = () => {
                           sx={{ marginRight: "1rem" }}
                         >
                           <Typography variant="h6" align="center">
-                            Digital Verification (Recommended)
+                            Biometric (Recommended)
                           </Typography>
                         </Button>
                         <div style={{ padding: "0 2rem" }}>
@@ -244,7 +268,7 @@ const NewProfilePage = () => {
 
               {verificationMethod === "manual" && (
                 <>
-                  <Accordion disabled={!verificationMethod}>
+                  <Accordion disabled={!verificationMethod} defaultExpanded>
                     <AccordionSummary
                       sx={{
                         background: theme.palette.background.main,
@@ -258,10 +282,9 @@ const NewProfilePage = () => {
                       ID Details
                     </AccordionSummary>
                     <AccordionDetails>
-                      <IdDetailsProfile data={newData} userId={userId} />
+                      <IdDetailsProfile userIdData={newData} userId={userId} />
                     </AccordionDetails>
                   </Accordion>
-
                   <Accordion disabled={!verificationMethod}>
                     <AccordionSummary
                       sx={{
@@ -305,7 +328,7 @@ const NewProfilePage = () => {
                     }}
                     onClick={handleSubmitForm}
                   >
-                    Submit Form
+                    COMPLETE PROFILE
                   </Typography>
                 </Grid>
               )}
@@ -326,14 +349,13 @@ const NewProfilePage = () => {
                       data={kycData}
                       userId={userId}
                       countryId={kycData?.countryId}
-                      buttonName={"Submit"}
+                      buttonName={"COMPLETE PROFILE"}
                       handleCloseModal={() => setSubmitModal(false)}
                     />
                   }
                 />
               )}
             </Grid>
-           
           </>
         )}
 

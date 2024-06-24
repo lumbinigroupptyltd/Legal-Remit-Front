@@ -4,14 +4,14 @@ import { nanoid } from "nanoid";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import DateRangeIcon from "@mui/icons-material/DateRange";
-import { Grid, useTheme } from "@mui/material";
+import { Grid, Typography, useTheme } from "@mui/material";
 import { useGetUserIdDetailsByUserId } from "../../../hooks/profile/User/userId/useUserIdDetails";
 import { useGetUserDocumentsTypeDetails } from "../../../hooks/profile/User/userDocument/useUserDocumentDetails";
 import { useUserIdDetailsForm } from "../../../forms/profile/user/userBasicDetailsForm";
 import { useGetIdIssuingAuthority } from "../../../hooks/issueAuthority/useIssueAuthorityDetails";
 import { CButton } from "../../../components/MaterialUI/CButton";
 
-const IdDetailsProfile = ({ userId }) => {
+const IdDetailsProfile = ({ userId, userIdData }) => {
   const theme = useTheme();
   const { data: authorityData } = useGetIdIssuingAuthority();
   const { data: userIdDetails } = useGetUserIdDetailsByUserId(userId);
@@ -19,14 +19,19 @@ const IdDetailsProfile = ({ userId }) => {
   const { data: docTypeData } = useGetUserDocumentsTypeDetails();
   const { formik } = useUserIdDetailsForm({ userId, userData });
   const auData = authorityData && authorityData?.data;
-
+  console.log(userIdData, "user");
   const ID_TYPE = docTypeData?.data
-  ?.filter((doc) => doc.name === "Passport" || doc.name === "Driving License" || doc.name === "Citizenship")
-  ?.map((item) => ({
-    value: item.id,
-    label: item.name,
-  }));
-  
+    ?.filter(
+      (doc) =>
+        doc.name === "Passport" ||
+        doc.name === "Driving License" ||
+        doc.name === "Citizenship"
+    )
+    ?.map((item) => ({
+      value: item.id,
+      label: item.name,
+    }));
+
   const GET_AUTHORITY =
     auData &&
     auData?.map((item) => ({
@@ -67,7 +72,8 @@ const IdDetailsProfile = ({ userId }) => {
       name: "documentNumber",
       label: "Id Number",
       required: true,
-      type: "onlyNumber",
+      isCapital: true,
+      type: "text",
       iconStart: <CreditCardIcon />,
       id: nanoid(),
       md: 6,
@@ -78,7 +84,7 @@ const IdDetailsProfile = ({ userId }) => {
       name: "cardNumber",
       label: "Card Number",
       required: true,
-      type: "onlyNumber",
+      type: "text",
       iconStart: <CreditCardIcon />,
       id: nanoid(),
       md: 6,
@@ -110,9 +116,23 @@ const IdDetailsProfile = ({ userId }) => {
       xs: 12,
     },
   ];
-
+  console.log(userIdData?.isSuspectedDuplicate, "userIdData?.isDuplicate ");
   return (
-    <Grid container mt={2}>
+    <Grid container>
+      {(userIdData?.isDuplicate || userIdData?.isSuspectedDuplicate) && (
+        <Grid item mb={2}>
+          <Typography variant="p" sx={{ color: theme.palette.text.warning }}>
+            ID details is suspected to be duplicate. Please re-check your ID details number. Please get in touch with customer service at +61419850130, or info@legalremit.com for any assistance.
+          </Typography>
+        </Grid>
+      )}
+       {(userIdData?.isSuspectedDuplicate) && (
+        <Grid item mb={2}>
+          <Typography variant="p" sx={{ color: theme.palette.text.warning }}>
+            User Name and Date of birth is suspected to be duplicate. Please reconfirm & ignore if you have filled correctly. Please get in touch with customer service at +61419850130, or info@legalremit.com for any assistance.
+          </Typography>
+        </Grid>
+      )}
       <RenderInput inputField={basicInputData} formik={formik} />
       <Grid
         item
