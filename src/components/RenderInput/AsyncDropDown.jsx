@@ -267,12 +267,18 @@ export const AsyncDropDownSearchStreet = ({ element, formik, formValues }) => {
                 component.types.includes("locality")
               )?.long_name || "";
 
+              const state =
+              placeResult.address_components.find((component) =>
+                component.types.includes("administrative_area_level_1")
+              )?.long_name || "";
+
             if (element?.isStreet) {
               const suburbVal = (newValue?.place?.secondary_text).slice(0, -11)
               setInputValue(newValue?.place?.main_text);
               formik.setFieldValue(element.name, newValue?.place.main_text);
               formik.setFieldValue(element.name1, suburbVal);
               formik.setFieldValue(element.name2, postalCode);
+              formik.setFieldValue(element.name3, state);
             } else {
               setInputValue(newValue.description);
               formik.setFieldValue(element.name, newValue.description);
@@ -289,6 +295,7 @@ export const AsyncDropDownSearchStreet = ({ element, formik, formValues }) => {
       formik.setFieldValue(element.name, "");
       formik.setFieldValue(element.name1, "");
       formik.setFieldValue(element.name2, "");
+      formik.setFieldValue(element.name3, "");
     }
   };
   
