@@ -12,11 +12,11 @@
       }
       h1 {
         color: #ff0000;
-        font-size: 36px;
+        font-size: 24px;
       }
       p {
         color: #333;
-        font-size: 18px;
+        font-size: 16px;
       }
       .container {
         background-color: #fff;
@@ -36,7 +36,13 @@
         width: 50%;
       }
       .right-container {
+        text-align: justify;
         width: 50%;
+      }
+      .block-reason {
+        color: purple;
+        font-size: 18px;
+        font-weight: 500;
       }
       .logo {
         display: flex;
@@ -47,32 +53,58 @@
       .svg-icon {
         width: 290px;
       }
+      .button {
+        display: flex;
+        justify-content: center;
+      }
+      .button button {
+        padding: 8px 36px;
+        border: 2px solid purple;
+        color: purple;
+        background: #fff;
+        border-radius: 14px;
+        cursor: pointer;
+        font-size: 24px;
+      }
+      .button button:hover {
+        padding: 8px 36px;
+        border: 1px solid purple;
+        background: purple;
+        border-radius: 14px;
+        color: #fff;
+      }
 
-      @media (max-width: 425px) {
+      @media (max-width: 768px) {
         .container {
-            width: 80%;
-        margin: 0 auto;
-            padding: 20px;
+          width: 80%;
+          margin: 0 auto;
+          padding: 20px;
         }
         .inner-container {
           display: flex;
           flex-direction: column;
         }
         .left-container {
-            display: flex;
-            justify-content: center;
-        width: 100%;
-      }
-      .right-container {
-        width: 100%;
-      }
-        .svg-icon2 , .svg-icon {
-        width: 230px;
-      }
-      h1 {
-        color: #ff0000;
-        font-size: 24px;
-      }
+          display: flex;
+          justify-content: center;
+          width: 100%;
+        }
+        .right-container {
+          width: 100%;
+        }
+        .block-reason {
+          color: purple;
+        font-size: 18px;
+        font-weight: 500;
+        }
+        .svg-icon2,
+        .svg-icon {
+          width: 230px;
+        }
+        h1 {
+          color: #ff0000;
+          font-size: 24px;
+        }
       }
     </style>
   </head>
@@ -3484,16 +3516,28 @@
           </div>
         </div>
         <div class="right-container">
-          <h1>Request Blocked</h1>
-          <p>Your request has been blocked for security reasons.</p>
+          <h1>**Access Denied for Security Reasons**</h1>
           <p>
-            Please disable any VPN or switch to a secured network to proceed.
+            Your request has been blocked due to security concerns. This could
+            be due to one of the following reasons:
+          </p>
+          <p>
+            <span class="block-reason">1. **VPN Usage**:</span> If you are using
+            a VPN, please disable it and refresh the page
+          </p>
+          <p>
+            <span class="block-reason">2. **Blacklisted IP Address**:</span>
+            Your IP address may be blacklisted, preventing access to our
+            services.
           </p>
           <p>
             If you believe this is a mistake, please contact our customer
             service at +61419850130, or email us at info@legalremit.com for
             assistance.
           </p>
+          <div class="button">
+            <button onclick="window.location.href='https://new-dev.legalremit.com/#/login';">Redirect</button>
+          </div>
         </div>
       </div>
     </div>
