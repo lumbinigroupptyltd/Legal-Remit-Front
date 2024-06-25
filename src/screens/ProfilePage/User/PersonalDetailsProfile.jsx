@@ -152,16 +152,6 @@ const PersonalDetailsProfile = ({ data, userId }) => {
       toast.error("Failed to send verification email.");
     }
   };
-  // const handlePhone = async () => {
-  //   try {
-  //     setPhoneModal(true);
-  //     await getVerifyPhoneByUserId(data);
-  //     toast.success("Check your phone & verify!");
-  //   } catch (error) {
-  //     setPhoneModal(false);
-  //     toast.error("Failed to send verification otp.");
-  //   }
-  // };
 
   const checkPhoneNumber = useCallback(
     debounce(async (phoneNumber) => {
@@ -245,20 +235,6 @@ const PersonalDetailsProfile = ({ data, userId }) => {
               </Typography>
             </Box>
           )}
-          {/* {data && !data?.isPhoneVerified && (
-            <Box sx={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
-              <Typography variant="p" color={"error"}>
-                Verify Phone{" "}
-              </Typography>
-              <Typography
-                onClick={handlePhone}
-                variant="p"
-                sx={{ textDecoration: "underline", cursor: "pointer" }}
-              >
-                Click here
-              </Typography>
-            </Box>
-          )} */}
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <CButton

@@ -13,7 +13,7 @@ export const personalBusinessSchema = Yup.object().shape({
     )
     .max(10, "Mobile Number must be at most 10 digits"),
   otherwise: Yup.string()
-    .required("Mobile Number is required")
+    // .required("Mobile Number is required")
     .max(10, "Mobile Number must be at most 10 digits"),
 });
 

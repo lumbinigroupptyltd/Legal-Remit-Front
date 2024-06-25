@@ -42,7 +42,7 @@ const MyDocumentsProfile = ({ userId }) => {
     userIdData?.data?.documentTypeId
   );
   const isDocumentUpload = documentData && documentData?.[0]?.id;
-  console.log(isDocumentUpload, "isDocumentUpload");
+
   const newDocData = getDocData
     ?.filter((item) => item?.documentTypes?.length > 0) // Filter items with non-empty documentTypes
     ?.flatMap((item) =>
@@ -63,9 +63,8 @@ const MyDocumentsProfile = ({ userId }) => {
 
   useEffect(() => {
     setDocumentName(formik.values.documentType);
-  }, []);
+  }, [formik.values.documentType]);
 
-  console.log(formik.values.documentType, "doc");
   const handleEditRow = (fileName) => {
     setOpenModal(true);
     setFile(fileName);
@@ -82,7 +81,7 @@ const MyDocumentsProfile = ({ userId }) => {
     }
   }, [isDeleteSuccess]);
 
-  console.log(userIdDetails, "userIdDetails");
+
   const columns = useMemo(
     () => [
       {
