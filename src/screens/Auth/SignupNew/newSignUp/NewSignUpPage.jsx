@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import useSignUpForm from "../../../../forms/auth/signup/signUpForm";
 import { useGetAllCountries } from "../../../../hooks/country/useCountryDetails";
 import { CButton } from "../../../../components/MaterialUI/CButton";
-import { axiosInstance } from "../../../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../../../utils/axiosIntercepters";
 import { debounce } from "lodash";
 
 const ROLE_SELECTED = [
@@ -65,7 +65,7 @@ const NewSignUpPage = () => {
   const checkPhoneNumber = useCallback(
     debounce(async (phoneNumber) => {
       try {
-        const response = await axiosInstance.post("/user/existornot", {
+        const response = await coreAxiosInstance.post("/user/existornot", {
           phoneNumber,
         });
         const exists = response.data;
@@ -84,7 +84,7 @@ const NewSignUpPage = () => {
   const checkEmail = useCallback(
     debounce(async (email) => {
       try {
-        const response = await axiosInstance.post("/user/existornot", {
+        const response = await coreAxiosInstance.post("/user/existornot", {
           email,
         });
         const exists = response.data;

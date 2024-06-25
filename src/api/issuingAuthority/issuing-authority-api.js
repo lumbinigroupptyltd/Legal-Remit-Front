@@ -1,9 +1,9 @@
-import { axiosInstance } from "../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../utils/axiosIntercepters";
 
 {
     /*________________________GET_____________________________________*/
   }
   export const getIdIssuingAuthority = async () => {
-    const { data } = await axiosInstance.get(`/issueauthority/getall`);
+    const { data } = await coreAxiosInstance.get(`/issueauthority/getall`);
     return data;
   };

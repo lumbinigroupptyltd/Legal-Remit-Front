@@ -27,7 +27,7 @@ import regus from "../../assets/images/registration.png";
 import { Box, Modal, Button } from '@mui/material';
 import { CommonConstants } from "../../Constants/common.constants";
 import axios from "axios";
-import { axiosInstance } from "../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../utils/axiosIntercepters";
 
 var timer = null;
 
@@ -73,7 +73,7 @@ class Dashbord extends React.Component {
     const allData = [];
     for (const partnerBankId of partnerBankIds) {
       try {
-        const response = await axiosInstance.get("/getdashboardpartnerbankdetails", {
+        const response = await coreAxiosInstance.get("/getdashboardpartnerbankdetails", {
           params: {
             partnerBankId: partnerBankId
           }
@@ -89,7 +89,7 @@ class Dashbord extends React.Component {
     return allData;
   }
   getAllDashbordData = async () => {
-    const responce = await axiosInstance.get("/getdashboarddetails");
+    const responce = await coreAxiosInstance.get("/getdashboarddetails");
     if (responce.data.status == true) {
       this.setState({ dashbordData: responce.data.data })
     }
@@ -123,7 +123,7 @@ class Dashbord extends React.Component {
   };
   getPartnerBankId = async () => {
     try {
-      const response = await axiosInstance.get("/getallactivepartnerbanks");
+      const response = await coreAxiosInstance.get("/getallactivepartnerbanks");
       if (response.data.status === true) {
         return response.data.data;
       }

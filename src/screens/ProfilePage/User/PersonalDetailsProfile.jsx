@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import OtpVerification from "../../Auth/SignupNew/newSignUp/OTP/OtpVerification";
 import { CButton } from "../../../components/MaterialUI/CButton";
 import { debounce } from "lodash";
-import { axiosInstance } from "../../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../../utils/axiosIntercepters";
 
 const COUNTRY_SELECTED = [
   {
@@ -156,7 +156,7 @@ const PersonalDetailsProfile = ({ data, userId }) => {
   const checkPhoneNumber = useCallback(
     debounce(async (phoneNumber) => {
       try {
-        const response = await axiosInstance.post("/user/existornot", {
+        const response = await coreAxiosInstance.post("/user/existornot", {
           phoneNumber,
         });
         const exists = response.data;
@@ -175,7 +175,7 @@ const PersonalDetailsProfile = ({ data, userId }) => {
   const checkEmail = useCallback(
     debounce(async (email) => {
       try {
-        const response = await axiosInstance.post("/user/existornot", {
+        const response = await coreAxiosInstance.post("/user/existornot", {
           email,
         });
         const exists = response.data;

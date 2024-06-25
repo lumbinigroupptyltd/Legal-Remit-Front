@@ -1,10 +1,10 @@
-import { axiosInstance } from "../../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../../utils/axiosIntercepters";
 
 {
   /*________________________GET_____________________________________*/
 }
 export const getDeliveryMethodDetails = async () => {
-  const { data } = await axiosInstance.get(`/deliverymethod/getall`);
+  const { data } = await coreAxiosInstance.get(`/deliverymethod/getall`);
   return data;
 };
 
@@ -12,7 +12,7 @@ export const getDeliveryMethodDetails = async () => {
   /*________________________GET_____________________________________*/
 }
 export const getDeliveryMethodDetailsById = async (id) => {
-  const { data } = await axiosInstance.get(`/deliverymethod/getbyid/${id}`);
+  const { data } = await coreAxiosInstance.get(`/deliverymethod/getbyid/${id}`);
   return data;
 };
 
@@ -20,7 +20,7 @@ export const getDeliveryMethodDetailsById = async (id) => {
   /*________________________POST_____________________________________*/
 }
 export const addDeliveryMethodDetails = async (formData) => {
-  const data = await axiosInstance.post(`/deliverymethod/create`, formData);
+  const data = await coreAxiosInstance.post(`/deliverymethod/create`, formData);
   return data;
 };
 
@@ -28,7 +28,7 @@ export const addDeliveryMethodDetails = async (formData) => {
   /*________________________PATCH_____________________________________*/
 }
 export const editDeliveryMethodDetails = async (formData) => {
-  const data = await axiosInstance.patch(`/deliverymethod/update`, formData);
+  const data = await coreAxiosInstance.patch(`/deliverymethod/update`, formData);
   return data;
 };
 
@@ -37,7 +37,7 @@ export const editDeliveryMethodDetails = async (formData) => {
 }
 export const deleteDeliveryMethodDetails = async (id) => {
   if (id) {
-    const data = await axiosInstance.delete(`deliverymethod/delete/${id}`);
+    const data = await coreAxiosInstance.delete(`deliverymethod/delete/${id}`);
     return data;
   }
 };

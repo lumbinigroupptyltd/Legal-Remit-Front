@@ -1,9 +1,9 @@
-import { axiosInstance } from "../../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../../utils/axiosIntercepters";
 
 {
   /*________________________POST_____________________________________*/
 }
 export const addLogin = async (formData) => {
-  const data = await axiosInstance.post("/user/login", formData);
+  const data = await coreAxiosInstance.post("/user/login", formData);
   return data;
 };

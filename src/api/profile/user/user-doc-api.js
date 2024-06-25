@@ -1,12 +1,12 @@
 import { toast } from "react-toastify";
-import { axiosInstance } from "../../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../../utils/axiosIntercepters";
 import { getErrorMessage } from "../../../utils/getErrorMessage";
 
 {
   /*________________________GET_____________________________________*/
 }
 export const getUserAllDocuments = async () => {
-  const { data } = await axiosInstance.get(`/documents/getall`);
+  const { data } = await coreAxiosInstance.get(`/documents/getall`);
   return data;
 };
 
@@ -14,7 +14,7 @@ export const getUserAllDocuments = async () => {
   /*________________________GET_____________________________________*/
 }
 export const getUserDocumentsTypeDetails = async () => {
-  const { data } = await axiosInstance.get(`/documenttype/getall`);
+  const { data } = await coreAxiosInstance.get(`/documenttype/getall`);
   return data;
 };
 
@@ -23,7 +23,7 @@ export const getUserDocumentsTypeDetails = async () => {
 }
 export const getUserDocTypeByDocId = async (docTypeId) => {
   if (docTypeId) {
-    const { data } = await axiosInstance.get(
+    const { data } = await coreAxiosInstance.get(
       `/documenttype/getbyid/${docTypeId}`
     );
     return data;
@@ -41,7 +41,7 @@ export const addUserDocDetails = async (formData) => {
       formData?.Back && imgData.append("file", formData?.Back);
     }
     imgData.append("requests", JSON.stringify(formData?.getDocData));
-    const data = await axiosInstance.post(`/documents/save`, imgData, {
+    const data = await coreAxiosInstance.post(`/documents/save`, imgData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -66,7 +66,7 @@ export const addUserDocDetails = async (formData) => {
 //       formData?.Back && imgData.append("file", formData?.Back);
 //     }
 //     imgData.append("requests", JSON.stringify(formData?.getDocData));
-//     const data = await axiosInstance.post(`/documents/save`, imgData, {
+//     const data = await coreAxiosInstance.post(`/documents/save`, imgData, {
 //       headers: {
 //         "Content-Type": "multipart/form-data",
 //       },
@@ -108,7 +108,7 @@ export const editUserDocDetails = async (formData) => {
     imgData.append("file", formData?.Front);
     if (formData?.Back) imgData.append("file", formData?.Back);
 
-    const response = await axiosInstance.patch(`/documents/update/${formData?.getDocData?.id}`, imgData, {
+    const response = await coreAxiosInstance.patch(`/documents/update/${formData?.getDocData?.id}`, imgData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -126,7 +126,7 @@ export const editUserDocDetails = async (formData) => {
 export const deleteUserDocDetailsById = async (row) => {
   const id = row && row?.row?.id;
   if (id) {
-    const data = await axiosInstance.delete(`documents/delete/${id}`);
+    const data = await coreAxiosInstance.delete(`documents/delete/${id}`);
     return data;
   }
 };

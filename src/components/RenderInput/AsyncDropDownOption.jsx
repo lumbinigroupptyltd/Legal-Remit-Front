@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { getIn } from "formik";
-import { axiosInstance } from "../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../utils/axiosIntercepters";
 
 const AsyncDropDownOption = ({ element, formik, isFieldArray }) => {
   const [options, setOptions] = useState([]);
@@ -32,7 +32,7 @@ const AsyncDropDownOption = ({ element, formik, isFieldArray }) => {
           const path = element.reference
             ? `${element.path}?${element.reference}=${referenceValue || "0"}`
             : element.path;
-          const response = await axiosInstance.get(path);
+          const response = await coreAxiosInstance.get(path);
 
           const data = response.data;
 

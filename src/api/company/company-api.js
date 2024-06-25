@@ -1,9 +1,9 @@
-import { axiosInstance } from "../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../utils/axiosIntercepters";
 
 {
     /*________________________GET_____________________________________*/
   }
   export const getCompanyTypeDetails = async () => {
-    const { data } = await axiosInstance.get(`/companytype/getall`);
+    const { data } = await coreAxiosInstance.get(`/companytype/getall`);
     return data;
   };

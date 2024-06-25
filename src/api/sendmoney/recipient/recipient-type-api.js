@@ -1,10 +1,10 @@
-import { axiosInstance } from "../../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../../utils/axiosIntercepters";
 
 {
   /*________________________GET_____________________________________*/
 }
 export const getRecipientTypeDetails = async () => {
-  const { data } = await axiosInstance.get(`/recipienttype/getall`);
+  const { data } = await coreAxiosInstance.get(`/recipienttype/getall`);
   return data;
 };
 
@@ -12,7 +12,7 @@ export const getRecipientTypeDetails = async () => {
   /*________________________GET_____________________________________*/
 }
 export const getRecipientTypeDetailsById = async (id) => {
-  const { data } = await axiosInstance.get(`/recipienttype/getbyid/${id}`);
+  const { data } = await coreAxiosInstance.get(`/recipienttype/getbyid/${id}`);
   return data;
 };
 
@@ -20,7 +20,7 @@ export const getRecipientTypeDetailsById = async (id) => {
   /*________________________POST_____________________________________*/
 }
 export const addRecipientTypeDetails = async (formData) => {
-  const data = await axiosInstance.post(`/recipienttype/create`, formData);
+  const data = await coreAxiosInstance.post(`/recipienttype/create`, formData);
   return data;
 };
 
@@ -28,7 +28,7 @@ export const addRecipientTypeDetails = async (formData) => {
   /*________________________PATCH_____________________________________*/
 }
 export const editRecipientTypeDetails = async (formData) => {
-  const data = await axiosInstance.patch(`/recipienttype/update`, formData);
+  const data = await coreAxiosInstance.patch(`/recipienttype/update`, formData);
   return data;
 };
 
@@ -37,7 +37,7 @@ export const editRecipientTypeDetails = async (formData) => {
 }
 export const deleteRecipientTypeDetails = async (id) => {
   if (id) {
-    const data = await axiosInstance.delete(`recipienttype/delete/${id}`);
+    const data = await coreAxiosInstance.delete(`recipienttype/delete/${id}`);
     return data;
   }
 };

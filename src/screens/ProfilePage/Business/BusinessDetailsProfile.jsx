@@ -11,7 +11,7 @@ import { getVerifyEmail } from "../../../api/userInfo/user-api";
 import { CButton } from "../../../components/MaterialUI/CButton";
 import FormModal from "../../../components/formModal/FormModal";
 import OtpVerification from "../../Auth/SignupNew/newSignUp/OTP/OtpVerification";
-import { axiosInstance } from "../../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../../utils/axiosIntercepters";
 import { debounce } from "lodash";
 
 const BusinessDetailsProfile = ({ data, userId }) => {
@@ -115,7 +115,7 @@ const BusinessDetailsProfile = ({ data, userId }) => {
   const checkPhoneNumber = useCallback(
     debounce(async (phoneNumber) => {
       try {
-        const response = await axiosInstance.post("/user/existornot", {
+        const response = await coreAxiosInstance.post("/user/existornot", {
           phoneNumber,
         });
         const exists = response.data;
@@ -134,7 +134,7 @@ const BusinessDetailsProfile = ({ data, userId }) => {
   const checkEmail = useCallback(
     debounce(async (email) => {
       try {
-        const response = await axiosInstance.post("/user/existornot", {
+        const response = await coreAxiosInstance.post("/user/existornot", {
           email,
         });
         const exists = response.data;

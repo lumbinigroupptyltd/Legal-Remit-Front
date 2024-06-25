@@ -17,6 +17,11 @@ export const contextPath = () => {
 //   }
 // };
 
+export const CORE_BASE_URL = "https://core1.dev.legalremit.com";
+export const TRANSACTION_BASE_URL = "https://transaction.dev.legalremit.com";
+export const COMPLIENCE_BASE_URL = "https://compliance.dev.legalremit.com";
+export const CHAT_BASE_URL = "https://chat.dev.legalremit.com";
+
 export const getBaseUrl = () => {
     return "https://core1.dev.legalremit.com";
 };
