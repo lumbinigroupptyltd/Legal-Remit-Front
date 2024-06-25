@@ -1,5 +1,5 @@
 import { coreAxiosInstance } from "../../../utils/axiosIntercepters";
-console.log(coreAxiosInstance, "axiosInstance")
+
 {
     /*________________________GET_____________________________________*/
   }
