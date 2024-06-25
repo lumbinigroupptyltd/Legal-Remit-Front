@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 import { addBusinessExtraDetails, editBusinessExtraDetails } from "../../../../api/profile/business/business-extra-api";
+import { toast } from "react-toastify";
 
 {
     /*________________________POST_____________________________________*/

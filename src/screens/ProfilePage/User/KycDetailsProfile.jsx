@@ -14,14 +14,14 @@ import { useUserKycDetailsForm } from "../../../forms/profile/user/userBasicDeta
 import { useGetUserNationality } from "../../../hooks/nationality/useNationalityDetails";
 import { CButton } from "../../../components/MaterialUI/CButton";
 
-const KycDetailsProfile = ({ userId }) => {
+const KycDetailsProfile = ({ userId, data }) => {
   const theme = useTheme();
   const { data: nationalityData } = useGetUserNationality();
   const { data: allStatesData } = useGetUserAllStates();
   const { data: allOccupationsData } = useGetAllOccupations();
-  const { data: userKycData } = useGetUserKycDetailsByUserId(userId);
+  // const { data: userKycData } = useGetUserKycDetailsByUserId(userId);
 
-  const data = userKycData && userKycData?.data?.[0];
+  // const data = userKycData && userKycData?.data?.[0];
   const nationData = nationalityData && nationalityData?.data;
   const occuData = allOccupationsData && allOccupationsData?.data;
   const stateData = allStatesData && allStatesData?.data;
