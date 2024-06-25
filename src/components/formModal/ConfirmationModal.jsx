@@ -15,7 +15,7 @@ const ConfirmationModal = ({ handleCloseModal, message, data, userId, countryId 
   const theme = useTheme();
   const { formik } = useUserKycDetailsForm({ data, userId, countryId });
   const handleFormSubmit = async() => {
-    await formik.setFieldValue(kycStatus, "VERIFIED");
+    await formik.setFieldValue("kycStatus", "PENDING");
     await formik.handleSubmit();
     handleCloseModal();
     logout();

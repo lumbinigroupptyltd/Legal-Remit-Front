@@ -51,7 +51,7 @@ const NewProfilePage = () => {
   const { mutate: getScantekLinkByUserId, data: getScantekLinkData } =
     useGetScantekLinkByUserId({
       onSuccess: (data) => {
-        window.open(`${data?.data?.voiLink}`, "_blank");
+        window.location.href = `${data?.data?.voiLink}`;
       },
     });
 
@@ -77,7 +77,7 @@ const NewProfilePage = () => {
   const handleSubmitForm = () => {
     setSubmitModal(true);
   };
-  console.log(role);
+ 
   useEffect(() => {
     let hasAllRequiredData = false;
     switch (role) {
@@ -202,7 +202,7 @@ const NewProfilePage = () => {
                   aria-controls="panel1-content"
                   id="panel1-header"
                 >
-                  KYC Details
+                  KYC Details Address & Occupation
                 </AccordionSummary>
                 <AccordionDetails>
                   <KycDetailsProfile userId={userId} data={kycData} />
@@ -273,13 +273,13 @@ const NewProfilePage = () => {
                 </AccordionDetails>
               </Accordion>
 
-              {verificationMethod === "manual" && (
+              {(verificationMethod === "manual" || userIDData) && (
                 <>
-                  <Accordion disabled={!verificationMethod} defaultExpanded>
+                  <Accordion  defaultExpanded>
                     <AccordionSummary
                       sx={{
                         background: theme.palette.background.main,
-                        color: verificationMethod ? "white" : "#000",
+                        color: (verificationMethod || userIDData) ? "white" : "#000",
                         marginBottom: "1rem",
                       }}
                       expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
@@ -292,11 +292,11 @@ const NewProfilePage = () => {
                       <IdDetailsProfile userIdData={newData} userId={userId} />
                     </AccordionDetails>
                   </Accordion>
-                  <Accordion disabled={!verificationMethod}>
+                  <Accordion defaultExpanded>
                     <AccordionSummary
                       sx={{
                         background: theme.palette.background.main,
-                        color: verificationMethod ? "white" : "#000",
+                        color: (verificationMethod || userIDData) ? "white" : "#000",
                         marginBottom: "1rem",
                       }}
                       expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
@@ -306,7 +306,7 @@ const NewProfilePage = () => {
                       My Documents
                     </AccordionSummary>
                     <AccordionDetails>
-                      <MyDocumentsProfile userId={userId} />
+                      <MyDocumentsProfile userId={userId} userIDData={userData} />
                     </AccordionDetails>
                   </Accordion>
                 </>

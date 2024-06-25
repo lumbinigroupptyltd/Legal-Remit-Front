@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 
 import * as Yup from "yup";
 import Loader from "../../../Loader/Loader";
+import { axiosInstance } from "../../../../utils/axiosIntercepters";
 
 export default function ForgotPassword({ children, props }) {
   // const navigate = useNavigate()
@@ -61,11 +62,8 @@ export default function ForgotPassword({ children, props }) {
     try {
       setLoader(true);
       const { ...data } = values;
-  
-      const response = await axios.post(
-        CommonConstants.BASE_URL + "/forgotpassword",
-        values
-      );
+ 
+      const response = await axiosInstance.post(`/user/forgotPassword?emailOrPhoneNumber=${values?.email}`);
     
       if (response.data.status === true) {
         setSuccesshandle(response.data.message);

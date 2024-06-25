@@ -84,6 +84,7 @@ const IdDetailsProfile = ({ userId, userIdData }) => {
       name: "cardNumber",
       label: "Card Number",
       required: true,
+      isCapital: true,
       type: "text",
       iconStart: <CreditCardIcon />,
       id: nanoid(),
@@ -116,7 +117,7 @@ const IdDetailsProfile = ({ userId, userIdData }) => {
       xs: 12,
     },
   ];
-  console.log(userIdData?.isSuspectedDuplicate, "userIdData?.isDuplicate ");
+ 
   return (
     <Grid container>
       {(userIdData?.isDuplicate || userIdData?.isSuspectedDuplicate) && (
