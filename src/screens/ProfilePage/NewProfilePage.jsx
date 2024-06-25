@@ -292,7 +292,7 @@ const NewProfilePage = () => {
                       <IdDetailsProfile userIdData={newData} userId={userId} />
                     </AccordionDetails>
                   </Accordion>
-                  <Accordion defaultExpanded>
+                  <Accordion>
                     <AccordionSummary
                       sx={{
                         background: theme.palette.background.main,
