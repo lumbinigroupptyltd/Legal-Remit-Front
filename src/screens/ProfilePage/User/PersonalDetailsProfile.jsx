@@ -52,7 +52,7 @@ const PersonalDetailsProfile = ({ data, userId }) => {
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
-  
+ 
   const { data: countryData } = useGetAllCountries();
   const coData = countryData && countryData?.data;
 

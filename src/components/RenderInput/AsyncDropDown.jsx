@@ -198,11 +198,6 @@ export const AsyncDropDownSearchStreet = ({ element, formik, formValues }) => {
   const [options, setOptions] = useState([]);
   const key = "AIzaSyCNJRR1zkMpq2RLpT6bM2BLAO2kEDZ8qtA";
 
-console.log(inputValue, "inputValue");
-console.log(formValues, "formValues");
-console.log(formik.values.streetName, "streetName");
-
-
   useEffect(() => {
     const loadGoogleMapsScript = () => {
       if (!window.google) {

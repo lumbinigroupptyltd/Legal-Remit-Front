@@ -32,7 +32,7 @@ const PendingStatusComp = () => {
           fontWeight: "600",
         }}
       >
-        <Typography
+        {/* <Typography
           variant="p"
           sx={{
             color: "green",
@@ -42,7 +42,7 @@ const PendingStatusComp = () => {
           }}
         >
           Application Pending!
-        </Typography>
+        </Typography> */}
       </Typography>
       <img width={500} src={pending} alt="img-pending" />
       <Typography
@@ -51,6 +51,12 @@ const PendingStatusComp = () => {
       >
         Please wait untill your application is verified.... Your application is
         in Pending form.
+      </Typography>
+      <Typography
+        variant="p"
+        sx={{ color: "purple", fontSize: "1.2rem", fontWeight: "400" }}
+      >
+        please contact our customer service at +61419850130, or email us at info@legalremit.com for assistance.
       </Typography>
     </Grid>
   );

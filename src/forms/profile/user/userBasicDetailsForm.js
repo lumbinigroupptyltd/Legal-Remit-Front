@@ -45,7 +45,7 @@ export const useBasicUserDetailsDetailsForm = ({ data, userId }) => {
       email: data?.email || "",
       phoneNumber: data?.phoneNumber || "",
       phoneCode: data?.phoneCode || "+61",
-      countryId: data?.countryID || "14",
+      countryId: data?.country?.id || "",
       signupCompleted: data?.signupCompleted || false,
 
       countryName: data?.countryName || "Australia",

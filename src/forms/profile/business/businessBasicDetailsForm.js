@@ -23,8 +23,10 @@ import {
 } from "../validation/businessValidationSchema";
 import { useState } from "react";
 import { useOtpVerNum } from "../../../hooks/auth/OTP/useOtpVerification";
+import { useNavigate } from "react-router-dom";
 
 export const useBasicBusinessDetailsForm = ({ data, userId }) => {
+  const navigate = useNavigate();
   const { mutate: addMutate } = useAddBasicBusinessDetails({});
   const { mutate: editMutate } = useEditBasicBusinessDetails({});
 
@@ -39,7 +41,8 @@ export const useBasicBusinessDetailsForm = ({ data, userId }) => {
       businessAddress: data?.businessAddress || "",
       email: data?.email || "",
       phoneNumber: data?.phoneNumber || "",
-      phoneCode: data?.phoneCode || "",
+      phoneCode: data?.phoneCode || "+61",
+      countryId: data?.country?.id || "",
       signupCompleted: data?.signupCompleted || false,
       abn: data?.abn || "",
     },

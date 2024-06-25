@@ -28,6 +28,7 @@ import { CButton } from "../../../components/MaterialUI/CButton";
 const MyDocumentsProfile = ({ userId }) => {
   const [file, setFile] = useState("");
   const [openModal, setOpenModal] = useState(false);
+  const [documentName, setDocumentName] = useState("");
   const { deleteKycBankMutation, isSuccess: isDeleteSuccess } =
     useDeleteUserDocumentsDetails({});
   const theme = useTheme();
@@ -40,7 +41,8 @@ const MyDocumentsProfile = ({ userId }) => {
   const { data: documentTypeId } = useGetDocTypeById(
     userIdData?.data?.documentTypeId
   );
-
+  const isDocumentUpload = documentData && documentData?.[0]?.id;
+  console.log(isDocumentUpload, "isDocumentUpload");
   const newDocData = getDocData
     ?.filter((item) => item?.documentTypes?.length > 0) // Filter items with non-empty documentTypes
     ?.flatMap((item) =>
@@ -59,6 +61,11 @@ const MyDocumentsProfile = ({ userId }) => {
     formik.handleSubmit();
   };
 
+  useEffect(() => {
+    setDocumentName(formik.values.documentType);
+  }, []);
+
+  console.log(formik.values.documentType, "doc");
   const handleEditRow = (fileName) => {
     setOpenModal(true);
     setFile(fileName);
@@ -74,7 +81,8 @@ const MyDocumentsProfile = ({ userId }) => {
       setFile(null);
     }
   }, [isDeleteSuccess]);
- 
+
+  console.log(userIdDetails, "userIdDetails");
   const columns = useMemo(
     () => [
       {
@@ -89,14 +97,25 @@ const MyDocumentsProfile = ({ userId }) => {
       {
         id: 2,
         accessorKey: "docTypeName",
-        header: "New Data",
+        header: "Document",
         size: 250,
+
+        Cell: (cell) => {
+          return <>{documentName}</>;
+        },
         sortable: false,
       },
       {
         id: 3,
-        header: "File",
+        accessorKey: "docTypeName",
+        header: "Doc Type",
         size: 250,
+        sortable: false,
+      },
+      {
+        id: 4,
+        header: "File",
+        size: 290,
         Cell: (cell) => {
           const fileName = cell?.row?.original?.fileName;
           const image = fileName ? fileName : "";
@@ -106,7 +125,7 @@ const MyDocumentsProfile = ({ userId }) => {
               return (
                 <img
                   onClick={() => handleImageRow(fileName, src)}
-                  width={150}
+                  width={170}
                   src={src}
                   alt=""
                 />
@@ -127,7 +146,7 @@ const MyDocumentsProfile = ({ userId }) => {
         id: 4,
         accessorKey: "action",
         header: "Action",
-        size: 100,
+        size: 180,
         sortable: false,
         Cell: (cell) => (
           <>
@@ -141,29 +160,29 @@ const MyDocumentsProfile = ({ userId }) => {
         ),
       },
     ],
-    []
+    [documentName]
   );
 
   return (
     <Grid container mt={2}>
-      {formik.values.documentType === "Select Document" && (
-        <RenderInput inputField={USER_DOC_FIELD} formik={formik} />
-      )}
-
-      {formik.values.documentType === "Passport" && (
-        <RenderInput inputField={USER_PASSPORT_FIELD} formik={formik} />
-      )}
-
-      {formik.values.documentType === "Driving License" && (
-        <RenderInput inputField={USER_LICENSE_FIELD} formik={formik} />
-      )}
-
-      {formik.values.documentType === "Citizenship" && (
-        <RenderInput inputField={USER_CITIZENSHIP_FIELD} formik={formik} />
-      )}
-
-      {userIdDetails && userIdDetails?.data.length>0 ? (
+      {!isDocumentUpload && (
         <>
+          {formik.values.documentType === "Select Document" && (
+            <RenderInput inputField={USER_DOC_FIELD} formik={formik} />
+          )}
+
+          {formik.values.documentType === "Passport" && (
+            <RenderInput inputField={USER_PASSPORT_FIELD} formik={formik} />
+          )}
+
+          {formik.values.documentType === "Driving License" && (
+            <RenderInput inputField={USER_LICENSE_FIELD} formik={formik} />
+          )}
+
+          {formik.values.documentType === "Citizenship" && (
+            <RenderInput inputField={USER_CITIZENSHIP_FIELD} formik={formik} />
+          )}
+
           <Grid
             item
             mt={2}
@@ -197,7 +216,11 @@ const MyDocumentsProfile = ({ userId }) => {
               BGHover={`${theme.palette.hover.primary}`}
             />
           </Grid>
+        </>
+      )}
 
+      {userIdDetails && userIdDetails?.data.length > 0 ? (
+        <>
           <Grid item xs={12} md={12} lg={12}>
             <CustomTable
               title={"Documents"}
@@ -211,7 +234,17 @@ const MyDocumentsProfile = ({ userId }) => {
           </Grid>
         </>
       ) : (
-        <Typography variant="p" sx={{alignItems: "center", fontSize: "1.2rem", fontWeight: "500", color: theme.palette.background.main}}>Please first fill ID details to upload documents...</Typography>
+        <Typography
+          variant="p"
+          sx={{
+            alignItems: "center",
+            fontSize: "1.2rem",
+            fontWeight: "500",
+            color: theme.palette.background.main,
+          }}
+        >
+          Please first fill ID details to upload documents...
+        </Typography>
       )}
 
       {openModal && (
