@@ -19,7 +19,7 @@ const BusinessDetailsProfile = ({ data, userId }) => {
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
   const { formik, phoneChanged, setPhoneChanged } = useBasicBusinessDetailsForm({ data, userId });
-console.log(formik)
+
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
