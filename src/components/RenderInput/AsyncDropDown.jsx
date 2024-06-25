@@ -198,6 +198,11 @@ export const AsyncDropDownSearchStreet = ({ element, formik, formValues }) => {
   const [options, setOptions] = useState([]);
   const key = "AIzaSyCNJRR1zkMpq2RLpT6bM2BLAO2kEDZ8qtA";
 
+console.log(inputValue, "inputValue");
+console.log(formValues, "formValues");
+console.log(formik.values.streetName, "streetName");
+
+
   useEffect(() => {
     const loadGoogleMapsScript = () => {
       if (!window.google) {
@@ -232,7 +237,7 @@ export const AsyncDropDownSearchStreet = ({ element, formik, formValues }) => {
         (predictions, status) => {
           if (status === window.google.maps.places.PlacesServiceStatus.OK) {
             setOptions(
-              predictions.map((prediction) => ({
+              predictions?.map((prediction) => ({
                 description: prediction.description,
                 place: prediction.structured_formatting,
                 placeId: prediction.place_id,
@@ -269,8 +274,8 @@ export const AsyncDropDownSearchStreet = ({ element, formik, formValues }) => {
 
             if (element?.isStreet) {
               const suburbVal = (newValue?.place?.secondary_text).slice(0, -11)
-              setInputValue(newValue.place?.main_text);
-              formik.setFieldValue(element.name, place.main_text);
+              setInputValue(newValue?.place?.main_text);
+              formik.setFieldValue(element.name, newValue?.place.main_text);
               formik.setFieldValue(element.name1, suburbVal);
               formik.setFieldValue(element.name2, postalCode);
             } else {
@@ -291,22 +296,22 @@ export const AsyncDropDownSearchStreet = ({ element, formik, formValues }) => {
       formik.setFieldValue(element.name2, "");
     }
   };
-
-  
   
   return (
+   <>
     <Autocomplete
       id={element.name}
+      key={element.name}
       name={element.name}
       fullWidth
       inputValue={inputValue}
+      options={options}
       value={
-        options.find((option) => option.place?.main_text === inputValue) || null
+        options?.find((option) => option?.place?.main_text === inputValue) || ""
       }
       onInputChange={handleInputChange}
       onChange={handleOptionChange}
-      options={options}
-      getOptionLabel={(option) => option.place?.main_text || ""}
+      getOptionLabel={(option) => option?.place?.main_text || formValues}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -339,6 +344,7 @@ export const AsyncDropDownSearchStreet = ({ element, formik, formValues }) => {
         />
       )}
     />
+   </>
   );
 };
 
@@ -384,7 +390,7 @@ export const AsyncDropDownSearchPlace = ({ element, formik, formValues }) => {
         (predictions, status) => {
           if (status === window.google.maps.places.PlacesServiceStatus.OK) {
             setOptions(
-              predictions.map((prediction) => ({
+              predictions?.map((prediction) => ({
                 description: prediction.description,
                 place: prediction.structured_formatting,
                 placeId: prediction.place_id,
@@ -453,12 +459,12 @@ export const AsyncDropDownSearchPlace = ({ element, formik, formValues }) => {
       fullWidth
       inputValue={inputValue}
       value={
-        options.find((option) => option.description === inputValue) || null
+        options.find((option) => option.description === inputValue) || ""
       }
       onInputChange={handleInputChange}
       onChange={handleOptionChange}
       options={options}
-      getOptionLabel={(option) => option.description || ""}
+      getOptionLabel={(option) => option?.description || formValues}
       renderInput={(params) => (
         <TextField
           {...params}

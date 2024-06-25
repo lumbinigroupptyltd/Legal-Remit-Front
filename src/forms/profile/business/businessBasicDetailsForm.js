@@ -104,14 +104,14 @@ export const useBasicBusinessDetailsForm = ({ data, userId }) => {
 };
 
 export const useBusinessExtraDetailsForm = ({
-  businessDetailsData,
+  businessDetailData,
   userId,
   totalDirector,
   totalshareholder,
 }) => {
   const { mutate: addMutate } = useAddBusinessExtraDetails({});
   const { mutate: editMutate } = useEditBusinessExtraDetails({});
-  const data = businessDetailsData && businessDetailsData?.[0];
+  const data = businessDetailData && businessDetailData?.[0];
 
   const formik = useFormik({
     initialValues: {

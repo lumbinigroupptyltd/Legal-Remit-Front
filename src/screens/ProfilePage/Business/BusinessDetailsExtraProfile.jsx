@@ -138,20 +138,19 @@ const directiveCloumns = [
   },
 ];
 
-const BusinessDetailsExtraProfile = ({ userId }) => {
+const BusinessDetailsExtraProfile = ({ userId, businessDetailData }) => {
   const theme = useTheme();
   const [directiveModal, setDirectiveModal] = useState(false);
   const [shareModal, setShareModal] = useState(false);
   const { data: countryData } = useGetAllCountries();
   const data = countryData && countryData?.data;
   const { data: businessTypeData } = useGetBusinessTypeDetails();
-  const { data: businessDetailData } = useGetBusinessDetailsByUserId(userId);
+  // const { data: businessDetailData } = useGetBusinessDetailsByUserId(userId);
   const { data: companyTypeData } = useGetCompanyTypeDetails();
   const { data: nationalityData } = useGetUserNationality();
   const { data: allStatesData } = useGetUserAllStates();
   const { data: allOccupationsData } = useGetAllOccupations();
   const { data: industryTypeData } = useGetIndustryTypeDetails();
-
   const bussId = businessDetailData && businessDetailData?.data?.[0]?.id;
 
   const { formikD } = useDirectorDetailsForm({
@@ -290,8 +289,9 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
       name: "businessAddress",
       label: "Address",
       required: true,
+      isStreet: true,
       iconStart: <SmartphoneIcon />,
-      type: "AsyncDropDownSearchStreet",
+      type: "AsyncDropDownSearchPlace",
       id: nanoid(),
       md: 6,
       sm: 6,
@@ -358,12 +358,11 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
     },
   ];
 
-  const businessDetailsData = businessDetailData && businessDetailData?.data;
   const { formik } = useBusinessExtraDetailsForm({
     userId,
     totalDirector,
     totalshareholder,
-    businessDetailsData,
+    businessDetailData,
   });
   const iconCode = data && data?.find((d) => d?.id === formik.values.countryId);
 
@@ -749,7 +748,7 @@ const BusinessDetailsExtraProfile = ({ userId }) => {
             BGHover={`${theme.palette.hover.error}`}
           />
           <CButton
-            buttonName={businessDetailsData && businessDetailsData?.length>0 ? "Update" : "ADD"}
+            buttonName={businessDetailData && businessDetailData?.length>0 ? "Update" : "ADD"}
             OnClick={handleFormSubmit}
             variant={"contained"}
             Width={"fit-content"}

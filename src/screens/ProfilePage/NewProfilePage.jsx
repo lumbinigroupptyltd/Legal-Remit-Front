@@ -26,6 +26,7 @@ import {
 } from "../../hooks/scanteck/useScantek";
 import { useGetUserIdDetailsByUserId } from "../../hooks/profile/User/userId/useUserIdDetails";
 import { getScantekLinkByUserId } from "../../api/scantek/scantek-api";
+import { useGetBusinessDetailsByUserId } from "../../hooks/profile/Business/business/useBasicBusinessDetails";
 
 const NewProfilePage = () => {
   const [submitForm, setSubmitForm] = useState(false);
@@ -43,12 +44,9 @@ const NewProfilePage = () => {
   const { data: userIdDetails } = useGetUserIdDetailsByUserId(userId);
   const userIDData = userIdDetails && userIdDetails?.data?.[0];
   const { data: scantekData } = useGetScantekDetailsByUserId(userId);
-  // const { data: getScantekLinkData } = useGetScantekLinkByUserId(userId);
-
-  // const handleDigitalVerification = () => {
-  //   setVerificationMethod("digital");
-  //   window.open("https://sandbox.sctk.au/s-93ta-s2qp-ii8h", "_blank");
-  // };
+  const { data: getBusinessDetailData } = useGetBusinessDetailsByUserId(userId);
+  const businessDetailData =
+    getBusinessDetailData && getBusinessDetailData?.data;
 
   const { mutate: getScantekLinkByUserId, data: getScantekLinkData } =
     useGetScantekLinkByUserId({
@@ -79,12 +77,21 @@ const NewProfilePage = () => {
   const handleSubmitForm = () => {
     setSubmitModal(true);
   };
-
+  console.log(role);
   useEffect(() => {
-    const hasAllRequiredData =
-      newData && kycData && (userIDData || scantekData);
+    let hasAllRequiredData = false;
+    switch (role) {
+      case "INDIVIDUAL":
+        hasAllRequiredData = newData && kycData && (userIDData || scantekData);
+        break;
+      case "BUSINESS":
+        hasAllRequiredData = newData && kycData && businessDetailData && (userIDData || scantekData);
+        break;
+      default:
+        hasAllRequiredData = false;
+    }
     setSubmitForm(hasAllRequiredData);
-  }, [newData, kycData, userIDData, scantekData]);
+  }, [newData, kycData, userIDData, scantekData, businessDetailData, role]);
 
   return (
     <>
@@ -177,7 +184,7 @@ const NewProfilePage = () => {
                   </AccordionSummary>
                   <AccordionDetails>
                     <BusinessDetailsExtraProfile
-                      // data={businessDetailsData}
+                      businessDetailData={businessDetailData}
                       userId={userId}
                     />
                   </AccordionDetails>
@@ -198,7 +205,7 @@ const NewProfilePage = () => {
                   KYC Details
                 </AccordionSummary>
                 <AccordionDetails>
-                  <KycDetailsProfile userId={userId} />
+                  <KycDetailsProfile userId={userId} data={kycData} />
                 </AccordionDetails>
               </Accordion>
               <Accordion defaultExpanded>
