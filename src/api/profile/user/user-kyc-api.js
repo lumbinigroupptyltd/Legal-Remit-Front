@@ -1,10 +1,10 @@
-import { axiosInstance } from "../../../utils/axiosIntercepters";
-
+import { coreAxiosInstance } from "../../../utils/axiosIntercepters";
+console.log(coreAxiosInstance, "axiosInstance")
 {
     /*________________________GET_____________________________________*/
   }
   export const getUserKycDetailsByUserId = async (userId) => {
-    const { data } = await axiosInstance.get(`/kycdetails/getbyuserid/${userId}`);
+    const { data } = await coreAxiosInstance.get(`/kycdetails/getbyuserid/${userId}`);
     return data;
   };
   
@@ -12,13 +12,13 @@ import { axiosInstance } from "../../../utils/axiosIntercepters";
     /*________________________POST_____________________________________*/
   }
   export const addKycUserDetails = async (formData) => {
-    const { data } = await axiosInstance.post(`/kycdetails/create`, formData);
+    const { data } = await coreAxiosInstance.post(`/kycdetails/create`, formData);
     return data;
   };
   {
     /*________________________PATCH_____________________________________*/
   }
   export const editKycUserDetails = async (formData) => {
-    const { data } = await axiosInstance.patch(`/kycdetails/update`, formData);
+    const { data } = await coreAxiosInstance.patch(`/kycdetails/update`, formData);
     return data;
   };

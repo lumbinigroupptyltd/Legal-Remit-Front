@@ -6,7 +6,7 @@ import {
   TextField,
   useTheme,
 } from "@mui/material";
-import { axiosInstance } from "../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../utils/axiosIntercepters";
 
 export const AsyncDropDown = ({ element, formik, formValues }) => {
   const theme = useTheme();
@@ -15,7 +15,7 @@ export const AsyncDropDown = ({ element, formik, formValues }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(element?.path);
+        const response = await coreAxiosInstance.get(element?.path);
         const data = response?.data?.data;
         const options = data?.map((item) => ({
           label: item[element.responseLabel],

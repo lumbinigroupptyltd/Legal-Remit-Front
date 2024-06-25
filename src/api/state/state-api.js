@@ -1,10 +1,10 @@
-import { axiosInstance } from "../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../utils/axiosIntercepters";
 
 {
     /*________________________GET_____________________________________*/
   }
   export const getUserAllStates = async () => {
-    const { data } = await axiosInstance.get(`/states/getall`);
+    const { data } = await coreAxiosInstance.get(`/states/getall`);
     return data;
   };
 
@@ -13,6 +13,6 @@ import { axiosInstance } from "../../utils/axiosIntercepters";
     /*________________________POST_____________________________________*/
   }
   export const getUserStatesByCountry = async (formData) => {
-    const { data } = await axiosInstance.post(`/getallstatebycountryid`, {formData});
+    const { data } = await coreAxiosInstance.post(`/getallstatebycountryid`, {formData});
     return data;
   };

@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { recipientCountry } from "../../redux/actions/SendMoney";
 import { sendMoneyCalculateSchema } from "./validation/sendMoneySchema";
+import { useAddTransation } from "../../hooks/transaction/transaction/useTransaction";
 
 export const useSendMoneyStep1Form = (handleNext) => {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ export const useSendMoneyStep1Form = (handleNext) => {
 };
 
 export const useSendMoneyStep2Form = (handleNext, sendMoneyDeliveryMethod, sendMoneyPaymentMethod) => {
-  // const { mutate: addSignUpPage } = useSignUp({});
+  const { mutate: addmutate } = useAddTransation({});
 
   const formik = useFormik({
     initialValues: {
@@ -55,20 +56,20 @@ export const useSendMoneyStep2Form = (handleNext, sendMoneyDeliveryMethod, sendM
     enableReinitialize: true,
     onSubmit: (values) => {
       handleNext(values);
-      // handledAddRequest(values);
+      handledAddRequest(values);
     },
   });
 
-  // const handledAddRequest = (values) => {
-  //   values = { ...values };
-  //   addSignUpPage(values, {
-  //     onSuccess: () => {
-  //       setOpenModal(true);
-  //       setLoading(false);
-  //       handleOtpVerification(values);
-  //     },
-  //   });
-  // };
+  const handledAddRequest = (values) => {
+    values = { ...values };
+    addmutate(values, {
+      onSuccess: () => {
+        setOpenModal(true);
+        setLoading(false);
+        handleOtpVerification(values);
+      },
+    });
+  };
 
   return {
     formik,

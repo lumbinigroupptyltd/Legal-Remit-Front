@@ -1,11 +1,11 @@
-import { axiosInstance } from "../../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../../utils/axiosIntercepters";
 
 
 {
     /*________________________GET_____________________________________*/
   }
   export const getBasicBusinessDetails = async () => {
-    const { data } = await axiosInstance.get(`/businessdetails/getall`);
+    const { data } = await coreAxiosInstance.get(`/businessdetails/getall`);
     return data;
   };
 
@@ -14,7 +14,7 @@ import { axiosInstance } from "../../../utils/axiosIntercepters";
   /*________________________GET_____________________________________*/
 }
 export const getBusinessDetailsByUserId = async (userId) => {
-  const { data } = await axiosInstance.get(`/businessdetails/getbyuserid/${userId}`);
+  const { data } = await coreAxiosInstance.get(`/businessdetails/getbyuserid/${userId}`);
   return data;
 };
 
@@ -22,7 +22,7 @@ export const getBusinessDetailsByUserId = async (userId) => {
   /*________________________POST_____________________________________*/
 }
 export const addBasicBusinessDetails = async (formData) => {
-  const data = await axiosInstance.post(`/user/update`, formData);
+  const data = await coreAxiosInstance.post(`/user/update`, formData);
   return data;
 };
 
@@ -30,6 +30,6 @@ export const addBasicBusinessDetails = async (formData) => {
   /*________________________PATCH_____________________________________*/
 }
 export const editBasicBusinessDetails = async (formData) => {
-  const data = await axiosInstance.patch(`/user/update`, formData);
+  const data = await coreAxiosInstance.patch(`/user/update`, formData);
   return data;
 };

@@ -1,9 +1,10 @@
-import { axiosInstance } from "../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../utils/axiosIntercepters";
 
 {
     /*________________________GET_____________________________________*/
   }
+  console.log(coreAxiosInstance, "coreAxiosInstance")
   export const getAllCountries = async () => {
-    const { data } = await axiosInstance.get(`/country/getall`);
+    const { data } = await coreAxiosInstance.get(`/country/getall`);
     return data;
   };

@@ -1,10 +1,10 @@
-import { axiosInstance } from "../../../utils/axiosIntercepters";
+import { coreAxiosInstance } from "../../../utils/axiosIntercepters";
 
 {
   /*________________________GET_____________________________________*/
 }
 export const getPaymentMethodDetails = async () => {
-  const { data } = await axiosInstance.get(`/paymentmethod/getall`);
+  const { data } = await coreAxiosInstance.get(`/paymentmethod/getall`);
   return data;
 };
 
@@ -12,7 +12,7 @@ export const getPaymentMethodDetails = async () => {
   /*________________________GET_____________________________________*/
 }
 export const getPaymentMethodDetailsById = async (id) => {
-  const { data } = await axiosInstance.get(`/paymentmethod/getbyid/${id}`);
+  const { data } = await coreAxiosInstance.get(`/paymentmethod/getbyid/${id}`);
   return data;
 };
 
@@ -20,7 +20,7 @@ export const getPaymentMethodDetailsById = async (id) => {
   /*________________________POST_____________________________________*/
 }
 export const addPaymentMethodDetails = async (formData) => {
-  const data = await axiosInstance.post(`/paymentmethod/create`, formData);
+  const data = await coreAxiosInstance.post(`/paymentmethod/create`, formData);
   return data;
 };
 
@@ -28,7 +28,7 @@ export const addPaymentMethodDetails = async (formData) => {
   /*________________________PATCH_____________________________________*/
 }
 export const editPaymentMethodDetails = async (formData) => {
-  const data = await axiosInstance.patch(`/paymentmethod/update`, formData);
+  const data = await coreAxiosInstance.patch(`/paymentmethod/update`, formData);
   return data;
 };
 
@@ -37,7 +37,7 @@ export const editPaymentMethodDetails = async (formData) => {
 }
 export const deletePaymentMethodDetails = async (id) => {
   if (id) {
-    const data = await axiosInstance.delete(`paymentmethod/delete/${id}`);
+    const data = await coreAxiosInstance.delete(`paymentmethod/delete/${id}`);
     return data;
   }
 };
