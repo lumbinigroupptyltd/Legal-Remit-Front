@@ -5,6 +5,7 @@ import RecipientType from "./RecipientType";
 import { Button, Grid, useTheme } from "@mui/material";
 import RecipientSummary from "./RecipientSummary";
 import { useSelector } from "react-redux";
+import { useGetRecipientDetailsByUserId } from "../../../../../hooks/sendMoney/recipient/useRecipient";
 
 const Recipient = ({ onClose }) => {
   const theme = useTheme();
@@ -13,10 +14,14 @@ const Recipient = ({ onClose }) => {
     sendMoneyPaymentMethod,
     recipientBank,
     recipientContact,
+    recipientType,
   } = useSelector((state) => state.sendMoney);
+  const { userId } = useSelector((state) => state.auth);
+  const { data: getRecipientData } = useGetRecipientDetailsByUserId(userId);
 
   const [step, setStep] = useState(1);
   const [formValid, setFormValid] = useState(false);
+const newData = {recipientBank, recipientType, ...recipientContact};
 
   const handleNextClick = () => {
     // if (step === 4) {
@@ -53,16 +58,18 @@ const Recipient = ({ onClose }) => {
         return (
           <RecipientContactDetails
             onFormValidate={handleFormValidation}
-            data={recipientContact}
-          />
-        );
-      case 4:
-        return (
-          <>
+            data={newData}
+            userId={userId}
+            />
+          );
+          case 4:
+            return (
+              <>
             <RecipientSummary
               onFormValidate={handleFormValidation}
               onClose={onClose}
               method={sendMoneyDeliveryMethod}
+              userId={userId}
             />
           </>
         );

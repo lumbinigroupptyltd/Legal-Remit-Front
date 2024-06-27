@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addRecipientBank,
   addRecipientContact,
@@ -41,7 +41,7 @@ export const recipientTypeForm = (onFormValidate, selectedRecipient) => {
   };
 };
 
-export const recipientBankDetailsForm = (onFormValidate, data) => {
+export const recipientBankDetailsForm = (onFormValidate, data, method) => {
   const dispatch = useDispatch();
   // const { mutate: addMutate } = useAddRecipientBankDetails({});
 
@@ -50,10 +50,10 @@ export const recipientBankDetailsForm = (onFormValidate, data) => {
       firstName: data?.firstName || "",
       middleName: data?.middleName || "",
       lastName: data?.lastName || "",
-      bankName: data?.bankName || "",
+      bankId: data?.bankId || "",
       code: data?.code || "",
       ifsccode: data?.ifsccode || "",
-      stateId: data?.stateId || "",
+      stateName: data?.stateName || "",
       district: data?.district || "",
       branch: data?.branch || "",
       bankAccNo: data?.bankAccNo || "",
@@ -63,6 +63,8 @@ export const recipientBankDetailsForm = (onFormValidate, data) => {
       phone: data?.phone || "",
       relation: data?.relation || "",
       walletName: data?.walletName || "",
+      walletNo: data?.walletNo || "",
+      method: method?.deliveryType?.name || "",
     },
     validationSchema: sendMoneyRecipientBankSchema,
     enableReinitialize: true,
@@ -87,28 +89,32 @@ export const recipientBankDetailsForm = (onFormValidate, data) => {
   };
 };
 
-export const recipientContactDetailsForm = (onFormValidate, data) => {
+export const recipientContactDetailsForm = (onFormValidate, data, userId) => {
   const dispatch = useDispatch();
+  const { sendMoneyDeliveryMethod } = useSelector((state) => state.sendMoney);
   const { mutate: addMutate } = useAddRecipientDetails({});
 
-  console.log(data, "data");
   const formik = useFormik({
     initialValues: {
-      firstName: data?.firstName || "",
-      middleName: data?.middleName || "",
-      lastName: data?.lastName || "",
-      bankName: data?.bankName || "",
+      userId: userId || "",
+      firstName: data?.recipientBank?.firstName || "",
+      middleName: data?.recipientBank?.middleName || "",
+      lastName: data?.recipientBank?.lastName || "",
+      bankId: data?.recipientBank?.bankId || "",
       code: data?.code || "",
       ifsccode: data?.ifsccode || "",
       district: data?.district || "",
       branch: data?.branch || "",
-      bankAccNo: data?.bankAccNo || "",
+      bankAccNo: data?.recipientBank?.bankAccNo || "",
       address: data?.address || "",
       city: data?.city || "",
-      stateId: data?.stateId || "",
+      stateName: data?.stateName || "",
       postalCode: data?.postalCode || "",
       phone: data?.phone || "",
       relationId: data?.relationId || "",
+      recipientTypeId: data?.recipientType?.recipientId || "",
+      countryId: "d6e8f618-7046-4682-a2d6-cd99df745d12",
+      deliveryMethodId: sendMoneyDeliveryMethod?.id ||"",
     },
     validationSchema: sendMoneyRecipientContactSchema,
     enableReinitialize: true,
@@ -139,18 +145,18 @@ export const recipientSummaryForm = (onClose, data) => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: data?.firstName || "",
-      middleName: data?.middleName || "",
-      lastName: data?.lastName || "",
-      bankName: data?.bankName || "",
+      firstName: data?.recipientBank?.firstName || "",
+      middleName: data?.recipientBank?.middleName || "",
+      lastName: data?.recipientBank?.lastName || "",
+      bankId: data?.recipientBank?.bankId || "",
       code: data?.code || "",
       ifsccode: data?.ifsccode || "",
       district: data?.district || "",
       branch: data?.branch || "",
-      bankAccNo: data?.bankAccNo || "",
+      bankAccNo: data?.recipientBank?.bankAccNo || "",
       address: data?.address || "",
       city: data?.city || "",
-      stateId: data?.stateId || "",
+      stateName: data?.stateName || "",
       postalCode: data?.postalCode || "",
       phone: data?.phone || "",
       relationId: data?.relationId || "",
@@ -159,7 +165,6 @@ export const recipientSummaryForm = (onClose, data) => {
     enableReinitialize: true,
     onSubmit: (values) => {
       dispatch(resetRecipientState());
-      console.log(values, "values das")
       // if (values?.id) {
       //   handleEditRequest(values);
       // }

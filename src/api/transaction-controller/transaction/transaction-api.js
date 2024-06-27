@@ -25,6 +25,6 @@ export const getTransationByUserId = async (userId) => {
   /*________________________POST_____________________________________*/
 }
 export const addTransation = async (formData) => {
-  const data = await transactionAxiosInstance.post(`//api/transaction`, formData);
+  const data = await transactionAxiosInstance.post(`/api/transaction`, formData);
   return data;
 };

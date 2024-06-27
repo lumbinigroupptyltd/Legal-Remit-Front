@@ -6,111 +6,110 @@ import { recipientContactDetailsForm } from "../../../../../forms/sendmoney/reci
 import PersonIcon from "@mui/icons-material/Person";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { CButton } from "../../../../../components/MaterialUI/CButton";
+import { useGetRelation } from "../../../../../hooks/sendMoney/relation/useRelation";
 
-const inputField = [
-  {
-    id: nanoid(),
-    name: "address",
-    label: "Address",
-    type: "text",
-    required: true,
-    iconStart: <PersonIcon />,
-    md: 6,
-    sm: 12,
-    xs: 12,
-  },
-  {
-    id: nanoid(),
-    name: "city",
-    label: "City/District",
-    type: "text",
-    required: true,
-    iconStart: <PersonIcon />,
-    md: 6,
-    sm: 12,
-    xs: 12,
-  },
-  {
-    id: nanoid(),
-    name: "stateId",
-    label: "State/Province",
-    type: "text",
-    required: true,
-    iconStart: <PersonIcon />,
-    md: 6,
-    sm: 12,
-    xs: 12,
-  },
-  {
-    id: nanoid(),
-    name: "postalCode",
-    label: "Postal Code",
-    type: "text",
-    required: true,
-    iconStart: <AccountBalanceIcon />,
-    md: 6,
-    sm: 12,
-    xs: 12,
-  },
-  {
-    id: nanoid(),
-    name: "phone",
-    label: "Mobile",
-    type: "text",
-    required: true,
-    iconStart: <AccountBalanceIcon />,
-    md: 6,
-    sm: 12,
-    xs: 12,
-  },
-  {
-    id: nanoid(),
-    name: "relationId",
-    label: "Relation",
-    type: "dropDown",
-    options: [
-      {
-        id: nanoid(),
-        label: "Father",
-        value: "Father",
-      },
-      {
-        id: nanoid(),
-        label: "Mother",
-        value: "Mother",
-      },
-      {
-        id: nanoid(),
-        label: "Brother",
-        value: "Brother",
-      },
-      {
-        id: nanoid(),
-        label: "Sister",
-        value: "Sister",
-      },
-      {
-        id: nanoid(),
-        label: "Friend",
-        value: "Friend",
-      },
-    ],
-    required: true,
-    iconStart: <PersonIcon />,
-    md: 6,
-    sm: 12,
-    xs: 12,
-  },
-];
-
-const RecipientContactDetails = ({ onFormValidate, data }) => {
+const RecipientContactDetails = ({ onFormValidate, data, userId }) => {
   const theme = useTheme();
+  const { data: relationData } = useGetRelation();
+  const { formik } = recipientContactDetailsForm(onFormValidate, data, userId);
 
-  const { formik } = recipientContactDetailsForm(onFormValidate, data);
+  const GET_RELATION_DATA =
+  relationData &&
+  relationData.data.map((item) => ({
+    label: item?.name,
+    value: item?.id,
+  }));
 
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
+
+  const inputField = [
+    {
+      id: nanoid(),
+      name: "address",
+      name1: "district",
+      name2: "stateName",
+      name3: "city",
+      name4: "postalCode",
+      label: "Address",
+      type: "AsyncDropDownSearchNepal",
+      // required: true,
+      isStreet: true,
+      iconStart: <PersonIcon />,
+      md: 6,
+      sm: 12,
+      xs: 12,
+    },
+    {
+      id: nanoid(),
+      name: "district",
+      label: "District",
+      type: "text",
+      required: true,
+      iconStart: <PersonIcon />,
+      md: 6,
+      sm: 12,
+      xs: 12,
+    },
+    {
+      id: nanoid(),
+      name: "stateName",
+      label: "State/Province",
+      type: "text",
+      required: true,
+      iconStart: <PersonIcon />,
+      md: 6,
+      sm: 12,
+      xs: 12,
+    },
+    {
+      id: nanoid(),
+      name: "city",
+      label: "House No./Street Name",
+      type: "text",
+      required: true,
+      iconStart: <PersonIcon />,
+      md: 6,
+      sm: 12,
+      xs: 12,
+    },
+    {
+      id: nanoid(),
+      name: "postalCode",
+      label: "Postal Code",
+      type: "text",
+      required: true,
+      iconStart: <AccountBalanceIcon />,
+      md: 6,
+      sm: 12,
+      xs: 12,
+    },
+    {
+      id: nanoid(),
+      name: "phone",
+      label: "Mobile",
+      type: "text",
+      required: true,
+      iconStart: <AccountBalanceIcon />,
+      max: 10,
+      md: 6,
+      sm: 12,
+      xs: 12,
+    },
+    {
+      id: nanoid(),
+      name: "relationId",
+      label: "Relation",
+      type: "dropDown",
+      options: GET_RELATION_DATA,
+      required: true,
+      iconStart: <PersonIcon />,
+      md: 6,
+      sm: 12,
+      xs: 12,
+    },
+  ];
 
   return (
     <>

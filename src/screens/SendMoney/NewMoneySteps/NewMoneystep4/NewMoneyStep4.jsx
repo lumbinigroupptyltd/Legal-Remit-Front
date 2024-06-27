@@ -3,65 +3,59 @@ import { nanoid } from "nanoid";
 import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import { useSendMoneyStep4Form } from "../../../../forms/sendmoney/useSendMoneyForm";
 import RenderInput from "../../../../components/RenderInput/RenderInput";
+import { useGetPurposeOfTransfer } from "../../../../hooks/sendMoney/transferPurpose/useTransferPurpose";
 
-const inputDataPurpose = [
-  {
-    id: nanoid(),
-    label: "Purpose of transfer",
-    name: "purpose",
-    type: "dropDown",
-    md: 12,
-    sm: 12,
-    required: true,
-    options: [
-      {
-        id: nanoid(),
-        label: "test1",
-        name: "test1",
-      },
-      {
-        id: nanoid(),
-        label: "test2",
-        name: "test2",
-      },
-      {
-        id: nanoid(),
-        label: "test3",
-        name: "test3",
-      },
-    ],
-  },
-  {
-    id: nanoid(),
-    name: "purpose",
-    label: "Type your message here...",
-    extraLabel: "Message to receiver",
-    type: "text",
-    required: true,
-    multiline: true,
-    extraInfo: true,
-    rows: 4,
-    md: 12,
-    sm: 12,
-  },
-  {
-    id: nanoid(),
-    name: "email",
-    label: "Email  (optional)",
-    type: "text",
-    rows: 4,
-    md: 12,
-    sm: 12,
-  },
-];
+
 
 const NewMoneyStep4 = ({ handleNext }) => {
   const theme = useTheme();
+  const { data: purposeOftranferData } = useGetPurposeOfTransfer();
   const { formik } = useSendMoneyStep4Form(handleNext);
+
+  const GET_PURPOSE = purposeOftranferData && purposeOftranferData?.data?.map((item) => ({
+    label: item?.name,
+    value: item?.id,
+  }));
 
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
+
+  const inputDataPurpose = [
+    {
+      id: nanoid(),
+      label: "Purpose of transfer",
+      name: "purposeOfTransfer",
+      type: "dropDown",
+      md: 12,
+      sm: 12,
+      required: true,
+      options: GET_PURPOSE,
+    },
+    {
+      id: nanoid(),
+      name: "msg",
+      label: "Type your message here...",
+      extraLabel: "Message to receiver",
+      type: "text",
+      required: true,
+      multiline: true,
+      extraInfo: true,
+      rows: 4,
+      md: 12,
+      sm: 12,
+    },
+    {
+      id: nanoid(),
+      name: "email",
+      label: "Email  (optional)",
+      type: "text",
+      rows: 4,
+      md: 12,
+      sm: 12,
+    },
+  ];
+
 
   return (
     <Grid

@@ -46,13 +46,11 @@ const UserDashboard = React.lazy(() =>
 import { DashboardRoutes } from "./DashboardRoutes";
 import { UserRoutes } from "./UserRoutes";
 import UserLayout from "../Layout/UserLayout";
-import { useGetUserKycDetailsByUserId } from "../hooks/profile/User/userKyc/useUserKycDetails";
 
 const AppRoutes = () => {
   const { role, verified, userId } = useSelector((state) => state.auth);
-  const { data: userKycData } = useGetUserKycDetailsByUserId(userId);
-  const kycData = userKycData && userKycData?.data;
- 
+  useEffect(() => {}, [role, verified, userId]);
+
   return (
     <HashRouter hashType="slash">
       <ScrollToTop>
@@ -97,8 +95,7 @@ const AppRoutes = () => {
             {!verified && (role === "INDIVIDUAL" || role === "BUSINESS") && (
               <Route exact path="/profile" element={<NewProfilePage />} />
             )}
-            {kycData && kycData?.[0]?.kycStatus === "VERIFIED" &&
-              (role === "INDIVIDUAL" || role === "BUSINESS") && (
+            {(role === "INDIVIDUAL" || role === "BUSINESS") && (
                 <Route exact path="/home" element={<UserLayout />}>
                   <Route exact index element={<UserDashboard />} />
                   {UserRoutes?.map((route) => {

@@ -33,6 +33,7 @@ const KycDetailsProfile = ({ userId, data }) => {
     formik.handleSubmit();
   };
 
+
   const GET_NATIONALITY =
     nationData &&
     nationData?.map((item) => ({
@@ -70,7 +71,7 @@ const KycDetailsProfile = ({ userId, data }) => {
       name: "streetName",
       name1: "suburb",
       name2: "postalCode",
-      name3: "state",
+      name3: "stateName",
       label: "House No & Street Name",
       required: true,
       isStreet: true,
@@ -109,7 +110,7 @@ const KycDetailsProfile = ({ userId, data }) => {
       xs: 12,
     },
     {
-      name: "state",
+      name: "stateName",
       label: "State",
       required: true,
       type: "text",

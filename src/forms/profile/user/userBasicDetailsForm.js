@@ -118,7 +118,7 @@ export const useUserKycDetailsForm = ({ data, userId, countryId }) => {
       id: data?.id || "",
       userId: userId || "",
       countryId: countryId || "",
-      stateId: data?.stateId || "",
+      stateName: data?.stateName || "",
       nationalityId: data?.nationalityId || "",
       occupationId: data?.occupationId || "",
       kycStatus: data?.kycStatus || "REJECTED",

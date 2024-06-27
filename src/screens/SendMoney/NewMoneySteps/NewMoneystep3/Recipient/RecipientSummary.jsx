@@ -6,21 +6,29 @@ import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
 import { nanoid } from "nanoid";
 import { CButton } from "../../../../../components/MaterialUI/CButton";
-import { useGetRecipientDetails } from "../../../../../hooks/sendMoney/recipient/useRecipient";
+import { useGetRecipientDetails, useGetRecipientDetailsByUserId } from "../../../../../hooks/sendMoney/recipient/useRecipient";
 import RenderInput from "../../../../../components/RenderInput/RenderInput";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PersonIcon from "@mui/icons-material/Person";
+import { useGetRelation } from "../../../../../hooks/sendMoney/relation/useRelation";
 
 
-const RecipientSummary = ({ onFormValidate, onClose, method }) => {
+const RecipientSummary = ({ onFormValidate, onClose, method, userId }) => {
   const theme = useTheme();
   const { recipientBank, recipientContact } = useSelector(
     (state) => state.sendMoney
   );
-  const data = { ...recipientBank, ...recipientContact };
-  console.log(data, "new data");
-  const { data: getRecipientData } = useGetRecipientDetails();
+  const { data: relationData } = useGetRelation();
+  const data = { recipientBank, ...recipientContact };
+  const { data: getRecipientData } = useGetRecipientDetailsByUserId(userId);
   const { formik } = recipientSummaryForm(onClose, data);
+console.log(getRecipientData, "getRecipientData")
+  const GET_RELATION_DATA =
+  relationData &&
+  relationData.data.map((item) => ({
+    label: item?.name,
+    value: item?.id,
+  }));
 
   const inputFieldBank = [
     ...(method?.deliveryType?.name === "Bank Deposit"
@@ -184,7 +192,34 @@ const RecipientSummary = ({ onFormValidate, onClose, method }) => {
     {
       id: nanoid(),
       name: "address",
+      name1: "district",
+      name2: "stateName",
+      name3: "city",
+      name4: "postalCode",
       label: "Address",
+      type: "AsyncDropDownSearchNepal",
+      // required: true,
+      isStreet: true,
+      iconStart: <PersonIcon />,
+      md: 6,
+      sm: 12,
+      xs: 12,
+    },
+    {
+      id: nanoid(),
+      name: "district",
+      label: "District",
+      type: "text",
+      required: true,
+      iconStart: <PersonIcon />,
+      md: 6,
+      sm: 12,
+      xs: 12,
+    },
+    {
+      id: nanoid(),
+      name: "stateName",
+      label: "State/Province",
       type: "text",
       required: true,
       iconStart: <PersonIcon />,
@@ -195,18 +230,7 @@ const RecipientSummary = ({ onFormValidate, onClose, method }) => {
     {
       id: nanoid(),
       name: "city",
-      label: "City/District",
-      type: "text",
-      required: true,
-      iconStart: <PersonIcon />,
-      md: 6,
-      sm: 12,
-      xs: 12,
-    },
-    {
-      id: nanoid(),
-      name: "stateId",
-      label: "State/Province",
+      label: "House No./Street Name",
       type: "text",
       required: true,
       iconStart: <PersonIcon />,
@@ -232,6 +256,7 @@ const RecipientSummary = ({ onFormValidate, onClose, method }) => {
       type: "text",
       required: true,
       iconStart: <AccountBalanceIcon />,
+      max: 10,
       md: 6,
       sm: 12,
       xs: 12,
@@ -241,33 +266,7 @@ const RecipientSummary = ({ onFormValidate, onClose, method }) => {
       name: "relationId",
       label: "Relation",
       type: "dropDown",
-      options: [
-        {
-          id: nanoid(),
-          label: "Father",
-          value: "Father",
-        },
-        {
-          id: nanoid(),
-          label: "Mother",
-          value: "Mother",
-        },
-        {
-          id: nanoid(),
-          label: "Brother",
-          value: "Brother",
-        },
-        {
-          id: nanoid(),
-          label: "Sister",
-          value: "Sister",
-        },
-        {
-          id: nanoid(),
-          label: "Friend",
-          value: "Friend",
-        },
-      ],
+      options: GET_RELATION_DATA,
       required: true,
       iconStart: <PersonIcon />,
       md: 6,

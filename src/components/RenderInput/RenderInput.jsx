@@ -27,6 +27,7 @@ import {
   AsyncDropDown,
   AsyncDropDownSearchStreet,
   AsyncDropDownSearchPlace,
+  AsyncDropDownSearchNepal,
 } from "./AsyncDropDown";
 import { PickDate } from "./DatePicker";
 import NewDropZone from "./NewDropZone";
@@ -869,6 +870,14 @@ const RenderInput = ({
       case "AsyncDropDownSearchStreet":
         return (
           <AsyncDropDownSearchStreet
+            element={element}
+            formik={formik}
+            formValues={formValues}
+          />
+        );
+        case "AsyncDropDownSearchNepal":
+        return (
+          <AsyncDropDownSearchNepal
             element={element}
             formik={formik}
             formValues={formValues}

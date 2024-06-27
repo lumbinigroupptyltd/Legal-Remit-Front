@@ -27,6 +27,7 @@ import {
 import { useGetUserIdDetailsByUserId } from "../../hooks/profile/User/userId/useUserIdDetails";
 import { getScantekLinkByUserId } from "../../api/scantek/scantek-api";
 import { useGetBusinessDetailsByUserId } from "../../hooks/profile/Business/business/useBasicBusinessDetails";
+import { isMobile } from "react-device-detect";
 
 const NewProfilePage = () => {
   const [submitForm, setSubmitForm] = useState(false);
@@ -77,7 +78,7 @@ const NewProfilePage = () => {
   const handleSubmitForm = () => {
     setSubmitModal(true);
   };
- 
+
   useEffect(() => {
     let hasAllRequiredData = false;
     switch (role) {
@@ -85,7 +86,11 @@ const NewProfilePage = () => {
         hasAllRequiredData = newData && kycData && (userIDData || scantekData);
         break;
       case "BUSINESS":
-        hasAllRequiredData = newData && kycData && businessDetailData && (userIDData || scantekData);
+        hasAllRequiredData =
+          newData &&
+          kycData &&
+          businessDetailData &&
+          (userIDData || scantekData);
         break;
       default:
         hasAllRequiredData = false;
@@ -223,26 +228,34 @@ const NewProfilePage = () => {
                 </AccordionSummary>
                 <AccordionDetails>
                   {kycData ? (
-                    <Box sx={{ display: "flex" }}>
-                      <Grid sx={{ display: "flex", flexDirection: "column" }}>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={handleDigitalVerification}
-                          sx={{ marginRight: "1rem" }}
-                        >
-                          <Typography variant="h6" align="center">
-                            Biometric (Recommended)
-                          </Typography>
-                        </Button>
-                        <div style={{ padding: "0 2rem" }}>
-                          <Typography variant="p">
-                            It is recommended to use Digital verification for
-                            faster process. Click on Button to proceed.
-                          </Typography>
-                        </div>
-                      </Grid>
-                      <Grid sx={{ display: "flex", flexDirection: "column" }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: isMobile ? "row" : "column",
+                        gap: isMobile ? "0px" : "1rem",
+                      }}
+                    >
+                      {isMobile && (
+                        <Grid sx={{ display: "flex", flexDirection: "column" }}>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={handleDigitalVerification}
+                            sx={{ marginRight: "1rem" }}
+                          >
+                            <Typography variant="h6" align="center">
+                              Biometric (Recommended)
+                            </Typography>
+                          </Button>
+                          <div style={{ padding: "0 2rem" }}>
+                            <Typography variant="p">
+                              It is recommended to use Digital verification for
+                              faster process. Click on Button to proceed.
+                            </Typography>
+                          </div>
+                        </Grid>
+                      )}
+                      <Grid sx={{ display: "flex", flexDirection: "column", width: isMobile ? "100%" : "50%" }}>
                         <Button
                           variant="contained"
                           color="secondary"
@@ -275,11 +288,12 @@ const NewProfilePage = () => {
 
               {(verificationMethod === "manual" || userIDData) && (
                 <>
-                  <Accordion  defaultExpanded>
+                  <Accordion defaultExpanded>
                     <AccordionSummary
                       sx={{
                         background: theme.palette.background.main,
-                        color: (verificationMethod || userIDData) ? "white" : "#000",
+                        color:
+                          verificationMethod || userIDData ? "white" : "#000",
                         marginBottom: "1rem",
                       }}
                       expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
@@ -296,7 +310,8 @@ const NewProfilePage = () => {
                     <AccordionSummary
                       sx={{
                         background: theme.palette.background.main,
-                        color: (verificationMethod || userIDData) ? "white" : "#000",
+                        color:
+                          verificationMethod || userIDData ? "white" : "#000",
                         marginBottom: "1rem",
                       }}
                       expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
@@ -306,7 +321,10 @@ const NewProfilePage = () => {
                       My Documents
                     </AccordionSummary>
                     <AccordionDetails>
-                      <MyDocumentsProfile userId={userId} userIDData={userData} />
+                      <MyDocumentsProfile
+                        userId={userId}
+                        userIDData={userData}
+                      />
                     </AccordionDetails>
                   </Accordion>
                 </>

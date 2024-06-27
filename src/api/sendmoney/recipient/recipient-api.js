@@ -13,7 +13,7 @@ export const getRecipientDetails = async () => {
   /*________________________GET_____________________________________*/
 }
 export const getRecipientDetailsByUserId = async (userId) => {
-  const { data } = await coreAxiosInstance.get(`/recipientuser/${userId}`);
+  const { data } = await coreAxiosInstance.get(`/recipientuser/getbyuserid/${userId}`);
   return data;
 };
 
@@ -33,13 +33,7 @@ export const addRecipientDetails = async (formData) => {
   return data;
 };
 
-{
-  /*________________________DELETE_____________________________________*/
-}
-export const deleteRecipientDetails = async (id) => {
-  const data = await coreAxiosInstance.delete(`/recipientuser/delete/${id}`);
-  return data;
-};
+
 
 {
   /*________________________PATCH_____________________________________*/
@@ -49,7 +43,13 @@ export const editRecipientDetails = async (formData) => {
   return data;
 };
 
-
+{
+  /*________________________DELETE_____________________________________*/
+}
+export const deleteRecipientDetails = async (id) => {
+  const data = await coreAxiosInstance.delete(`/recipientuser/delete/${id}`);
+  return data;
+};
 
 
 /*________________________RECIPIENT_MESSAGE_DETAILS_____________________________________*/

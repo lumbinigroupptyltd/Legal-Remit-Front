@@ -15,7 +15,7 @@ const UserDashboard = () => {
       dispatch(openModal());
       sessionStorage.setItem('modalShown', 'true');
     }
-  }, [dispatch]);
+  }, [dispatch, isModalOpen]);
 
   return (
     <>

@@ -1,9 +1,12 @@
 import {
+  ADD_PURPOSE_OF_TRANSFER,
   ADD_RECIPIENT_BANK,
   ADD_RECIPIENT_CONTACT,
   ADD_RECIPIENT_TYPE,
+  ADD_RECIPIENT_USER,
   RECIPIENT_COUNTRY,
   RESET_RECIPIENT_STATE,
+  SEND_MONEY_ALL_DATA,
   SEND_MONEY_DELIVERY_METHOD,
   SEND_MONEY_PAYMENT_METHOD,
   SET_ACTIVE_STEP,
@@ -50,6 +53,22 @@ export const sendMoneyPaymentMethod = (values) => ({
   payload: values,
 });
 
-export const resetRecipientState = () => ({
+export const resetRecipientState = (values) => ({
   type: RESET_RECIPIENT_STATE,
+  payload: values,
+});
+
+export const sendMoneyAllData = (values) => ({
+  type: SEND_MONEY_ALL_DATA,
+  payload: values,
+});
+
+export const recipientUser = (values) => ({
+  type: ADD_RECIPIENT_USER,
+  payload: values,
+});
+
+export const addPurposeOfTransfer = (values) => ({
+  type: ADD_PURPOSE_OF_TRANSFER,
+  payload: values,
 });

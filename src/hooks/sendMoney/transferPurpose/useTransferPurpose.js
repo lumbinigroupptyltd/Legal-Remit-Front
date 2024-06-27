@@ -1,11 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { addBANKDetails, deleteBANKDetails, editBANKDetails, getBANKDetailsById, getBankDetails } from "../../api/bank/bank-api";
 import { toast } from "react-toastify";
+import {
+  addPurposeOfTransfer,
+  deletePurposeOfTransfer,
+  editPurposeOfTransfer,
+  getPurposeOfTransfer,
+  getPurposeOfTransferById,
+} from "../../../api/sendmoney/tranfer-purpose/purpose-of-transfer-api";
+
 {
   /*________________________GET_____________________________________*/
 }
-export const useGetBankDetails = () => {
-  return useQuery(["getBankDetails"], () => getBankDetails(), {
+export const useGetPurposeOfTransfer = () => {
+  return useQuery(["getPurposeOfTransfer"], () => getPurposeOfTransfer(), {
     cacheTime: 10000,
     refetchInterval: false,
     refetchOnWindowFocus: false,
@@ -15,10 +22,10 @@ export const useGetBankDetails = () => {
 {
   /*________________________GET_____________________________________*/
 }
-export const useGetBankDetailsById = (id) => {
+export const useGetPurposeOfTransferById = (id) => {
   return useQuery(
-    ["getBankDetailsById"],
-    () => getBANKDetailsById(id),
+    ["getPurposeOfTransferById"],
+    () => getPurposeOfTransferById(id),
     {
       cacheTime: 10000,
       refetchInterval: false,
@@ -30,16 +37,16 @@ export const useGetBankDetailsById = (id) => {
 {
   /*________________________POST_____________________________________*/
 }
-export const useAddBankDetails = ({ onSuccess }) => {
+export const useAddPurposeOfTransfer = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["addBankDetails"],
-    (formData) => addBANKDetails(formData),
+    ["addPurposeOfTransfer"],
+    (formData) => addPurposeOfTransfer(formData),
     {
       onSuccess: (data, variables, context) => {
-        toast.success("Bank added successfully");
+        toast.success("Added successfully");
         onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("getBankDetails");
+        queryClient.invalidateQueries("getPurposeOfTransfer");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -51,18 +58,18 @@ export const useAddBankDetails = ({ onSuccess }) => {
 {
   /*________________________PATCH_____________________________________*/
 }
-export const useEditBankDetails = ({ onSuccess }) => {
+export const useEditPurposeOfTransfer = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["editBankDetails"],
+    ["editPurposeOfTransfer"],
     (formData) => {
-      editBANKDetails(formData);
+      editPurposeOfTransfer(formData);
     },
     {
       onSuccess: (data, variable, context) => {
-        toast.success("Bank updated successfully");
+        toast.success("Updated successfully");
         onSuccess && onSuccess(data, variable, context);
-        queryClient.invalidateQueries("getBankDetails");
+        queryClient.invalidateQueries("getPurposeOfTransfer");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -74,17 +81,21 @@ export const useEditBankDetails = ({ onSuccess }) => {
 {
   /*________________________DELETE_____________________________________*/
 }
-export const useDeleteBankDetails = ({ onSuccess }) => {
+export const useDeletePurposeOfTransfer = ({ onSuccess }) => {
   const queryClient = useQueryClient();
-  return useMutation(
-    ["deleteBankDetails"],
-    (id) => deleteBANKDetails(id),
+  const deleteData = useMutation(
+    ["deletePurposeOfTransfer"],
+    async (id) => await deletePurposeOfTransfer(id),
     {
       onSuccess: (data, variables, context) => {
-        toast.success("Bank deleted successfully");
+        toast.success("Deleted successfully");
         onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("getBankDetails");
+        queryClient.invalidateQueries("getPurposeOfTransfer");
       },
     }
   );
+  return {
+    isSuccess: deleteData?.isSuccess,
+    deletePurposeOfTransfer: deleteData?.mutate,
+  };
 };

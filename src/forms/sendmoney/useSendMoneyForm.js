@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
-import { recipientCountry } from "../../redux/actions/SendMoney";
+import { addPurposeOfTransfer, recipientCountry, recipientUser, sendMoneyAllData } from "../../redux/actions/SendMoney";
 import { sendMoneyCalculateSchema } from "./validation/sendMoneySchema";
 import { useAddTransation } from "../../hooks/transaction/transaction/useTransaction";
 
@@ -76,7 +76,9 @@ export const useSendMoneyStep2Form = (handleNext, sendMoneyDeliveryMethod, sendM
   };
 };
 
-export const useSendMoneyStep3Form = (handleNext, values) => {
+export const useSendMoneyStep3Form = (handleNext, selectedItem) => {
+  const dispatch = useDispatch();
+
   // const { mutate: addSignUpPage } = useSignUp({});
 
   const formik = useFormik({
@@ -86,7 +88,11 @@ export const useSendMoneyStep3Form = (handleNext, values) => {
     //   validationSchema: signupSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      handleNext(values);
+      console.log(values, "val", selectedItem, "sel")
+      if(selectedItem){
+        dispatch(recipientUser(selectedItem));
+        handleNext(values);
+      }
      
       // handledAddRequest(values);
     },
@@ -109,22 +115,22 @@ export const useSendMoneyStep3Form = (handleNext, values) => {
 };
 
 export const useSendMoneyStep4Form = (handleNext, values) => {
+  const dispatch = useDispatch();
   // const { mutate: addSignUpPage } = useSignUp({});
 
   const formik = useFormik({
     initialValues: {
-      sendMoney: "0",
-      resMoney: "0",
-      deliveryMethod: "",
-      paymentMoethod: "",
-      countryId: values?.countryId || "",
-      countryName: values?.countryName || "",
-      phoneCode: values?.phoneCode || "",
+      purposeOfTransfer: "",
+      msg: "",
+      email: "",
     },
     //   validationSchema: signupSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      handleNext(values);
+      if(values){
+        dispatch(addPurposeOfTransfer(values));
+        handleNext(values);
+      }
      
       // handledAddRequest(values);
     },
