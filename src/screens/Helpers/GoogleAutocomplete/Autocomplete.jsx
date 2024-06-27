@@ -7,9 +7,7 @@ const Autocomplete = () => {
     const handlePlaceChanged = () => { 
         const [ place ] = inputRef.current.getPlaces();
         if(place) { 
-            // console.log(place.formatted_address)
-            // console.log(place.geometry.location.lat())
-            // console.log(place.geometry.location.lng())
+
         } 
     }
 

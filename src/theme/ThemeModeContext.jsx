@@ -51,7 +51,7 @@ const getPalette = (mode) => {
       tableHead: "#25262E",
       error: "#930a0a",
       light: "#aa2ae1",
-      warning: "#FFCC00",
+      warning: "#FFCC00",     
     },
     button: {
       primary: "#aa2ae1",
@@ -69,6 +69,9 @@ const getPalette = (mode) => {
     surface: {
       neutral: "rgba(225, 233, 238, 1)",
       light: "#eef1f4",
+    },
+    color: {
+      danger: "#bb2124",
     },
     divider: "rgba(0,0,0,0.12)",
   };

@@ -4,7 +4,6 @@ import { coreAxiosInstance } from "../../../utils/axiosIntercepters";
     /*________________________GET_____________________________________*/
   }
   export const getPaymentServiceCharge = async (props1) => {
-    console.log(props1, "props1")
     const { data } = await coreAxiosInstance.get(`/servicecharge/${props1?.fromCountryId}/${props1?.toCountryId}?paymentTypeId=${props1?.paymentType?.id}&amount=${props1?.amount}`);
     return data;
   };

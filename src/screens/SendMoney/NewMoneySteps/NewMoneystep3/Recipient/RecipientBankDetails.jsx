@@ -14,13 +14,13 @@ const RecipientBankDetails = ({ onFormValidate, method, data }) => {
   const { data: getAllBankData } = useGetBankDetails();
   const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState("");
 
-  const { formik } = recipientBankDetailsForm(onFormValidate, data);
-  
+  const { formik } = recipientBankDetailsForm(onFormValidate, data, method);
+  console.log(getAllBankData, "getAllBankData")
   const GET_BANK_DATA =
     getAllBankData &&
     getAllBankData.data.map((item) => ({
       label: item.bankName,
-      value: item.bankId,
+      value: item.id,
     }));
 
   const inputField = [
@@ -61,9 +61,10 @@ const RecipientBankDetails = ({ onFormValidate, method, data }) => {
           },
           {
             id: nanoid(),
-            name: "bankName",
+            name: "bankId",
             label: "Bank Name",
-            type: "text",
+            type: "dropDown",
+            options: GET_BANK_DATA,
             required: true,
             iconStart: <AccountBalanceIcon />,
             md: 6,

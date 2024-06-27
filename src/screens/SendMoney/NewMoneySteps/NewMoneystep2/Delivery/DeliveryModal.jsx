@@ -7,7 +7,7 @@ import { CButton } from "../../../../../components/MaterialUI/CButton";
 import { useGetDeliveryMethodDetails } from "../../../../../hooks/sendMoney/delivery/useDeliveryMethod";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
-const DeliveryModal = ({ onSelectDeliveryMethod, onClose, data }) => {
+const DeliveryModal = ({ onSelectDeliveryMethod, onClose, data, exchangeRate, sendMoney }) => {
   const theme = useTheme();
   const [selectedItem, setSelectedItem] = useState(null);
   const { data: deliveryMethodData } = useGetDeliveryMethodDetails();
@@ -96,7 +96,7 @@ const DeliveryModal = ({ onSelectDeliveryMethod, onClose, data }) => {
               }}
             >
               <Typography sx={{ fontSize: "1.4rem", fontWeight: "600" }}>
-                {item.deliveryType?.name}
+                {item?.deliveryType?.name}
               </Typography>
               <Typography
                 sx={{
@@ -105,16 +105,16 @@ const DeliveryModal = ({ onSelectDeliveryMethod, onClose, data }) => {
                   color: theme.palette.text.secondary,
                 }}
               >
-                {item.rate} 1AUD = 0.87 NPR
+                {item?.rate} {sendMoney} AUD = {sendMoney * exchangeRate} NPR
               </Typography>
               <Typography sx={{ fontSize: "1rem", fontWeight: "400" }}>
-                Total Receivable : 0.87 NPR
+                Total Receivable : {sendMoney * (exchangeRate - item?.charge)} NPR
               </Typography>
               <Typography sx={{ fontSize: "1rem", fontWeight: "400" }}>
-                Total Service Charge : 0.87 NPR
+                Total Service Charge : {item?.charge} AUD
               </Typography>
               <Typography sx={{ fontSize: "1rem", fontWeight: "400" }}>
-                Total Payable : 0.87 NPR
+                Total Payable : {sendMoney} AUD
               </Typography>
               <Typography sx={{ fontSize: "1rem", fontWeight: "400" }}>
                 Estimated Days : {item?.estimatedDelivery} Days

@@ -4,9 +4,13 @@ import { useSendMoneyStep5Form } from "../../../../forms/sendmoney/useSendMoneyF
 import BankSummary from "./summary/BankSummary";
 import ContactSummary from "./summary/ContactSummary";
 import PaymentSummary from "./summary/PaymentSummary";
+import RecipientSummary from "../NewMoneystep3/Recipient/RecipientSummary";
+import { useSelector } from "react-redux";
 
 const NewMoneyStep5 = ({ handleNext }) => {
   const theme = useTheme();
+  const { userId } = useSelector((state) => state.auth);
+  const { sendMoneyDeliveryMethod } = useSelector((state) => state.sendMoney);
   const { formik } = useSendMoneyStep5Form(handleNext);
 
   const handleFormSubmit = () => {
@@ -41,7 +45,10 @@ const NewMoneyStep5 = ({ handleNext }) => {
           Glance at the summary and submit your data for transaction
         </Typography>
       </Grid>
+      <Grid>
 
+      <RecipientSummary userId={userId} method={sendMoneyDeliveryMethod} />
+      </Grid>
       <BankSummary />
       <ContactSummary />
       <PaymentSummary />

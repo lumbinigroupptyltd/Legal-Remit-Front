@@ -6,7 +6,7 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { useDispatch } from "react-redux";
 import { sendMoneyPaymentMethod } from "../../../../../redux/actions";
 
-const PaymentMethod = ({ method }) => {
+const PaymentMethod = ({ method, exchangeRate, sendMoney }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const [paymentMethod, setPaymentMethod] = useState(false);
@@ -45,10 +45,24 @@ const PaymentMethod = ({ method }) => {
           </Typography>
           <Typography
             variant="p"
-            sx={{ fontSize: "1.4rem", fontWeight: "500", display: "flex", flexDirection: "column" }}
+            sx={{
+              fontSize: "1.4rem",
+              fontWeight: "500",
+              display: "flex",
+              flexDirection: "column",
+            }}
           >
-            <span style={{fontSize: "0.9rem", fontWeight: "500", color: theme.palette.text.secondary}}>Choose Payment Method</span>
-            {selectedPaymentMethod?.paymentType?.name || method?.paymentType?.name}
+            <span
+              style={{
+                fontSize: "0.9rem",
+                fontWeight: "500",
+                color: theme.palette.text.secondary,
+              }}
+            >
+              Choose Payment Method
+            </span>
+            {selectedPaymentMethod?.paymentType?.name ||
+              method?.paymentType?.name}
           </Typography>
         </div>
 
@@ -78,6 +92,8 @@ const PaymentMethod = ({ method }) => {
               onClose={() => setPaymentMethod(false)}
               onSelectPaymentMethod={handlePaymentSelectMethod}
               data={method}
+              exchangeRate={exchangeRate}
+              sendMoney={sendMoney}
             />
           }
         />

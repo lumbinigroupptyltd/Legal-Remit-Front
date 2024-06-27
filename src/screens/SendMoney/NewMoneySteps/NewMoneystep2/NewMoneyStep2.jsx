@@ -23,6 +23,7 @@ import {
   useGetDeliveryServiceCharge,
   useGetPaymentServiceCharge,
 } from "../../../../hooks/sendMoney/serviceCharge/useServiceCharge";
+import { getExchangeRate } from "../../../../utils/getExchangeRate";
 
 const NewMoneyStep2 = ({ handleNext }) => {
   const theme = useTheme();
@@ -31,6 +32,7 @@ const NewMoneyStep2 = ({ handleNext }) => {
   );
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [exchangeRate, setExchangeRate] = useState(0);
   const { data: allCountriesData } = useGetAllCountries();
   const { formik } = useSendMoneyStep2Form(handleNext, sendMoneyDeliveryMethod, sendMoneyPaymentMethod);
  
@@ -45,6 +47,7 @@ const NewMoneyStep2 = ({ handleNext }) => {
       value: item.currency,
       label: item.name,
       flag: item?.iso2,
+      id: item?.id,
     }));
 
   const sendMoneyInputData = [
@@ -78,20 +81,12 @@ const NewMoneyStep2 = ({ handleNext }) => {
       isImage: true,
       hasDoubleValue: true,
       required: true,
-      responseLabel: "name",
-      responseId: "id",
-      responseCode: "phoneCode",
       md: 12,
       sm: 12,
     },
   ];
 
   const sendMoney = formik.values.amount;
-
-  useEffect(() => {
-    const receiveMoney = sendMoney ? sendMoney * 87.5 : "";
-    formik.setFieldValue("resMoney", receiveMoney);
-  }, [sendMoney]);
 
   const handleFormSubmit = () => {
     formik.handleSubmit();
@@ -117,7 +112,26 @@ const NewMoneyStep2 = ({ handleNext }) => {
   const { data: getDeliveryServiceCharge } =
     useGetDeliveryServiceCharge(props2);
 
-  const serviceChargeController = () => {};
+  useEffect(() => {
+    const fetchExchangeRate = async () => {
+      const fromCountryId = '7b1667c4-1f1a-11ef-8765-06acd635b761';
+      const toCountryId = selectedCountry ? selectedCountry?.id : "d6e8f618-7046-4682-a2d6-cd99df745d12";
+
+      try {
+        const {data} = await getExchangeRate(fromCountryId, toCountryId);
+        setExchangeRate(data?.dealRate);
+      } catch (error) {
+        console.log(error, "error");
+      }
+    };
+
+    fetchExchangeRate();
+  }, [selectedCountry]);
+
+  useEffect(() => {
+    const receiveMoney = sendMoney ? sendMoney * exchangeRate : "";
+    formik.setFieldValue("resMoney", receiveMoney);
+  }, [sendMoney, exchangeRate]);
 
   return (
     <Grid container spacing={2}>
@@ -236,7 +250,7 @@ const NewMoneyStep2 = ({ handleNext }) => {
                 variant="p"
                 sx={{ fontSize: "1.2rem", fontWeight: "400" }}
               >
-                Exchange rate : 10 AUD = 879 NPR
+                Exchange rate : 10 AUD = {(exchangeRate)*10} NPR
               </Typography>
             </Stack>
             <Stack
@@ -330,7 +344,7 @@ const NewMoneyStep2 = ({ handleNext }) => {
               flexDirection: "column",
             }}
           >
-            <DeliveryMethod method={sendMoneyDeliveryMethod} />
+            <DeliveryMethod method={sendMoneyDeliveryMethod} exchangeRate={exchangeRate} sendMoney={sendMoney} />
             {formik.touched["deliveryMethod"] &&
               formik.errors["deliveryMethod"] && (
                 <Typography variant="body2" color="error">
@@ -338,7 +352,7 @@ const NewMoneyStep2 = ({ handleNext }) => {
                 </Typography>
               )}
 
-            <PaymentMethod method={sendMoneyPaymentMethod} />
+            <PaymentMethod method={sendMoneyPaymentMethod} exchangeRate={exchangeRate} sendMoney={sendMoney} />
             {formik.touched["paymentMethod"] &&
               formik.errors["paymentMethod"] && (
                 <Typography variant="body2" color="error">

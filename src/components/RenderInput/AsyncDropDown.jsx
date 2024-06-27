@@ -501,3 +501,169 @@ export const AsyncDropDownSearchPlace = ({ element, formik, formValues }) => {
     />
   );
 };
+
+export const AsyncDropDownSearchNepal = ({ element, formik, formValues }) => {
+  const theme = useTheme();
+  const libraries = "places";
+  const [inputValue, setInputValue] = useState(formValues || "");
+  const [options, setOptions] = useState([]);
+  const key = "AIzaSyCNJRR1zkMpq2RLpT6bM2BLAO2kEDZ8qtA";
+
+  useEffect(() => {
+    const loadGoogleMapsScript = () => {
+      if (!window.google) {
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=${libraries}`;
+        script.async = true;
+        script.onload = () => {
+          console.log("Google Maps script loaded successfully");
+        };
+        script.onerror = () => {
+          console.error("Error loading Google Maps script");
+        };
+        document.head.appendChild(script);
+      }
+    };
+
+    loadGoogleMapsScript();
+  }, []);
+
+  const handleInputChange = (event, newInputValue) => {
+    setInputValue(newInputValue);
+
+    if (newInputValue && window.google) {
+      const service = new window.google.maps.places.AutocompleteService();
+      const requestType = element.isStreet ? "address" : "(regions)";
+      service.getPlacePredictions(
+        {
+          input: newInputValue,
+          componentRestrictions: { country: "NP" },
+          types: [requestType],
+        },
+        (predictions, status) => {
+          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+            setOptions(
+              predictions?.map((prediction) => ({
+                description: prediction.description,
+                place: prediction.structured_formatting,
+                placeId: prediction.place_id,
+              }))
+            );
+          } else {
+            setOptions([]);
+          }
+        }
+      );
+    } else {
+      setOptions([]);
+    }
+  };
+
+  const handleOptionChange = (event, newValue) => {
+    if (newValue) {
+      const { placeId, place } = newValue;
+      const fetchPlaceDetails = (placeId) => {
+        const service = new window.google.maps.places.PlacesService(
+          document.createElement("div")
+        );
+        service.getDetails({ placeId }, (placeResult, status) => {
+          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+            const addressComponents = placeResult.address_components;
+            const postalCode =
+              addressComponents.find((component) =>
+                component.types.includes("postal_code")
+              )?.long_name || "";
+
+            const locality =
+              addressComponents.find((component) =>
+                component.types.includes("locality")
+              )?.long_name || "";
+console.log(locality, "loc")
+            const sublocality =
+              addressComponents.find((component) =>
+                component.types.includes("sublocality")
+              )?.long_name || "";
+
+            const state =
+              addressComponents.find((component) =>
+                component.types.includes("administrative_area_level_1")
+              )?.long_name || "";
+
+            if (element?.isStreet) {
+              setInputValue(newValue?.place?.main_text);
+              formik.setFieldValue(element.name, newValue?.place.main_text);
+              formik.setFieldValue(element.name1, locality);
+              formik.setFieldValue(element.name2, state);
+              formik.setFieldValue(element.name3, sublocality);
+              formik.setFieldValue(element.name4, postalCode);
+            } else {
+              setInputValue(newValue.description);
+              formik.setFieldValue(element.name, newValue.description);
+              formik.setFieldValue(element.name1, sublocality || locality);
+              formik.setFieldValue(element.name2, state);
+            }
+          } else {
+            console.error("Failed to fetch place details", status);
+          }
+        });
+      };
+
+      fetchPlaceDetails(placeId);
+    } else {
+      setInputValue("");
+      formik.setFieldValue(element.name, "");
+      formik.setFieldValue(element.name1, "");
+      formik.setFieldValue(element.name2, "");
+      formik.setFieldValue(element.name3, "");
+      formik.setFieldValue(element.name4, "");
+    }
+  };
+
+  return (
+    <Autocomplete
+      id={element.name}
+      key={element.name}
+      name={element.name}
+      fullWidth
+      inputValue={inputValue}
+      options={options}
+      value={
+        options?.find((option) => option?.place?.main_text === inputValue) || ""
+      }
+      onInputChange={handleInputChange}
+      onChange={handleOptionChange}
+      getOptionLabel={(option) => option?.place?.main_text || formValues}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={element.label}
+          InputLabelProps={{ shrink: Boolean(inputValue) }}
+          variant="outlined"
+          className="textfield-icon-input"
+          disabled={element?.isDisabled}
+          error={
+            formik.touched[element.name] && Boolean(formik.errors[element.name])
+          }
+          required={element.required}
+          helperText={
+            formik.touched[element.name] && formik.errors[element.name]
+          }
+          InputProps={{
+            ...params.InputProps,
+            startAdornment: (
+              <InputAdornment position="start">
+                <div
+                  style={{
+                    color: theme.palette.button.primary,
+                  }}
+                >
+                  {element?.iconStart}
+                </div>
+              </InputAdornment>
+            ),
+          }}
+        />
+      )}
+    />
+  );
+};

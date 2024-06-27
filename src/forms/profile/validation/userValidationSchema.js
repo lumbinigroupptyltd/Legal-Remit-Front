@@ -37,7 +37,7 @@ export const IdDetailsProfileSchema = Yup.object().shape({
 
 export const kycDetailsProfileSchema = Yup.object().shape({
   countryId: Yup.string().required("Country Id not found"),
-  stateId: Yup.string().required("Sate ID is required"),
+  stateName: Yup.string().required("State Name is required"),
   nationalityId: Yup.string().required("Nationality ID is required"),
   occupationId: Yup.string().required("Occupation ID is required"),
   streetName: Yup.string().required("Street Name is required"),

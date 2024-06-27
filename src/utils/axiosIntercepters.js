@@ -177,7 +177,7 @@ const createAxiosInstance = (baseURL) => {
       if (error.code === "ERR_NETWORK") {
         try {
           logout();
-          navigateOnError();
+          // navigateOnError();
         } catch (e) {
           console.log(e);
         }

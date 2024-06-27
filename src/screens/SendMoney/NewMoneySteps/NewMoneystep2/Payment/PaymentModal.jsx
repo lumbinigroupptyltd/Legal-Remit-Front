@@ -5,9 +5,15 @@ import WalletIcon from "@mui/icons-material/Wallet";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import { CButton } from "../../../../../components/MaterialUI/CButton";
 import { useGetPaymentMethodDetails } from "../../../../../hooks/sendMoney/payment/usePaymentMethod";
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
-const PaymentModal = ({ onSelectPaymentMethod, onClose, data }) => {
+const PaymentModal = ({
+  onSelectPaymentMethod,
+  onClose,
+  data,
+  exchangeRate,
+  sendMoney,
+}) => {
   const theme = useTheme();
   const [selectedItem, setSelectedItem] = useState(null);
   const { data: paymentMethodData } = useGetPaymentMethodDetails();
@@ -71,7 +77,7 @@ const PaymentModal = ({ onSelectPaymentMethod, onClose, data }) => {
     onSelectPaymentMethod(selectedItem);
     onClose();
   };
-  console.log(selectedItem, "dhjsd");
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
       {paymentMethodData &&
@@ -113,16 +119,16 @@ const PaymentModal = ({ onSelectPaymentMethod, onClose, data }) => {
                   color: theme.palette.text.secondary,
                 }}
               >
-                {item?.rate} 1AUD = 0.87 NPR
+                {item?.rate} {sendMoney} AUD = {sendMoney * exchangeRate} NPR
               </Typography>
               <Typography sx={{ fontSize: "1rem", fontWeight: "400" }}>
-                {item?.receivable} 0.87 NPR
+                Total Receivable : {sendMoney * (exchangeRate - item?.charge)} NPR
               </Typography>
               <Typography sx={{ fontSize: "1rem", fontWeight: "400" }}>
-                {item?.charge} 0.87 NPR
+                Total Service Charge : {item?.charge} AUD
               </Typography>
               <Typography sx={{ fontSize: "1rem", fontWeight: "400" }}>
-                {item?.payable} 0.87 NPR
+                Total Payable : {sendMoney} AUD
               </Typography>
             </Box>
             {selectedItem?.id === item.id && (

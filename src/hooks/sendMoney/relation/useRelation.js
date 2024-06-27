@@ -1,19 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import {
-  addRecipientDetails,
-  deleteRecipientDetails,
-  editRecipientDetails,
-  getRecipientDetails,
-  getRecipientDetailsById,
-  getRecipientDetailsByUserId,
-} from "../../../api/sendmoney/recipient/recipient-api";
-import { toast } from "react-toastify";
+import { addRelation, deleteRelation, editRelation, getRelation, getRelationById } from "../../../api/sendmoney/relation/relation-api";
 
 {
   /*________________________GET_____________________________________*/
 }
-export const useGetRecipientDetails = () => {
-  return useQuery(["getRecipientDetails"], () => getRecipientDetails(), {
+export const useGetRelation = () => {
+  return useQuery(["getRelation"], () => getRelation(), {
     cacheTime: 10000,
     refetchInterval: false,
     refetchOnWindowFocus: false,
@@ -23,25 +15,10 @@ export const useGetRecipientDetails = () => {
 {
   /*________________________GET_____________________________________*/
 }
-export const useGetRecipientDetailsByUserId = (userId) => {
+export const useGetRelationById = (id) => {
   return useQuery(
-    ["getRecipientDetailsByUserId"],
-    () => getRecipientDetailsByUserId(userId),
-    {
-      cacheTime: 10000,
-      refetchInterval: false,
-      refetchOnWindowFocus: false,
-    }
-  );
-};
-
-{
-  /*________________________GET_____________________________________*/
-}
-export const useGetRecipientDetailsById = (id) => {
-  return useQuery(
-    ["getRecipientDetailsById"],
-    () => getRecipientDetailsById(id),
+    ["getRelationById"],
+    () => getRelationById(id),
     {
       cacheTime: 10000,
       refetchInterval: false,
@@ -53,16 +30,16 @@ export const useGetRecipientDetailsById = (id) => {
 {
   /*________________________POST_____________________________________*/
 }
-export const useAddRecipientDetails = ({ onSuccess }) => {
+export const useAddRelation = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["addRecipientDetails"],
-    (formData) => addRecipientDetails(formData),
+    ["addRelation"],
+    (formData) => addRelation(formData),
     {
       onSuccess: (data, variables, context) => {
         toast.success("Recipient added successfully");
         onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("getRecipientDetailsByUserId");
+        queryClient.invalidateQueries("getRelation");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -74,18 +51,18 @@ export const useAddRecipientDetails = ({ onSuccess }) => {
 {
   /*________________________PATCH_____________________________________*/
 }
-export const useEditRecipientDetails = ({ onSuccess }) => {
+export const useEditRelation = ({ onSuccess }) => {
   const queryClient = useQueryClient();
   return useMutation(
-    ["editRecipientDetails"],
+    ["editRelation"],
     (formData) => {
-      editRecipientDetails(formData);
+      editRelation(formData);
     },
     {
       onSuccess: (data, variable, context) => {
         toast.success("Recipient updated successfully");
         onSuccess && onSuccess(data, variable, context);
-        queryClient.invalidateQueries("getRecipientDetailsByUserId");
+        queryClient.invalidateQueries("getRelation");
       },
       onError: (err, _variables, _context) => {
         toast.error(getErrorMessage(err));
@@ -97,21 +74,17 @@ export const useEditRecipientDetails = ({ onSuccess }) => {
 {
   /*________________________DELETE_____________________________________*/
 }
-export const useDeleteRecipientDetails = ({ onSuccess }) => {
+export const useDeleteRelation = ({ onSuccess }) => {
   const queryClient = useQueryClient();
-  const deleteData = useMutation(
-    ["deleteRecipientDetails"],
-    async (id) => await deleteRecipientDetails(id),
+  return useMutation(
+    ["deleteRelation"],
+    (id) => deleteRelation(id),
     {
       onSuccess: (data, variables, context) => {
-        toast.success("Recipient User deleted successfully");
+        toast.success("Recipient deleted successfully");
         onSuccess && onSuccess(data, variables, context);
         queryClient.invalidateQueries("getRecipientDetails");
       },
     }
   );
-  return {
-    isSuccess: deleteData?.isSuccess,
-    deleteRecipientUser: deleteData?.mutate,
-  };
 };

@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { sendMoneyDeliveryMethod } from "../../../../../redux/actions";
 
 
-const DeliveryMethod = ({ method }) => {
+const DeliveryMethod = ({ method, exchangeRate, sendMoney }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const [deliveryMethod, setDeliveryMethod] = useState(false);
@@ -79,6 +79,8 @@ const DeliveryMethod = ({ method }) => {
               onClose={() => setDeliveryMethod(false)}
               onSelectDeliveryMethod={handleDeliverySelectMethod}
               data={method}
+              exchangeRate={exchangeRate}
+              sendMoney={sendMoney}
             />
           }
         />
