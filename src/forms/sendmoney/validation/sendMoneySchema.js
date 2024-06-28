@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { phoneRegExp } from "../../../Constants/RegExp";
+import { emailRegex, phoneRegExp } from "../../../Constants/RegExp";
 
 export const sendMoneyCalculateSchema = Yup.object().shape({
   amount: Yup.string().required("Amount is required"),
@@ -57,9 +57,7 @@ export const sendMoneyRecipientBankSchema = Yup.object().shape({
     then: Yup.string().required("Wallet Account Number is required"),
     otherwise: Yup.string(),
   }),
-  // lastName: Yup.string().required("Last Name is required"),
-  // bankName: Yup.string().required("Bank Name is required"),
-  // bankAccNo: Yup.string().required("Bank Account Number is required"),
+  receiverEmail: Yup.string().matches(emailRegex, "Email not valid")
 });
 
 export const sendMoneyRecipientContactSchema = Yup.object().shape({
@@ -70,4 +68,9 @@ export const sendMoneyRecipientContactSchema = Yup.object().shape({
   stateName: Yup.string().required("State/Province Name is required"),
   phone: Yup.string().required("Mobile Number is required").matches(phoneRegExp, "Invalid mobile number"),
   relationId: Yup.string().required("Relation is required"),
+});
+
+export const sendMoneyPurposeOfTranferSchema = Yup.object().shape({
+  transferPurposeId: Yup.string().required("Purpose Of Transfer is required"),
+  receiverMsg: Yup.string().required("Receiver Message is required"),
 });

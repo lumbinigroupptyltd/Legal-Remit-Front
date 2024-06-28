@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import RenderInput from "../../../../components/RenderInput/RenderInput";
 import { nanoid } from "nanoid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CardTotalPayable from "../../../../components/MaterialUI/CardTotalPayable";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useGetAllCountries } from "../../../../hooks/country/useCountryDetails";
@@ -24,8 +24,10 @@ import {
   useGetPaymentServiceCharge,
 } from "../../../../hooks/sendMoney/serviceCharge/useServiceCharge";
 import { getExchangeRate } from "../../../../utils/getExchangeRate";
+import { addExchangeRate, addSendReceiveMoney } from "../../../../redux/actions";
 
 const NewMoneyStep2 = ({ handleNext }) => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const { sendMoneyDeliveryMethod, sendMoneyPaymentMethod } = useSelector(
     (state) => state.sendMoney
@@ -120,6 +122,7 @@ const NewMoneyStep2 = ({ handleNext }) => {
       try {
         const {data} = await getExchangeRate(fromCountryId, toCountryId);
         setExchangeRate(data?.dealRate);
+        dispatch(addExchangeRate(data?.dealRate));
       } catch (error) {
         console.log(error, "error");
       }
@@ -131,6 +134,7 @@ const NewMoneyStep2 = ({ handleNext }) => {
   useEffect(() => {
     const receiveMoney = sendMoney ? sendMoney * exchangeRate : "";
     formik.setFieldValue("resMoney", receiveMoney);
+    dispatch(addSendReceiveMoney(sendMoney));
   }, [sendMoney, exchangeRate]);
 
   return (

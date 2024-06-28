@@ -1,11 +1,93 @@
-import { Box, Grid, Typography, useTheme } from "@mui/material";
-import React from "react";
+import { Box, Grid, Typography, Stack, useTheme, Menu, MenuItem } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { Person } from "@mui/icons-material";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import { useSelector } from "react-redux";
+import PaymentMethod from "../../NewMoneystep2/Payment/PaymentMethod";
+import { useGetAllCountries } from "../../../../../hooks/country/useCountryDetails";
+import RenderInput from "../../../../../components/RenderInput/RenderInput";
+import { useSendMoneyStep5Form } from "../../../../../forms/sendmoney/useSendMoneyForm";
+import { nanoid } from "nanoid";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-const PaymentSummary = () => {
+const PaymentSummary = ({ handleNext }) => {
   const theme = useTheme();
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const { sendMoneyAllData } = useSelector((state) => state.sendMoney);
+  const sendMoneyPaymentMethod = sendMoneyAllData && sendMoneyAllData?.sendMoneyPaymentMethod;
+  const sendMoneyDeliveryMethod = sendMoneyAllData && sendMoneyAllData?.sendMoneyDeliveryMethod;
+  const sendMoney = sendMoneyAllData && sendMoneyAllData?.addSendReceiveMoney;
+  const resMoney = sendMoneyAllData && sendMoneyAllData?.resMoney;
+  const exchangeRate = sendMoneyAllData && sendMoneyAllData?.addExchangeRate;
+  const { data: allCountriesData } = useGetAllCountries();
+console.log(sendMoney, "money")
+  const { formik } = useSendMoneyStep5Form(handleNext, sendMoney, resMoney);
+
+  useEffect(() => {
+    const receiveMoney = sendMoney ? sendMoney * exchangeRate : "";
+    formik.setFieldValue("resMoney", receiveMoney);
+  }, [sendMoney, exchangeRate]);
+
+  const image = `https://flagcdn.com/16x12/au.png`;
+  const image2 = selectedCountry?.flag
+    ? `https://flagcdn.com/16x12/${selectedCountry?.flag?.toLowerCase()}.png`
+    : `https://flagcdn.com/16x12/np.png`;
+
+  const GET_ALL_COUNTRY =
+  allCountriesData &&
+  allCountriesData?.data?.map((item) => ({
+    value: item.currency,
+    label: item.name,
+    flag: item?.iso2,
+    id: item?.id,
+  }));
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
+  const sendMoneyInputData = [
+    {
+      name: "amount",
+      name1: "countryName",
+      label: "You Send",
+      type: "text",
+      iconStart: image,
+      id: nanoid(),
+      isFLag: true,
+      isImage: true,
+      hasDoubleValue: true,
+      required: true,
+      responseLabel: "name",
+      responseId: "id",
+      responseCode: "phoneCode",
+      md: 12,
+      sm: 12,
+    },
+  ];
+  const receiveMoneyInputData = [
+    {
+      name: "resMoney",
+      label: "You Recieve",
+      type: "text",
+      isDisabled: true,
+      iconStart: image2,
+      id: nanoid(),
+      isFLag: true,
+      isImage: true,
+      hasDoubleValue: true,
+      required: true,
+      md: 12,
+      sm: 12,
+    },
+  ];
 
   return (
     <>
@@ -46,19 +128,8 @@ const PaymentSummary = () => {
           width: "-webkit-fill-available",
         }}
       >
-        <Box>
-          <Typography
-            sx={{
-              background: theme.palette.primary.light,
-              padding: "1rem 2rem",
-              borderRadius: "2rem",
-            }}
-          >
-            <CreditCardIcon
-              sx={{ fontSize: "1.6rem", color: theme.palette.background.main }}
-            />{" "}
-            Bank Transfer
-          </Typography>
+        <Box sx={{background: theme.palette.primary.light, borderRadius: "2rem"}}>
+        <PaymentMethod method={sendMoneyPaymentMethod} exchangeRate={exchangeRate} />
         </Box>
 
         <Grid
@@ -86,128 +157,158 @@ const PaymentSummary = () => {
           </Typography>
         </Grid>
 
-        <div
-          style={{
-            background: theme.palette.primary.light,
-            borderRadius: "2rem",
-            display: "flex",
-            flexDirection: "column",
-            gap: "0.4rem",
-            padding: "1rem",
-          }}
-        >
-          <Box
+        <Box
             sx={{
               background: theme.palette.primary.light,
-              padding: "1rem",
-              borderRadius: "2rem",
-              border: `1px solid ${theme.palette.primary.main}`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <div
-              style={{
-                background: theme.palette.primary.light,
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-              }}
-            >
-              <Typography variant="p">
-                <Person
-                  sx={{
-                    fontSize: "2rem",
-                    color: theme.palette.background.main,
-                  }}
-                />
-              </Typography>
-              <Typography
-                variant="p"
-                style={{ display: "flex", flexDirection: "column" }}
-              >
-                <span style={{ fontSize: "0.8rem", fontWeight: "400" }}>
-                  You Send
-                </span>
-                <span style={{ fontSize: "1.2rem", fontWeight: "600" }}>
-                  4342
-                </span>
-              </Typography>
-            </div>
-            <div>
-              <Typography
-                variant="p"
-                style={{ fontSize: "1rem", fontWeight: "500" }}
-              >
-                AUD
-              </Typography>
-            </div>
-          </Box>
-          <Box
-            sx={{
-              background: theme.palette.background.main,
-              borderRadius: "2rem",
-              color: "#fff",
-              fontSize: "1rem",
-              fontWeight: "500",
-              textAlign: "center",
-              padding: "1rem",
-            }}
-          >
-            <Typography variant="p">
-              Exchange rate: 10 AUD = 879 NPR (Locked for: 08:00AM)
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              background: theme.palette.primary.light,
-              padding: "1rem",
               borderRadius: "2rem",
               display: "flex",
-              alignItems: "center",
-              border: `1px solid ${theme.palette.primary.main}`,
-              justifyContent: "space-between",
+              flexDirection: "column",
             }}
           >
-            <div
-              style={{
-                background: theme.palette.primary.light,
+            <Stack
+              sx={{
                 display: "flex",
+                flexDirection: "row",
                 alignItems: "center",
-                gap: "1rem",
+                justifyContent: "space-between",
+                border: `1px solid ${theme.palette.border.light}`,
+                borderRadius: "2rem",
+                padding: "0.4rem 2rem",
+                margin: "1.3rem",
               }}
             >
-              <Typography variant="p">
-                <Person
-                  sx={{
-                    fontSize: "2rem",
-                    color: theme.palette.background.main,
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "1rem",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 0,
                   }}
-                />
-              </Typography>
+                >
+                  <RenderInput
+                    inputField={sendMoneyInputData}
+                    formik={formik}
+                  />
+                </div>
+              </div>
+              <div>
+                <Typography
+                  variant="p"
+                  sx={{
+                    fontSize: "1rem",
+                    fontWeight: "500",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  AUD <KeyboardArrowDownIcon />
+                </Typography>
+              </div>
+            </Stack>
+            <Stack
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                background: theme.palette.background.main,
+                color: "#fff",
+                padding: "1rem 0",
+              }}
+            >
               <Typography
                 variant="p"
-                style={{ display: "flex", flexDirection: "column" }}
+                sx={{ fontSize: "1.2rem", fontWeight: "400" }}
               >
-                <span style={{ fontSize: "0.8rem", fontWeight: "400" }}>
-                  They Receive
-                </span>
-                <span style={{ fontSize: "1.2rem", fontWeight: "600" }}>
-                  347853478
-                </span>
+                Exchange rate : 10 AUD = {(exchangeRate)*10} NPR
               </Typography>
-            </div>
-            <div>
-              <Typography
-                variant="p"
-                style={{ fontSize: "1rem", fontWeight: "500" }}
+            </Stack>
+            <Stack
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                border: `1px solid ${theme.palette.border.light}`,
+                borderRadius: "2rem",
+                padding: "0.4rem 2rem",
+                margin: "1.3rem",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "1rem",
+                }}
               >
-                NPR
-              </Typography>
-            </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 0,
+                  }}
+                >
+                  <RenderInput
+                    inputField={receiveMoneyInputData}
+                    formik={formik}
+                  />
+                </div>
+              </div>
+              <div>
+                <Typography
+                  variant="p"
+                  sx={{
+                    fontSize: "1rem",
+                    fontWeight: "500",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  onClick={handleClick}
+                >
+                  {selectedCountry ? selectedCountry.label : "NPR"}{" "}
+                  <KeyboardArrowDownIcon />
+                </Typography>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  PaperProps={{
+                    style: {
+                      maxHeight: 200,
+                      width: 200,
+                    },
+                  }}
+                >
+                  {GET_ALL_COUNTRY &&
+                    GET_ALL_COUNTRY.map((country) => (
+                      <MenuItem
+                        key={country.label}
+                        onClick={() => handleCountrySelect(country)}
+                      >
+                        {country.label}
+                      </MenuItem>
+                    ))}
+                </Menu>
+              </div>
+            </Stack>
           </Box>
-        </div>
 
         <div style={{ background: theme.palette.primary.light, borderRadius: "2rem" }}>
           <Box sx={{ display: "flex", flexDirection: "column" }}>

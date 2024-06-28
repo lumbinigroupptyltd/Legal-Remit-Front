@@ -1,9 +1,11 @@
 import {
+  ADD_EXCHANGE_RATE,
   ADD_PURPOSE_OF_TRANSFER,
   ADD_RECIPIENT_BANK,
   ADD_RECIPIENT_CONTACT,
   ADD_RECIPIENT_TYPE,
   ADD_RECIPIENT_USER,
+  ADD_SEND_RECEIVER_MONEY,
   RECIPIENT_COUNTRY,
   RESET_RECIPIENT_STATE,
   SEND_MONEY_ALL_DATA,
@@ -70,5 +72,15 @@ export const recipientUser = (values) => ({
 
 export const addPurposeOfTransfer = (values) => ({
   type: ADD_PURPOSE_OF_TRANSFER,
+  payload: values,
+});
+
+export const addExchangeRate = (values) => ({
+  type: ADD_EXCHANGE_RATE,
+  payload: values,
+});
+
+export const addSendReceiveMoney = (values) => ({
+  type: ADD_SEND_RECEIVER_MONEY,
   payload: values,
 });

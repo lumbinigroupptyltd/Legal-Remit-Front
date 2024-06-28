@@ -10,9 +10,11 @@ import { useSelector } from "react-redux";
 const NewMoneyStep5 = ({ handleNext }) => {
   const theme = useTheme();
   const { userId } = useSelector((state) => state.auth);
-  const { sendMoneyDeliveryMethod } = useSelector((state) => state.sendMoney);
+  const { sendMoneyAllData } = useSelector((state) => state.sendMoney);
+  const sendMoneyDeliveryMethod = sendMoneyAllData && sendMoneyAllData?.sendMoneyDeliveryMethod;
+  const sendMoneyPaymentMethod = sendMoneyAllData && sendMoneyAllData?.sendMoneyPaymentMethod;
   const { formik } = useSendMoneyStep5Form(handleNext);
-
+  console.log(sendMoneyAllData?.recipientUser, "send money all");
   const handleFormSubmit = () => {
     formik.handleSubmit();
   };
@@ -46,11 +48,8 @@ const NewMoneyStep5 = ({ handleNext }) => {
         </Typography>
       </Grid>
       <Grid>
-
-      <RecipientSummary userId={userId} method={sendMoneyDeliveryMethod} />
+        <RecipientSummary userId={userId} method={sendMoneyDeliveryMethod} />
       </Grid>
-      <BankSummary />
-      <ContactSummary />
       <PaymentSummary />
 
       <Grid

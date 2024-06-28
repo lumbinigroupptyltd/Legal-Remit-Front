@@ -11,23 +11,29 @@ import RenderInput from "../../../../../components/RenderInput/RenderInput";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PersonIcon from "@mui/icons-material/Person";
 import { useGetRelation } from "../../../../../hooks/sendMoney/relation/useRelation";
-
+import EmailIcon from '@mui/icons-material/Email';
+import { useGetBankDetails } from "../../../../../hooks/bank/useBankDetails";
 
 const RecipientSummary = ({ onFormValidate, onClose, method, userId }) => {
   const theme = useTheme();
-  const { recipientBank, recipientContact } = useSelector(
-    (state) => state.sendMoney
-  );
+  const { sendMoneyAllData } = useSelector((state) => state.sendMoney);
+  const { data: getAllBankData } = useGetBankDetails();
   const { data: relationData } = useGetRelation();
-  const data = { recipientBank, ...recipientContact };
-  const { data: getRecipientData } = useGetRecipientDetailsByUserId(userId);
+  const data = sendMoneyAllData && sendMoneyAllData?.recipientUser;
   const { formik } = recipientSummaryForm(onClose, data);
-console.log(getRecipientData, "getRecipientData")
+
   const GET_RELATION_DATA =
   relationData &&
   relationData.data.map((item) => ({
     label: item?.name,
     value: item?.id,
+  }));
+
+  const GET_BANK_DATA =
+  getAllBankData &&
+  getAllBankData.data.map((item) => ({
+    label: item.bankName,
+    value: item.id,
   }));
 
   const inputFieldBank = [
@@ -68,9 +74,20 @@ console.log(getRecipientData, "getRecipientData")
           },
           {
             id: nanoid(),
-            name: "bankName",
-            label: "Bank Name",
+            name: "receiverEmail",
+            label: "Receiver Email (optional)",
+            iconStart: <EmailIcon />,
             type: "text",
+            md: 6,
+            sm: 12,
+            xs: 12,
+          },
+          {
+            id: nanoid(),
+            name: "bankId",
+            label: "Bank Name",
+            type: "dropDown",
+            options: GET_BANK_DATA,
             required: true,
             iconStart: <AccountBalanceIcon />,
             md: 6,

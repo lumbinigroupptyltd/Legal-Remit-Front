@@ -1,18 +1,26 @@
 import React from "react";
-import { Button, Grid, Typography, useTheme } from "@mui/material";
+import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import PayToIcon from "../../../../assets/images/doc/Payto_Icon.png";
 import { nanoid } from "nanoid";
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import BusinessIcon from '@mui/icons-material/Business';
-import PersonIcon from '@mui/icons-material/Person';
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import BusinessIcon from "@mui/icons-material/Business";
+import PersonIcon from "@mui/icons-material/Person";
 import { useSendMoneyStep6Form } from "../../../../forms/sendmoney/useSendMoneyForm";
 import CardMoney from "../../../../components/MaterialUI/CardMoney";
 import RenderInput from "../../../../components/RenderInput/RenderInput";
+import PaymentMethod from "../NewMoneystep2/Payment/PaymentMethod";
+import { useSelector } from "react-redux";
 
 const NewMoneyStep6 = ({ handleNext }) => {
   const theme = useTheme();
-  const { formik } = useSendMoneyStep6Form(handleNext);
+  const { userId } = useSelector((state) => state.auth);
+  const { sendMoneyAllData } = useSelector((state) => state.sendMoney);
+  const sendMoneyPaymentMethod =
+    sendMoneyAllData && sendMoneyAllData?.sendMoneyPaymentMethod;
+  const exchangeRate = sendMoneyAllData && sendMoneyAllData?.addExchangeRate;
+console.log(sendMoneyPaymentMethod, "senddfgf")
+  const { formik } = useSendMoneyStep6Form(handleNext, sendMoneyPaymentMethod);
 
   const handleFormSubmit = () => {
     formik.handleSubmit();
@@ -20,27 +28,51 @@ const NewMoneyStep6 = ({ handleNext }) => {
 
   const generateInputFields = (type) => {
     let inputFields = [
-      {
-        id: nanoid(),
-        name: "paymentType",
-        label: "Select Payment Type",
-        type: "dropDown",
-        iconStart: <PersonIcon />,
-        options: [
-          { id: nanoid(), name: "payID", label: "I have PayID Number", value: "payID" },
-          { id: nanoid(), name: "BSB", label: "I have BSB Number", value: "BSB"},
-        ],
-        required: true,
-        md: 12,
-        sm: 12,
-        xs: 12,
-      },
-      ...(type === "payID"
+      ...(type === "Debit Card"
         ? [
             {
               id: nanoid(),
-              name: "payIdNum",
-              label: "PayID Number",
+              name: "cardNumber",
+              label: "Card Number",
+              type: "text",
+              required: true,
+              isImage: true,
+              iconStart: PayToIcon,
+              iconWidth: 45,
+              md: 12,
+              sm: 12,
+              xs: 12,
+            },
+            {
+              id: nanoid(),
+              name: "expiryDate",
+              label: "Expiry Date",
+              type: "text",
+              required: true,
+              isImage: true,
+              iconStart: PayToIcon,
+              iconWidth: 45,
+              md: 12,
+              sm: 12,
+              xs: 12,
+            },
+            {
+              id: nanoid(),
+              name: "cvv",
+              label: "CVV",
+              type: "text",
+              required: true,
+              isImage: true,
+              iconStart: PayToIcon,
+              iconWidth: 45,
+              md: 12,
+              sm: 12,
+              xs: 12,
+            },
+            {
+              id: nanoid(),
+              name: "cardHolderName",
+              label: "Card Holder Name",
               type: "text",
               required: true,
               isImage: true,
@@ -52,15 +84,86 @@ const NewMoneyStep6 = ({ handleNext }) => {
             },
           ]
         : []),
-      ...(type === "BSB"
+      ...(type === "Credit Card"
         ? [
+          {
+            id: nanoid(),
+            name: "cardNumber",
+            label: "Card Number",
+            type: "text",
+            required: true,
+            isImage: true,
+            iconStart: PayToIcon,
+            iconWidth: 45,
+            md: 12,
+            sm: 12,
+            xs: 12,
+          },
+          {
+            id: nanoid(),
+            name: "expiryDate",
+            label: "Expiry Date",
+            type: "text",
+            required: true,
+            isImage: true,
+            iconStart: PayToIcon,
+            iconWidth: 45,
+            md: 12,
+            sm: 12,
+            xs: 12,
+          },
+          {
+            id: nanoid(),
+            name: "cvv",
+            label: "CVV",
+            type: "text",
+            required: true,
+            isImage: true,
+            iconStart: PayToIcon,
+            iconWidth: 45,
+            md: 12,
+            sm: 12,
+            xs: 12,
+          },
+          {
+            id: nanoid(),
+            name: "cardHolderName",
+            label: "Card Holder Name",
+            type: "text",
+            required: true,
+            isImage: true,
+            iconStart: PayToIcon,
+            iconWidth: 45,
+            md: 12,
+            sm: 12,
+            xs: 12,
+          },
+          ]
+        : []),
+        ...(type === "Bank Transfer"
+          ? [
             {
               id: nanoid(),
-              name: "BSBNum",
-              label: "BSB Number",
+              name: "accountHolderName",
+              label: "Account Holder Name",
               type: "text",
               required: true,
-              iconStart: <BusinessIcon />,
+              isImage: true,
+              iconStart: PayToIcon,
+              iconWidth: 45,
+              md: 12,
+              sm: 12,
+              xs: 12,
+            },
+            {
+              id: nanoid(),
+              name: "bsbCode",
+              label: "BSB Code",
+              type: "text",
+              required: true,
+              isImage: true,
+              iconStart: PayToIcon,
+              iconWidth: 45,
               md: 12,
               sm: 12,
               xs: 12,
@@ -70,14 +173,55 @@ const NewMoneyStep6 = ({ handleNext }) => {
               name: "accountNumber",
               label: "Account Number",
               type: "text",
-              iconStart: <AccountBalanceIcon />,
               required: true,
+              isImage: true,
+              iconStart: PayToIcon,
+              iconWidth: 45,
               md: 12,
               sm: 12,
               xs: 12,
             },
-          ]
-        : []),
+            {
+              id: nanoid(),
+              name: "",
+              label: "",
+              type: "text",
+              required: true,
+              isImage: true,
+              iconStart: PayToIcon,
+              iconWidth: 45,
+              md: 12,
+              sm: 12,
+              xs: 12,
+            },
+            ]
+          : []),
+          ...(type === "PayTo"
+            ? [
+                {
+                  id: nanoid(),
+                  name: "BSBNum",
+                  label: "BSB Number",
+                  type: "text",
+                  required: true,
+                  iconStart: <BusinessIcon />,
+                  md: 12,
+                  sm: 12,
+                  xs: 12,
+                },
+                {
+                  id: nanoid(),
+                  name: "accountNumber",
+                  label: "Account Number",
+                  type: "text",
+                  iconStart: <AccountBalanceIcon />,
+                  required: true,
+                  md: 12,
+                  sm: 12,
+                  xs: 12,
+                },
+              ]
+            : []),
     ];
     return inputFields;
   };
@@ -109,41 +253,18 @@ const NewMoneyStep6 = ({ handleNext }) => {
       </Grid>
 
       <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
-        <CardMoney
-          Background={theme.palette.primary.light}
-          Display={"flex"}
-          Direction={"row"}
-          Justify={"center"}
-          Align={"center"}
-          Radius={"2rem"}
-          Padding={"1.5rem"}
-          Title1="Payment Method"
-          Title2="PayTO"
-          Image={PayToIcon}
-          Icon={<KeyboardArrowDownIcon sx={{ fontSize: "2rem" }} />}
-        />
+        <Box
+          sx={{
+            background: theme.palette.primary.light,
+            borderRadius: "2rem",
+            padding: "2rem 1rem",
+          }}
+        >
+          <PaymentMethod method={sendMoneyPaymentMethod} exchangeRate={exchangeRate} />
+        </Box>
       </Grid>
 
-      <Grid
-        item
-        xs={12}
-        mt={2}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <img width={140} src={PayToIcon} alt="image" />
-        <Typography
-          variant="p"
-          sx={{ fontSize: "0.8rem", fontWeight: "500", textAlign: "center" }}
-        >
-          Set up PayTo agreement to pay directly from your bank account. <br />{" "}
-          Use PayID or BSB and account number.
-        </Typography>
-      </Grid>
+
       <Grid item xs={12}>
         <RenderInput
           inputField={generateInputFields(formik?.values?.paymentType)}

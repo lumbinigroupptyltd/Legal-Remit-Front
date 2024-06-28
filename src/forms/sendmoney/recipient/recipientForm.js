@@ -55,6 +55,7 @@ export const recipientBankDetailsForm = (onFormValidate, data, method) => {
       ifsccode: data?.ifsccode || "",
       stateName: data?.stateName || "",
       district: data?.district || "",
+      receiverEmail: data?.receiverEmail || "",
       branch: data?.branch || "",
       bankAccNo: data?.bankAccNo || "",
       address: data?.address || "",
@@ -105,13 +106,14 @@ export const recipientContactDetailsForm = (onFormValidate, data, userId) => {
       ifsccode: data?.ifsccode || "",
       district: data?.district || "",
       branch: data?.branch || "",
+      receiverEmail: data?.receiverEmail || "",
       bankAccNo: data?.recipientBank?.bankAccNo || "",
       address: data?.address || "",
       city: data?.city || "",
       stateName: data?.stateName || "",
       postalCode: data?.postalCode || "",
       phone: data?.phone || "",
-      relationId: data?.relationId || "",
+      relationId: data?.relation?.name || "",
       recipientTypeId: data?.recipientType?.recipientId || "",
       countryId: "d6e8f618-7046-4682-a2d6-cd99df745d12",
       deliveryMethodId: sendMoneyDeliveryMethod?.id ||"",
@@ -145,40 +147,43 @@ export const recipientSummaryForm = (onClose, data) => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: data?.recipientBank?.firstName || "",
-      middleName: data?.recipientBank?.middleName || "",
-      lastName: data?.recipientBank?.lastName || "",
-      bankId: data?.recipientBank?.bankId || "",
+      id: data?.id || "",
+      firstName: data?.firstName || "",
+      middleName: data?.middleName || "",
+      lastName: data?.lastName || "",
+      bankId: data?.bank?.id || "",
       code: data?.code || "",
       ifsccode: data?.ifsccode || "",
       district: data?.district || "",
       branch: data?.branch || "",
-      bankAccNo: data?.recipientBank?.bankAccNo || "",
+      receiverEmail: data?.receiverEmail || "",
+      bankAccNo: data?.bankAccNo || "",
       address: data?.address || "",
       city: data?.city || "",
       stateName: data?.stateName || "",
       postalCode: data?.postalCode || "",
       phone: data?.phone || "",
-      relationId: data?.relationId || "",
+      relationId: data?.relation?.id || "",
     },
     // validationSchema: signupSchema, // Add your validation schema here
     enableReinitialize: true,
     onSubmit: (values) => {
-      dispatch(resetRecipientState());
-      // if (values?.id) {
-      //   handleEditRequest(values);
-      // }
+      console.log(values, "val")
+      if (values?.id) {
+        // dispatch(resetRecipientState());
+        handleEditRequest(values);
+      }
     },
   });
 
-  // const handleEditRequest = (values) => {
-  //   editMutate(values, {
-  //     onSuccess: () => {
-  //       // onClose();
-  //       onFormValidate(true);
-  //     },
-  //   });
-  // };
+  const handleEditRequest = (values) => {
+    editMutate(values, {
+      onSuccess: () => {
+        // onClose();
+        onFormValidate(true);
+      },
+    });
+  };
 
   return {
     formik,

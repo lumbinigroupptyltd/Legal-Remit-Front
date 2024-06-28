@@ -1,7 +1,15 @@
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
-import { addPurposeOfTransfer, recipientCountry, recipientUser, sendMoneyAllData } from "../../redux/actions/SendMoney";
-import { sendMoneyCalculateSchema } from "./validation/sendMoneySchema";
+import {
+  addPurposeOfTransfer,
+  recipientCountry,
+  recipientUser,
+  sendMoneyAllData,
+} from "../../redux/actions/SendMoney";
+import {
+  sendMoneyCalculateSchema,
+  sendMoneyPurposeOfTranferSchema,
+} from "./validation/sendMoneySchema";
 import { useAddTransation } from "../../hooks/transaction/transaction/useTransaction";
 
 export const useSendMoneyStep1Form = (handleNext) => {
@@ -18,7 +26,7 @@ export const useSendMoneyStep1Form = (handleNext) => {
     onSubmit: (values) => {
       dispatch(recipientCountry(values));
       handleNext(values);
-   
+
       // handledAddRequest(values);
     },
   });
@@ -39,7 +47,11 @@ export const useSendMoneyStep1Form = (handleNext) => {
   };
 };
 
-export const useSendMoneyStep2Form = (handleNext, sendMoneyDeliveryMethod, sendMoneyPaymentMethod) => {
+export const useSendMoneyStep2Form = (
+  handleNext,
+  sendMoneyDeliveryMethod,
+  sendMoneyPaymentMethod
+) => {
   const { mutate: addmutate } = useAddTransation({});
 
   const formik = useFormik({
@@ -88,12 +100,12 @@ export const useSendMoneyStep3Form = (handleNext, selectedItem) => {
     //   validationSchema: signupSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log(values, "val", selectedItem, "sel")
-      if(selectedItem){
+      console.log(values, "val", selectedItem, "sel");
+      if (selectedItem) {
         dispatch(recipientUser(selectedItem));
         handleNext(values);
       }
-     
+
       // handledAddRequest(values);
     },
   });
@@ -120,18 +132,17 @@ export const useSendMoneyStep4Form = (handleNext, values) => {
 
   const formik = useFormik({
     initialValues: {
-      purposeOfTransfer: "",
-      msg: "",
-      email: "",
+      transferPurposeId: "",
+      receiverMsg: "",
     },
-    //   validationSchema: signupSchema,
+    validationSchema: sendMoneyPurposeOfTranferSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      if(values){
+      if (values) {
         dispatch(addPurposeOfTransfer(values));
         handleNext(values);
       }
-     
+
       // handledAddRequest(values);
     },
   });
@@ -152,21 +163,19 @@ export const useSendMoneyStep4Form = (handleNext, values) => {
   };
 };
 
-export const useSendMoneyStep5Form = (handleNext, values) => {
+export const useSendMoneyStep5Form = (handleNext, sendMoney, resMoney) => {
   // const { mutate: addSignUpPage } = useSignUp({});
-
+console.log(sendMoney, "erdgfhh")
   const formik = useFormik({
     initialValues: {
-      paymentType: "payID",
-      payIdNum: "",
-      BSB: "",
-      accountNumber: "",
+      amount: sendMoney || "100",
+      resMoney: resMoney || "0",
     },
     //   validationSchema: signupSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
       handleNext(values);
-     
+
       // handledAddRequest(values);
     },
   });
@@ -187,12 +196,12 @@ export const useSendMoneyStep5Form = (handleNext, values) => {
   };
 };
 
-export const useSendMoneyStep6Form = (handleNext, values) => {
+export const useSendMoneyStep6Form = (handleNext, sendMoneyPaymentMethod) => {
   // const { mutate: addSignUpPage } = useSignUp({});
 
   const formik = useFormik({
     initialValues: {
-      paymentType: "payID",
+      paymentType: sendMoneyPaymentMethod?.paymentType?.name || "payID",
       payIdNum: "",
       BSB: "",
       accountNumber: "",
@@ -201,7 +210,7 @@ export const useSendMoneyStep6Form = (handleNext, values) => {
     enableReinitialize: true,
     onSubmit: (values) => {
       handleNext(values);
-     
+
       // handledAddRequest(values);
     },
   });

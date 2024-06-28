@@ -8,6 +8,7 @@ import { recipientBankDetailsForm } from "../../../../../forms/sendmoney/recipie
 import { CButton } from "../../../../../components/MaterialUI/CButton";
 import DeliveryMethod from "../../NewMoneystep2/Delivery/DeliveryMethod";
 import { useGetBankDetails } from "../../../../../hooks/bank/useBankDetails";
+import EmailIcon from '@mui/icons-material/Email';
 
 const RecipientBankDetails = ({ onFormValidate, method, data }) => {
   const theme = useTheme();
@@ -58,6 +59,15 @@ const RecipientBankDetails = ({ onFormValidate, method, data }) => {
             md: 6,
             sm: 12,
             xs: 12,
+          },
+          {
+            id: nanoid(),
+            name: "receiverEmail",
+            label: "Receiver Email (optional)",
+            iconStart: <EmailIcon />,
+            type: "text",
+            md: 6,
+            sm: 6,
           },
           {
             id: nanoid(),
@@ -121,6 +131,15 @@ const RecipientBankDetails = ({ onFormValidate, method, data }) => {
           },
           {
             id: nanoid(),
+            name: "receiverEmail",
+            label: "Receiver Email (optional)",
+            type: "text",
+            iconStart: <EmailIcon />,
+            md: 6,
+            sm: 6,
+          },
+          {
+            id: nanoid(),
             name: "walletName",
             label: "Wallet Name",
             type: "text",
@@ -177,6 +196,15 @@ const RecipientBankDetails = ({ onFormValidate, method, data }) => {
             md: 6,
             sm: 12,
             xs: 12,
+          },
+          {
+            id: nanoid(),
+            name: "receiverEmail",
+            label: "Receiver Email (optional)",
+            type: "text",
+            iconStart: <EmailIcon />,
+            md: 6,
+            sm: 6,
           },
         ]
       : []),

@@ -1,9 +1,12 @@
+import { addExchangeRate } from "../actions";
 import {
+  ADD_EXCHANGE_RATE,
   ADD_PURPOSE_OF_TRANSFER,
   ADD_RECIPIENT_BANK,
   ADD_RECIPIENT_CONTACT,
   ADD_RECIPIENT_TYPE,
   ADD_RECIPIENT_USER,
+  ADD_SEND_RECEIVER_MONEY,
   RECIPIENT_COUNTRY,
   RESET_RECIPIENT_STATE,
   SEND_MONEY_ALL_DATA,
@@ -24,6 +27,8 @@ const initialState = {
   sendMoneyDeliveryMethod: null,
   sendMoneyPaymentMethod: null,
   addPurposeOfTransfer: null,
+  addExchangeRate: null,
+  addSendReceiveMoney: null,
   sendMoneyAllData: {},
 };
 
@@ -36,6 +41,8 @@ const updateSendMoneyAllData = (state) => ({
   recipientContact: state.recipientContact,
   recipientUser: state.recipientUser,
   addPurposeOfTransfer: state.addPurposeOfTransfer,
+  addExchangeRate: state.addExchangeRate,
+  addSendReceiveMoney: state.addSendReceiveMoney,
   sendMoneyDeliveryMethod: state.sendMoneyDeliveryMethod,
   sendMoneyPaymentMethod: state.sendMoneyPaymentMethod,
 });
@@ -96,24 +103,24 @@ const sendMoneyReducer = (state = initialState, action) => {
           recipientContact: action.payload,
         },
       };
-      case ADD_RECIPIENT_USER:
-        return {
-          ...state,
+    case ADD_RECIPIENT_USER:
+      return {
+        ...state,
+        recipientUser: action.payload,
+        sendMoneyAllData: {
+          ...state.sendMoneyAllData,
           recipientUser: action.payload,
-          sendMoneyAllData: {
-            ...state.sendMoneyAllData,
-            recipientUser: action.payload,
-          },
-        };
-        case ADD_PURPOSE_OF_TRANSFER:
-          return {
-            ...state,
-            addPurposeOfTransfer: action.payload,
-            sendMoneyAllData: {
-              ...state.sendMoneyAllData,
-              addPurposeOfTransfer: action.payload,
-            },
-          };
+        },
+      };
+    case ADD_PURPOSE_OF_TRANSFER:
+      return {
+        ...state,
+        addPurposeOfTransfer: action.payload,
+        sendMoneyAllData: {
+          ...state.sendMoneyAllData,
+          addPurposeOfTransfer: action.payload,
+        },
+      };
     case SEND_MONEY_DELIVERY_METHOD:
       return {
         ...state,
@@ -132,7 +139,27 @@ const sendMoneyReducer = (state = initialState, action) => {
           sendMoneyPaymentMethod: action.payload,
         },
       };
-      case SEND_MONEY_ALL_DATA:
+    case ADD_EXCHANGE_RATE:
+      return {
+        ...state,
+        addExchangeRate: action.payload,
+        sendMoneyAllData: {
+          ...state.sendMoneyAllData,
+          addExchangeRate: action.payload,
+        },
+      };
+    case ADD_SEND_RECEIVER_MONEY:
+      return {
+        ...state,
+        addSendReceiveMoney: action.payload,
+        resMoney: state.addExchangeRate * action.payload,
+        sendMoneyAllData: {
+          ...state.sendMoneyAllData,
+          addSendReceiveMoney: action.payload,
+          resMoney: state.addExchangeRate * action.payload,
+        },
+      };
+    case SEND_MONEY_ALL_DATA:
       return {
         ...state,
         sendMoneyAllData: updateSendMoneyAllData(state),

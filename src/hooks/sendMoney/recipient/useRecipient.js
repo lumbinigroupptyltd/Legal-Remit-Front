@@ -106,7 +106,7 @@ export const useDeleteRecipientDetails = ({ onSuccess }) => {
       onSuccess: (data, variables, context) => {
         toast.success("Recipient User deleted successfully");
         onSuccess && onSuccess(data, variables, context);
-        queryClient.invalidateQueries("getRecipientDetails");
+        queryClient.invalidateQueries("getRecipientDetailsByUserId");
       },
     }
   );
